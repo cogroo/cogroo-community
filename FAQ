@@ -44,5 +44,5 @@ Faça ckeckout do projeto cogrooWeb que se encontra no repositório svn://ccsl.i
 
 Como rodar o projeto?
 Na pasta do projeto inicialize o Jetty e abra o endereço http://127.0.0.1:8080/
-Obs: Falta falar do hsqldb
+Obs: Falta falar do hsqldb.
 
