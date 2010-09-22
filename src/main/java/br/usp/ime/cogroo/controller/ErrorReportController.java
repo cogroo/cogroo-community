@@ -1,6 +1,5 @@
 package br.usp.ime.cogroo.controller;
 
-import java.io.StringReader;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -19,7 +18,6 @@ import br.usp.ime.cogroo.logic.ErrorReportLogic;
 import br.usp.ime.cogroo.logic.SecurityUtil;
 import br.usp.ime.cogroo.model.ErrorReport;
 import br.usp.ime.cogroo.model.LoggedUser;
-import br.usp.pcs.lta.cogroo.errorreport.ErrorReportAccess;
 
 
 @Resource
