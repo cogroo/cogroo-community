@@ -1,0 +1,1 @@
+mvn selenium:start-server

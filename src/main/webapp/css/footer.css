@@ -1,0 +1,35 @@
+#logoCCSL {
+	background-image: url(/images/ccsl.png);
+	background-repeat: no-repeat;
+	position: relative;
+	border: none;
+	left: 5px;
+	top: 20px;
+	height: 100px;
+}
+
+#footer {
+/*  background: transparent url(images/footer.jpg) no-repeat scroll 0% 50%; */
+  background: #336699; 
+  clear: both;
+  height: 100px;
+}
+#footer #ftlink {
+  padding-top: 70px;
+}
+#ftlink, #copyright {
+  padding-bottom: 8px;
+}
+#copyright a {
+  color: #000000;
+}
+#copyright a:hover {
+  text-decoration: underline;
+}
+#ftlink, #ftlink a {
+  color: #ef9e06;
+}
+#ftlink a:hover {
+  text-decoration: underline;
+  color: #9d6f4f;
+}

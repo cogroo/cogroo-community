@@ -1,0 +1,69 @@
+body {
+  text-align: center;
+}
+a {
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+#wrap {
+  width: 800px; 
+  margin: 0 auto;
+  text-align: left;
+}
+
+#header {
+  background: #336699; 
+  height: 100px;
+}
+
+#logoCogroo {
+  background: #336699 url(/images/cogroo_comunidade.png) no-repeat scroll 0% 50%;
+  height: 100px; 
+  width: 400px;
+  text-align: left;
+}
+#logoBROffice {
+	background-image: url(/images/broffice.png);
+	background-repeat: no-repeat;
+	position: relative;
+	border: none;
+	left: 420px;
+	top: 20px;
+	height: 80px;
+}
+
+ul#nav {
+  overflow: hidden;
+  padding-left: 80px;
+  padding-top: 10px;
+}
+ul#nav li {
+  float: left;
+  height: 50px;
+}
+ul#nav li a {
+  padding: 0px 35px;
+  height: 50px;
+  line-height: 32px;
+}
+ul#nav li a:hover {
+  padding: 8px 35px;
+/*  background: transparent url(images/nav_hover.gif) no-repeat scroll 0% 50%; */
+  background: #c7c8bc no-repeat scroll 0% 50%;
+  height: 40px;
+  line-height: 32px;
+}
+
+#usuario {
+  float: right;
+  padding-top: 5px;
+  padding-right: 20px;
+}
+
+#usuario p {
+  background: #f0f0ff;
+}
+
+

@@ -1,0 +1,10 @@
+Eclipse plugins
+- Subversive: Subversion (SVN) integration for Eclipse
+  site: http://www.eclipse.org/subversive/
+  
+- m2eclipse: Maven integration for Eclipse
+  site: http://m2eclipse.sonatype.org
+  
+- EclEmma: code coverage tool
+  site: http://www.eclemma.org/
+  

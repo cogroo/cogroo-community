@@ -1,0 +1,73 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Cogroo Comunidade</title>
+  
+	
+	<link rel="stylesheet" type="text/css" href="<c:url value="/css/header.css"/>" />
+	<link rel="stylesheet" type="text/css" href="<c:url value="/css/footer.css"/>" />
+	<link rel="stylesheet" type="text/css" href="<c:url value='/css/tabela.css' />"  />
+	<link rel="stylesheet" type="text/css" href="<c:url value="/css/reset.css"/>" />
+	<link rel="stylesheet" type="text/css" href="<c:url value="/css/style.css"/>" />
+	<link rel="stylesheet" type="text/css" href="<c:url value="/css/menu.css"/>" />
+	
+	<script src="<c:url value='/js/jquery.js' />" type="text/javascript" ></script>
+	<script src="<c:url value='/js/jquery.linha.nav.js' />" type="text/javascript" ></script>
+	<script type="text/javascript">
+	//<![CDATA[
+	$(document).ready(function() {
+		$.nav({
+			evento: 'mouseenter',
+			anima: true,
+			slide: true
+		});
+		
+	});
+	// ]]>
+	</script>
+	
+<!--[if IE]> 
+	<style>
+	ul#nav {
+		padding-top:17px;
+	}
+	</style> 
+<![endif]-->
+</head>
+<body>
+<div id="wrap">
+	<div id="header">
+		<div id="usuario">
+			<c:if test="${not loggedUser.logged}">
+				<p><a href="<c:url value="/login"/>">Efetuar login</a></p>
+			</c:if>
+			<c:if test="${loggedUser.logged}">
+				<p>Bem-vindo, <span>${loggedUser.user.name}</span>, ao CoGrOO Comunidade.<a href="<c:url value="/logout"/>">(logout)</logout></a></p>
+			</c:if>
+		</div>
+	
+	<div id="logoCogroo"><div id="logoBROffice"></div></div>
+	</div>
+	<div>
+		<ul id="menu" class="menu">
+			<li><a href="<c:url value="/"/>">Bem-vindo</a></li>
+			<li><a href="<c:url value="/"/>">Análise Gramatical</a></li>
+			<li><span>Dicionário</span>
+				<ul>
+					<li><a href="<c:url value="/dictionaryEntrySearch"/>">Consultar Palavra</a></li>
+					<c:if test="${loggedUser.logged}">
+						<li><a href="<c:url value="/dictionaryEntry"/>">Inserir Palavra</a></li>
+						<li><a href="<c:url value="/dictionaryEntries"/>">Minhas palavras</a></li>					
+					</c:if>
+				</ul>
+			</li>
+			<li><a href="#">Regras</a></li>
+			<li><a href="#">Sugestões</a></li>
+			<li><a href="<c:url value="/errorReports"/>">Erros reportados</a></li>
+		</ul>
+	</div>
+<div id="content">
+	<div id="altura"></div>

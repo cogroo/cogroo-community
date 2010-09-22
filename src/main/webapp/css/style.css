@@ -1,0 +1,80 @@
+#content h1 {
+  font-size: 30px;
+  padding-bottom: 20px;	
+}
+
+#content {
+  padding: 0 30px;
+  float: left;
+  font-size: 13px;
+  background: #F0F0FF; 
+  width: 740px;  
+}
+#content #altura {
+  height: 300px;
+  width: 0px;
+  float: left;
+}
+#content #left {
+  width: 510px;
+  float: left;
+  font-size: 13px;
+}
+#content #left h2 {
+  font-size: 30px;
+  padding-bottom: 20px;
+}
+#content #right {
+  width: 181px;
+  float: right;
+  padding-bottom: 30px;
+}
+
+#gallery {
+/*  background: transparent url(images/gallery_bg.gif) no-repeat scroll 0% 50%; */
+  height: 259px;
+  padding-bottom: 20px;
+}
+#section {
+/*  background: transparent url(images/section_bg.gif) no-repeat scroll 0% 50%; */
+  height: 189px;
+}
+#section ul {
+  padding-left: 40px;
+  padding-top: 18px;
+}
+#section li a {
+  line-height: 20px;
+  text-decoration: underline;
+  color: #ef9e06;
+}
+#section li a:hover {
+  text-decoration: none;
+  color: #9d6f4f;
+}
+
+#blog {
+  background: transparent url(images/content_blog.gif) no-repeat scroll 0% 50%;
+  height: 226px;
+  margin-top: 55px;
+}
+#blog h2 {
+  color: #f5c715;
+}
+#blog .quote {
+  color: #8a6f00;
+}
+#blog .first {
+  padding: 25px 30px 0;
+}
+.blog {
+  padding: 25px 20px 0;
+  width: 190px;
+  float: left;
+}
+#right h2 {
+  padding: 10px 0 0 15px;
+  font-size: 24px;
+}
+
+

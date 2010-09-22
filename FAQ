@@ -1,0 +1,48 @@
+		/* Para que as alterações surtam efeito no banco de dados, é necessário
+		 * iniciar transação antes de usar as DAOs, e qnd terminar os processo de lógica
+		 * e quiser confirmar as alterações.
+		 * Pergunta: Pq não fazemos isso nos nossos controllers e/ou nossas DAOs de produção?
+		 * Resposta: Pq o próprio vRaptor3 já cuida disso pra gente, deixando pra gente apenas 
+		 * 		os Rollbacks qnd houverem. 
+		 */
+		 
+		 Atualização dos pacotes de teste do Eclipse - rodar em terminal:  mvn test
+	
+Como instalar o Eclemma?
+*Para instalar o Eclemma
+	Update site: http://update.eclemma.org/
+	
+*Para rodar, na pasta de teste selecione:
+ coverage as
+	
+Como iniciar o Jetty?
+*Para iniciar o Jetty
+	./scripts/jettyStart.sh
+
+Como iniciar o servidor do Selenium?
+*Para iniciar o servidor do Selenium
+	mvn selenium:start-server
+	
+* Como configurar para usar o MySQL?
+- Primeiro instale o MySQL (5.1.x) e MySQL Query Browser
+- Abra o MySQL Query Browser:
+	127.0.0.1
+	username: admin
+	senha: *
+  Crie um schema com nome cogrooWeb
+- Na linha de comando execute:
+	mysql -u root -p cogrooWeb < _201005.sql
+- Para verificar o progresso, abra o MySQL Query Browser, clique com direito
+  no Schemata 'cogrooWeb' e escolha 'Set as Default Schema'
+- Teste algumas queries para saber como está sendo a carga:
+ 	select count(*) from LemmaTag
+ 	
+ 	
+
+Ja tenho o eclipse pronto, e agora como montar o projeto?
+Faça ckeckout do projeto cogrooWeb que se encontra no repositório svn://ccsl.ime.usp.br/CoGrOO
+
+Como rodar o projeto?
+Na pasta do projeto inicialize o Jetty e abra o endereço http://127.0.0.1:8080/
+Obs: Falta falar do hsqldb
+

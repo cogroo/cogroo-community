@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ErrorReport>
+	<Error>
+		<Text>Um error qualquer fomos levados à crer.</Text>
+		<marks>
+			<mark start="13" end="18" type="falseNegative">Um erro bizarro</mark>
+			<mark start="23" end="28" type="falsePositive">Outro erro bizarro</mark>
+		</marks>
+	</Error>
+	<Error>
+		<Text>Outro error qualquer fom}os levados à crer.</Text>
+		<marks>
+			<mark start="15" end="18" type="falseNegative">Um |erro bizarro</mark>
+			<mark start="25" end="28" type="falsePositive">Outro }rro bizarro</mark>
+		</marks>
+	</Error>
+</ErrorReport>

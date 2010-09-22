@@ -1,0 +1,93 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Cogroo Comunidade</title>
+  
+	
+	<link rel="stylesheet" type="text/css" href="/css/header.css;jsessionid=1cv551f91w3jk" />
+	<link rel="stylesheet" type="text/css" href="/css/footer.css;jsessionid=1cv551f91w3jk" />
+	<link rel="stylesheet" type="text/css" href="/css/tabela.css;jsessionid=1cv551f91w3jk"  />
+	<link rel="stylesheet" type="text/css" href="/css/reset.css;jsessionid=1cv551f91w3jk" />
+	<link rel="stylesheet" type="text/css" href="/css/style.css;jsessionid=1cv551f91w3jk" />
+	<link rel="stylesheet" type="text/css" href="/css/menu.css;jsessionid=1cv551f91w3jk" />
+	
+	<script src="/js/jquery.js;jsessionid=1cv551f91w3jk" type="text/javascript" ></script>
+	<script src="/js/jquery.linha.nav.js;jsessionid=1cv551f91w3jk" type="text/javascript" ></script>
+	<script type="text/javascript">
+	//<![CDATA[
+	$(document).ready(function() {
+		$.nav({
+			evento: 'mouseenter',
+			anima: true,
+			slide: true
+		});
+		
+	});
+	// ]]>
+	</script>
+	
+<!--[if IE]> 
+	<style>
+	ul#nav {
+		padding-top:17px;
+	}
+	</style> 
+<![endif]-->
+</head>
+<body>
+<div id="wrap">
+	<div id="header">
+		<div id="usuario">
+			
+				<p><a href="/login;jsessionid=1cv551f91w3jk">Efetuar login</a></p>
+			
+			
+		</div>
+	
+	<div id="logoCogroo"><div id="logoBROffice"></div></div>
+	</div>
+	<div>
+		<ul id="menu" class="menu">
+			<li><a href="/;jsessionid=1cv551f91w3jk">Bem-vindo</a></li>
+			<li><a href="/;jsessionid=1cv551f91w3jk">Análise Gramatical</a></li>
+			<li><span>Dicionário</span>
+				<ul>
+					<li><a href="/dictionaryEntrySearch;jsessionid=1cv551f91w3jk">Consultar Palavra</a></li>
+					
+				</ul>
+			</li>
+			<li><a href="#">Regras</a></li>
+			<li><a href="#">Sugestões</a></li>
+			<li><a href="/errorReports;jsessionid=1cv551f91w3jk">Erros reportados</a></li>
+		</ul>
+	</div>
+<div id="content">
+	<div id="altura"></div>
+
+  
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<body>
+	${key1|fXA9Nh37Q78iIfIieoxgkHitNhoM6Rd0MSPSEKSwgz0cAe5vJH88o4qYDx0g5eWI1pmSXrTieNL8OQXyW3vXpVgzxHkBj0jeBEADiO9kKn0PKn%2BQR%2B6DFwS7hyzwffWAbNDbqCqv%2F2zZPLjZ8E9fwNnYT8syE%2Fs41zy1vV75y1I%3D}&${key2|fXA9Nh37Q78iIfIieoxgkHitNhoM6Rd0MSPSEKSwgz0cAe5vJH88o4qYDx0g5eWI1pmSXrTieNL8OQXyW3vXpVgzxHkBj0jeBEADiO9kKn0PKn%2BQR%2B6DFwS7hyzwffWAbNDbqCqv%2F2zZPLjZ8E9fwNnYT8syE%2Fs41zy1vV75y1I%3D}&${key3|fXA9Nh37Q78iIfIieoxgkHitNhoM6Rd0MSPSEKSwgz0cAe5vJH88o4qYDx0g5eWI1pmSXrTieNL8OQXyW3vXpVgzxHkBj0jeBEADiO9kKn0PKn%2BQR%2B6DFwS7hyzwffWAbNDbqCqv%2F2zZPLjZ8E9fwNnYT8syE%2Fs41zy1vV75y1I%3D}&
+	
+	${key4|fXA9Nh37Q78iIfIieoxgkHitNhoM6Rd0MSPSEKSwgz0cAe5vJH88o4qYDx0g5eWI1pmSXrTieNL8OQXyW3vXpVgzxHkBj0jeBEADiO9kKn0PKn%2BQR%2B6DFwS7hyzwffWAbNDbqCqv%2F2zZPLjZ8E9fwNnYT8syE%2Fs41zy1vV75y1I%3D}&
+</body>
+</html><!-- Fim do corpo da pagina -->
+<!-- Inicio Rodape -->
+</div>
+
+<div id="footer">
+
+	<div id="logoCCSL"></div>
+
+</div>
+
+</div>
+</body>
+</html>

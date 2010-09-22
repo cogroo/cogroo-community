@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="org.hibernate.tutorial.domain">
+
+	<class name="Method" table="METHODS">
+		<id name="id" column="METHOD_ID">
+			<generator class="native" />
+		</id>
+		<set name="rules" cascade="all" inverse="true">
+			<key column="rule_id" />
+			<one-to-many class="Rule" />
+		</set>
+		<property name="method" />
+	</class>
+
+	<class name="Rule" table="RULES">
+		<id name="id" column="RULE_ID">
+			<generator class="native" />
+		</id>
+		<many-to-one name="method" column="rule_id" not-null="true"/>
+		<property name="type" />
+		<property name="group" />
+		<property name="message" />
+		<property name="shortMessage" />
+		<property name="pattern" />
+		<property name="boundaries" />
+		<property name="suggestion" />
+		<property name="example" />
+		<property name="modificationHistory" />
+
+	</class>
+</hibernate-mapping>
