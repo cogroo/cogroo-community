@@ -96,7 +96,7 @@ public class SecurityControllerTest {
 	}
 	
 	@Test
-	public void textGetCategoriesForUser() throws IOException, InvalidKeyException {
+	public void testGetCategoriesForUser() throws IOException, InvalidKeyException {
 		RestUtil rest = new RestUtil();
 		
 		// cogroo side
