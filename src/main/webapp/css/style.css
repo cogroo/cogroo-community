@@ -86,3 +86,27 @@ SPAN.badint
 {
 	BACKGROUND-COLOR: #FA8072;
 }
+
+SPAN.grammarerror
+{
+	border-bottom: 2px dotted;
+	border-color: #0000FF
+}
+
+DIV.report_details
+{
+	padding: 10px 0 0 15px;
+	BACKGROUND-COLOR: #FAFAD2
+}
+
+DIV.analise_text
+{
+	padding: 10px; padding-bottom: 10px; padding-left: 10px; padding-right: 10px; 
+	BACKGROUND-COLOR: #FFFFFF;
+	width: 95%;
+	border-width: medium;
+	border-color: #FFD700;
+}
+table.attributes { width: 100% }
+table.attributes th { vertical-align: top; text-align: left; }
+table.attributes td { vertical-align: top; }

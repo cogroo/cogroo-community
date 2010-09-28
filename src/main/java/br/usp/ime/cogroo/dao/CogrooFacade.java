@@ -2,6 +2,11 @@ package br.usp.ime.cogroo.dao;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
+
+import opennlp.tools.util.Span;
 
 import org.apache.log4j.Logger;
 
@@ -115,14 +120,32 @@ public class CogrooFacade {
 		for (Sentence sentence : result.sentences) {
 			ProcessResult pr = new ProcessResult();
 			pr.setSyntaxTree(sentence.getSyntaxTree());
-			pr.setVerticalSyntaxTree(sentence.toString());
-			pr.setTextAnnotatedWithErrors(sentence.getSentence());
+			pr.setTextAnnotatedWithErrors(annotateText(sentence, result.mistakes));
+			pr.setSentence(sentence);
 			processResults.add(pr);
 		}
 		
 		return processResults;
 	}
 	
+	private String annotateText(Sentence sentence, List<Mistake> mistakes) {
+		Span sentSpan = new Span(sentence.getOffset(), sentence.getOffset() + sentence.getSentence().length());
+		SortedMap<Span, Mistake> sortedMistakes = new TreeMap<Span, Mistake>();
+		for (Mistake mistake : mistakes) {
+			Span mSpan = new Span(mistake.getStart(), mistake.getEnd());
+			if(sentSpan.contains(mSpan)) {
+				sortedMistakes.put(mSpan, mistake);
+			}
+		}
+		StringBuilder text = new StringBuilder(sentence.getSentence());
+		Span[] spans = sortedMistakes.keySet().toArray(new Span[sortedMistakes.size()]);
+		for(int i = spans.length - 1; i >= 0; i--)  {
+			text.insert(spans[i].getEnd() - sentence.getOffset(), "</span>");
+			text.insert(spans[i].getStart() - sentence.getOffset(), "<span class=\"grammarerror\">");
+		}
+		return text.toString();
+	}
+
 	private String prettyPrint(List<Sentence> sentences, List<Mistake> mistakes) {
 		// print the sentence structure, and after the mistakes in it
 		StringBuilder sb = new StringBuilder();

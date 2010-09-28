@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.apache.tools.ant.util.facade.FacadeTaskHelper;
 
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
@@ -14,6 +15,7 @@ import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.Validator;
 import br.usp.ime.cogroo.CommunityException;
 import br.usp.ime.cogroo.Util.RestUtil;
+import br.usp.ime.cogroo.dao.CogrooFacade;
 import br.usp.ime.cogroo.dao.errorreport.ErrorEntryDAO;
 import br.usp.ime.cogroo.logic.SecurityUtil;
 import br.usp.ime.cogroo.logic.errorreport.ErrorEntryLogic;
@@ -32,7 +34,9 @@ public class ErrorReportController {
 	private Result result;
 	private Validator validator;
 	private ErrorEntryDAO errorEntryDAO;
-	private SecurityUtil securityUtil; 
+	private SecurityUtil securityUtil;
+
+	private CogrooFacade cogrooFacade; 
 	
 	public ErrorReportController(
 			LoggedUser loggedUser, 
@@ -40,13 +44,15 @@ public class ErrorReportController {
 			Result result,
 			Validator validator,
 			ErrorEntryDAO errorEntryDAO,
-			SecurityUtil securityUtil) {
+			SecurityUtil securityUtil,
+			CogrooFacade cogrooFacade) {
 		this.loggedUser = loggedUser;
 		this.errorEntryLogic = errorEntryLogic;
 		this.result = result;
 		this.validator = validator;
 		this.errorEntryDAO = errorEntryDAO;
 		this.securityUtil = securityUtil;
+		this.cogrooFacade = cogrooFacade;
 	}
 	
 	/**
@@ -117,11 +123,15 @@ public class ErrorReportController {
 		result.include("errorEntryList", reports);
 	}
 	
-	@Post
+	@Get
 	@Path("/errorEntry")
-	public void details(String errorEntryID) {
-		LOG.debug("Details for: " + errorEntryID);
-		result.include("errorEntry", errorEntryDAO.retrieve(new Long(errorEntryID)));
+	public void details(ErrorEntry errorEntry) {
+		LOG.debug("Details for: " + errorEntry);
+		ErrorEntry errorEntryFromDB =errorEntryDAO.retrieve(new Long(errorEntry.getId())); 
+		
+		
+		result.include("errorEntry", errorEntryFromDB).
+			include("processResults", cogrooFacade.processText(errorEntryFromDB.getText()));
 	}
 	
 	@Post

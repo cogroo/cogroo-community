@@ -88,7 +88,7 @@
 			<c:forEach items="${errorEntryList}" var="errorEntry">
 				<tr>
 					<td valign="middle"><img src="/images/details_open.png"></td>
-					<td>${errorEntry.id}</td>
+					<td><a href="<c:url value="/errorEntry?errorEntry.id=${errorEntry.id}"/>">${errorEntry.id}</a></td>
 					<c:choose>
 						<c:when test="${empty errorEntry.omission}">
 				    		<td>Intervenção indevida</td>
