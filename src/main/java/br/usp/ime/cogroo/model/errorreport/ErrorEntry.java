@@ -11,7 +11,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
-import br.usp.ime.cogroo.model.Comment;
 import br.usp.ime.cogroo.model.GrammarCheckerVersion;
 import br.usp.ime.cogroo.model.User;
 
@@ -45,7 +44,7 @@ public class ErrorEntry {
 	private GrammarCheckerBadIntervention badIntervention;
 	
 	@OneToOne
-	private GrammarCheckerOmission omissions;
+	private GrammarCheckerOmission omission;
 
 	public ErrorEntry(String text, int start, int end, List<Comment> comments,
 			GrammarCheckerVersion version, User submitter, Date creation,
@@ -60,7 +59,7 @@ public class ErrorEntry {
 		this.creation = creation;
 		this.modified = modified;
 		this.badIntervention = badIntervention;
-		this.omissions = omissions;
+		this.omission = omissions;
 	}
 
 	public ErrorEntry() {
@@ -82,11 +81,11 @@ public class ErrorEntry {
 		this.text = text;
 	}
 
-	public List<Comment> getComments() {
+	public List<Comment> getErrorEntryComments() {
 		return comments;
 	}
 
-	public void setComments(List<Comment> comments) {
+	public void setErrorEntryComments(List<Comment> comments) {
 		this.comments = comments;
 	}
 
@@ -130,28 +129,53 @@ public class ErrorEntry {
 		this.badIntervention = badIntervention;
 	}
 
-	public GrammarCheckerOmission getOmissions() {
-		return omissions;
+	public GrammarCheckerOmission getOmission() {
+		return omission;
 	}
 
 	public void setOmissions(GrammarCheckerOmission omissions) {
-		this.omissions = omissions;
+		this.omission = omissions;
 	}
 
-	public int getStart() {
+	public int getSpanStart() {
 		return spanStart;
 	}
 
-	public void setSpanStart(int start) {
-		this.spanStart = start;
+	public void setSpanStart(int spanStart) {
+		this.spanStart = spanStart;
 	}
 
-	public int getEnd() {
+	public int getSpanEnd() {
 		return spanEnd;
 	}
 
-	public void setSpanEnd(int end) {
-		this.spanEnd = end;
+	public void setSpanEnd(int spanEnd) {
+		this.spanEnd = spanEnd;
+	}
+
+	public List<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+
+	public void setOmission(GrammarCheckerOmission omission) {
+		this.omission = omission;
+	}
+	
+	public String getMarkedText() {
+		StringBuilder sb = new StringBuilder(this.getText());
+		sb.insert(this.getSpanEnd(), "</span>");
+		String type;
+		if(getOmission() != null) {
+			type = "omission";
+		} else {
+			type = "badint";
+		}
+		sb.insert(this.getSpanStart(), "<span class=\"" + type + "\">");
+		return sb.toString();
 	}
 
 	@Override

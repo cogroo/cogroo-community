@@ -25,7 +25,7 @@ import br.usp.ime.cogroo.model.User;
 
 import static org.junit.Assert.*;
 
-public class SecurityControllerTest {
+public class ErrorReportControllerTest {
 	
 	private static final String ROOT = "http://localhost:8080";
 	private EntityManager em;

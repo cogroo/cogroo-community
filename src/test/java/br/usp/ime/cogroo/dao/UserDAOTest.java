@@ -56,19 +56,19 @@ public class UserDAOTest {
 		em.getTransaction().begin();
 		userDAO.delete(wesley);
 		em.getTransaction().commit();
-		Assert.assertFalse(userDAO.existe("Wesley"));
+		Assert.assertFalse(userDAO.exist("Wesley"));
 		Assert.assertNull(userDAO.retrieve("Wesley"));
 	}
 	
 	@Test
 	public void bdShouldExistWesley() {
-		Assert.assertTrue(userDAO.existe("Wesley"));
+		Assert.assertTrue(userDAO.exist("Wesley"));
 	}
 
 	@Test
 	public void bdUpdateWesley() {
 		userDAO.update(wesley);
-		Assert.assertTrue(userDAO.existe("Wesley"));
+		Assert.assertTrue(userDAO.exist("Wesley"));
 	}
 	
 	@Test

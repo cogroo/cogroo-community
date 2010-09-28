@@ -46,7 +46,7 @@ public class UserDAO {
 		return em.createQuery("from "+USER_ENTITY).getResultList();
 	}
 
-	public boolean existe(String toBeFound) {
+	public boolean exist(String toBeFound) {
 		return (retrieve(toBeFound) != null); 
 	}
 

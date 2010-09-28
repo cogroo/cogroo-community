@@ -1,10 +1,10 @@
-package br.usp.ime.cogroo.dao;
+package br.usp.ime.cogroo.dao.errorreport;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 
 import br.com.caelum.vraptor.ioc.Component;
-import br.usp.ime.cogroo.model.Comment;
+import br.usp.ime.cogroo.model.errorreport.Comment;
 
 @Component
 public class CommentDAO {

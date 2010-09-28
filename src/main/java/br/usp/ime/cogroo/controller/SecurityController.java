@@ -11,7 +11,6 @@ import br.com.caelum.vraptor.validator.ValidationMessage;
 import br.usp.ime.cogroo.Messages;
 import br.usp.ime.cogroo.Util.RestUtil;
 import br.usp.ime.cogroo.dao.UserDAO;
-import br.usp.ime.cogroo.logic.ErrorReportLogic;
 import br.usp.ime.cogroo.logic.SecurityUtil;
 
 @Resource
@@ -27,7 +26,6 @@ public class SecurityController {
 	private UserDAO userDAO;
 	
 	public SecurityController(
-			ErrorReportLogic errorReportLogic,
 			Result result,
 			Validator validator,
 			SecurityUtil securityUtil,
@@ -42,7 +40,7 @@ public class SecurityController {
 	@Path("/saveClientSecurityKey")
 	public void saveClientSecurityKey(String user, String pubKey) {
 		try {
-			if(this.userDAO.existe(user)) {
+			if(this.userDAO.exist(user)) {
 				String key = this.securityUtil.genSecretKeyForUser(this.userDAO.retrieve(user), this.securityUtil.decodeURLSafe(pubKey));
 				result.include("encryptedSecretKey", RestUtil.prepareResponse("encryptedSecretKey", key));
 			} else {
@@ -60,7 +58,7 @@ public class SecurityController {
 	@Path("/generateAuthenticationForUser")
 	public void generateAuthenticationForUser(String username, String encryptedPassword) {
 		try {
-			if(this.userDAO.existe(username)) {
+			if(this.userDAO.exist(username)) {
 				LOG.debug("Will generate token for " + username);
 				String token = this.securityUtil.generateAuthenticationTokenForUser(this.userDAO.retrieve(username), securityUtil.decodeURLSafe(encryptedPassword));
 				result.include("token", RestUtil.prepareResponse("token",token));

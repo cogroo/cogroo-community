@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import utils.HSQLDBEntityManagerFactory;
+import br.usp.ime.cogroo.dao.GrammarCheckerVersionDAO;
 import br.usp.ime.cogroo.dao.UserDAO;
 import br.usp.ime.cogroo.model.GrammarCheckerVersion;
 import br.usp.ime.cogroo.model.User;
@@ -39,14 +40,14 @@ public class ErrorEntryDAOTest {
 		
 		GrammarCheckerVersionDAO versionDAO = new GrammarCheckerVersionDAO(em);
 		
-		GrammarCheckerVersion version = new GrammarCheckerVersion("0.0.1-SNAPSHOT");
+		GrammarCheckerVersion version= null;
 		
 		UserDAO userDAO = new UserDAO(em);
 		
 		em.getTransaction().begin();
 		userDAO.add(william);
 		userDAO.add(wesley);
-		versionDAO.add(version);
+		version = versionDAO.retrieve("0.0.1-SNAPSHOT");
 		em.getTransaction().commit();
 		
 		ErrorEntry error1 = new ErrorEntry(

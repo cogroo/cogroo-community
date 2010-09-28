@@ -1,4 +1,4 @@
-package br.usp.ime.cogroo.model;
+package br.usp.ime.cogroo.model.errorreport;
 
 import java.util.Date;
 
@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+
+import br.usp.ime.cogroo.model.User;
 
 @Entity
 public class Comment {
@@ -26,19 +28,19 @@ public class Comment {
 	//@ManyToOne(fetch = FetchType.EAGER)
 	//@JoinColumn(nullable = false, insertable = false, updatable = false)
 	@ManyToOne
-	private ErrorReport errorReport;
+	private ErrorEntry errorEntry;
 
 	
 	public Comment() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public Comment(User user, Date date, String comment, ErrorReport errorReport) {
+	public Comment(User user, Date date, String comment, ErrorEntry errorEntry) {
 		super();
 		this.user = user;
 		this.date = date;
 		this.comment = comment;
-		this.errorReport = errorReport;
+		this.errorEntry = errorEntry;
 	}
 
 	public Long getId() {
@@ -65,25 +67,25 @@ public class Comment {
 		this.date = date;
 	}
 
-	public String getComment() {
+	public String getErrorEntryComment() {
 		return comment;
 	}
 
-	public void setComment(String comment) {
+	public void setErrorEntryComment(String comment) {
 		this.comment = comment;
 	}
 
-	public void setErrorReport(ErrorReport errorReport) {
-		this.errorReport = errorReport;
+	public void setErrorEntry(ErrorEntry errorEntry) {
+		this.errorEntry = errorEntry;
 	}
 
-	public ErrorReport getErrorReport() {
-		return errorReport;
+	public ErrorEntry getErrorEntry() {
+		return errorEntry;
 	}
 	
 	@Override
 	public String toString() {
-		return "user: " + getUser() + " date: " + getDate() + " comment: " + getComment();
+		return "user: " + getUser() + " date: " + getDate() + " comment: " + getErrorEntryComment();
 	}
 	
 }

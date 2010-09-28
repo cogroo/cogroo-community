@@ -20,10 +20,13 @@ public class GrammarCheckerOmission {
 	
 	@OneToOne
 	private ErrorEntry errorEntry;
+	
+	public GrammarCheckerOmission() {
+		
+	}
 
 	public GrammarCheckerOmission(String category,
 			String customCategory, String replaceBy, ErrorEntry errorEntry) {
-		super();
 		this.category = category;
 		this.customCategory = customCategory;
 		this.replaceBy = replaceBy;

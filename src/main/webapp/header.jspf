@@ -66,8 +66,7 @@
 			</li>
 			<li><a href="#">Regras</a></li>
 			<li><a href="#">Sugestões</a></li>
-			<li><a href="<c:url value="/errorReports"/>">Erros reportados</a></li>
+			<li><a href="<c:url value="/errorEntries"/>">Erros reportados</a></li>
 		</ul>
 	</div>
 <div id="content">
-	<div id="altura"></div>

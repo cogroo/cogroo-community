@@ -19,9 +19,12 @@ public class GrammarCheckerBadIntervention {
 	@OneToOne
 	private ErrorEntry errorEntry;
 	
+	public GrammarCheckerBadIntervention(){
+		
+	}
+	
 	public GrammarCheckerBadIntervention(
 			BadInterventionClassification classification, int rule, ErrorEntry errorEntry) {
-		super();
 		this.classification = classification;
 		this.rule = rule;
 		this.errorEntry = errorEntry;

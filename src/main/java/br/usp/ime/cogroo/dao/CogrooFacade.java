@@ -58,9 +58,20 @@ public class CogrooFacade {
 	 * @param lexicalDictionary that {@link CogrooI} will use.
 	 */
 	public CogrooFacade(LexicalDictionary lexicalDictionary) {
-		LOG.debug("Instanciando CogrooFacade, e inicializando o CoGrOO através de : " + getClass().getResource("/").getPath());
+		LOG.debug("Creating CoGrOO from: " + resources);
 		this.lexicalDictionary = lexicalDictionary;
 	}
+	
+//	/**
+//	 * Creates a new {@link CogrooFacade}. The instance of {@link CogrooI} will 
+//	 * use the dictionary of the user.
+//	 * @param lexicalDictionary that {@link CogrooI} will use.
+//	 */
+//	public CogrooFacade(LexicalDictionary lexicalDictionary, String aResources) {
+//		LOG.debug("Creating CoGrOO from: " + aResources);
+//		this.setResources(aResources);
+//		this.lexicalDictionary = lexicalDictionary;
+//	}
 	
 	/**
 	 * Set CoGrOO instance. For testing purpose.
