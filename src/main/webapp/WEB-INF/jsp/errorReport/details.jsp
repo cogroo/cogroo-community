@@ -97,8 +97,9 @@
 	                background: "black"
 	            }
 	        }).width(800 - horizontalPadding).height(500 - verticalPadding);
-			$.post('myurl', function(data) {
-			    $('#externalSite').html(data);
+			$.post("http://wcolen.no-ip.org/~colen/phpsyntaxtree/?", $("#form" + currentId).serialize(), function(data) {
+				alert("Data Loaded: " + data);
+			    $('#externalSite').html("la la la");
 			}, 'html');
 		});
 	});
@@ -173,7 +174,7 @@
 					<td><%= i %></td>
 					<td>${processResult.textAnnotatedWithErrors}</td>
 					<td>
-							<form id="form_<%= i %>" action="http://201.52.96.104:8081/~colen/phpsyntaxtree/?" method="post" target="externalSite">
+							<form id="form_<%= i %>" action="http://wcolen.no-ip.org/~colen/phpsyntaxtree/?" method="post" target="externalSite">
 								<input  type="hidden" name="antialias" value="on" />
 <!--								antialias	on-->
 								<input  type="hidden" name="autosub" value="on" />
@@ -193,8 +194,8 @@
 								<input  type="hidden" name="opencount" value="5" />
 <!--								triangles	on-->
 								<input  type="hidden" name="triangles" value="on" />
-								<a id="_<%= i %>" class="iframe" href="http://www.google.com" title="Google Dialog">Google</a>
-								<!-- <button class="iframe" name="drawbtn" type="submit"> Draw </button> --> 
+<!--								<a id="_<%= i %>" class="iframe" href="http://www.google.com" title="Google Dialog">Google</a>-->
+								<button id="_<%= i %>" class="iframe" name="drawbtn" type="submit"> Draw </button>
 							</form>
 					</td>
 					<td>
