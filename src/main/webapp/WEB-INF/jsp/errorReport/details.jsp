@@ -74,6 +74,7 @@
 </script>
 	<script type="text/javascript">
 	$(function() {
+		
 		$('.iframe').click(function(e) {
 			var currentId = e.target.id;
 			
@@ -83,7 +84,6 @@
 			var verticalPadding = 30;
 			/*$("#form" + currentId ).submit();*/
 
-			 
 	        $('<iframe id="externalSite" class="externalSite"/>').dialog({
 	            title: ($this.attr('title')) ? $this.attr('title') : 'External Site',
 	            autoOpen: true,
@@ -97,9 +97,10 @@
 	                background: "black"
 	            }
 	        }).width(800 - horizontalPadding).height(500 - verticalPadding);
-			$.post("http://wcolen.no-ip.org/~colen/phpsyntaxtree/?", $("#form" + currentId).serialize(), function(data) {
+			$('#externalSite').html('da da da');
+			$.post("http://localhost/phpsyntaxtree/?", $("#form" + currentId).serialize(), function(data, textStatus, XMLHttpRequest) {
 				alert("Data Loaded: " + data);
-			    $('#externalSite').html("la la la");
+			    $('#externalSite').html(data);
 			}, 'html');
 		});
 	});
@@ -174,7 +175,7 @@
 					<td><%= i %></td>
 					<td>${processResult.textAnnotatedWithErrors}</td>
 					<td>
-							<form id="form_<%= i %>" action="http://wcolen.no-ip.org/~colen/phpsyntaxtree/?" method="post" target="externalSite">
+							<form id="form_<%= i %>" action="/phpsyntaxtree/?" method="post" target="externalSite">
 								<input  type="hidden" name="antialias" value="on" />
 <!--								antialias	on-->
 								<input  type="hidden" name="autosub" value="on" />
@@ -194,8 +195,8 @@
 								<input  type="hidden" name="opencount" value="5" />
 <!--								triangles	on-->
 								<input  type="hidden" name="triangles" value="on" />
-<!--								<a id="_<%= i %>" class="iframe" href="http://www.google.com" title="Google Dialog">Google</a>-->
-								<button id="_<%= i %>" class="iframe" name="drawbtn" type="submit"> Draw </button>
+								<a id="_<%= i %>" class="iframe" href="http://www.google.com" title="Google Dialog">Google</a>
+<!--								<button id="_<%= i %>" class="iframe" name="drawbtn" type="submit"> Draw </button>-->
 							</form>
 					</td>
 					<td>

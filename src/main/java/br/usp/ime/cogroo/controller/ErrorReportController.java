@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.apache.tools.ant.util.facade.FacadeTaskHelper;
 
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
