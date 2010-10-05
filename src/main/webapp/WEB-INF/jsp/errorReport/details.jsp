@@ -55,13 +55,13 @@
 				if ( this.src.match('details_close') )
 				{
 					/* This row is already open - close it */
-					this.src = "/images/details_open.png";
+					this.src = "./images/details_open.png";
 					oTable.fnClose( nTr );
 				}
 				else
 				{
 					/* Open this row */
-					this.src = "/images/details_close.png";
+					this.src = "./images/details_close.png";
 					oTable.fnOpen( nTr, fnFormatDetails(nTr), 'details' );
 				}
 			} );
@@ -83,24 +83,31 @@
 			var horizontalPadding = 30;
 			var verticalPadding = 30;
 			/*$("#form" + currentId ).submit();*/
+			$('#externalSite').remove();
 
-	        $('<iframe id="externalSite" class="externalSite"/>').dialog({
-	            title: ($this.attr('title')) ? $this.attr('title') : 'External Site',
-	            autoOpen: true,
-	            width: 800,
-	            height: 500,
-	            modal: true,
-	            resizable: true,
-				autoResize: true,
-	            overlay: {
-	                opacity: 0.5,
-	                background: "black"
-	            }
-	        }).width(800 - horizontalPadding).height(500 - verticalPadding);
-			$('#externalSite').html('da da da');
-			$.post("http://localhost/phpsyntaxtree/?", $("#form" + currentId).serialize(), function(data, textStatus, XMLHttpRequest) {
-				alert("Data Loaded: " + data);
-			    $('#externalSite').html(data);
+			$('<iframe id="externalSite" src="about:blank"/>').dialog({
+				    title: 'Árvore sintática',
+				    autoOpen: true,
+				    width: 730,
+				    height: 280,
+				    modal: true,
+				    resizable: true,
+			            autoResize: true,
+				    overlay: {
+					opacity: 0.5,
+					background: "black"
+				    }
+				}).width(730 - horizontalPadding).height(280 - verticalPadding);
+
+			$.post("/phpsyntaxtree/cogroo.php?", $("#form" + currentId).serialize(), function(data, textStatus, XMLHttpRequest) {
+				
+		    	  var d = $("#externalSite")[0].contentWindow.document; // contentWindow works in IE7 and FF
+				  d.open(); d.close(); // must open and close document object to start using it!
+
+				  // now start doing normal jQuery:
+				  $("html", d).append(data);
+
+				
 			}, 'html');
 		});
 	});
@@ -171,7 +178,7 @@
 			<%! int i=1; %>
 			<c:forEach items="${processResults}" var="processResult">
 				<tr>
-					<td valign="middle"><img src="/images/details_open.png"></td>
+					<td valign="middle"><img src="./images/details_open.png"></td>
 					<td><%= i %></td>
 					<td>${processResult.textAnnotatedWithErrors}</td>
 					<td>
@@ -195,7 +202,7 @@
 								<input  type="hidden" name="opencount" value="5" />
 <!--								triangles	on-->
 								<input  type="hidden" name="triangles" value="on" />
-								<a id="_<%= i %>" class="iframe" href="http://www.google.com" title="Google Dialog">Google</a>
+								<a id="_<%= i %>" class="iframe" href="about:blank" title=Árvore">Exibir árvore</a>
 <!--								<button id="_<%= i %>" class="iframe" name="drawbtn" type="submit"> Draw </button>-->
 							</form>
 					</td>
@@ -235,4 +242,3 @@
 	dddd
 	
 	</div>
-
