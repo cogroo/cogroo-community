@@ -110,3 +110,22 @@ DIV.analise_text
 table.attributes { width: 100% }
 table.attributes th { vertical-align: top; text-align: left; }
 table.attributes td { vertical-align: top; }
+
+.defaultlbl {
+	display:block;
+	float:left;
+	width:250px;
+}
+
+.roundcorner {
+	-moz-border-radius:5px 5px 5px 5px;
+	background-color:#4A4A5A;
+	margin:20px 0 10px;
+	padding:10px;
+}
+
+.specialframe {
+	background:none repeat scroll 0 0 #FFF8DC;
+	border:3px solid #996666;
+	padding:20px;
+}

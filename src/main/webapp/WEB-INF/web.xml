@@ -68,6 +68,10 @@
 		<dispatcher>REQUEST</dispatcher>
 	</filter-mapping>
 	
+	<servlet-mapping>
+        <servlet-name>jsp</servlet-name>
+        <url-pattern>*.jspf</url-pattern>
+    </servlet-mapping>
 		
 	<jsp-config>
 		<jsp-property-group>

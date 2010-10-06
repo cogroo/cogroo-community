@@ -118,24 +118,25 @@ public class CogrooFacade {
 		CheckerResult result = getCogroo().analyseAndCheckText(text);
 		List<ProcessResult> processResults = new ArrayList<ProcessResult>();
 		for (Sentence sentence : result.sentences) {
+			List<Mistake> filteredMistakes = filterMistakes(sentence, result.mistakes);
+			
 			ProcessResult pr = new ProcessResult();
 			pr.setSyntaxTree(sentence.getSyntaxTree());
-			pr.setTextAnnotatedWithErrors(annotateText(sentence, result.mistakes));
+			pr.setTextAnnotatedWithErrors(annotateText(sentence, filteredMistakes));
 			pr.setSentence(sentence);
+			pr.setMistakes(filterMistakes(sentence, filteredMistakes));
 			processResults.add(pr);
 		}
 		
 		return processResults;
 	}
 	
-	private String annotateText(Sentence sentence, List<Mistake> mistakes) {
-		Span sentSpan = new Span(sentence.getOffset(), sentence.getOffset() + sentence.getSentence().length());
+	private String annotateText(Sentence sentence, List<Mistake> filteredMistakes) {
 		SortedMap<Span, Mistake> sortedMistakes = new TreeMap<Span, Mistake>();
-		for (Mistake mistake : mistakes) {
+		
+		for (Mistake mistake : filteredMistakes) {
 			Span mSpan = new Span(mistake.getStart(), mistake.getEnd());
-			if(sentSpan.contains(mSpan)) {
-				sortedMistakes.put(mSpan, mistake);
-			}
+			sortedMistakes.put(mSpan, mistake);
 		}
 		StringBuilder text = new StringBuilder(sentence.getSentence());
 		Span[] spans = sortedMistakes.keySet().toArray(new Span[sortedMistakes.size()]);
@@ -144,6 +145,19 @@ public class CogrooFacade {
 			text.insert(spans[i].getStart() - sentence.getOffset(), "<span class=\"grammarerror\">");
 		}
 		return text.toString();
+	}
+	
+	private List<Mistake> filterMistakes(Sentence sentence, List<Mistake> mistakes) {
+		Span sentSpan = new Span(sentence.getOffset(), sentence.getOffset() + sentence.getSentence().length());
+		List<Mistake> filterdMistakes = new ArrayList<Mistake>();
+		for (Mistake mistake : mistakes) {
+			
+			Span mSpan = new Span(mistake.getStart(), mistake.getEnd());
+			if(sentSpan.contains(mSpan)) {
+				filterdMistakes.add(mistake);
+			}
+		}
+		return filterdMistakes;
 	}
 
 	private String prettyPrint(List<Sentence> sentences, List<Mistake> mistakes) {

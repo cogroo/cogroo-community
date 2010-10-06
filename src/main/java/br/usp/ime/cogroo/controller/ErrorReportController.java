@@ -130,7 +130,7 @@ public class ErrorReportController {
 		
 		
 		result.include("errorEntry", errorEntryFromDB).
-			include("processResults", cogrooFacade.processText(errorEntryFromDB.getText()));
+			include("processResultList", cogrooFacade.processText(errorEntryFromDB.getText()));
 	}
 	
 	@Post
