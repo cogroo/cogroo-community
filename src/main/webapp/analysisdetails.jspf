@@ -1,6 +1,6 @@
+<%@ page contentType="text/html; charset=UTF-8" %>  
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html; charset=UTF-8" %>  
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/dataTables_table_jui.css"/>" />
@@ -23,14 +23,13 @@
 			</tr>
 		</thead>
 		<tbody>
-			<%! int i=1; %>
-			<c:forEach items="${processResultList}" var="processResult">
+			<c:forEach items="${processResultList}" var="processResult" varStatus="i">
 				<tr>
 					<td valign="middle"><img src="./images/details_open.png"></td>
-					<td><%= i %></td>
+					<td>${ i.count }</td>
 					<td>${processResult.textAnnotatedWithErrors}</td>
 					<td>
-							<form id="form_<%= i %>" action="/phpsyntaxtree/?" method="post" target="externalSite">
+							<form id="form_${ i.count }" action="/phpsyntaxtree/?" method="post" target="externalSite">
 								<input  type="hidden" name="antialias" value="on" />
 								<input  type="hidden" name="autosub" value="on" />
 								<input  type="hidden" name="autosub" value="on" />
@@ -41,7 +40,7 @@
 								<input  type="hidden" name="fontsize" value="8" />
 								<input  type="hidden" name="opencount" value="5" />
 								<input  type="hidden" name="triangles" value="on" />
-								<a id="_<%= i %>" class="iframe" href="about:blank" title=Árvore">Exibir árvore</a>
+								<a id="_${ i.count }" class="iframe" href="about:blank" title=Árvore">Exibir árvore</a>
 							</form>
 					</td>
 					<td>
@@ -56,10 +55,9 @@
 								</tr>
 							</thead>
 							<tbody>
-								<%! int j=1; %>
-								<c:forEach items="${processResult.sentence.tokens}" var="token">
+								<c:forEach items="${processResult.sentence.tokens}" var="token" varStatus="j">
 									<tr>
-										<td><%= j++ %></td>
+										<td>${ j.count }</td>
 										<td>${token.lexeme}</td>
 										<td>${token.primitive}</td>
 										<td>${token.morphologicalTag}</td>
@@ -78,10 +76,9 @@
 									</tr>
 								</thead>
 								<tbody>
-									<%! int l=1; %>
-									<c:forEach items="${processResult.mistakes}" var="mistake">
+									<c:forEach items="${processResult.mistakes}" var="mistake" varStatus="l">
 										<tr>
-											<td><%= l++ %></td>
+											<td>${ l.count }</td>
 											<td>${mistake.shortMessage}</td>
 											<td>
 												<c:forEach items="${mistake.suggestions}" var="suggestion">
@@ -95,7 +92,6 @@
 						</c:if>
 					</td>
 			    </tr>
-				<%= i++ %>
 			</c:forEach>
 		</tbody>
 	</table>
