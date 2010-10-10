@@ -72,14 +72,14 @@
 	<div class="login_roundcorner login">
 		<c:if test="${not loggedUser.logged}">
 	      	<div style="display: none;" id="logform">
-	            <form action="./login" method="post">
+	            <form action="<c:url value='/login'/>" method="post">
 	                <p>
-	                    <label>Login&nbsp;: <input type="text" style="width: 125px; font-size: 12px;" maxlength="20" name="login" class="inputtxt"></label> 
-	                    <label>Senha&nbsp;: <input type="password" style="width: 125px; font-size: 12px;" maxlength="20" size="20" name="pw" class="inputtxt"></label> 
+	                    <label>Login&nbsp;: <input type="text" name="username" style="width: 125px; font-size: 12px;" maxlength="20" class="inputtxt"></label> 
+	                    <label>Senha&nbsp;: <input type="password" name="password"  style="width: 125px; font-size: 12px;" maxlength="20" size="20" class="inputtxt"></label> 
 	                    <a onclick="off('logform'); on('pwrecup'); return false;" href="#"><b>?</b></a>
 	                    <input type="hidden" value="connx" name="cmd">
 	                    <input type="submit" style="font-size: 11px;" value="&#187;" class="button"> | 
-	                    <a href="<c:url value="/login"/>"><b>criar um usuário</b></a>
+	                    <a href="<c:url value="/register"/>"><b>criar um usuário</b></a>
 	                </p>
 	            </form>
 	        </div>

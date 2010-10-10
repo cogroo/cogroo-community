@@ -18,6 +18,7 @@ import br.com.caelum.vraptor.util.test.MockValidator;
 import br.com.caelum.vraptor.validator.Message;
 import br.com.caelum.vraptor.validator.ValidationException;
 import br.usp.ime.cogroo.Messages;
+import br.usp.ime.cogroo.Util.CriptoUtils;
 import br.usp.ime.cogroo.dao.UserDAO;
 import br.usp.ime.cogroo.model.LoggedUser;
 import br.usp.ime.cogroo.model.User;
@@ -42,10 +43,11 @@ public class LoginControllerTest {
 	
 	@Test
 	public void testCannotLoginWithEmptyUserName() {
-		User userWithEmptyName = new User("");
+		String username = "";
+		String password = "";
 		
 		try {
-			loginController.login(userWithEmptyName);
+			loginController.login(username, password);
 			fail();			
 		} catch(ValidationException e) {
 			assertTrue("Couldn't assert that message for empty user was created.", 
@@ -56,10 +58,12 @@ public class LoginControllerTest {
 	
 	@Test
 	public void testCannotLoginWithUserNameWithOnlySpaces() {
-		User userWithEmptyName = new User("   ");
+//		User userWithEmptyName = new User("   ");
+		String username = "    ";
+		String password = "";
 		
 		try {
-			loginController.login(userWithEmptyName);
+			loginController.login(username, password);
 			fail();			
 		} catch(ValidationException e) {
 			assertTrue("Couldn't assert that message for empty user was created.", 
@@ -71,10 +75,17 @@ public class LoginControllerTest {
 	@Test
 	public void testUserCanLogin() {
 		String userName = "aUser";
+		String password = "password";
+		
+		String passCripto = CriptoUtils.digestMD5(userName, password);
+
+		
 		User userWithName = new User(userName);
-		loginController.login(userWithName);
+		userWithName.setPassword(passCripto);
 		
 		when(mockUserDAO.retrieve(userName)).thenReturn(userWithName);
+		
+		loginController.login(userName, password);
 		
 		assertEquals(userWithName.getName(), loggedUser.getUser().getName());
 

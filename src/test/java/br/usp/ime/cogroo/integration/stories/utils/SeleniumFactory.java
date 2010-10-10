@@ -9,7 +9,7 @@ public class SeleniumFactory {
 		this.selenium = new DefaultSelenium("localhost", 4444, "*firefox", "http://localhost:8080");
 		this.selenium.start();
 		this.selenium.windowMaximize();
-		this.selenium.setSpeed("400");
+		this.selenium.setSpeed("2000");
 	}
 	
 	public Selenium getBrowser() {
