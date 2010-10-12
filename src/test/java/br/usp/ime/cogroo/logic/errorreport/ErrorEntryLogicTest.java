@@ -1,10 +1,13 @@
 package br.usp.ime.cogroo.logic.errorreport;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import java.io.IOException;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -74,6 +77,34 @@ public class ErrorEntryLogicTest {
 		assertNotNull(list.get(0).getVersion().getId());
 		assertNotNull(list.get(0).getComments().get(0).getId());
 		assertNotNull(list.get(0).getOmission().getId());
+	}
+	
+	@Test
+	public void testAddComment() throws CommunityException, IOException {
+		
+		
+		em.getTransaction().begin();
+		List<ErrorEntry> list = mErrorEntryLogic.addErrorEntry(william.getName(), ResourcesUtil.getResourceAsString(getClass(), "/br/usp/ime/cogroo/logic/ErrorReport1.xml"));
+		em.getTransaction().commit();
+
+		Long errorID = list.get(0).getId();
+		
+		em.getTransaction().begin();
+		Long commentID = mErrorEntryLogic.addCommentToErrorEntry(errorID, wesley.getId(), "a comment");// addComment(errorID, newComment);
+		em.getTransaction().commit();
+		
+		em.getTransaction().begin();
+		mErrorEntryLogic.addAnswerToComment(commentID, william.getId(), "a answer");// (errorID, wesley.getId().intValue(), "a comment");// addComment(errorID, newComment);
+		em.getTransaction().commit();
+		
+		ErrorEntryDAO dao = new ErrorEntryDAO(em);
+		
+		ErrorEntry error = dao.retrieve(new Long(errorID));
+		
+		assertEquals(wesley, error.getComments().get(1).getUser());
+		assertEquals(error.getComments().get(1).getComment(), "a comment");
+		
+		
 	}
 		
 

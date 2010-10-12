@@ -165,7 +165,7 @@ public class ErrorEntryLogic {
 							er.getText(), 
 							omission.getSpan().getStart(), 
 							omission.getSpan().getEnd(), 
-							null,
+							new ArrayList<Comment>(),
 							version, 
 							cogrooUser, 
 							time, 
@@ -175,7 +175,7 @@ public class ErrorEntryLogic {
 					
 					if(omission.getComment() != null && omission.getComment().length() > 0) {
 						List<Comment> comments = new ArrayList<Comment>();
-						Comment c = new Comment(cogrooUser, time, omission.getComment(), errorEntry);
+						Comment c = new Comment(cogrooUser, time, omission.getComment(), errorEntry, null);
 						commentDAO.add(c);
 						comments.add(c);
 						errorEntry.setComments(comments);
@@ -214,7 +214,7 @@ public class ErrorEntryLogic {
 					
 					if(badIntervention.getComment() != null && badIntervention.getComment().length() > 0) {
 						List<Comment> comments = new ArrayList<Comment>();
-						Comment c = new Comment(cogrooUser, time, badIntervention.getComment(), errorEntry);
+						Comment c = new Comment(cogrooUser, time, badIntervention.getComment(), errorEntry, null);
 						commentDAO.add(c);
 						comments.add(c);
 						errorEntry.setComments(comments);
@@ -249,6 +249,27 @@ public class ErrorEntryLogic {
 		}
 
 		return list;
+	}
+	
+	public Long addCommentToErrorEntry(Long errorEntryID, Long userID, String comment) {
+		ErrorEntry errorEntry = errorEntryDAO.retrieve(errorEntryID);
+		User user = userDAO.retrieve(userID);
+		Comment c = new Comment(user, new Date(), comment, errorEntry, new ArrayList<Comment>());
+		commentDAO.add(c);
+		
+		return c.getId();
+	}
+	
+	public void addAnswerToComment(Long commentID, Long userID, String comment) {
+		Comment c = commentDAO.retrieve(commentID);
+		User user = userDAO.retrieve(userID);
+		
+		Comment answer = new Comment(user, new Date(), comment, c.getErrorEntry(), new ArrayList<Comment>());
+		commentDAO.add(c);	
+		
+		c.getAnswers().add(c);
+		
+		commentDAO.update(c);
 	}
 
 }

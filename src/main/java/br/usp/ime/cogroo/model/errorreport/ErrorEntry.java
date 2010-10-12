@@ -1,6 +1,5 @@
 package br.usp.ime.cogroo.model.errorreport;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -28,7 +27,7 @@ public class ErrorEntry {
 	private int spanEnd;
 
 	@OneToMany
-	private List<Comment> comments = new ArrayList<Comment>();
+	private List<Comment> comments;;
 
 	@ManyToOne
 	private GrammarCheckerVersion version;
