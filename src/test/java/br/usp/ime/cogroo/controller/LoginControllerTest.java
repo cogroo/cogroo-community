@@ -83,11 +83,11 @@ public class LoginControllerTest {
 		User userWithName = new User(userName);
 		userWithName.setPassword(passCripto);
 		
-		when(mockUserDAO.retrieve(userName)).thenReturn(userWithName);
+		when(mockUserDAO.retrieveByLogin(userName)).thenReturn(userWithName);
 		
 		loginController.login(userName, password);
 		
-		assertEquals(userWithName.getName(), loggedUser.getUser().getName());
+		assertEquals(userWithName.getLogin(), loggedUser.getUser().getLogin());
 
 	}
 	

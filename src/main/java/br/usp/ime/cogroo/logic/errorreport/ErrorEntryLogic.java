@@ -140,7 +140,7 @@ public class ErrorEntryLogic {
 		// try to get user, or create it
 		User cogrooUser;
 		if (userDAO.exist(username)) {
-			cogrooUser = userDAO.retrieve(username);
+			cogrooUser = userDAO.retrieveByLogin(username);
 		} else {
 			LOG.error("Invalid user in addErrorEntry:" + username);
 			throw new CommunityException(

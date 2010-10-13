@@ -40,6 +40,12 @@ public class RegisterController {
 	@Path("/welcome")
 	public void welcome() {
 	}
+	
+	@Post
+	@Path("/sendNewPass")
+	public void register(String email){
+		
+	}
 
 	@Post
 	@Path("/register")
@@ -54,7 +60,7 @@ public class RegisterController {
 		}
 
 		if (!password.equals(passwordRepeat)) {
-			validator.add(new ValidationMessage(Messages.USER_REPEAT_PASSWORD,
+			validator.add(new ValidationMessage(Messages.USER_REPEAT_PASSWORD_WRONG,
 					Messages.INVALID_ENTRY));
 		}
 
@@ -64,7 +70,7 @@ public class RegisterController {
 		}
 
 		if (!login.trim().isEmpty()) {
-			User userFromDB = userDAO.retrieve(login);
+			User userFromDB = userDAO.retrieveByLogin(login);
 			if (userFromDB != null) {
 				validator.add(new ValidationMessage(
 						Messages.USER_ALREADY_EXIST, Messages.INVALID_ENTRY));
@@ -77,9 +83,11 @@ public class RegisterController {
 		// TODO CRIAR USUARIO E Redirecionar.
 		User user = new User(login);
 		user.setPassword(CriptoUtils.digestMD5(login, password));
+		user.setEmail(email);
+		user.setName(name);
 		userDAO.add(user);
 		
-		result.redirectTo(this).welcome();		
+		result.redirectTo(this).welcome();
 
 	}
 }

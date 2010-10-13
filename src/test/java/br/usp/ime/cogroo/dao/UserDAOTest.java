@@ -57,7 +57,7 @@ public class UserDAOTest {
 		userDAO.delete(wesley);
 		em.getTransaction().commit();
 		Assert.assertFalse(userDAO.exist("Wesley"));
-		Assert.assertNull(userDAO.retrieve("Wesley"));
+		Assert.assertNull(userDAO.retrieveByLogin("Wesley"));
 	}
 	
 	@Test

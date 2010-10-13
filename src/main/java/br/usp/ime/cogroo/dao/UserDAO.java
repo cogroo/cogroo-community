@@ -43,17 +43,27 @@ public class UserDAO {
 
 	@SuppressWarnings("unchecked")
 	public List<User> listAll() {
-		return em.createQuery("from "+USER_ENTITY).getResultList();
+		return em.createQuery("from " + USER_ENTITY).getResultList();
 	}
 
 	public boolean exist(String toBeFound) {
-		return (retrieve(toBeFound) != null); 
+		return (retrieveByLogin(toBeFound) != null);
 	}
 
-	public User retrieve(String toBeFound) {
+	public User retrieveByLogin(String toBeFound) {
+		return retrieve(toBeFound, "login");
+	}
+
+	public User retrieveByEmail(String toBeFound) {
+		return retrieve(toBeFound, "email");
+	}
+
+	private User retrieve(String value, String field) {
 		User user = null;
 		try {
-			user = (User) em.createQuery("from "+USER_ENTITY+" w where w.name=?").setParameter(1, toBeFound).getSingleResult();
+			user = (User) em.createQuery(
+					"from " + USER_ENTITY + " w where w." + field + "=?")
+					.setParameter(1, value).getSingleResult();
 		} catch (NoResultException e) {
 			user = null;
 		} catch (RuntimeException e) {
@@ -62,4 +72,5 @@ public class UserDAO {
 		}
 		return user;
 	}
+
 }

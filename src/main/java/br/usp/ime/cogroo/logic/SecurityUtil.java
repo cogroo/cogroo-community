@@ -292,7 +292,7 @@ public class SecurityUtil {
 		PublicKey pkey = encodedStringToPublicKey(pubKey);
 		byte[] key = genSecretKey();
 		LOG.info("Saving keys for user: " + user);
-		this.keyCache.put(user.getName(), new KeyTime(key));
+		this.keyCache.put(user.getLogin(), new KeyTime(key));
 		byte[] enckey = encryptSecretKey(pkey, key);
 		String encKeyStr = encodeURLSafe(enckey);
 		return encKeyStr;
@@ -331,8 +331,8 @@ public class SecurityUtil {
 			// save the hash of the random string, return it encrypted with the user
 			LOG.debug("Generated token " + randomStr);
 			LOG.debug("Generated token hash " + encrypt(randomStr));
-			if(keyCache.containsKey(user.getName())) {
-				byte[] secretKey = keyCache.get(user.getName()).secretKey;
+			if(keyCache.containsKey(user.getLogin())) {
+				byte[] secretKey = keyCache.get(user.getLogin()).secretKey;
 				try {
 					encryptedToken = encodeURLSafe(encrypt(secretKey, randomStr));
 					LOG.debug("Generated encryptedToken " + encryptedToken);

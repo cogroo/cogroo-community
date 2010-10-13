@@ -52,7 +52,7 @@ public class LoginController {
 					.login();
 		}
 
-		User userFromDB = userDAO.retrieve(login);
+		User userFromDB = userDAO.retrieveByLogin(login);
 		if (userFromDB == null) {
 			LOG.info("User unknown[" + login
 					+ "]. Redirecting to register page.");

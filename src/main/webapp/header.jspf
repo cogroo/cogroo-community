@@ -65,7 +65,7 @@
 <!--				<p><a href="<c:url value="/login"/>">Efetuar login</a></p>-->
 <!--			</c:if>-->
 <!--			<c:if test="${loggedUser.logged}">-->
-<!--				<p>Bem-vindo, <span>${loggedUser.user.name}</span>, ao CoGrOO Comunidade.<a href="<c:url value="/logout"/>">(logout)</logout></a></p>-->
+<!--				<p>Bem-vindo, <span>${loggedUser.user.login}</span>, ao CoGrOO Comunidade.<a href="<c:url value="/logout"/>">(logout)</logout></a></p>-->
 <!--			</c:if>-->
 <!--		</div>-->
 
@@ -86,10 +86,10 @@
 	            </form>
 	        </div>
 			<div style="display: none;" id="pwrecup">
-	            <form action="./identification_sp.php?prj=fr" method="post">
+	            <form action="<c:url value='/sendNewPass'/>" method="post">
 	                <p>
 	                    Esqueceu a senha?
-	                    <label>Login&nbsp;: <input type="text" style="width: 125px; font-size: 12px;" maxlength="20" name="login" class="inputtxt"></label> 
+	                    <label>Email&nbsp;: <input type="text" name="email" style="width: 125px; font-size: 12px;" maxlength="20" class="inputtxt"></label> 
 	                    <input type="hidden" value="pwrecup" name="cmd">
 	                    <input type="submit" style="font-size: 11px;" value="Enviar nova senha por e-mail" class="button">
 	                    <a onclick="off('pwrecup'); on('logform'); return false" href="#">&#171;</a>
@@ -101,7 +101,7 @@
 	        </div>
     	</c:if>
 			<c:if test="${loggedUser.logged}">
-				<p>Bem-vindo, <span>${loggedUser.user.name}</span>, ao CoGrOO Comunidade.<a href="<c:url value="/logout"/>">(logout)</logout></a></p>
+				<p>Bem-vindo, <span>${loggedUser.user.login}</span>, ao CoGrOO Comunidade.<a href="<c:url value="/logout"/>">(logout)</logout></a></p>
 			</c:if>
     </div>
 	<div id="logoCogroo"><div id="logoBROffice"></div></div>

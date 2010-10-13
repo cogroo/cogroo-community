@@ -106,7 +106,7 @@ public class WordDAOTest {
 	public void bdShouldContainWordMouseWithUserRobson() {
 		WordUser actual = wordDAO.retrieve("Ratazana", robson);
 		Assert.assertTrue(actual.getWord().getWord().equals("Ratazana"));
-		Assert.assertTrue(actual.getUser().getName().equals("Robson"));
+		Assert.assertTrue(actual.getUser().getLogin().equals("Robson"));
 	}
 	
 	@Test
@@ -114,11 +114,11 @@ public class WordDAOTest {
 		
 		WordUser doWesley = wordDAO.retrieve("Ratao", wesley);
 		Assert.assertTrue(doWesley.getWord().getWord().equals("Ratao"));
-		Assert.assertTrue(doWesley.getUser().getName().equals("Wesley"));
+		Assert.assertTrue(doWesley.getUser().getLogin().equals("Wesley"));
 		
 		WordUser doRobson = wordDAO.retrieve("Ratao", robson);
 		Assert.assertTrue(doRobson.getWord().getWord().equals("Ratao"));
-		Assert.assertTrue(doRobson.getUser().getName().equals("Robson"));
+		Assert.assertTrue(doRobson.getUser().getLogin().equals("Robson"));
 	}
 	
 	@Test

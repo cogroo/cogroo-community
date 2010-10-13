@@ -18,7 +18,7 @@ public class User {
 	private Long id;
 
 	@Column
-	private String name;
+	private String login;
 
 	/**
 	 * password cripto
@@ -29,27 +29,26 @@ public class User {
 	@Column(length = 80)
 	private String email;
 
+	@Column(length = 80)
+	private String name;
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	private List<WordUser> wordUserList = new ArrayList<WordUser>();
 
 	public User() {
 	}
 
-	public User(String name) {
-		this.name = name;
+	public User(String login) {
+		this.login = login;
 	}
 
-	public User(String aName, long id) {
-		this.name = aName;
+	public User(String login, long id) {
+		this.login = login;
 		this.id = id;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getName() {
-		return this.name;
+	public void setLogin(String login) {
+		this.login = login;
 	}
 
 	public Long getId() {
@@ -70,7 +69,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "[name: " + getName() + "; id: " + getId() + "]";
+		return "[Login: " + getLogin() + "; id: " + getId() + "]";
 	}
 
 	public void setPassword(String password) {
@@ -87,6 +86,18 @@ public class User {
 
 	public String getEmail() {
 		return email;
+	}
+
+	public String getLogin() {
+		return login;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getName() {
+		return name;
 	}
 
 }

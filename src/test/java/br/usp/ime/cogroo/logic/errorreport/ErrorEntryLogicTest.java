@@ -70,7 +70,7 @@ public class ErrorEntryLogicTest {
 	@Test
 	public void testAddErrorEntry() throws CommunityException, IOException {
 		em.getTransaction().begin();
-		List<ErrorEntry> list = mErrorEntryLogic.addErrorEntry(william.getName(), ResourcesUtil.getResourceAsString(getClass(), "/br/usp/ime/cogroo/logic/ErrorReport1.xml"));
+		List<ErrorEntry> list = mErrorEntryLogic.addErrorEntry(william.getLogin(), ResourcesUtil.getResourceAsString(getClass(), "/br/usp/ime/cogroo/logic/ErrorReport1.xml"));
 		em.getTransaction().commit();
 		assertTrue(list.size() > 0);
 		assertNotNull(list.get(0).getId());
@@ -84,7 +84,7 @@ public class ErrorEntryLogicTest {
 		
 		
 		em.getTransaction().begin();
-		List<ErrorEntry> list = mErrorEntryLogic.addErrorEntry(william.getName(), ResourcesUtil.getResourceAsString(getClass(), "/br/usp/ime/cogroo/logic/ErrorReport1.xml"));
+		List<ErrorEntry> list = mErrorEntryLogic.addErrorEntry(william.getLogin(), ResourcesUtil.getResourceAsString(getClass(), "/br/usp/ime/cogroo/logic/ErrorReport1.xml"));
 		em.getTransaction().commit();
 
 		Long errorID = list.get(0).getId();

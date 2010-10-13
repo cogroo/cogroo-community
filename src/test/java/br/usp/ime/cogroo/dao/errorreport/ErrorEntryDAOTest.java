@@ -81,7 +81,7 @@ public class ErrorEntryDAOTest {
 	public void testCanGetError() {
 		List<ErrorEntry> reports =  errorReportDAO.listAll();
 		for (ErrorEntry errorReport : reports) {
-			System.out.println(errorReport.getSubmitter().getName());
+			System.out.println(errorReport.getSubmitter().getLogin());
 		}
 		
 		assertEquals(2, reports.size());

@@ -41,7 +41,7 @@ public class SecurityController {
 	public void saveClientSecurityKey(String user, String pubKey) {
 		try {
 			if(this.userDAO.exist(user)) {
-				String key = this.securityUtil.genSecretKeyForUser(this.userDAO.retrieve(user), this.securityUtil.decodeURLSafe(pubKey));
+				String key = this.securityUtil.genSecretKeyForUser(this.userDAO.retrieveByLogin(user), this.securityUtil.decodeURLSafe(pubKey));
 				result.include("encryptedSecretKey", RestUtil.prepareResponse("encryptedSecretKey", key));
 			} else {
 				LOG.error("Unknown user trying to save security key");
@@ -60,7 +60,7 @@ public class SecurityController {
 		try {
 			if(this.userDAO.exist(username)) {
 				LOG.debug("Will generate token for " + username);
-				String token = this.securityUtil.generateAuthenticationTokenForUser(this.userDAO.retrieve(username), securityUtil.decodeURLSafe(encryptedPassword));
+				String token = this.securityUtil.generateAuthenticationTokenForUser(this.userDAO.retrieveByLogin(username), securityUtil.decodeURLSafe(encryptedPassword));
 				result.include("token", RestUtil.prepareResponse("token",token));
 			} else {
 				LOG.error("Unknown user trying to authenticate.");

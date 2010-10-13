@@ -20,7 +20,7 @@
             </p>
             <p>
             	<label class="defaultlbl" style="width: 150px" for="pw">Senha</label>
-            	<input type="password"  value="${ password }" id="pw" name="password" class="inputtxt" style="width: 300px;" maxlength="20" /> 
+            	<input type="password"  id="pw" name="password" class="inputtxt" style="width: 300px;" maxlength="20" /> 
             	<span>*</span>
             </p>
             <p>
