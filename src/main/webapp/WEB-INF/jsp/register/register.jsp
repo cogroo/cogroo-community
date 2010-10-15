@@ -4,7 +4,7 @@
 
 	<h1>Cadastro no CoGrOO Comunidade</h1>
 	
-	<p>O cadastro é necessário para evitar abusos como Span. Seus dados nunca serão divulgados.</p>
+	<p>O cadastro é necessário para evitar abusos como spam. Seus dados nunca serão divulgados.</p>
 	
 	<form action="<c:url value='/register'/>" method="post">
         <div >

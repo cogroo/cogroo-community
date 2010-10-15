@@ -53,6 +53,8 @@ public class RegisterController {
 			String email, String name, boolean iAgree) {
 
 		// TODO Fazer e refatorar as Validações.
+		// XXX Embora name não possa ser vazio, não há um asterisco de
+		//     campo obrigatório no jsp.
 		if (password.trim().isEmpty() || email.trim().isEmpty()
 				|| name.trim().isEmpty()) {
 			validator.add(new ValidationMessage(Messages.USER_CANNOT_BE_EMPTY,
