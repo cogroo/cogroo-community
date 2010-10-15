@@ -33,3 +33,10 @@
   text-decoration: underline;
   color: #9d6f4f;
 }
+
+#stats {
+  width: 181px;
+  float: right;
+  color: #ffffff;
+  font-size: 12px;
+}

@@ -4,7 +4,16 @@
 
 <div id="footer">
 
-	<div id="logoCCSL"></div>
+	<div id="logoCCSL">
+	<div id="stats">
+	<p>Membros cadastrados: ${stats.totalMembers}</p>
+	<!--<p>Membros online: ${stats.onlineMembers}</p>
+	--><p>Erros reportados: ${reportedErrors}</p>
+	<p><a href="<c:url value="/stats"/>">Mais estatísticas...</a></p>
+	</div>
+	</div>
+	
+	
 
 </div>
 

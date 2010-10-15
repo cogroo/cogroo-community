@@ -45,6 +45,10 @@ public class UserDAO {
 	public List<User> listAll() {
 		return em.createQuery("from " + USER_ENTITY).getResultList();
 	}
+	
+	public long count() {
+		return (Long) em.createQuery("SELECT count(*) from " + USER_ENTITY).getSingleResult();
+	}
 
 	public boolean exist(String toBeFound) {
 		return (retrieveByLogin(toBeFound) != null);

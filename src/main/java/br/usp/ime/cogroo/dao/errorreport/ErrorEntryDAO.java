@@ -44,4 +44,8 @@ public class ErrorEntryDAO {
 	public List<ErrorEntry> listAll() {
 		return em.createQuery("from "+ERROR_ENTITY).getResultList();
 	}
+	
+	public long count() {
+		return (Long) em.createQuery("SELECT count(*) from " + ERROR_ENTITY).getSingleResult();
+	}
 }
