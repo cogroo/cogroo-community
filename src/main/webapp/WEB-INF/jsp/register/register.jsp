@@ -6,7 +6,7 @@
 	
 	<p>O cadastro é necessário para evitar abusos como Span. Seus dados nunca serão divulgados.</p>
 	
-	<form action="/register" method="post">
+	<form action="<c:url value='/register'/>" method="post">
         <div >
             <p>
             	<label for="login" style="width: 150px;" class="defaultlbl">Login</label>
