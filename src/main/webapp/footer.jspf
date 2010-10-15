@@ -6,9 +6,9 @@
 
 	<div id="logoCCSL">
 	<div id="stats">
-	<p>Membros cadastrados: ${stats.totalMembers}</p>
-	<!--<p>Membros online: ${stats.onlineMembers}</p>
-	--><p>Erros reportados: ${reportedErrors}</p>
+	<p>Membros cadastrados: ${totalMembers}</p>
+	<p>Membros online: ${onlineMembers}</p>
+	<p>Erros reportados: ${reportedErrors}</p>
 	<p><a href="<c:url value="/stats"/>">Mais estatísticas...</a></p>
 	</div>
 	</div>

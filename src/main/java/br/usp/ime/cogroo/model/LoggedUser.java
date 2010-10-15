@@ -10,7 +10,12 @@ public class LoggedUser {
 	private User user = null;
 
 	public boolean isLogged(){
-		return (this.user != null);
+		if (this.user != null) {
+			user.setLastLogin(System.currentTimeMillis());
+			// TODO gravar no banco. Como?
+			return true;
+		}
+		return false;
 	}
 
 	public void setUser(User user) {

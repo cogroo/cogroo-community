@@ -49,6 +49,14 @@ public class UserDAO {
 	public long count() {
 		return (Long) em.createQuery("SELECT count(*) from " + USER_ENTITY).getSingleResult();
 	}
+	
+	public long countLoginLater(long lastLogin) {
+		return (Long) em
+				.createQuery(
+						"SELECT count(*) from " + USER_ENTITY
+								+ " where lastLogin > ?")
+				.setParameter(1, lastLogin).getSingleResult();
+	}
 
 	public boolean exist(String toBeFound) {
 		return (retrieveByLogin(toBeFound) != null);

@@ -19,6 +19,9 @@ public class User {
 
 	@Column
 	private String login;
+	
+	@Column
+	private Long lastLogin;
 
 	/**
 	 * password cripto
@@ -45,6 +48,14 @@ public class User {
 	public User(String login, long id) {
 		this.login = login;
 		this.id = id;
+	}
+
+	public Long getLastLogin() {
+		return lastLogin;
+	}
+
+	public void setLastLogin(Long lastLogin) {
+		this.lastLogin = lastLogin;
 	}
 
 	public void setLogin(String login) {

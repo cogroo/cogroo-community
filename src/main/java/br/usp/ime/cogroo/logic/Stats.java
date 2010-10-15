@@ -3,6 +3,8 @@ package br.usp.ime.cogroo.logic;
 import br.com.caelum.vraptor.ioc.Component;
 import br.usp.ime.cogroo.dao.UserDAO;
 import br.usp.ime.cogroo.dao.errorreport.ErrorEntryDAO;
+import br.usp.ime.cogroo.model.LoggedUser;
+import br.usp.ime.cogroo.model.User;
 
 /**
  * 
@@ -10,6 +12,17 @@ import br.usp.ime.cogroo.dao.errorreport.ErrorEntryDAO;
  */
 @Component
 public class Stats {
+
+	//TODO Usar o do Apache:
+	/*	<!-- Define the default session timeout for your application,
+	    in minutes.  From a servlet or JSP page, you can modify
+	    the timeout for a particular session dynamically by using
+	    HttpSession.getMaxInactiveInterval(). -->
+	
+	<session-config>
+	 <session-timeout>30</session-timeout>    <!-- 30 minutes -->
+	</session-config>*/
+	private final long ONLINE_TIMEOUT = 1 * 30 * 1000;
 
 	private UserDAO userDAO;
 	private ErrorEntryDAO errorEntryDAO;
@@ -24,13 +37,13 @@ public class Stats {
 	}
 
 	public int getTotalMembers() {
-		// TODO Pode ser ineficiente. Melhor guardar localmente e só atualizar depois de X minutos.
-		// TODO Guardar no BD?
+		// TODO Pode ser ineficiente. Melhor guardar no BD (escalabilidade) e só atualizar depois de X minutos.
 		return (int) userDAO.count();
 	}
 
 	public int getOnlineMembers() {
-		return onlineMembers;
+		long timeout = System.currentTimeMillis() - ONLINE_TIMEOUT;
+		return (int) userDAO.countLoginLater(timeout);
 	}
 
 	public int getReportedErrors() {
