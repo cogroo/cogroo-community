@@ -147,7 +147,9 @@ public class ErrorEntryLogic {
 					CommunityExceptionMessages.INVALID_USER,
 					new Object[] { username });
 		}
-
+		if(LOG.isDebugEnabled()) {
+			LOG.debug("Got user:" + cogrooUser);
+		}
 		ErrorReport er = cogrooFacade.getErrorReportAccess().getErrorReport(
 				new StringReader(error));
 		GrammarCheckerVersion version = versionDAO.retrieve(er.getVersion());

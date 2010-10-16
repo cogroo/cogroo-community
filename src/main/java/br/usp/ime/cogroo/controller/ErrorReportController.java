@@ -54,24 +54,6 @@ public class ErrorReportController {
 		this.cogrooFacade = cogrooFacade;
 	}
 	
-	/**
-	 * Gets error report from Cogroo Add-On
-	 * @param userName an user name
-	 * @param text a sample text
-	 * @param comment comments about the issue
-	 * @param version the Cogroo Add-on version
-	 */
-	@Post
-	@Path("/cogrooErrorEntry")
-	public void addErrorEntry(String userName, String text, String comment, String version) {
-		LOG.debug("Got new error report from: " + userName +
-				" text: " + text +
-				" comment: " + comment +
-				" version: " + version);
-		errorEntryLogic.addErrorEntry(userName, text, comment, version);
-		
-	}
-	
 	@Post
 	@Path("/submitErrorReport")
 	public void submitErrorEntry(String username, String token, String error) {
@@ -83,12 +65,12 @@ public class ErrorReportController {
 				" error: " + error );
 		try {
 			errorEntryLogic.addErrorEntry(username, error);
+			LOG.debug("Error handled, will send response");
+			result.include("result", RestUtil.prepareResponse("result","OK"));
 		} catch (CommunityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOG.error("Error handling error submition", e);
+			//result.include("result", RestUtil.prepareResponse("result","ERROR"));
 		}
-		
-		result.include("result", RestUtil.prepareResponse("result","OK"));
 	}
 	
 	@Post

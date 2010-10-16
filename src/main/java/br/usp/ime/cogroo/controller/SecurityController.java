@@ -54,6 +54,11 @@ public class SecurityController {
 
 	}
 	
+	/**
+	 * Method used by OOo plug-in
+	 * @param username
+	 * @param encryptedPassword
+	 */
 	@Post
 	@Path("/generateAuthenticationForUser")
 	public void generateAuthenticationForUser(String username, String encryptedPassword) {
