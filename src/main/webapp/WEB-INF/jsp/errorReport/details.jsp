@@ -61,7 +61,7 @@
 	<div class="report_disscussion">
 		<h2>Discussão</h2>
 		<c:forEach items="${errorEntry.errorEntryComments}" var="comment" varStatus="i">
-			<h4>Por ${comment.user.name} em <fmt:formatDate type="both" dateStyle="long" value="${comment.date}" /></h4>
+			<h4>Por ${comment.user.name} em <fmt:formatDate type="both" dateStyle="long" value="${comment.date}" /></h4> fdf
 			<div>${comment.errorEntryComment}</div>
 			<div class="report_answer">
 				<c:if test="${not empty comment.answers}">

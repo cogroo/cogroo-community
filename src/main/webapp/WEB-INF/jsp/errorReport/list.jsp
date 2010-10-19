@@ -87,7 +87,7 @@
 		<tbody>
 			<c:forEach items="${errorEntryList}" var="errorEntry">
 				<tr>
-					<td valign="middle"><img src="/images/details_open.png"></td>
+					<td valign="middle"><img src=<c:url value="/images/details_open.png"/>"></td>
 					<td><a href="<c:url value="/errorEntry?errorEntry.id=${errorEntry.id}"/>">${errorEntry.id}</a></td>
 					<c:choose>
 						<c:when test="${empty errorEntry.omission}">

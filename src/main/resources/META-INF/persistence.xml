@@ -6,25 +6,27 @@
 	<persistence-unit name="default">
 		 <provider>org.hibernate.ejb.HibernatePersistence</provider>		 
 <!--		 <mapping-file>br/usp/pcs/lta/cogroo/tools/checker/rules/model/Rules.hbm.xml</mapping-file> -->
-         <properties>  
+         <properties>
+         	 
+         	   
          	 <!-- MySQL configuration -->
+             <!--<property name="hibernate.connection.driver_class" value="org.gjt.mm.mysql.Driver" />    
              <property name="hibernate.connection.username" value="cogrooUser" />   
              <property name="hibernate.connection.password" value="passsystem" />    
-			 <property name="hibernate.connection.driver_class" value="org.gjt.mm.mysql.Driver" />    
-             <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/cogrooWeb" />
+			 <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/cogrooWeb" />
              <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLInnoDBDialect" />
              <property name="hibernate.hbm2ddl.auto" value="update" />           
-     		 <!-- end: MySQL configuration -->
+     		 --><!-- end: MySQL configuration -->
      		 
      		 
-         	 <!-- HSQL DB configuration --><!--
+         	 <!-- HSQL DB configuration -->
      		 <property name="hibernate.connection.driver_class" value="org.hsqldb.jdbcDriver" />   
              <property name="hibernate.connection.username" value="sa" />   
              <property name="hibernate.connection.password" value="" />   
              <property name="hibernate.connection.url" value="jdbc:hsqldb:hsql://localhost" />
              <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect" />
-             <property name="hibernate.hbm2ddl.auto" value="create" />
-             --><!-- end: HSQL DB configuration -->
+             <property name="hibernate.hbm2ddl.auto" value="update" />
+             <!-- end: HSQL DB configuration -->
              
              <property name="hibernate.show_sql" value="false" />
              <property name="hibernate.format_sql" value="true" />
