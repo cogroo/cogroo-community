@@ -15,10 +15,12 @@ import br.com.caelum.vraptor.Validator;
 import br.usp.ime.cogroo.CommunityException;
 import br.usp.ime.cogroo.Util.RestUtil;
 import br.usp.ime.cogroo.dao.CogrooFacade;
+import br.usp.ime.cogroo.dao.errorreport.CommentDAO;
 import br.usp.ime.cogroo.dao.errorreport.ErrorEntryDAO;
 import br.usp.ime.cogroo.logic.SecurityUtil;
 import br.usp.ime.cogroo.logic.errorreport.ErrorEntryLogic;
 import br.usp.ime.cogroo.model.LoggedUser;
+import br.usp.ime.cogroo.model.errorreport.Comment;
 import br.usp.ime.cogroo.model.errorreport.ErrorEntry;
 
 
@@ -35,7 +37,9 @@ public class ErrorReportController {
 	private ErrorEntryDAO errorEntryDAO;
 	private SecurityUtil securityUtil;
 
-	private CogrooFacade cogrooFacade; 
+	private CogrooFacade cogrooFacade;
+
+	private CommentDAO commentDAO; 
 	
 	public ErrorReportController(
 			LoggedUser loggedUser, 
@@ -43,6 +47,7 @@ public class ErrorReportController {
 			Result result,
 			Validator validator,
 			ErrorEntryDAO errorEntryDAO,
+			CommentDAO commentDAO,
 			SecurityUtil securityUtil,
 			CogrooFacade cogrooFacade) {
 		this.loggedUser = loggedUser;
@@ -52,6 +57,7 @@ public class ErrorReportController {
 		this.errorEntryDAO = errorEntryDAO;
 		this.securityUtil = securityUtil;
 		this.cogrooFacade = cogrooFacade;
+		this.commentDAO = commentDAO;
 	}
 	
 	@Post
@@ -65,11 +71,10 @@ public class ErrorReportController {
 				" error: " + error );
 		try {
 			errorEntryLogic.addErrorEntry(username, error);
-			LOG.debug("Error handled, will send response");
+			LOG.debug("Error handled, will set response");
 			result.include("result", RestUtil.prepareResponse("result","OK"));
 		} catch (CommunityException e) {
 			LOG.error("Error handling error submition", e);
-			//result.include("result", RestUtil.prepareResponse("result","ERROR"));
 		}
 	}
 	
@@ -107,6 +112,10 @@ public class ErrorReportController {
 	@Get
 	@Path("/errorEntry")
 	public void details(ErrorEntry errorEntry) {
+		if(errorEntry == null) {
+			result.redirectTo(getClass()).list();
+		}
+		
 		LOG.debug("Details for: " + errorEntry);
 		ErrorEntry errorEntryFromDB =errorEntryDAO.retrieve(new Long(errorEntry.getId())); 
 		
@@ -117,10 +126,18 @@ public class ErrorReportController {
 	
 	@Post
 	@Path("/errorEntryAddComment")
-	public void details(String errorEntryID, String newComment) {
-		LOG.debug("Details for: " + errorEntryID);
-		errorEntryLogic.addComment(errorEntryID, newComment);
-		result.include("errorEntry", errorEntryDAO.retrieve(new Long(errorEntryID)));
+	public void addComment(ErrorEntry errorEntry, String newComment) {
+		LOG.debug("errorEntry: " + errorEntry);
+		LOG.debug("newComment: " + newComment);
+		errorEntryLogic.addCommentToErrorEntry(errorEntry.getId(), loggedUser.getUser().getId(), newComment);
+		result.redirectTo(ErrorReportController.class).details(errorEntry);
+	}
+	
+	@Post
+	@Path("/errorEntryAddAnswerToComment")
+	public void addAnswerToComment(ErrorEntry errorEntry, Comment comment, String answer) {
+		errorEntryLogic.addAnswerToComment(comment.getId(), loggedUser.getUser().getId(), answer);
+		result.redirectTo(ErrorReportController.class).details(errorEntry);
 	}
 	
 }

@@ -13,86 +13,86 @@
 
 	<c:if test="${not empty processResultList}">
 		<table cellpadding="0" cellspacing="0" border="0" class="display" id="table_id">
-		<thead>
-			<tr>
-			  <th></th>
-			  <th>#</th>
-			  <th>Elementos</th>
-			  <th>Árvore</th>
-			  <th>Detalhes</th>
-			</tr>
-		</thead>
-		<tbody>
-			<c:forEach items="${processResultList}" var="processResult" varStatus="i">
+			<thead>
 				<tr>
-					<td valign="middle"><img src="./images/details_open.png"></td>
-					<td>${ i.count }</td>
-					<td>${processResult.textAnnotatedWithErrors}</td>
-					<td>
-							<form id="form_${ i.count }" action="/phpsyntaxtree/?" method="post" target="externalSite">
-								<input  type="hidden" name="antialias" value="on" />
-								<input  type="hidden" name="autosub" value="on" />
-								<input  type="hidden" name="autosub" value="on" />
-								<input  type="hidden" name="closedcount" value="5" />
-								<input  type="hidden" name="color" value="on" />
-								<input  type="hidden" name="data" value="${processResult.syntaxTree}" />
-								<input  type="hidden" name="font" value="era_sans" />
-								<input  type="hidden" name="fontsize" value="8" />
-								<input  type="hidden" name="opencount" value="5" />
-								<input  type="hidden" name="triangles" value="on" />
-								<a id="_${ i.count }" class="iframe" href="about:blank" title=Árvore">Exibir árvore</a>
-							</form>
-					</td>
-					<td>
-						<h3>Análise morfológica</h3>
-						<table cellpadding="0" cellspacing="0" border="0" class="display" id="table_morf">
-							<thead>
-								<tr>
-								  <th>#</th>
-								  <th>Elemento</th>
-								  <th>Primitiva</th>
-								  <th>Classificação</th>
-								</tr>
-							</thead>
-							<tbody>
-								<c:forEach items="${processResult.sentence.tokens}" var="token" varStatus="j">
-									<tr>
-										<td>${ j.count }</td>
-										<td>${token.lexeme}</td>
-										<td>${token.primitive}</td>
-										<td>${token.morphologicalTag}</td>
-								    </tr>
-								</c:forEach>
-							</tbody>
-						</table>
-						<c:if test="${not empty processResult.mistakes}">
-							<h3>Erros gramaticais</h3>
-							<table cellpadding="0" cellspacing="0" border="0" class="display" id="table_err">
+				  <th></th>
+				  <th>#</th>
+				  <th>Elementos</th>
+				  <th>Árvore</th>
+				  <th>Detalhes</th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach items="${processResultList}" var="processResult" varStatus="i">
+					<tr>
+						<td valign="middle"><img src="./images/details_open.png"></td>
+						<td>${ i.count }</td>
+						<td>${processResult.textAnnotatedWithErrors}</td>
+						<td>
+								<form id="form_${ i.count }" action="/phpsyntaxtree/?" method="post" target="externalSite">
+									<input  type="hidden" name="antialias" value="on" />
+									<input  type="hidden" name="autosub" value="on" />
+									<input  type="hidden" name="autosub" value="on" />
+									<input  type="hidden" name="closedcount" value="5" />
+									<input  type="hidden" name="color" value="on" />
+									<input  type="hidden" name="data" value="${processResult.syntaxTree}" />
+									<input  type="hidden" name="font" value="era_sans" />
+									<input  type="hidden" name="fontsize" value="8" />
+									<input  type="hidden" name="opencount" value="5" />
+									<input  type="hidden" name="triangles" value="on" />
+									<a id="_${ i.count }" class="iframe" href="about:blank" title=Árvore">Exibir árvore</a>
+								</form>
+						</td>
+						<td>
+							<h3>Análise morfológica</h3>
+							<table cellpadding="0" cellspacing="0" border="0" class="display" id="table_morf">
 								<thead>
 									<tr>
 									  <th>#</th>
-									  <th>Mensagem curta</th>
-									  <th>Substituir por</th>
+									  <th>Elemento</th>
+									  <th>Primitiva</th>
+									  <th>Classificação</th>
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach items="${processResult.mistakes}" var="mistake" varStatus="l">
+									<c:forEach items="${processResult.sentence.tokens}" var="token" varStatus="j">
 										<tr>
-											<td>${ l.count }</td>
-											<td>${mistake.shortMessage}</td>
-											<td>
-												<c:forEach items="${mistake.suggestions}" var="suggestion">
-													${suggestion} <br/>
-												</c:forEach>
-											</td>
+											<td>${ j.count }</td>
+											<td>${token.lexeme}</td>
+											<td>${token.primitive}</td>
+											<td>${token.morphologicalTag}</td>
 									    </tr>
 									</c:forEach>
 								</tbody>
 							</table>
-						</c:if>
-					</td>
-			    </tr>
-			</c:forEach>
-		</tbody>
-	</table>
+							<c:if test="${not empty processResult.mistakes}">
+								<h3>Erros gramaticais</h3>
+								<table cellpadding="0" cellspacing="0" border="0" class="display" id="table_err">
+									<thead>
+										<tr>
+										  <th>#</th>
+										  <th>Mensagem curta</th>
+										  <th>Substituir por</th>
+										</tr>
+									</thead>
+									<tbody>
+										<c:forEach items="${processResult.mistakes}" var="mistake" varStatus="l">
+											<tr>
+												<td>${ l.count }</td>
+												<td>${mistake.shortMessage}</td>
+												<td>
+													<c:forEach items="${mistake.suggestions}" var="suggestion">
+														${suggestion} <br/>
+													</c:forEach>
+												</td>
+										    </tr>
+										</c:forEach>
+									</tbody>
+								</table>
+							</c:if>
+						</td>
+				    </tr>
+				</c:forEach>
+			</tbody>
+		</table>
 	</c:if>

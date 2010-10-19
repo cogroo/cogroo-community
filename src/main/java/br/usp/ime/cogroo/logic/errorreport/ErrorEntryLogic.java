@@ -108,19 +108,6 @@ public class ErrorEntryLogic {
 		return errorEntryDAO.listAll();
 	}
 
-	public ErrorEntry addComment(String errorEntryID, String newComment) {
-		// ErrorEntry report = errorEntryDAO.retrieve(new Long(errorEntryID));
-		// Comment c = new Comment(user, new Date(), newComment, report);
-		// commentDAO.add(c);
-		// if(report.getComments() == null) {
-		// report.setComments(new ArrayList<Comment>());
-		// }
-		// report.getComments().add(c);
-		// errorEntryDAO.update(report);
-		// return report;
-		return null;
-	}
-
 	public SortedSet<String> getErrorCategoriesForUser(String userName) {
 		 SortedSet<String> uniqueRules = new TreeSet<String>();
 		
@@ -258,7 +245,7 @@ public class ErrorEntryLogic {
 		User user = userDAO.retrieve(userID);
 		Comment c = new Comment(user, new Date(), comment, errorEntry, new ArrayList<Comment>());
 		commentDAO.add(c);
-		
+		errorEntry.getComments().add(c);
 		return c.getId();
 	}
 	
@@ -267,9 +254,9 @@ public class ErrorEntryLogic {
 		User user = userDAO.retrieve(userID);
 		
 		Comment answer = new Comment(user, new Date(), comment, c.getErrorEntry(), new ArrayList<Comment>());
-		commentDAO.add(c);	
 		
-		c.getAnswers().add(c);
+		commentDAO.add(answer);	
+		c.getAnswers().add(answer);
 		
 		commentDAO.update(c);
 	}

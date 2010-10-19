@@ -3,6 +3,23 @@
   padding-bottom: 20px;	
 }
 
+#content h2 {
+  font-size: 20px;
+  padding-bottom: 6px;	
+}
+
+#content h3 {
+  font-size: 18px;
+}
+
+#content h4 {
+  font-size: 16px;
+}
+
+#content h5 {
+  font-size: 15px;
+}
+
 #content {
   padding: 0 30px;
   float: left;
@@ -95,8 +112,30 @@ SPAN.grammarerror
 
 DIV.report_details
 {
+	border: 1px solid #D7D7D7;
 	padding: 10px 0 0 15px;
-	BACKGROUND-COLOR: #FAFAD2
+	BACKGROUND-COLOR: #FAFAD2;
+	margin-bottom:6px;
+}
+
+DIV.report_disscussion
+{
+	border: 1px solid #D7D7D7;
+	padding: 10px 0 0 15px;
+	BACKGROUND-COLOR: white;
+	margin-bottom:6px;
+}
+
+DIV.report_answer
+{
+	padding: 10px 0 0 15px;
+	margin-bottom:6px;
+	BACKGROUND-COLOR: AliceBlue;
+	width: 95%
+}
+
+h4, h5 {
+	border-bottom:1px dotted #C0C0C0;
 }
 
 DIV.analise_text

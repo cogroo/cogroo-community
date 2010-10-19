@@ -13,7 +13,7 @@
 			<tbody>
 			<tr>
 			    <th>Versão:</th><td>${errorEntry.version.version}</td>
-			    <th>Criado em:</th><td>${errorEntry.creation}</td>
+			    <th>Criado em:</th><td><fmt:formatDate type="both" dateStyle="long" value="${errorEntry.creation}" /></td>
 			</tr>
 			<tr>
 			    <th>Tipo:</th><c:choose>
@@ -24,7 +24,7 @@
 				    		<td>Omissão</td>
 				  		</c:otherwise>
 					</c:choose>
-			    <th>Modificada em:</th><td>${errorEntry.modified}</td>
+			    <th>Modificada em:</th><td><fmt:formatDate type="both" dateStyle="long" value="${errorEntry.modified}" /></td>
 			</tr>
 			<tr>
 				<c:choose>
@@ -45,20 +45,56 @@
 			  		</c:otherwise>
 				</c:choose>
 			</tr>
-			</tbody></table>
-	<hr>	
-	<div class="analise_text">
-		<p><b>${errorEntry.markedText}</b></p>
+			</tbody>
+		</table>
+		<hr>	
+		<div class="analise_text">
+			<p><b>${errorEntry.markedText}</b></p>
+		</div>
+		<hr>
+		
+		                              
+		<p><strong>Análise gramatical</strong></p>
+		
+		<jsp:include page="/analysisdetails.jspf" />
 	</div>
-	<hr>
-	
-	                              
-	<p><strong>Análise gramatical</strong></p>
-	
-	<jsp:include page="/analysisdetails.jspf" />
-	
-	
-	
-	dddd
-	
+	<div class="report_disscussion">
+		<h2>Discussão</h2>
+		<c:forEach items="${errorEntry.errorEntryComments}" var="comment" varStatus="i">
+			<h4>Por ${comment.user.name} em <fmt:formatDate type="both" dateStyle="long" value="${comment.date}" /></h4>
+			<div>${comment.errorEntryComment}</div>
+			<div class="report_answer">
+				<c:if test="${not empty comment.answers}">
+					<b>Respostas</b>
+					<c:forEach items="${comment.answers}" var="answer">
+						<h5>De ${answer.user.name} em <fmt:formatDate type="both" dateStyle="long" value="${answer.date}" /></h5>
+						<div>${answer.errorEntryComment}</div>
+					</c:forEach>
+				</c:if>
+
+				<c:if test="${loggedUser.logged}">
+					<div class="disscussion_actions">
+						<a href="#" onclick="onOff('reply_${ i.count }'); return false">responder</a>
+					</div>
+					<div style="display: none;" class="disscussion_reply_form" id="reply_${ i.count }">
+						<form method="post" action="<c:url value="/errorEntryAddAnswerToComment"/>">
+							<legend>Responder esta discussão:</legend><br/>
+						    <textarea name="answer" cols="80" rows="4"></textarea>
+						    <input name="errorEntry.id" value="${errorEntry.id}" type="hidden" />
+						    <input name="comment.id" value="${comment.id}" type="hidden" />
+						    <input type="submit" id="go" value="Responder">
+						</form>
+					</div>
+				</c:if>
+			</div>
+			<hr/>
+		</c:forEach>
+		<c:if test="${loggedUser.logged}">
+			<form method="post" action="<c:url value="/errorEntryAddComment"/>">
+				<legend>Novo comentário:</legend><br/>
+			    <textarea name="newComment" cols="80" rows="4"></textarea>
+			    <input name="errorEntry.id" value="${errorEntry.id}" type="hidden" />
+			    <input type="submit" id="go" value="Enviar">
+			</form>
+		</c:if>
 	</div>

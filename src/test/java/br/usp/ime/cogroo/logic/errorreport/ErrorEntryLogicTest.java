@@ -25,6 +25,7 @@ import br.usp.ime.cogroo.dao.errorreport.GrammarCheckerBadInterventionDAO;
 import br.usp.ime.cogroo.dao.errorreport.GrammarCheckerOmissionDAO;
 import br.usp.ime.cogroo.model.LoggedUser;
 import br.usp.ime.cogroo.model.User;
+import br.usp.ime.cogroo.model.errorreport.Comment;
 import br.usp.ime.cogroo.model.errorreport.ErrorEntry;
 
 public class ErrorEntryLogicTest {
@@ -101,10 +102,15 @@ public class ErrorEntryLogicTest {
 		
 		ErrorEntry error = dao.retrieve(new Long(errorID));
 		
-		assertEquals(wesley, error.getComments().get(1).getUser());
-		assertEquals(error.getComments().get(1).getComment(), "a comment");
+		List<Comment> comments = error.getComments();
 		
+		assertEquals(2, comments.size());
 		
+		assertEquals(william, comments.get(0).getUser()); // the submitter
+		assertEquals(wesley, error.getComments().get(1).getUser()); // wesley added the first comment
+		assertEquals("a comment", comments.get(1).getComment()); // the comment from wesley
+		
+		assertEquals(1, comments.get(1).getAnswers().size());
 	}
 		
 

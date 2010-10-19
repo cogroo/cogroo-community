@@ -109,7 +109,14 @@ public class Comment {
 
 	@Override
 	public String toString() {
-		return "user: " + getUser() + " date: " + getDate() + " comment: " + getErrorEntryComment();
+		StringBuilder sb = new StringBuilder("user: " + getUser() + " date: " + getDate() + " comment: " + getErrorEntryComment());
+		
+		if(getAnswers() != null && getAnswers().size() > 0 ) {
+			for (Comment answer : getAnswers()) {
+				sb.append("\n\tAnswer: " + answer);
+			}
+		}
+		return sb.toString();
 	}
 	
 }
