@@ -18,6 +18,7 @@ import br.usp.ime.cogroo.dao.CogrooFacade;
 import br.usp.ime.cogroo.dao.errorreport.CommentDAO;
 import br.usp.ime.cogroo.dao.errorreport.ErrorEntryDAO;
 import br.usp.ime.cogroo.logic.SecurityUtil;
+import br.usp.ime.cogroo.logic.Stats;
 import br.usp.ime.cogroo.logic.errorreport.ErrorEntryLogic;
 import br.usp.ime.cogroo.model.LoggedUser;
 import br.usp.ime.cogroo.model.errorreport.Comment;
@@ -41,6 +42,9 @@ public class ErrorReportController {
 
 	private CommentDAO commentDAO; 
 	
+	//TODO Dependência parece ser necessária. Aqui é o melhor lugar?
+	private Stats stats;
+	
 	public ErrorReportController(
 			LoggedUser loggedUser, 
 			ErrorEntryLogic errorEntryLogic,
@@ -49,7 +53,8 @@ public class ErrorReportController {
 			ErrorEntryDAO errorEntryDAO,
 			CommentDAO commentDAO,
 			SecurityUtil securityUtil,
-			CogrooFacade cogrooFacade) {
+			CogrooFacade cogrooFacade,
+			Stats stats) {
 		this.loggedUser = loggedUser;
 		this.errorEntryLogic = errorEntryLogic;
 		this.result = result;
@@ -58,6 +63,7 @@ public class ErrorReportController {
 		this.securityUtil = securityUtil;
 		this.cogrooFacade = cogrooFacade;
 		this.commentDAO = commentDAO;
+		this.stats = stats;
 	}
 	
 	@Post
@@ -103,6 +109,9 @@ public class ErrorReportController {
 	@Get
 	@Path("/errorEntries")
 	public void list() {
+		result.include("totalMembers", stats.getTotalMembers())
+				.include("onlineMembers", stats.getOnlineMembers())
+				.include("reportedErrors", stats.getReportedErrors());
 		List<ErrorEntry> reports = errorEntryLogic.getAllReports();
 		LOG.debug("Will list of size: "
 				+ reports.size());

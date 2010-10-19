@@ -13,6 +13,7 @@ import br.com.caelum.vraptor.view.Results;
 import br.usp.ime.cogroo.Messages;
 import br.usp.ime.cogroo.Util.CriptoUtils;
 import br.usp.ime.cogroo.dao.UserDAO;
+import br.usp.ime.cogroo.logic.Stats;
 import br.usp.ime.cogroo.model.User;
 
 @Resource
@@ -23,12 +24,16 @@ public class RegisterController {
 	private Validator validator;
 	private static final Logger LOG = Logger
 			.getLogger(RegisterController.class);
+	
+	//TODO Dependência parece ser necessária. Aqui é o melhor lugar?
+	private Stats stats;
 
 	public RegisterController(Result result, UserDAO userDAO,
-			Validator validator) {
+			Validator validator, Stats stats) {
 		this.result = result;
 		this.userDAO = userDAO;
 		this.validator = validator;
+		this.stats = stats;
 	}
 
 	@Get
@@ -39,6 +44,9 @@ public class RegisterController {
 	@Get
 	@Path("/welcome")
 	public void welcome() {
+		result.include("totalMembers", stats.getTotalMembers())
+				.include("onlineMembers", stats.getOnlineMembers())
+				.include("reportedErrors", stats.getReportedErrors());
 	}
 	
 	@Post

@@ -17,6 +17,7 @@ import br.com.caelum.vraptor.view.Results;
 import br.usp.ime.cogroo.Messages;
 import br.usp.ime.cogroo.logic.DictionaryManager;
 import br.usp.ime.cogroo.logic.EditPosTagLogic;
+import br.usp.ime.cogroo.logic.Stats;
 import br.usp.ime.cogroo.model.DictionaryEntry;
 import br.usp.ime.cogroo.model.LoggedUser;
 import br.usp.ime.cogroo.model.NicePrintDictionaryEntry;
@@ -35,15 +36,19 @@ public class DictionaryEntryController {
 	private LoggedUser loggedUser;
 	private static final Logger LOG = Logger
 			.getLogger(DictionaryEntryController.class);
+	
+	//TODO Dependência parece ser necessária. Aqui é o melhor lugar?
+	private Stats stats;
 
 	public DictionaryEntryController(DictionaryManager dictionaryManager,
 			Result result, Validator validator, LoggedUser loggedUser,
-			EditPosTagLogic editPosTagLogic) {
+			EditPosTagLogic editPosTagLogic, Stats stats) {
 		this.dictionaryManager = dictionaryManager;
 		this.editPosTagLogic = editPosTagLogic;
 		this.result = result;
 		this.validator = validator;
 		this.loggedUser = loggedUser;
+		this.stats = stats;
 	}
 
 	@Get
@@ -113,6 +118,9 @@ public class DictionaryEntryController {
 	@Get
 	@Path("/dictionaryEntrySearch")
 	public void search() {
+		result.include("totalMembers", stats.getTotalMembers())
+				.include("onlineMembers", stats.getOnlineMembers())
+				.include("reportedErrors", stats.getReportedErrors());
 	}
 
 	@Post

@@ -76,6 +76,9 @@ public class LoginController {
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("User exists.");
 		}
+		userFromDB.setLastLogin(System.currentTimeMillis());
+		userFromDB.setLogged(true);
+		userDAO.update(userFromDB);
 		loggedUser.setUser(userFromDB);
 
 		result.redirectTo(IndexController.class).index();
@@ -84,6 +87,9 @@ public class LoginController {
 	@Get
 	@Path("/logout")
 	public void logout() {
+		User user = loggedUser.getUser();
+		user.setLogged(false);
+		userDAO.update(user);
 		loggedUser.logout();
 		result.redirectTo(IndexController.class).index();
 	}

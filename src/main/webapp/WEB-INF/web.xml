@@ -72,6 +72,14 @@
         <servlet-name>jsp</servlet-name>
         <url-pattern>*.jspf</url-pattern>
     </servlet-mapping>
+    
+    <listener>
+		<listener-class>br.usp.ime.cogroo.SessionListener</listener-class>
+	</listener>
+    
+    <session-config>
+  		<session-timeout>1</session-timeout>
+  	</session-config>
 		
 	<jsp-config>
 		<jsp-property-group>
