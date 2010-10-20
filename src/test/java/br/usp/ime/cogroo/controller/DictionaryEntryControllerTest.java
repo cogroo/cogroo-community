@@ -51,7 +51,7 @@ public class DictionaryEntryControllerTest {
 		Validator validator = new MockValidator();
 		EditPosTagLogic logic2 = new EditPosTagLogic();
 		dictionaryEntryController = new DictionaryEntryController(logic,
-				result, validator, loggedUser, logic2);
+				result, validator, loggedUser, logic2, null);
 
 	}
 

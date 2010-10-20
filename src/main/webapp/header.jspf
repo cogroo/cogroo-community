@@ -128,7 +128,15 @@
 			</li>
 			<li><a href="#">Regras</a></li>
 			<li><a href="#">Sugestões</a></li>
-			<li><a href="<c:url value="/errorEntries"/>">Erros reportados</a></li>
+			<li><span>Problemas</span>
+				<ul>
+					<li><a href="<c:url value="/errorEntries"/>">Reportados</a></li>
+					<c:if test="${loggedUser.logged}">
+						<li><a href="<c:url value="/reportNewError"/>">Reportar novo</a></li>
+					</c:if>
+				</ul>
+			</li>
+			
 		</ul>
 	</div>
 	

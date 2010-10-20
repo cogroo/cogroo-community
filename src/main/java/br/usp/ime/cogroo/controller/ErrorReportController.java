@@ -21,6 +21,7 @@ import br.usp.ime.cogroo.logic.SecurityUtil;
 import br.usp.ime.cogroo.logic.Stats;
 import br.usp.ime.cogroo.logic.errorreport.ErrorEntryLogic;
 import br.usp.ime.cogroo.model.LoggedUser;
+import br.usp.ime.cogroo.model.ProcessResult;
 import br.usp.ime.cogroo.model.errorreport.Comment;
 import br.usp.ime.cogroo.model.errorreport.ErrorEntry;
 
@@ -64,6 +65,22 @@ public class ErrorReportController {
 		this.cogrooFacade = cogrooFacade;
 		this.commentDAO = commentDAO;
 		this.stats = stats;
+	}
+	
+	@Get
+	@Path("/reportNewError")
+	public void reportNewError() {
+	}
+	
+	@Post
+	@Path("/reportNewErrorAddText")
+	public void reportNewErrorAddText(String text) {
+		List<ProcessResult> pr = cogrooFacade.processText(text);
+		result.include("text", text).
+			include("annotatedText", cogrooFacade.getAnnotatedText(text, pr)).
+			include("singleGrammarErrorList", cogrooFacade.asSingleGrammarErrorList(text, pr)).
+			redirectTo(getClass()).reportNewError();
+		
 	}
 	
 	@Post

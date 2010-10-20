@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 
 import br.com.caelum.vraptor.ioc.Component;
 import br.usp.ime.cogroo.model.ProcessResult;
+import br.usp.ime.cogroo.model.SingleGrammarError;
 import br.usp.pcs.lta.cogroo.configuration.CachedConfigurationFactory;
 import br.usp.pcs.lta.cogroo.entity.Mistake;
 import br.usp.pcs.lta.cogroo.entity.Sentence;
@@ -131,6 +132,48 @@ public class CogrooFacade {
 		return processResults;
 	}
 	
+	public String getAnnotatedText(String text, List<ProcessResult> processResult) {
+		SortedMap<Span, Mistake> sortedMistakes = new TreeMap<Span, Mistake>();
+		
+		for (ProcessResult pr : processResult) {
+			for (Mistake mistake : pr.getMistakes()) {
+				Span mSpan = new Span(mistake.getStart(), mistake.getEnd());
+				sortedMistakes.put(mSpan, mistake);
+			}
+		}
+		StringBuilder sb = new StringBuilder(text);
+		Span[] spans = sortedMistakes.keySet().toArray(new Span[sortedMistakes.size()]);
+		for(int i = spans.length - 1; i >= 0; i--)  {
+			sb.insert(spans[i].getEnd(), "</span>");
+			sb.insert(spans[i].getStart(), "<span class=\"grammarerror\" title=\"" + sortedMistakes.get(spans[i]).getShortMessage() + "\">");
+		}
+		return sb.toString();
+	}
+	
+	public List<SingleGrammarError> asSingleGrammarErrorList(String text, List<ProcessResult> processResult) {
+		List<SingleGrammarError> singleGEList = new ArrayList<SingleGrammarError>();
+		
+		SortedMap<Span, Mistake> sortedMistakes = new TreeMap<Span, Mistake>();
+		
+		for (ProcessResult pr : processResult) {
+			for (Mistake mistake : pr.getMistakes()) {
+				Span mSpan = new Span(mistake.getStart(), mistake.getEnd());
+				sortedMistakes.put(mSpan, mistake);
+			}
+		}
+		
+		Span[] spans = sortedMistakes.keySet().toArray(new Span[sortedMistakes.size()]);
+		for(int i = 0; i < spans.length; i++)  {
+			StringBuilder sb = new StringBuilder(text);
+			sb.insert(spans[i].getEnd(), "</span>");
+			sb.insert(spans[i].getStart(), "<span class=\"grammarerror\" title=\"" + sortedMistakes.get(spans[i]).getShortMessage() + "\">");
+			
+			singleGEList.add(new SingleGrammarError(sb.toString(), sortedMistakes.get(spans[i])));
+		}
+		
+		return singleGEList;
+	}
+	
 	private String annotateText(Sentence sentence, List<Mistake> filteredMistakes) {
 		SortedMap<Span, Mistake> sortedMistakes = new TreeMap<Span, Mistake>();
 		
@@ -142,7 +185,7 @@ public class CogrooFacade {
 		Span[] spans = sortedMistakes.keySet().toArray(new Span[sortedMistakes.size()]);
 		for(int i = spans.length - 1; i >= 0; i--)  {
 			text.insert(spans[i].getEnd() - sentence.getOffset(), "</span>");
-			text.insert(spans[i].getStart() - sentence.getOffset(), "<span class=\"grammarerror\">");
+			text.insert(spans[i].getStart() - sentence.getOffset(), "<span class=\"grammarerror\" title=\"" + sortedMistakes.get(spans[i]).getShortMessage() + "\">");
 		}
 		return text.toString();
 	}
