@@ -47,7 +47,7 @@
 		<c:if test="${not empty singleGrammarErrorList}">
 			<c:forEach items="${singleGrammarErrorList}" var="singleGrammarError" varStatus="i">
 				
-				<h3>Intervensão ${ i.count }:</h3>
+				<h3>Intervenção ${ i.count }:</h3>
 					<div class="analise_text">
 						<p><b>${singleGrammarError.annotatedText}</b></p>
 					</div>
@@ -82,6 +82,7 @@
 			</c:forEach>
 		
 		</c:if>
-		
+		<br/>
+		<input type="submit" value="Enviar relatório" id="sendError"/>
 	</form>
 </c:if>
