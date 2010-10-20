@@ -66,7 +66,7 @@
 					</DL>
 					
 					<legend>Classifique esta intervenção:</legend>
-					<select name="badint">
+					<select name="badint[${ i.count }]">
 						<option value="ok">Intervenção correta.</option>
 						<option value="FALSE_ERROR">Falso erro, a frase está correta.</option>
 						<option value="INAPPROPRIATE_DESCRIPTION">Erro existe, mas sua descrição foi inapropriada.</option>
@@ -75,7 +75,7 @@
 	
 					<div id="comments_${ i.count }">
 						<legend>Comentários:</legend>
-						<textarea rows="4" cols="70" name="comments_${ i.count }"></textarea>
+						<textarea rows="4" cols="70" name="comments[${ i.count }]"></textarea>
 					</div>
 					
 					

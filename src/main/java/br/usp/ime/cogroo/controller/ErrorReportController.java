@@ -73,6 +73,17 @@ public class ErrorReportController {
 	}
 	
 	@Post
+	@Path("/reportNewError")
+	public void reportNewError(List<String> badint, List<String> comments) {
+		
+		for (int i = 0; i < comments.size(); i++) {
+			System.out.println("badint["+ i +"].......:  "+badint.get(i));
+			System.out.println("Commentarios["+ i +"].:  "+comments.get(i));
+		}
+		
+	}
+	
+	@Post
 	@Path("/reportNewErrorAddText")
 	public void reportNewErrorAddText(String text) {
 		List<ProcessResult> pr = cogrooFacade.processText(text);
