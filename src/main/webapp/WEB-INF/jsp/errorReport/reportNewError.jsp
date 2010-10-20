@@ -2,7 +2,49 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" %>  
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<script src="<c:url value='/js/jquery.caret-range-1.0.js' />" type="text/javascript" ></script>
 
+<script type="text/javascript" charset="utf-8">
+
+var omissionCount = 0;
+
+$(function() {
+	
+	$('#addNewOmission').click(function(e) {
+		
+		var input = $("#selector");
+		var range = input.caret();
+		
+		$('<div>	' +
+			'	<h3>Omissão 1:</h3>	' +
+			'	Texto selecionado:	' +
+			'	<div class="analise_text">	' +
+			'		<p><b>${singleGrammarError.annotatedText}</b></p>	' +
+			'	</div>	' +
+			'	<div id="comments_1">	' +
+			'		Comentários:<br/>	' +
+			'		<textarea rows="4" cols="70" name="comments[1]"></textarea>	' +
+			'	</div>	' +
+			'</div>').insertBefore('#addNewOmission');
+		);
+		
+		
+		var text = null;
+		
+		// Get selected text
+		text = input.val().substr(range.start, range.end - 1);
+		alert(omissionCount++);
+		// Insert text at caret then restore caret
+		var value = input.val();
+		text = " New Text ";
+		input.val(value.substr(0, range.start) + text + value.substr(range.end, value.length));
+		input.caret(range.start + text.length);
+		
+		// Select first ten characters of text
+		input.caret(0, 10);
+	});
+});
+</script>
 
 <p>
 	Bem-vindo ao formulário de avaliação do corretor gramatical CoGrOO. Obrigado por sua colaboração, que é importante para o aprimoramento da ferramenta.
@@ -65,7 +107,7 @@
 							<DD>${singleGrammarError.mistake.longMessage}</DD>
 					</DL>
 					
-					<legend>Classifique esta intervenção:</legend>
+					<legend>Classifique esta intervenção:</legend><br/>
 					<select name="badint[${ i.count }]">
 						<option value="ok">Intervenção correta.</option>
 						<option value="FALSE_ERROR">Falso erro, a frase está correta.</option>
@@ -74,14 +116,23 @@
 					</select>
 	
 					<div id="comments_${ i.count }">
-						<legend>Comentários:</legend>
-						<textarea rows="4" cols="70" name="comments[${ i.count }]"></textarea>
+						Comentários:
+						<br><textarea rows="4" cols="70" name="comments[${ i.count }]"></textarea>
 					</div>
 					
+
 					
 			</c:forEach>
 		
 		</c:if>
+		<h2>Omissões</h2>
+		<p>Aqui você pode indicar os erros gramaticais que foram ignorados pelo CoGrOO.</p>
+		<p>Para indicar uma nova omissão, selecione com o cursor o texto com erro e clique "Indicar nova omissão".</p>
+		
+		Selecione a omissão:<br/>
+		<textarea rows="4" cols="70" readonly="readonly" id="selector" >${text}</textarea>
+		<a class="a_button" id="addNewOmission" >Indicar nova omissão</a>
+		
 		<br/>
 		<input type="submit" value="Enviar relatório" id="sendError"/>
 	</form>

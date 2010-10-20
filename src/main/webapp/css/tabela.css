@@ -65,7 +65,7 @@ azul fraco2: #add6ef
 	padding-right: 0.3ex;
 }
 
-.relatorio button, input[type="submit"] {
+.relatorio button, input[type="submit"], .a_button {
 	border:1px solid #fff;
 	border-bottom:1px solid #b17676!important;
 	color:#fff;
