@@ -2,10 +2,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>br.usp.ime.cogroo</groupId>
-	<artifactId>communidade</artifactId>
+	<artifactId>comunidade</artifactId>
 	<packaging>war</packaging>
 	<version>1.0.0-SNAPSHOT</version>
-	<name>communidade</name>
+	<name>comunidade</name>
 	<dependencies>
 		<dependency>
 			<groupId>br.usp.pcs.lta.cogroo</groupId>
