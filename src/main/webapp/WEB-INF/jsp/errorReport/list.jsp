@@ -53,13 +53,13 @@
 				if ( this.src.match('details_close') )
 				{
 					/* This row is already open - close it */
-					this.src = "<c:url value="./images/details_open.png"/>">";
+					this.src = "./images/details_open.png";
 					oTable.fnClose( nTr );
 				}
 				else
 				{
 					/* Open this row */
-					this.src = "<c:url value="./images/details_close.png"/>";
+					this.src = "./images/details_close.png";
 					oTable.fnOpen( nTr, fnFormatDetails(nTr), 'details' );
 				}
 			} );
