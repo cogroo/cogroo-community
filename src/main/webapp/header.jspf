@@ -45,7 +45,7 @@
   _gaq.push(['_setAccount', 'UA-18985930-1']);
   
   // Comentar a linha seguinte para funcionar no CCSL ou localhost.
-  _gaq.push(['_setCookiePath', '/cogrooWeb/']);
+  _gaq.push(['_setCookiePath', '/comunidade/']);
   
   // Descomentar a linha seguinte para funcionar no CCSL.
   //_gaq.push(['_setCookiePath', '/cogroo/comunidade/']);
