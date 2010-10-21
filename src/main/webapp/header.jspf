@@ -23,8 +23,8 @@
 	$(document).ready(function() {
 		$.nav({
 			evento: 'mouseenter',
-			anima: true,
-			slide: true
+			anima: false,
+			slide: false
 		});
 		
 	});
