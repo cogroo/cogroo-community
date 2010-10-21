@@ -17,14 +17,15 @@ public class EmailSender {
 		sb.append(body);
 
 		Email email = new SimpleEmail();
-		email.setHostName("smtp.gmail.com");
+//		email.setHostName("smtp.gmail.com");
+		email.setHostName("localhost");
 
-		email.setDebug(true);
-		email.setSSL(true);
+//		email.setDebug(true);
+//		email.setSSL(true);
 
-		email.addTo("_DESTINATARIO_@foo.bar.com");
-		email.setAuthentication("_USER_", "_PASSWORD_");
-		email.setFrom("_USER_@gmail.com");
+		email.addTo("wesley.seidel@gmail.com");
+//		email.setAuthentication("_USER_", "_PASSWORD_");
+		email.setFrom("cogroo@gmail.com");
 		email.setSubject(subject);
 		email.setMsg(sb.toString());
 

@@ -1,5 +1,6 @@
 package br.usp.ime.cogroo.controller;
 
+import org.apache.commons.mail.EmailException;
 import org.apache.log4j.Logger;
 
 import br.com.caelum.vraptor.Get;
@@ -12,6 +13,7 @@ import br.com.caelum.vraptor.validator.ValidationMessage;
 import br.com.caelum.vraptor.view.Results;
 import br.usp.ime.cogroo.Messages;
 import br.usp.ime.cogroo.Util.CriptoUtils;
+import br.usp.ime.cogroo.Util.EmailSender;
 import br.usp.ime.cogroo.dao.UserDAO;
 import br.usp.ime.cogroo.logic.Stats;
 import br.usp.ime.cogroo.model.User;
@@ -99,5 +101,12 @@ public class RegisterController {
 		
 		result.redirectTo(this).welcome();
 
+	}
+	
+	@Get
+	@Path("/sendEmail")
+	public void send() throws EmailException {
+		EmailSender.sendEmail("Algum texto", "Foi !!");
+		result.redirectTo(IndexController.class).index("Email enviado !");		
 	}
 }
