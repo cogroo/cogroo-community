@@ -9,10 +9,19 @@
 $(document).ready(function() {
     
   var count=0;
+  
+  // Webkit bug: can't use select if textarea is readonly
+  	if ($.browser.webkit) {
+  		$("#selector").removeAttr( "readonly" )
+	 }
+  
   $('#addNewOmission').click(function() {
 	count++;
-    var input = $("#selector");
+	
+	var input = $("#selector");
+    
     var range = input.caret();
+    
     
     if(range.end > 0 && range.start != range.end) {
     	var text = input.text();

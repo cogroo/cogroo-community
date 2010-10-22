@@ -38,10 +38,10 @@ public class IndexController {
 
 	@Post
 	@Path("/")
-	public void index(String texto) {
-		if (texto != null && texto.length() > 0) {
-			result.include("processResultList", cogroo.processText(texto))
-					.include("texto", texto);
+	public void index(String text) {
+		if (text != null && text.length() > 0) {
+			result.include("processResultList", cogroo.processText(text))
+					.include("text", text);
 		}
 	}
 
