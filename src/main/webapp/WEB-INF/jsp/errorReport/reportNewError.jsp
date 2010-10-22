@@ -6,43 +6,41 @@
 
 <script type="text/javascript" charset="utf-8">
 
-var omissionCount = 0;
+$(document).ready(function() {
+    
+  var count=0;
+  $('#addNewOmission').click(function() {
+	count++;
+    var input = $("#selector");
+    var range = input.caret();
+    
+    alert('start: ' + range.start + ' end: ' + range.end);
+    
+    var selection = input.val().substr(range.start, range.end - 2);
+    var before = input.val().substr(0, range.start);
+    var after = input.val().substr(range.end);
+    
+    alert('before: [' + before + '] selection: [' + selection + '] after: [' + after + ']');
 
-$(function() {
-	
-	$('#addNewOmission').click(function(e) {
-		
-		var input = $("#selector");
-		var range = input.caret();
-		
-		$('<div>	' +
-			'	<h3>Omissão 1:</h3>	' +
-			'	Texto selecionado:	' +
-			'	<div class="analise_text">	' +
-			'		<p><b>${singleGrammarError.annotatedText}</b></p>	' +
-			'	</div>	' +
-			'	<div id="comments_1">	' +
-			'		Comentários:<br/>	' +
-			'		<textarea rows="4" cols="70" name="comments[1]"></textarea>	' +
-			'	</div>	' +
-			'</div>').insertBefore('#addNewOmission');
-		);
-		
-		
-		var text = null;
-		
-		// Get selected text
-		text = input.val().substr(range.start, range.end - 1);
-		alert(omissionCount++);
-		// Insert text at caret then restore caret
-		var value = input.val();
-		text = " New Text ";
-		input.val(value.substr(0, range.start) + text + value.substr(range.end, value.length));
-		input.caret(range.start + text.length);
-		
-		// Select first ten characters of text
-		input.caret(0, 10);
-	});
+    var html = $('#toCopy').children('div').clone();
+    // Formatando novo input
+    $(html).children('div').html( before + '<span class="omission">' + selection + '</span>' + after);
+    $(html).children('h3').text( 'Omissão ' + count + ':');
+    $(html).children('select').attr('name','omissionClassification[' + count +']');
+    $(html).children('imput.customOmissionText').attr('name','customOmissionText[' + count +']');
+    $(html).children('textarea.omissionComment').attr('name','omissionComment[' + count +']');
+    // $(html).children('p.selecao').text( '#' + count+ ':"'+ text +'"');
+    // $(html).children('textarea').text(count).attr('name','omissao[' + count +']');
+    // $(html).children('button').text('rem #'+count).click(function() { $(this).parent().remove(); });    
+    
+    //inserindo na div #container
+     $('#omissionList').append(html);
+  });
+  
+$('#b').click(function() {     
+  alert(getSelection());
+});
+
 });
 </script>
 
@@ -119,19 +117,41 @@ $(function() {
 						Comentários:
 						<br><textarea rows="4" cols="70" name="comments[${ i.count }]"></textarea>
 					</div>
-					
-
-					
 			</c:forEach>
 		
 		</c:if>
 		<h2>Omissões</h2>
 		<p>Aqui você pode indicar os erros gramaticais que foram ignorados pelo CoGrOO.</p>
+		
+		<div id="omissionList">
+		</div>
+		<fieldset>
+		<legend>Nova omissão:</legend>
 		<p>Para indicar uma nova omissão, selecione com o cursor o texto com erro e clique "Indicar nova omissão".</p>
 		
 		Selecione a omissão:<br/>
-		<textarea rows="4" cols="70" readonly="readonly" id="selector" >${text}</textarea>
-		<a class="a_button" id="addNewOmission" >Indicar nova omissão</a>
+		<textarea rows="2" cols="70" readonly="readonly" id="selector" >${text}</textarea><br/>
+		<a class="a_button" id="addNewOmission">Indicar nova omissão</a>
+		</fieldset>
+		<div id="toCopy" style="display:none;">
+		 	<div>
+				<h3 id="omissionHeader">Omissão X:</h3>
+				<div class="analise_text" id="omission">
+					
+				</div>
+				Classifique esta omissão:<br/>
+				<select name="dummyName">
+					<option value="custom">Personalizada</option>
+					<c:forEach items="${omissionCategoriesList}" var="omissionCategories">
+						<option value="${omissionCategories}">${omissionCategories}</option>
+					</c:forEach>
+				</select><br/>
+				Classificação personalizada:<br/>
+		      	<input width="300" id="customOmissionText"></input><br/>
+		      	Comentários:<br/>
+		      	<textarea rows="1" cols="70" id="omissionComment"></textarea>
+		    </div>
+		</div>
 		
 		<br/>
 		<input type="submit" value="Enviar relatório" id="sendError"/>

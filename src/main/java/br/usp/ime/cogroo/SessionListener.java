@@ -17,7 +17,7 @@ public class SessionListener implements HttpSessionListener {
 
 	@Override
 	public void sessionCreated(HttpSessionEvent se) {
-		System.out.println("incrementando...");
+		System.out.println("incrementandooooooooooo...");
 
 		Integer contador = (Integer) se.getSession().getServletContext()
 				.getAttribute(CONTADOR_SESSAO);

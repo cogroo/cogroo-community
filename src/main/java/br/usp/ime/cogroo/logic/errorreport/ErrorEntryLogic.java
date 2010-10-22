@@ -109,6 +109,11 @@ public class ErrorEntryLogic {
 	}
 
 	public SortedSet<String> getErrorCategoriesForUser(String userName) {
+		 // TODO implement for user
+		 return getErrorCategoriesForUser();
+	}
+	
+	public SortedSet<String> getErrorCategoriesForUser() {
 		 SortedSet<String> uniqueRules = new TreeSet<String>();
 		
 		 List<Rule> rules = new
