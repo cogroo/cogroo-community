@@ -2,7 +2,6 @@ package br.usp.ime.cogroo.dao;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 

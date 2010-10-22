@@ -127,7 +127,7 @@
 					</c:if>
 				</ul>
 			</li>
-			<li><a href="#">Regras</a></li>
+			<li><a href="<c:url value="/ruleList"/>">Regras</a></li>
 			<li><a href="#">Sugestões</a></li>
 			<li><span>Problemas</span>
 				<ul>
