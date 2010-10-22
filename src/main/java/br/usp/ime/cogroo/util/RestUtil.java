@@ -1,4 +1,4 @@
-package br.usp.ime.cogroo.Util;
+package br.usp.ime.cogroo.util;
 
 import java.util.HashMap;
 import java.util.Map;

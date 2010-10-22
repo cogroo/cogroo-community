@@ -11,6 +11,8 @@ import java.util.Map;
 
 import org.junit.Test;
 
+import br.usp.ime.cogroo.util.RestUtil;
+
 public class RestUtilTest {
 
 	@Test

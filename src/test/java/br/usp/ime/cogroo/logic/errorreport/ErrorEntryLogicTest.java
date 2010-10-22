@@ -14,7 +14,6 @@ import org.junit.Test;
 
 import utils.HSQLDBEntityManagerFactory;
 import utils.ResourcesUtil;
-import br.usp.ime.cogroo.CommunityException;
 import br.usp.ime.cogroo.dao.CogrooFacade;
 import br.usp.ime.cogroo.dao.DummyBaseDictionary;
 import br.usp.ime.cogroo.dao.GrammarCheckerVersionDAO;
@@ -23,6 +22,7 @@ import br.usp.ime.cogroo.dao.errorreport.CommentDAO;
 import br.usp.ime.cogroo.dao.errorreport.ErrorEntryDAO;
 import br.usp.ime.cogroo.dao.errorreport.GrammarCheckerBadInterventionDAO;
 import br.usp.ime.cogroo.dao.errorreport.GrammarCheckerOmissionDAO;
+import br.usp.ime.cogroo.exceptions.CommunityException;
 import br.usp.ime.cogroo.model.LoggedUser;
 import br.usp.ime.cogroo.model.User;
 import br.usp.ime.cogroo.model.errorreport.Comment;

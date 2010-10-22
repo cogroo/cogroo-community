@@ -17,11 +17,11 @@ import br.com.caelum.vraptor.util.test.MockResult;
 import br.com.caelum.vraptor.util.test.MockValidator;
 import br.com.caelum.vraptor.validator.Message;
 import br.com.caelum.vraptor.validator.ValidationException;
-import br.usp.ime.cogroo.Messages;
-import br.usp.ime.cogroo.Util.CriptoUtils;
 import br.usp.ime.cogroo.dao.UserDAO;
+import br.usp.ime.cogroo.exceptions.Messages;
 import br.usp.ime.cogroo.model.LoggedUser;
 import br.usp.ime.cogroo.model.User;
+import br.usp.ime.cogroo.util.CriptoUtils;
 
 public class LoginControllerTest {
 	

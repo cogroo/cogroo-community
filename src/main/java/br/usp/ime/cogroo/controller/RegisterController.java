@@ -11,12 +11,12 @@ import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.Validator;
 import br.com.caelum.vraptor.validator.ValidationMessage;
 import br.com.caelum.vraptor.view.Results;
-import br.usp.ime.cogroo.Messages;
-import br.usp.ime.cogroo.Util.CriptoUtils;
-import br.usp.ime.cogroo.Util.EmailSender;
 import br.usp.ime.cogroo.dao.UserDAO;
+import br.usp.ime.cogroo.exceptions.Messages;
 import br.usp.ime.cogroo.logic.Stats;
 import br.usp.ime.cogroo.model.User;
+import br.usp.ime.cogroo.util.CriptoUtils;
+import br.usp.ime.cogroo.util.EmailSender;
 
 @Resource
 public class RegisterController {

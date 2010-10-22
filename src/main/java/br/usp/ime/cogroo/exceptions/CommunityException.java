@@ -1,21 +1,16 @@
-package br.usp.ime.cogroo;
+package br.usp.ime.cogroo.exceptions;
 
-import br.usp.pcs.lta.cogroo.InternationalizedRuntimeException;
+import br.usp.pcs.lta.cogroo.InternationalizedException;
 
-public class CommunityRuntimeException extends
-		InternationalizedRuntimeException {
+public class CommunityException extends InternationalizedException {
 
-	private static final long serialVersionUID = -5570233821130242839L;
-	/**
-	 * The name of the {@link java.util.ResourceBundle ResourceBundle}
-	 * containing the standard Cogroo Exception messages.
-	 */
+	private static final long serialVersionUID = 3580195184638793206L;
 	public static final String STANDARD_MESSAGE_CATALOG = "CommunityException_Messages";
 
 	/**
 	 * Creates a new exception with a null message.
 	 */
-	public CommunityRuntimeException() {
+	public CommunityException() {
 		super();
 	}
 
@@ -26,7 +21,7 @@ public class CommunityRuntimeException extends
 	 *            the original exception that caused this exception to be
 	 *            thrown, if any
 	 */
-	public CommunityRuntimeException(Throwable aCause) {
+	public CommunityException(Throwable aCause) {
 		super(aCause);
 	}
 
@@ -44,8 +39,8 @@ public class CommunityRuntimeException extends
 	 *            The arguments to the message. <code>null</code> may be used if
 	 *            the message has no arguments.
 	 */
-	public CommunityRuntimeException(String aResourceBundleName,
-			String aMessageKey, Object[] aArguments) {
+	public CommunityException(String aResourceBundleName, String aMessageKey,
+			Object[] aArguments) {
 		super(aResourceBundleName, aMessageKey, aArguments);
 	}
 
@@ -66,8 +61,8 @@ public class CommunityRuntimeException extends
 	 *            the original exception that caused this exception to be
 	 *            thrown, if any
 	 */
-	public CommunityRuntimeException(String aResourceBundleName,
-			String aMessageKey, Object[] aArguments, Throwable aCause) {
+	public CommunityException(String aResourceBundleName, String aMessageKey,
+			Object[] aArguments, Throwable aCause) {
 		super(aResourceBundleName, aMessageKey, aArguments, aCause);
 	}
 
@@ -83,7 +78,7 @@ public class CommunityRuntimeException extends
 	 *            The arguments to the message. <code>null</code> may be used if
 	 *            the message has no arguments.
 	 */
-	public CommunityRuntimeException(String aMessageKey, Object[] aArguments) {
+	public CommunityException(String aMessageKey, Object[] aArguments) {
 		super(STANDARD_MESSAGE_CATALOG, aMessageKey, aArguments);
 	}
 
@@ -102,7 +97,7 @@ public class CommunityRuntimeException extends
 	 *            the original exception that caused this exception to be
 	 *            thrown, if any
 	 */
-	public CommunityRuntimeException(String aMessageKey, Object[] aArguments,
+	public CommunityException(String aMessageKey, Object[] aArguments,
 			Throwable aCause) {
 		super(STANDARD_MESSAGE_CATALOG, aMessageKey, aArguments, aCause);
 	}

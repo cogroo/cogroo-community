@@ -1,4 +1,4 @@
-package br.usp.ime.cogroo;
+package br.usp.ime.cogroo.exceptions;
 
 public class Messages {
 	public final static String USER_CANNOT_BE_EMPTY = "USER_CANNOT_BE_EMPTY";

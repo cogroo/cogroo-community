@@ -1,4 +1,4 @@
-package br.usp.ime.cogroo;
+package br.usp.ime.cogroo.interceptors;
 
 // TODO estou no package correto?
 

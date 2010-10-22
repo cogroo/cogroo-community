@@ -66,7 +66,7 @@ public class RestUtil {
 				response.append('\r');
 			}
 			rd.close();
-			return br.usp.ime.cogroo.Util.RestUtil.extractResponse(response.toString());
+			return br.usp.ime.cogroo.util.RestUtil.extractResponse(response.toString());
 
 		} catch (Exception e) {
 			LOG.error("Communication error.", e);

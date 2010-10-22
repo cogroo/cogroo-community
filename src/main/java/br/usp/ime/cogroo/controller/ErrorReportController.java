@@ -12,11 +12,10 @@ import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.Validator;
-import br.usp.ime.cogroo.CommunityException;
-import br.usp.ime.cogroo.Util.RestUtil;
 import br.usp.ime.cogroo.dao.CogrooFacade;
 import br.usp.ime.cogroo.dao.errorreport.CommentDAO;
 import br.usp.ime.cogroo.dao.errorreport.ErrorEntryDAO;
+import br.usp.ime.cogroo.exceptions.CommunityException;
 import br.usp.ime.cogroo.logic.SecurityUtil;
 import br.usp.ime.cogroo.logic.Stats;
 import br.usp.ime.cogroo.logic.errorreport.ErrorEntryLogic;
@@ -24,6 +23,7 @@ import br.usp.ime.cogroo.model.LoggedUser;
 import br.usp.ime.cogroo.model.ProcessResult;
 import br.usp.ime.cogroo.model.errorreport.Comment;
 import br.usp.ime.cogroo.model.errorreport.ErrorEntry;
+import br.usp.ime.cogroo.util.RestUtil;
 
 
 @Resource

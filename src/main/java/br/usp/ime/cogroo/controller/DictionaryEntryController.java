@@ -14,7 +14,7 @@ import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.Validator;
 import br.com.caelum.vraptor.validator.ValidationMessage;
 import br.com.caelum.vraptor.view.Results;
-import br.usp.ime.cogroo.Messages;
+import br.usp.ime.cogroo.exceptions.Messages;
 import br.usp.ime.cogroo.logic.DictionaryManager;
 import br.usp.ime.cogroo.logic.EditPosTagLogic;
 import br.usp.ime.cogroo.logic.Stats;

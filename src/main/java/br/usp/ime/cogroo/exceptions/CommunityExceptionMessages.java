@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package br.usp.ime.cogroo;
+package br.usp.ime.cogroo.exceptions;
 
 /**
  *

@@ -10,8 +10,6 @@ import java.util.TreeSet;
 import org.apache.log4j.Logger;
 
 import br.com.caelum.vraptor.ioc.Component;
-import br.usp.ime.cogroo.CommunityException;
-import br.usp.ime.cogroo.CommunityExceptionMessages;
 import br.usp.ime.cogroo.dao.CogrooFacade;
 import br.usp.ime.cogroo.dao.GrammarCheckerVersionDAO;
 import br.usp.ime.cogroo.dao.UserDAO;
@@ -19,6 +17,8 @@ import br.usp.ime.cogroo.dao.errorreport.CommentDAO;
 import br.usp.ime.cogroo.dao.errorreport.ErrorEntryDAO;
 import br.usp.ime.cogroo.dao.errorreport.GrammarCheckerBadInterventionDAO;
 import br.usp.ime.cogroo.dao.errorreport.GrammarCheckerOmissionDAO;
+import br.usp.ime.cogroo.exceptions.CommunityException;
+import br.usp.ime.cogroo.exceptions.CommunityExceptionMessages;
 import br.usp.ime.cogroo.model.GrammarCheckerVersion;
 import br.usp.ime.cogroo.model.LoggedUser;
 import br.usp.ime.cogroo.model.User;

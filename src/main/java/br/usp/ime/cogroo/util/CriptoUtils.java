@@ -4,7 +4,7 @@
  * Author: Daniel Malaquias de Freitas
  * Alterações efetuadas por: Wesley Seidel   
  */
-package br.usp.ime.cogroo.Util;
+package br.usp.ime.cogroo.util;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

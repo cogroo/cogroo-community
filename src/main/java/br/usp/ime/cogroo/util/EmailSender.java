@@ -1,4 +1,4 @@
-package br.usp.ime.cogroo.Util;
+package br.usp.ime.cogroo.util;
 
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;

@@ -1,4 +1,4 @@
-package br.usp.ime.cogroo.logic;
+package br.usp.ime.cogroo.interceptors;
 
 import br.com.caelum.vraptor.InterceptionException;
 import br.com.caelum.vraptor.Intercepts;
