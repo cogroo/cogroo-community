@@ -245,6 +245,103 @@ public class ErrorEntryLogic {
 		return list;
 	}
 	
+	public void addErrorEntry(
+			User cogrooUser,
+			String text,
+			List<String> badint,
+			List<String> badintComments,
+			List<String> badintStart,
+			List<String> badintEnd, 
+			List<String> badintRule, 
+			List<String> omissionClassification,
+			List<String> customOmissionText,
+			List<String> omissionComment,
+			List<String> omissionReplaceBy,
+			List<String> omissionStart,
+			List<String> omissionEnd) {
+		
+		GrammarCheckerVersion version = versionDAO.retrieve("site");
+		
+		Date time = new Date();
+		
+		// we split the report in several new entries...
+		
+		if(omissionClassification != null) {
+			for (int i = 0; i < omissionClassification.size(); i++) {
+					ErrorEntry errorEntry = new ErrorEntry(
+							text,  
+							Integer.parseInt(omissionStart.get(i)), 
+							Integer.parseInt(omissionEnd.get(i)), 
+							new ArrayList<Comment>(),
+							version, 
+							cogrooUser, 
+							time, 
+							time,
+							null,
+							null);
+					
+					if(omissionComment.get(i) != null && omissionComment.get(i).length() > 0) {
+						List<Comment> comments = new ArrayList<Comment>();
+						Comment c = new Comment(cogrooUser, time, omissionComment.get(i), errorEntry, null);
+						commentDAO.add(c);
+						comments.add(c);
+						errorEntry.setComments(comments);
+					}
+					
+					GrammarCheckerOmission gcOmission = new GrammarCheckerOmission(
+							omissionClassification.get(i), 
+							customOmissionText.get(i),
+							omissionReplaceBy.get(i), 
+							errorEntry);
+					omissionDAO.add(gcOmission);
+					errorEntry.setOmissions(gcOmission);
+					
+					errorEntryDAO.add(errorEntry);
+				}
+		}
+		
+		if(badint != null) {
+			for (int i = 0; i < badint.size(); i++) {
+				if( !badint.get(i).equals("ok") ) {
+					ErrorEntry errorEntry = new ErrorEntry(
+							text, 
+							Integer.parseInt(badintStart.get(i)), 
+							Integer.parseInt(badintEnd.get(i)), 
+							null,
+							version, 
+							cogrooUser, 
+							time, 
+							time,
+							null,
+							null);
+					
+					if(badintComments.get(i) != null && badintComments.get(i).length() > 0) {
+						List<Comment> comments = new ArrayList<Comment>();
+						Comment c = new Comment(cogrooUser, time, badintComments.get(i), errorEntry, null);
+						commentDAO.add(c);
+						comments.add(c);
+						errorEntry.setComments(comments);
+					}
+					
+					BadInterventionClassification classification = BadInterventionClassification.fromValue(badint.get(i));
+					
+					GrammarCheckerBadIntervention gcBadIntervention = new GrammarCheckerBadIntervention(
+							classification, 
+							Integer.parseInt(badintRule.get(i)),
+							errorEntry);
+					
+					badInterventionDAO.add(gcBadIntervention);
+					errorEntry.setBadIntervention(gcBadIntervention);
+					
+					errorEntryDAO.add(errorEntry);
+				
+				}
+			}
+		}
+
+		
+	}
+	
 	public Long addCommentToErrorEntry(Long errorEntryID, Long userID, String comment) {
 		ErrorEntry errorEntry = errorEntryDAO.retrieve(errorEntryID);
 		User user = userDAO.retrieve(userID);
@@ -265,5 +362,7 @@ public class ErrorEntryLogic {
 		
 		commentDAO.update(c);
 	}
+
+
 
 }

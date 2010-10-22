@@ -74,13 +74,50 @@ public class ErrorReportController {
 	
 	@Post
 	@Path("/reportNewError")
-	public void reportNewError(List<String> badint, List<String> comments) {
+	public void reportNewError(
+			String text,
+			List<String> badint, 
+			List<String> comments,
+			List<String> badintStart,
+			List<String> badintEnd, 
+			List<String> badintRule, 
+			List<String> omissionClassification,
+			List<String> customOmissionText,
+			List<String> omissionComment,
+			List<String> omissionReplaceBy,
+			List<String> omissionStart,
+			List<String> omissionEnd) {
 		
-		for (int i = 0; i < comments.size(); i++) {
-			System.out.println("badint["+ i +"].......:  "+badint.get(i));
-			System.out.println("Commentarios["+ i +"].:  "+comments.get(i));
+		System.out.println("text.......:  "+text);
+		
+		// badint 
+		if(badint != null) {
+			for (int i = 0; i < badint.size(); i++) {
+				System.out.println("badint["+ i +"].......:  "+badint.get(i));
+				System.out.println("Commentarios["+ i +"].:  "+comments.get(i));
+				System.out.println("badintStart["+ i +"].:  "+badintStart.get(i));
+				System.out.println("badintEnd["+ i +"].:  "+badintEnd.get(i));
+				System.out.println("badintRule["+ i +"].:  "+badintRule.get(i));
+				
+			}
 		}
 		
+		if(omissionClassification != null) {
+			for (int i = 0; i < omissionClassification.size(); i++) {
+				System.out.println("omissionClassification["+ i +"].......:  "+omissionClassification.get(i));
+				System.out.println("customOmissionText["+ i +"].:  "+customOmissionText.get(i));
+				System.out.println("omissionComment["+ i +"].:  "+omissionComment.get(i));
+				System.out.println("omissionReplaceBy["+ i +"].:  "+omissionReplaceBy.get(i));
+				System.out.println("omissionStart["+ i +"].:  "+omissionStart.get(i));
+				System.out.println("omissionEnd["+ i +"].:  "+omissionEnd.get(i));
+			}
+		}
+		
+		errorEntryLogic.addErrorEntry(loggedUser.getUser(), "", badint, comments, badintStart, badintEnd, badintRule, omissionClassification,
+				customOmissionText,
+				omissionComment, omissionReplaceBy, omissionStart, omissionEnd);
+		
+		result.redirectTo(getClass()).list();
 	}
 	
 	@Post

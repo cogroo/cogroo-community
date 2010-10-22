@@ -14,27 +14,37 @@ $(document).ready(function() {
     var input = $("#selector");
     var range = input.caret();
     
-    alert('start: ' + range.start + ' end: ' + range.end);
+    if(range.end > 0 && range.start != range.end) {
+    	var text = input.text();
+        
+        var selection = text.substr(range.start, range.end - range.start);
+        var before = text.substr(0, range.start);
+        var after = text.substr(range.end);
+        
+        input.caret(0, 0);
+        
+        var html = $('#toCopy').children('div').clone();
+        // Formatando novo input
+        $(html).children('div').html( before + '<span class="omission">' + selection + '</span>' + after);
+        $(html).children('h3').text( 'Omissão ' + count + ':');
+        $(html).children('select').attr('name','omissionClassification[' + count +']');
+        $(html).children('#customOmissionText').attr('name','customOmissionText[' + count +']');
+        $(html).children('#omissionStart').attr('name','imput.omissionStart[' + count +']');
+        $(html).children('#omissionEnd').attr('name','imput.omissionEnd[' + count +']');
+        $(html).children('#omissionStart').text(range.start);
+        $(html).children('#omissionEnd').text(range.end);
+        $(html).children('#omissionComment').attr('name','omissionComment[' + count +']');
+        $(html).children('#omissionReplaceBy').attr('name','omissionReplaceBy[' + count +']');
+        
+        // $(html).children('p.selecao').text( '#' + count+ ':"'+ text +'"');
+        // $(html).children('textarea').text(count).attr('name','omissao[' + count +']');
+        // $(html).children('button').text('rem #'+count).click(function() { $(this).parent().remove(); });    
+        
+        //inserindo na div #container
+         $('#omissionList').append(html);
+    } 
     
-    var selection = input.val().substr(range.start, range.end - 2);
-    var before = input.val().substr(0, range.start);
-    var after = input.val().substr(range.end);
     
-    alert('before: [' + before + '] selection: [' + selection + '] after: [' + after + ']');
-
-    var html = $('#toCopy').children('div').clone();
-    // Formatando novo input
-    $(html).children('div').html( before + '<span class="omission">' + selection + '</span>' + after);
-    $(html).children('h3').text( 'Omissão ' + count + ':');
-    $(html).children('select').attr('name','omissionClassification[' + count +']');
-    $(html).children('imput.customOmissionText').attr('name','customOmissionText[' + count +']');
-    $(html).children('textarea.omissionComment').attr('name','omissionComment[' + count +']');
-    // $(html).children('p.selecao').text( '#' + count+ ':"'+ text +'"');
-    // $(html).children('textarea').text(count).attr('name','omissao[' + count +']');
-    // $(html).children('button').text('rem #'+count).click(function() { $(this).parent().remove(); });    
-    
-    //inserindo na div #container
-     $('#omissionList').append(html);
   });
   
 $('#b').click(function() {     
@@ -67,6 +77,8 @@ $('#b').click(function() {
 	</div>
 	
 	<form id="report"  action="<c:url value="/reportNewError"/>" method="post" >
+	
+		<input type="hidden" id="userText" name="text" value="${text}"/>
 	
 		<h2>Intervenções indevidas</h2>
 		
@@ -108,15 +120,18 @@ $('#b').click(function() {
 					<legend>Classifique esta intervenção:</legend><br/>
 					<select name="badint[${ i.count }]">
 						<option value="ok">Intervenção correta.</option>
-						<option value="FALSE_ERROR">Falso erro, a frase está correta.</option>
-						<option value="INAPPROPRIATE_DESCRIPTION">Erro existe, mas sua descrição foi inapropriada.</option>
-						<option value="INAPPROPRIATE_SUGGESTION">Erro existe, mas a sugestão é inapropriada.</option>
+						<option value="falseError">Falso erro, a frase está correta.</option>
+						<option value="inappropriateDescription">Erro existe, mas sua descrição foi inapropriada.</option>
+						<option value="inappropriateSuggestion">Erro existe, mas a sugestão é inapropriada.</option>
 					</select>
 	
 					<div id="comments_${ i.count }">
 						Comentários:
 						<br><textarea rows="4" cols="70" name="comments[${ i.count }]"></textarea>
 					</div>
+					<input type="hidden" id="badintStart" name="badintStart[${ i.count }]" value="${singleGrammarError.mistake.start}" />
+					<input type="hidden" id="badintEnd" name="badintEnd[${ i.count }]" value="${singleGrammarError.mistake.end}" />
+					<input type="hidden" id="badintRule" name="badintRule[${ i.count }]" value="${singleGrammarError.mistake.ruleIdentifier}" />
 			</c:forEach>
 		
 		</c:if>
@@ -147,9 +162,13 @@ $('#b').click(function() {
 					</c:forEach>
 				</select><br/>
 				Classificação personalizada:<br/>
-		      	<input width="300" id="customOmissionText"></input><br/>
+		      	<input width="300" id="customOmissionText" name="dummyOmissionText"></input><br/>
+				Substituir por:<br/>
+		      	<input width="300" id="omissionReplaceBy" name="dummyOmissionReplaceBy"></input><br/>
 		      	Comentários:<br/>
-		      	<textarea rows="1" cols="70" id="omissionComment"></textarea>
+		      	<textarea rows="1" cols="70" id="omissionComment" name="dummyOmissionComment"></textarea>
+		      	<input type="hidden" id="omissionStart" name="dummyOmissionStart"></input>
+		      	<input type="hidden" id="omissionEnd" name="dummyOmissionStart"></input>
 		    </div>
 		</div>
 		
