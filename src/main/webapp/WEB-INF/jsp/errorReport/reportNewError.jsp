@@ -66,7 +66,7 @@ $('#b').click(function() {
 <br/>
 
 <c:if test="${empty text}">
-	<legend>Digite um texto com problema:</legend>
+	<legend>Digite um texto para verificar o comportamento do CoGrOO:</legend>
 	<form id="formSendErrorText"  action="<c:url value="/reportNewErrorAddText"/>" method="post" >
 	    <textarea rows="4" cols="70" name="text">${text}</textarea>
 	    <input type="submit" value="Enviar" id="sendErrorText"/>

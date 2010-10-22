@@ -34,6 +34,8 @@
 				"sInfoEmpty": "Exibindo de 0 até 0 de um total de 0 entradas",
 				"sInfoFiltered": "(filtados de um total de _MAX_ entradas)"
 			},
+			"aaSorting": [[ 4, "desc" ]],
+			"iDisplayLength": 20,
 			"aoColumns": [
 				{ "bSortable": false },
 				null, 
