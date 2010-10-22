@@ -288,15 +288,28 @@ public class ErrorEntryLogic {
 						errorEntry.setComments(comments);
 					}
 					
+					String classification = null;
+					String customClass = null;
+					
+					if(omissionClassification.get(i).equals("custom")) {
+						classification = null;
+						customClass = customOmissionText.get(i);
+					} else {
+						classification = omissionClassification.get(i);
+						customClass = null;
+					}
+					
 					GrammarCheckerOmission gcOmission = new GrammarCheckerOmission(
-							omissionClassification.get(i), 
-							customOmissionText.get(i),
+							classification, 
+							customClass,
 							omissionReplaceBy.get(i), 
 							errorEntry);
 					omissionDAO.add(gcOmission);
 					errorEntry.setOmissions(gcOmission);
 					
 					errorEntryDAO.add(errorEntry);
+
+					LOG.debug("Added errorEntry:" + errorEntry);
 				}
 		}
 		
@@ -334,7 +347,7 @@ public class ErrorEntryLogic {
 					errorEntry.setBadIntervention(gcBadIntervention);
 					
 					errorEntryDAO.add(errorEntry);
-				
+					LOG.debug("Added errorEntry:" + errorEntry);
 				}
 			}
 		}

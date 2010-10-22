@@ -21,7 +21,7 @@ $(document).ready(function() {
         var before = text.substr(0, range.start);
         var after = text.substr(range.end);
         
-        input.caret(0, 0);
+        
         
         var html = $('#toCopy').children('div').clone();
         // Formatando novo input
@@ -29,10 +29,10 @@ $(document).ready(function() {
         $(html).children('h3').text( 'Omissão ' + count + ':');
         $(html).children('select').attr('name','omissionClassification[' + count +']');
         $(html).children('#customOmissionText').attr('name','customOmissionText[' + count +']');
-        $(html).children('#omissionStart').attr('name','imput.omissionStart[' + count +']');
-        $(html).children('#omissionEnd').attr('name','imput.omissionEnd[' + count +']');
-        $(html).children('#omissionStart').text(range.start);
-        $(html).children('#omissionEnd').text(range.end);
+        $(html).children('#omissionStart').attr('name','omissionStart[' + count +']');
+        $(html).children('#omissionEnd').attr('name','omissionEnd[' + count +']');
+        $(html).children('#omissionStart').attr('value',range.start);
+        $(html).children('#omissionEnd').attr('value',range.end);
         $(html).children('#omissionComment').attr('name','omissionComment[' + count +']');
         $(html).children('#omissionReplaceBy').attr('name','omissionReplaceBy[' + count +']');
         
@@ -41,7 +41,9 @@ $(document).ready(function() {
         // $(html).children('button').text('rem #'+count).click(function() { $(this).parent().remove(); });    
         
         //inserindo na div #container
+        
          $('#omissionList').append(html);
+         input.caret(0, 0);
     } 
     
     
@@ -167,8 +169,8 @@ $('#b').click(function() {
 		      	<input width="300" id="omissionReplaceBy" name="dummyOmissionReplaceBy"></input><br/>
 		      	Comentários:<br/>
 		      	<textarea rows="1" cols="70" id="omissionComment" name="dummyOmissionComment"></textarea>
-		      	<input type="hidden" id="omissionStart" name="dummyOmissionStart"></input>
-		      	<input type="hidden" id="omissionEnd" name="dummyOmissionStart"></input>
+		      	<input type="hidden" id="omissionStart" name="dummyOmissionStart" value=""/>
+		      	<input type="hidden" id="omissionEnd" name="dummyOmissionStart" value=""/>
 		    </div>
 		</div>
 		

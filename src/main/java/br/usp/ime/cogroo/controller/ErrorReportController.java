@@ -113,7 +113,7 @@ public class ErrorReportController {
 			}
 		}
 		
-		errorEntryLogic.addErrorEntry(loggedUser.getUser(), "", badint, comments, badintStart, badintEnd, badintRule, omissionClassification,
+		errorEntryLogic.addErrorEntry(loggedUser.getUser(), text, badint, comments, badintStart, badintEnd, badintRule, omissionClassification,
 				customOmissionText,
 				omissionComment, omissionReplaceBy, omissionStart, omissionEnd);
 		
