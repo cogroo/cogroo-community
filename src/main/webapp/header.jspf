@@ -131,9 +131,7 @@
 			<li><span>Problemas</span>
 				<ul>
 					<li><a href="<c:url value="/errorEntries"/>">Reportados</a></li>
-<!--					<c:if test="${loggedUser.logged}">-->
 						<li><a href="<c:url value="/reportNewError"/>">Reportar novo</a></li>
-<!--					</c:if>-->
 				</ul>
 			</li>
 			
