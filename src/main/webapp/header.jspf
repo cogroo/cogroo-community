@@ -80,6 +80,7 @@
 	
 	
 	<div class="login_roundcorner login">
+	${appData.version}
 		<c:if test="${not loggedUser.logged}">
 	      	<div style="display: none;" id="logform">
 	            <form action="<c:url value='/login'/>" method="post">
