@@ -23,63 +23,36 @@
 		<dependency>
 			<groupId>br.com.caelum</groupId>
 			<artifactId>vraptor</artifactId>
-			<version>3.1.2</version><!--ou a última versão disponível-->
+			<version>3.1.2</version> <!-- or better -->
 		</dependency>
-
-<!--		<dependency>-->
-<!--			<groupId>javax.servlet</groupId>-->
-<!--			<artifactId>servlet-api</artifactId>-->
-<!--			<version>2.4</version>-->
-<!--		</dependency>-->
-<!--		<dependency>-->
-<!--			<groupId>taglibs</groupId>-->
-<!--			<artifactId>standard</artifactId>-->
-<!--			<version>1.1.2</version>-->
-<!--			<scope>runtime</scope>-->
-<!--		</dependency>-->
-<!--		<dependency>-->
-<!--			<groupId>javax.servlet</groupId>-->
-<!--			<artifactId>jstl</artifactId>-->
-<!--			<version>1.1.2</version>-->
-<!--		</dependency>-->
-<!--		<dependency>-->
-<!--			<groupId>javax.servlet.jsp.jslt</groupId>-->
-<!--			<artifactId>jstl.api</artifactId>-->
-<!--			<version>1.2</version>-->
-<!--		</dependency>-->
-<!--		<dependency>-->
-<!--			<groupId>javax.servlet.jsp</groupId>-->
-<!--			<artifactId>jsp-api</artifactId>-->
-<!--			<version>2.0</version>-->
-<!--		</dependency>-->
-
-<dependency>
-<groupId>javax.servlet</groupId>
-<artifactId>servlet-api</artifactId>
-<version>2.4</version>
-<scope>provided</scope>
-</dependency>
-<dependency>
-<groupId>javax.servlet</groupId>
-<artifactId>jsp-api</artifactId>
-<version>2.0</version>
-<scope>provided</scope>
-</dependency>
-<dependency>
-<groupId>javax.servlet</groupId>
-<artifactId>jstl</artifactId>
-<version>1.1.2</version>
-</dependency>
-<dependency>
-<groupId>taglibs</groupId>
-<artifactId>standard</artifactId>
-<version>1.1.2</version>
-</dependency>
+		<!-- web.xml should be updated to use Tomcat 6 -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.4</version> <!-- 2.5 for Tomcat 6 -->
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>2.0</version> <!-- 2.1 for Tomcat 6 -->
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.1.2</version> <!-- 1.2 for Tomcat 6 -->
+		</dependency>
+		<dependency>
+			<groupId>taglibs</groupId>
+			<artifactId>standard</artifactId>
+			<version>1.1.2</version> <!-- 1.2 for Tomcat 6 -->
+		</dependency>
 
 		<dependency>
 			<groupId>javax.el</groupId>
 			<artifactId>el-api</artifactId>
-			<version>1.0</version>
+			<version>1.0</version> 
 		</dependency>
 
 		<dependency>

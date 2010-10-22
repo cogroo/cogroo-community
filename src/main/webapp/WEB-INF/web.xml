@@ -3,6 +3,8 @@
 	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_4.xsd"
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_4.xsd"
 	id="WebApp_ID" version="2.4">
+	<!-- Tomcat 5.5 requires WebApp 2.4, Tomcat 6 requires 2.5 -->
+	
 	<display-name>Cogroo Comunidade</display-name>
 
 	<!--
