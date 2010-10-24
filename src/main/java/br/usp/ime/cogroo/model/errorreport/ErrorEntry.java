@@ -10,11 +10,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
+import org.apache.log4j.Logger;
+
 import br.usp.ime.cogroo.model.GrammarCheckerVersion;
 import br.usp.ime.cogroo.model.User;
 
 @Entity
 public class ErrorEntry {
+	
+	private static final Logger LOG = Logger.getLogger(ErrorEntry.class);
 
 	@Id
 	@GeneratedValue
@@ -166,14 +170,18 @@ public class ErrorEntry {
 	
 	public String getMarkedText() {
 		StringBuilder sb = new StringBuilder(this.getText());
-		sb.insert(this.getSpanEnd(), "</span>");
-		String type;
-		if(getOmission() != null) {
-			type = "omission";
-		} else {
-			type = "badint";
+		try {
+			sb.insert(this.getSpanEnd(), "</span>");
+			String type;
+			if(getOmission() != null) {
+				type = "omission";
+			} else {
+				type = "badint";
+			}
+			sb.insert(this.getSpanStart(), "<span class=\"" + type + "\">");
+		} catch(StringIndexOutOfBoundsException e) {
+			LOG.error("Wrong index: text[" + this.getText() + "]" + " start[" + this.getSpanStart() + "] end[" + this.getSpanEnd() + "]" , e);
 		}
-		sb.insert(this.getSpanStart(), "<span class=\"" + type + "\">");
 		return sb.toString();
 	}
 
