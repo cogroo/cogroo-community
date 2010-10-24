@@ -11,7 +11,7 @@
 			if (elem) {							
 				// get caret range
 				if (typeof start == "undefined") {
-					if (elem.selectionEnd) {
+					if (elem.selectionStart >= 0) {
 						start = elem.selectionStart;
 						end = elem.selectionEnd;
 					}

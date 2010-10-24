@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" %>  
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<script src="<c:url value='/js/jquery-fieldselection.pack.js' />" type="text/javascript" ></script>
+<script src="<c:url value='/js/jquery-fieldselection.js' />" type="text/javascript" ></script>
 
 <script type="text/javascript" charset="utf-8">
 
@@ -22,8 +22,7 @@ $(document).ready(function() {
     
     var range = input.getSelection();
     
-    
-    if(range.end > 0 && range.start != range.end) {
+     if(range.end > 0 && range.start != range.end) {
     	var text = input.text();
         
         var selection = text.substr(range.start, range.end - range.start);
@@ -45,14 +44,7 @@ $(document).ready(function() {
         $(html).children('#omissionComment').attr('name','omissionComment[' + count +']');
         $(html).children('#omissionReplaceBy').attr('name','omissionReplaceBy[' + count +']');
         
-        // $(html).children('p.selecao').text( '#' + count+ ':"'+ text +'"');
-        // $(html).children('textarea').text(count).attr('name','omissao[' + count +']');
-        // $(html).children('button').text('rem #'+count).click(function() { $(this).parent().remove(); });    
-        
-        //inserindo na div #container
-        
          $('#omissionList').append(html);
-         input.caret(0, 0);
     } 
     
     
@@ -157,7 +149,8 @@ $('#b').click(function() {
 		
 		Selecione a omissão:<br/>
 		<textarea rows="2" cols="70" readonly="readonly" id="selector" >${text}</textarea><br/>
-		<a class="a_button" id="addNewOmission">Indicar nova omissão</a>
+		<!--  <a class="a_button" id="addNewOmission">Indicar nova omissão</a>-->
+		<button type="button" id="addNewOmission">Indicar nova omissão</button>
 		</fieldset>
 		<div id="toCopy" style="display:none;">
 		 	<div>
