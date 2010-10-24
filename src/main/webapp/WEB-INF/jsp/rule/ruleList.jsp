@@ -95,10 +95,19 @@
 			    		<tr><td>Mensagem longa:</td><td>${rule.message}</td></tr>
 			    		<tr><td>Exemplos:</td><td>
 			    			<ol>
-								<li>ex1</li>
-								<li>ex2</li>
-							</ol> 
-			    			</td></tr>
+				    			<c:forEach items="${rule.example}" var="example">
+									<li>${ i.count }
+										<ul>
+											<c:forEach items="${rule.example}" var="example" varStatus="i">
+												<li><b>incorreto:</b> ${example.incorrect}</li>
+												<li><b>correto:</b> ${example.correct}</li>
+											</c:forEach>
+										</ul> 
+									</li>
+								</c:forEach> 
+							</ol>
+			    			</td>
+			    		</tr>
  			  			
 	  			  	</table>
 					</td>
