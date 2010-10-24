@@ -180,7 +180,7 @@ public class ErrorEntry {
 			}
 			sb.insert(this.getSpanStart(), "<span class=\"" + type + "\">");
 		} catch(StringIndexOutOfBoundsException e) {
-			LOG.error("Wrong index: text[" + this.getText() + "]" + " start[" + this.getSpanStart() + "] end[" + this.getSpanEnd() + "]" , e);
+			LOG.error("Wrong index: text[" + this.getText() + "]" + " start[" + this.getSpanStart() + "] end[" + this.getSpanEnd() + "]");
 		}
 		return sb.toString();
 	}

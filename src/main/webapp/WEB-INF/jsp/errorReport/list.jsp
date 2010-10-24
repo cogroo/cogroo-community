@@ -100,7 +100,7 @@
 				  		</c:otherwise>
 					</c:choose>
 					<td>${errorEntry.markedText}</td>
-					<td>${errorEntry.modified}</td>
+					<td><fmt:formatDate type="both" dateStyle="long" value="${errorEntry.modified}" /></td>
 					<td>${errorEntry.version.version}</td>
 					<td>${errorEntry.submitter.name}</td>
 	  			  	<td>

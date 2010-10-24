@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" %>  
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<script src="<c:url value='/js/jquery.caret-range-1.0.js' />" type="text/javascript" ></script>
+<script src="<c:url value='/js/jquery-fieldselection.pack.js' />" type="text/javascript" ></script>
 
 <script type="text/javascript" charset="utf-8">
 
@@ -20,7 +20,7 @@ $(document).ready(function() {
 	
 	var input = $("#selector");
     
-    var range = input.caret();
+    var range = input.getSelection();
     
     
     if(range.end > 0 && range.start != range.end) {
