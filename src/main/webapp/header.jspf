@@ -117,19 +117,24 @@
 	<div id="logoCogroo"><div id="logoBROffice"></div></div>
 	<div>
 		<ul id="menu" class="menu">
-			<li><a href="<c:url value="/"/>">Bem-vindo</a></li>
-			<li><a href="<c:url value="/"/>">Análise Gramatical</a></li>
+			<li><span>Comunidade</span>
+				<ul>
+					<li><a href="<c:url value="/"/>">Bem-vindo</a></li>
+					<li><a href="<c:url value="/about"/>">Sobre...</a></li>
+				</ul>
+			</li>
+			<li><a href="<c:url value="/grammar"/>">Análise Gramatical</a></li>
 			<li><span>Dicionário</span>
 				<ul>
 					<li><a href="<c:url value="/dictionaryEntrySearch"/>">Consultar Palavra</a></li>
-					<c:if test="${loggedUser.logged}">
+					<!--<c:if test="${loggedUser.logged}">
 						<li><a href="<c:url value="/dictionaryEntry"/>">Inserir Palavra</a></li>
 						<li><a href="<c:url value="/dictionaryEntries"/>">Minhas palavras</a></li>					
-					</c:if>
+					</c:if>-->
 				</ul>
 			</li>
 			<li><a href="<c:url value="/ruleList"/>">Regras</a></li>
-			<li><a href="#">Sugestões</a></li>
+			<!-- <li><a href="#">Sugestões</a></li> -->
 			<li><span>Problemas</span>
 				<ul>
 					<li><a href="<c:url value="/errorEntries"/>">Reportados</a></li>

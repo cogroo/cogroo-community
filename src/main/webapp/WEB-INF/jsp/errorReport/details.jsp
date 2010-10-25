@@ -3,7 +3,32 @@
 <%@ page contentType="text/html; charset=UTF-8" %>  
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
-
+<style type="text/css">
+table.answer {
+	border-width: 0px;
+	border-spacing: 0px;
+	border-style: hidden;
+	border-color: gray;
+	border-collapse: collapse;
+	background-color: white;
+}
+table.answer th {
+	border-width: 1px;
+	padding: 1px;
+	border-style: dotted;
+	border-color: gray;
+	background-color: white;
+	-moz-border-radius: 0px 0px 0px 0px;
+}
+table.answer td {
+	border-width: 1px;
+	padding: 1px;
+	border-style: dotted;
+	border-color: gray;
+	background-color: white;
+	-moz-border-radius: 0px 0px 0px 0px;
+}
+</style>
 
 	<h2>Entrada #${errorEntry.id}</h2>
 	<div class="report_details">
@@ -66,10 +91,17 @@
 			<div class="report_answer">
 				<c:if test="${not empty comment.answers}">
 					<b>Respostas</b>
-					<c:forEach items="${comment.answers}" var="answer">
-						<h5>De ${answer.user.name} em <fmt:formatDate type="both" dateStyle="long" value="${answer.date}" /></h5>
-						<div>${answer.errorEntryComment}</div>
-					</c:forEach>
+					<table class="answer">
+						<c:forEach items="${comment.answers}" var="answer">
+							<tr>
+								<td>${answer.errorEntryComment} <i> -- ${answer.user.name} em <fmt:formatDate type="both" dateStyle="long" value="${answer.date}" /></i>
+								<c:if test="${answer.user.login == loggedUser.user.login}">
+								excluir
+								</c:if>
+								</td>
+							</tr>
+						</c:forEach>
+					</table>
 				</c:if>
 
 				<c:if test="${loggedUser.logged}">

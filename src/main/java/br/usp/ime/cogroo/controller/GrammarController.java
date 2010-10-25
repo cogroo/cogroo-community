@@ -14,36 +14,35 @@ import br.usp.ime.cogroo.logic.Stats;
  * 
  */
 @Resource
-public class IndexController {
+public class GrammarController {
 
 	private final Result result;
+	private CogrooFacade cogroo;
 	
 	//TODO Dependência parece ser necessária. Aqui é o melhor lugar?
 	private Stats stats;
 
-	public IndexController(Result result, Stats stats) {
+	public GrammarController(Result result, CogrooFacade cogroo, Stats stats) {
 		this.result = result;
+		this.cogroo = cogroo;
 		this.stats = stats;
 	}
 
 	@Get
-	@Path("/")
-	public void index() {
+	@Path("/grammar")
+	public void grammar() {
 		result.include("totalMembers", stats.getTotalMembers())
 				.include("onlineMembers", stats.getOnlineMembers())
 				.include("reportedErrors", stats.getReportedErrors());
 	}
 
 	@Post
-	@Path("/")
-	public void index(String text) {
-		result.include("text", text).
-				redirectTo(GrammarController.class).grammar(text);
-	}
-	
-	@Get
-	@Path("/about")
-	public void about() {
+	@Path("/grammar")
+	public void grammar(String text) {
+		if (text != null && text.length() > 0) {
+			result.include("processResultList", cogroo.processText(text))
+					.include("text", text);
+		}
 	}
 
 }

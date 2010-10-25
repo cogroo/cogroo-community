@@ -33,17 +33,20 @@ $(document).ready(function() {
         
         var html = $('#toCopy').children('div').clone();
         // Formatando novo input
-        $(html).children('div').html( before + '<span class="omission">' + selection + '</span>' + after);
+        $(html).children('div.#omission').html( before + '<span class="omission">' + selection + '</span>' + after);
         $(html).children('h3').text( 'Omissão ' + count + ':');
-        $(html).children('select').attr('name','omissionClassification[' + count +']');
-        $(html).children('#customOmissionText').attr('name','customOmissionText[' + count +']');
+        $(html).children('select').attr('name','omissionClassification[' + count +']').
+        	attr('ONCHANGE',"if( 'custom' == this.options[this.selectedIndex].value ) {on('customOmissionTextDiv_" + count + "');} else {off('customOmissionTextDiv_" + count + "');} ;").
+        	children('#customOmissionText').attr('name','customOmissionText[' + count +']');
+        
         $(html).children('#omissionStart').attr('name','omissionStart[' + count +']');
         $(html).children('#omissionEnd').attr('name','omissionEnd[' + count +']');
         $(html).children('#omissionStart').attr('value',range.start);
         $(html).children('#omissionEnd').attr('value',range.end);
         $(html).children('#omissionComment').attr('name','omissionComment[' + count +']');
         $(html).children('#omissionReplaceBy').attr('name','omissionReplaceBy[' + count +']');
-        
+        $(html).children('#customOmissionTextDiv').attr('id','customOmissionTextDiv_' + count);
+         
          $('#omissionList').append(html);
     } 
     
@@ -121,14 +124,15 @@ $('#b').click(function() {
 					</DL>
 					
 					<legend>Classifique esta intervenção:</legend><br/>
-					<select name="badint[${ i.count }]">
+					<select name="badint[${ i.count }]" 
+						ONCHANGE="if( this.selectedIndex == 0 ) {off('comments_${ i.count }');} else {on('comments_${ i.count }');} ;">
 						<option value="ok">Intervenção correta.</option>
 						<option value="falseError">Falso erro, a frase está correta.</option>
 						<option value="inappropriateDescription">Erro existe, mas sua descrição foi inapropriada.</option>
 						<option value="inappropriateSuggestion">Erro existe, mas a sugestão é inapropriada.</option>
 					</select>
 	
-					<div id="comments_${ i.count }">
+					<div style="display: none;" id="comments_${ i.count }">
 						Comentários:
 						<br><textarea rows="4" cols="70" name="comments[${ i.count }]"></textarea>
 					</div>
@@ -150,7 +154,7 @@ $('#b').click(function() {
 		Selecione a omissão:<br/>
 		<textarea rows="2" cols="70" readonly="readonly" id="selector" >${text}</textarea><br/>
 		<!--  <a class="a_button" id="addNewOmission">Indicar nova omissão</a>-->
-		<button type="button" id="addNewOmission">Indicar nova omissão</button>
+		<button type="button" id="addNewOmission" class="a_button">Indicar nova omissão</button>
 		</fieldset>
 		<div id="toCopy" style="display:none;">
 		 	<div>
@@ -159,14 +163,17 @@ $('#b').click(function() {
 					
 				</div>
 				Classifique esta omissão:<br/>
-				<select name="dummyName">
-					<option value="custom">Personalizada</option>
+				<select name="dummyName"
+					ONCHANGE="dummy">
 					<c:forEach items="${omissionCategoriesList}" var="omissionCategories">
 						<option value="${omissionCategories}">${omissionCategories}</option>
 					</c:forEach>
+					<option value="custom">Personalizada</option>
 				</select><br/>
-				Classificação personalizada:<br/>
-		      	<input width="300" id="customOmissionText" name="dummyOmissionText"></input><br/>
+				<div style="display: none;" id="customOmissionTextDiv">
+					Classificação personalizada:<br/>
+			      	<input width="300" id="customOmissionText" name="dummyOmissionText"></input><br/>
+		      	</div>
 				Substituir por:<br/>
 		      	<input width="300" id="omissionReplaceBy" name="dummyOmissionReplaceBy"></input><br/>
 		      	Comentários:<br/>

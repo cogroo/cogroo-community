@@ -28,6 +28,20 @@ azul fraco2: #add6ef
 	border-bottom: 1px solid #00C; 
 }
 
+button, input[type="submit"], .a_button {
+	border:1px solid #fff;
+	border-bottom:1px solid #b17676!important;
+	color:#fff;
+	background-color:#00C;
+	cursor:pointer;
+	font-weight:bold;
+	font-family:verdana,sans-serif;
+	font-size:0.90em;
+	margin-right:0px;
+	margin-left:5px;
+	/*width:4.8em*/
+}
+
 /*___________________________________ Classe .relatorio _____________________________________*/
 
 .relatorio {
@@ -65,19 +79,6 @@ azul fraco2: #add6ef
 	padding-right: 0.3ex;
 }
 
-.relatorio button, input[type="submit"], .a_button {
-	border:1px solid #fff;
-	border-bottom:1px solid #b17676!important;
-	color:#fff;
-	background-color:#00C;
-	cursor:pointer;
-	font-weight:bold;
-	font-family:verdana,sans-serif;
-	font-size:0.90em;
-	margin-right:0px;
-	margin-left:5px;
-	/*width:4.8em*/
-}
 
 .relatorio legend {
 	color: #8b4500; 

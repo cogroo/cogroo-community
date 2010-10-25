@@ -7,6 +7,8 @@ import br.com.caelum.vraptor.Result;
 import br.usp.ime.cogroo.dao.CogrooFacade;
 import br.usp.ime.cogroo.logic.RulesLogic;
 import br.usp.ime.cogroo.logic.Stats;
+import br.usp.ime.cogroo.model.errorreport.ErrorEntry;
+import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Rule;
 
 /**
  * Today this is the entry point of the web application. It shows a form where a
@@ -34,5 +36,16 @@ public class RuleController {
 	@Path("/ruleList")
 	public void ruleList() {
 		result.include("ruleList", rulesLogic.getRuleList());
+	}
+	
+	@Get
+	@Path("/rule")
+	public void rule(Rule rule) {
+		if(rule == null) {
+			result.redirectTo(getClass()).ruleList();
+			return;
+		}
+		
+		result.include("rule", rulesLogic.getRule(rule.getId()));
 	}
 }
