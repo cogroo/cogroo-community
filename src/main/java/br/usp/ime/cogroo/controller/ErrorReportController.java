@@ -6,7 +6,6 @@ import java.util.Set;
 
 import org.apache.log4j.Logger;
 
-import br.com.caelum.vraptor.Delete;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
@@ -217,10 +216,9 @@ public class ErrorReportController {
 		result.redirectTo(ErrorReportController.class).details(errorEntry);
 	}
 	
-	  @Delete
-	  @Path("/errorEntryAnswerToComment")
-	  public void remove(Comment answer, Comment comment) {
-		  LOG.debug("answer: " + answer);
-		  LOG.debug("comment: " + comment);
-	  }
+	@Post
+	@Path("/errorEntryDeleteAnswer")
+	public void remove(Comment answer, Comment comment) {
+		errorEntryLogic.removeAnswer(answer, comment);
+	}
 }

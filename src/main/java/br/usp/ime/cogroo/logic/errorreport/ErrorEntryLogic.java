@@ -376,6 +376,15 @@ public class ErrorEntryLogic {
 		commentDAO.update(c);
 	}
 
+	public void removeAnswer(Comment answer, Comment comment) {
+		answer = commentDAO.retrieve(answer.getId());
+		comment = commentDAO.retrieve(comment.getId());
+		
+		comment.getAnswers().remove(answer);
+		
+		commentDAO.delete(answer);
+	}
+
 
 
 }

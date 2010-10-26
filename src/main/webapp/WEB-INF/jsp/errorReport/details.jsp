@@ -22,12 +22,12 @@
 				e.preventDefault();
 				var $this = $(this);
 				
-				alert(currentId);
-				
-				$.delete_("errorEntryAnswerToComment", $("#form_answer_remove_" + currentId).serialize(),
+				$.post("errorEntryDeleteAnswer", $("#form_answer_remove" + currentId).serialize(),
 			   		function(data){
-			     	alert("Data Loaded: " + data);
 			   });
+				
+				//tr_answer_
+				$('#tr_answer' + currentId).remove();
 
 			}
 
@@ -128,11 +128,11 @@ table.answer td {
 					<b>Respostas</b>
 					<table class="answer">
 						<c:forEach items="${comment.answers}" var="answer"  varStatus="j">
-							<tr>
+							<tr id="tr_answer_${ i.count }_${ j.count }">
 								<td>${answer.errorEntryComment} <i> -- ${answer.user.name} em <fmt:formatDate type="both" dateStyle="long" value="${answer.date}" /></i>
 								<c:if test="${(answer.user.login == loggedUser.user.login) || (loggedUser.user.login == 'admin') }">
 								<a id="_${ i.count }_${ j.count }" href="about:blank" title="Agrupamentos" class="answer_remove">excluir</a>
-								<form action="/errorEntryAnswerToComment" method="post" id="#form_answer_remove_${ i.count }_${ j.count }">
+								<form action="/errorEntryAnswerToComment" method="post" id="form_answer_remove_${ i.count }_${ j.count }">
 								    <input name="answer.id" value="${answer.id}" type="hidden" />
 								    <input name="comment.id" value="${comment.id}" type="hidden" />
 								</form>
