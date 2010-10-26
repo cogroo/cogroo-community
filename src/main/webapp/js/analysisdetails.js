@@ -71,7 +71,7 @@ $(function() {
 		$('#externalSite').remove();
 
 		$('<iframe id="externalSite" src="about:blank"/>').dialog({
-			    title: 'Árvore sintática',
+			    title: 'Agrupamentos sintáticos',
 			    autoOpen: true,
 			    width: 730,
 			    height: 280,

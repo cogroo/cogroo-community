@@ -18,7 +18,7 @@
 				  <th></th>
 				  <th>#</th>
 				  <th>Elementos</th>
-				  <th>Árvore</th>
+				  <th>Agrupamentos</th>
 				  <th>Detalhes</th>
 				</tr>
 			</thead>
@@ -40,7 +40,7 @@
 									<input  type="hidden" name="fontsize" value="8" />
 									<input  type="hidden" name="opencount" value="5" />
 									<input  type="hidden" name="triangles" value="on" />
-									<a id="_${ i.count }" class="iframe" href="about:blank" title=Árvore">Exibir árvore</a>
+									<a id="_${ i.count }" class="iframe" href="about:blank" title="Agrupamentos">Exibir agrupamentos</a>
 								</form>
 						</td>
 						<td>
