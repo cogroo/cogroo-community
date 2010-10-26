@@ -190,6 +190,7 @@ public class ErrorReportController {
 	public void details(ErrorEntry errorEntry) {
 		if(errorEntry == null) {
 			result.redirectTo(getClass()).list();
+			return;
 		}
 		
 		LOG.debug("Details for: " + errorEntry);
