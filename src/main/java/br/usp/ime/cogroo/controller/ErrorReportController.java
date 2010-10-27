@@ -221,4 +221,11 @@ public class ErrorReportController {
 	public void remove(Comment answer, Comment comment) {
 		errorEntryLogic.removeAnswer(answer, comment);
 	}
+	
+	@Post
+	@Path("/errorEntryDeleteComment")
+	public void remove(Comment comment) {
+		LOG.debug("comment: " + comment.getId());
+		errorEntryLogic.removeComment(comment);
+	}
 }

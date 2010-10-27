@@ -10,6 +10,7 @@
 
 			// install the event handler
 			$('.answer_remove').click(answer_remove);
+			$('.comment_remove').click(comment_remove);
 
 		});
 
@@ -23,6 +24,26 @@
 				var $this = $(this);
 				
 				$.post("errorEntryDeleteAnswer", $("#form_answer_remove" + currentId).serialize(),
+			   		function(data){
+			   });
+				
+				//tr_answer_
+				$('#tr_answer' + currentId).remove();
+
+			}
+
+		}
+		
+		function comment_remove(e) {
+
+			var r=confirm("Você deseja remover este comentários e todas suas respostas?");
+			if (r==true) {
+				var currentId = e.target.id;
+				
+				e.preventDefault();
+				var $this = $(this);
+				
+				$.post("errorEntryDeleteComment", $("#form_comment_remove" + currentId).serialize(),
 			   		function(data){
 			   });
 				
@@ -121,44 +142,52 @@ table.answer td {
 	<div class="report_disscussion">
 		<h2>Discussão</h2>
 		<c:forEach items="${errorEntry.errorEntryComments}" var="comment" varStatus="i">
-			<h4>Por ${comment.user.name} em <fmt:formatDate type="both" dateStyle="long" value="${comment.date}" /></h4>
-			<div>${comment.errorEntryComment}</div>
-			<div class="report_answer">
-				<c:if test="${not empty comment.answers}">
-					<b>Respostas</b>
-					<table class="answer">
-						<c:forEach items="${comment.answers}" var="answer"  varStatus="j">
-							<tr id="tr_answer_${ i.count }_${ j.count }">
-								<td>${answer.errorEntryComment} <i> -- ${answer.user.name} em <fmt:formatDate type="both" dateStyle="long" value="${answer.date}" /></i>
-								<c:if test="${(answer.user.login == loggedUser.user.login) || (loggedUser.user.login == 'admin') }">
-								<a id="_${ i.count }_${ j.count }" href="about:blank" title="Agrupamentos" class="answer_remove">excluir</a>
-								<form action="/errorEntryAnswerToComment" method="post" id="form_answer_remove_${ i.count }_${ j.count }">
-								    <input name="answer.id" value="${answer.id}" type="hidden" />
-								    <input name="comment.id" value="${comment.id}" type="hidden" />
-								</form>
-								</c:if>
-								</td>
-							</tr>
-						</c:forEach>
-					</table>
+			<div id="comment_${ i.count }">
+				<h4>Por ${comment.user.name} em <fmt:formatDate type="both" dateStyle="long" value="${comment.date}" />
+				<c:if test="${(comment.user.login == loggedUser.user.login) || (loggedUser.user.login == 'admin') }"> 
+					<a id="_${ i.count }" href="about:blank" class="comment_remove">excluir</a>
 				</c:if>
-
-				<c:if test="${loggedUser.logged}">
-					<div class="disscussion_actions">
-						<a href="#" onclick="onOff('reply_${ i.count }'); return false">responder</a>
-					</div>
-					<div style="display: none;" class="disscussion_reply_form" id="reply_${ i.count }">
-						<form method="post" action="<c:url value="/errorEntryAddAnswerToComment"/>">
-							<legend>Responder esta discussão:</legend><br/>
-						    <textarea name="answer" cols="80" rows="4"></textarea>
-						    <input name="errorEntry.id" value="${errorEntry.id}" type="hidden" />
-						    <input name="comment.id" value="${comment.id}" type="hidden" />
-						    <input type="submit" id="go" value="Responder">
-						</form>
-					</div>
-				</c:if>
+				</h4>
+				<form action="/errorEntryDeleteComment" method="post" id="form_comment_remove_${ i.count }">
+				    <input name="comment.id" value="${comment.id}" type="hidden" />
+				</form>
+				<div>${comment.errorEntryComment}</div>
+				<div class="report_answer">
+					<c:if test="${not empty comment.answers}">
+						<b>Respostas</b>
+						<table class="answer">
+							<c:forEach items="${comment.answers}" var="answer"  varStatus="j">
+								<tr id="tr_answer_${ i.count }_${ j.count }">
+									<td>${answer.errorEntryComment} <i> -- ${answer.user.name} em <fmt:formatDate type="both" dateStyle="long" value="${answer.date}" /></i>
+									<c:if test="${(answer.user.login == loggedUser.user.login) || (loggedUser.user.login == 'admin') }">
+										<a id="_${ i.count }_${ j.count }" href="about:blank" class="answer_remove">excluir</a>
+										<form action="/errorEntryAnswerToComment" method="post" id="form_answer_remove_${ i.count }_${ j.count }">
+										    <input name="answer.id" value="${answer.id}" type="hidden" />
+										    <input name="comment.id" value="${comment.id}" type="hidden" />
+										</form>
+									</c:if>
+									</td>
+								</tr>
+							</c:forEach>
+						</table>
+					</c:if>
+					<c:if test="${loggedUser.logged}">
+						<div class="disscussion_actions">
+							<a href="#" onclick="onOff('reply_${ i.count }'); return false">responder</a>
+						</div>
+						<div style="display: none;" class="disscussion_reply_form" id="reply_${ i.count }">
+							<form method="post" action="<c:url value="/errorEntryAddAnswerToComment"/>">
+								<legend>Responder esta discussão:</legend><br/>
+							    <textarea name="answer" cols="80" rows="4"></textarea>
+							    <input name="errorEntry.id" value="${errorEntry.id}" type="hidden" />
+							    <input name="comment.id" value="${comment.id}" type="hidden" />
+							    <input type="submit" id="go" value="Responder">
+							</form>
+						</div>
+					</c:if>
+				</div>
+				<hr/>
 			</div>
-			<hr/>
 		</c:forEach>
 		<c:if test="${loggedUser.logged}">
 			<form method="post" action="<c:url value="/errorEntryAddComment"/>">

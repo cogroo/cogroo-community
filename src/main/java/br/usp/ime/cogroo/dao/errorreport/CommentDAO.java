@@ -35,6 +35,9 @@ public class CommentDAO {
 	}
 
 	public void delete(Comment comment) {
+		for (Comment answer : comment.getAnswers()) {
+			em.remove(answer);
+		}
 		em.remove(comment);
 	}
 }

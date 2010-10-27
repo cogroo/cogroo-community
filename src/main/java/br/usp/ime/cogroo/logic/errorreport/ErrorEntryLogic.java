@@ -385,6 +385,11 @@ public class ErrorEntryLogic {
 		commentDAO.delete(answer);
 	}
 
+	public void removeComment(Comment comment) {
+		comment = commentDAO.retrieve(comment.getId());
+		commentDAO.delete(comment);
+	}
+
 
 
 }

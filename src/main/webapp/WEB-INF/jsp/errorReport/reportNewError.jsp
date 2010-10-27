@@ -33,19 +33,19 @@ $(document).ready(function() {
         
         var html = $('#toCopy').children('div').clone();
         // Formatando novo input
-        $(html).children('div.#omission').html( before + '<span class="omission">' + selection + '</span>' + after);
-        $(html).children('h3').text( 'Omissão ' + count + ':');
-        $(html).children('select').attr('name','omissionClassification[' + count +']').
-        	attr('ONCHANGE',"if( 'custom' == this.options[this.selectedIndex].value ) {on('customOmissionTextDiv_" + count + "');} else {off('customOmissionTextDiv_" + count + "');} ;").
-        	children('#customOmissionText').attr('name','customOmissionText[' + count +']');
+        $(html).find('div.#omission').html( before + '<span class="omission">' + selection + '</span>' + after);
+        $(html).find('h3').text( 'Omissão ' + count + ':');
+        $(html).find('select').attr('name','omissionClassification[' + count +']').
+        	attr('ONCHANGE',"if( 'custom' == this.options[this.selectedIndex].value ) {on('customOmissionTextDiv_" + count + "');} else {off('customOmissionTextDiv_" + count + "');} ;");
+        $(html).find('#customOmissionText').attr('name','customOmissionText[' + count +']');
         
-        $(html).children('#omissionStart').attr('name','omissionStart[' + count +']');
-        $(html).children('#omissionEnd').attr('name','omissionEnd[' + count +']');
-        $(html).children('#omissionStart').attr('value',range.start);
-        $(html).children('#omissionEnd').attr('value',range.end);
-        $(html).children('#omissionComment').attr('name','omissionComment[' + count +']');
-        $(html).children('#omissionReplaceBy').attr('name','omissionReplaceBy[' + count +']');
-        $(html).children('#customOmissionTextDiv').attr('id','customOmissionTextDiv_' + count);
+        $(html).find('#omissionStart').attr('name','omissionStart[' + count +']');
+        $(html).find('#omissionEnd').attr('name','omissionEnd[' + count +']');
+        $(html).find('#omissionStart').attr('value',range.start);
+        $(html).find('#omissionEnd').attr('value',range.end);
+        $(html).find('#omissionComment').attr('name','omissionComment[' + count +']');
+        $(html).find('#omissionReplaceBy').attr('name','omissionReplaceBy[' + count +']');
+        $(html).find('#customOmissionTextDiv').attr('id','customOmissionTextDiv_' + count);
          
          $('#omissionList').append(html);
     } 
