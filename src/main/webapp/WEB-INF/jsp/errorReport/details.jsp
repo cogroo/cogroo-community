@@ -48,7 +48,7 @@
 			   });
 				
 				//tr_answer_
-				$('#tr_answer' + currentId).remove();
+				$('#comment' + currentId).remove();
 
 			}
 
