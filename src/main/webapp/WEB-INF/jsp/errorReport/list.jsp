@@ -38,10 +38,10 @@
 			"iDisplayLength": 20,
 			"aoColumns": [
 				{ "bSortable": false },
-				null, 
+				{"sType": "numeric"},
 				null,
 				null, 
-				{"sType": "date"}, 
+				null, 
 				null,
 				null,
 				{ "bVisible": false }
