@@ -32,7 +32,7 @@
 	</category>
 
 	<root>
-		<priority value="debug" />
+		<priority value="error" />
 		<appender-ref ref="stdout" />
 <!--		<appender-ref ref="Chainsaw" />-->
 	</root>
