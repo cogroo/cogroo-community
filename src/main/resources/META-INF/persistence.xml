@@ -7,16 +7,19 @@
 		 <provider>org.hibernate.ejb.HibernatePersistence</provider>		 
          <properties>  
          	 <!-- MySQL configuration -->
-<!--         <property name="hibernate.connection.username" value="cogrooUser" />   
-             <property name="hibernate.connection.password" value="passsystem" />
--->
-             <property name="hibernate.connection.username" value="root" />   
-             <property name="hibernate.connection.password" value="12345" />    
+             <property name="hibernate.connection.username" value="cogrooUser" />   
+             <property name="hibernate.connection.password" value="passsystem" />    
 			 <property name="hibernate.connection.driver_class" value="org.gjt.mm.mysql.Driver" />    
              <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/cogrooWeb" />
              <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLInnoDBDialect" />
              <property name="hibernate.hbm2ddl.auto" value="update" />           
      		 <!-- end: MySQL configuration -->
+     		 
+     		 <property name="hibernate.connection.provider_class" value="org.hibernate.connection.C3P0ConnectionProvider" />
+			 <property name="hibernate.c3p0.min_size" value="1" />
+			 <property name="hibernate.c3p0.max_size" value="20" />
+			 <property name="hibernate.c3p0.timeout" value="30" />
+			 <property name="hibernate.c3p0.idle_test_period" value="100" />
      		 
              <property name="hibernate.show_sql" value="false" />
              <property name="hibernate.format_sql" value="true" />
