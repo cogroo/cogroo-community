@@ -113,5 +113,46 @@ public class ErrorEntryLogicTest {
 		assertEquals(1, comments.get(1).getAnswers().size());
 	}
 		
+	@Test
+	public void testDeleteAnswer() throws CommunityException, IOException {
+		
+		
+		em.getTransaction().begin();
+		List<ErrorEntry> list = mErrorEntryLogic.addErrorEntry(william.getLogin(), ResourcesUtil.getResourceAsString(getClass(), "/br/usp/ime/cogroo/logic/ErrorReport1.xml"));
+		em.getTransaction().commit();
 
+		Long errorID = list.get(0).getId();
+		
+		em.getTransaction().begin();
+		Long commentID = mErrorEntryLogic.addCommentToErrorEntry(errorID, wesley.getId(), "a comment");// addComment(errorID, newComment);
+		em.getTransaction().commit();
+		
+		em.getTransaction().begin();
+		mErrorEntryLogic.addAnswerToComment(commentID, william.getId(), "a answer");// (errorID, wesley.getId().intValue(), "a comment");// addComment(errorID, newComment);
+		em.getTransaction().commit();
+		
+		ErrorEntryDAO dao = new ErrorEntryDAO(em);
+		
+		ErrorEntry error = dao.retrieve(new Long(errorID));
+		
+		List<Comment> comments = error.getComments();
+		
+		assertEquals(2, comments.size());
+		
+		assertEquals(william, comments.get(0).getUser()); // the submitter
+		assertEquals(wesley, error.getComments().get(1).getUser()); // wesley added the first comment
+		assertEquals("a comment", comments.get(1).getComment()); // the comment from wesley
+		
+		assertEquals(1, comments.get(1).getAnswers().size());
+		
+		
+		
+		em.getTransaction().begin();
+		mErrorEntryLogic.removeAnswer(comments.get(1).getAnswers().get(0), comments.get(1));// addAnswerToComment(commentID, william.getId(), "a answer");// (errorID, wesley.getId().intValue(), "a comment");// addComment(errorID, newComment);
+		em.getTransaction().commit();
+		
+		ErrorEntry error1 = dao.retrieve(new Long(errorID));
+		
+		assertEquals(0, error1.getComments().get(1).getAnswers().size());
+	}
 }

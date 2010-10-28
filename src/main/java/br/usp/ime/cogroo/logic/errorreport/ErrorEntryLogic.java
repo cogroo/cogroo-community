@@ -368,7 +368,7 @@ public class ErrorEntryLogic {
 		Comment c = commentDAO.retrieve(commentID);
 		User user = userDAO.retrieve(userID);
 		
-		Comment answer = new Comment(user, new Date(), comment, c.getErrorEntry(), new ArrayList<Comment>());
+		Comment answer = new Comment(user, new Date(), comment, c, new ArrayList<Comment>());
 		
 		commentDAO.add(answer);	
 		c.getAnswers().add(answer);

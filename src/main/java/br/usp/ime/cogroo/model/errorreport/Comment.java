@@ -53,6 +53,16 @@ public class Comment {
 		this.errorEntry = errorEntry;
 		this.answers = answers;
 	}
+	
+	public Comment(User user, Date date, String comment, Comment question, List<Comment> answers) {
+		super();
+		this.user = user;
+		this.date = date;
+		this.comment = comment;
+		this.errorEntry = null;
+		this.question = question;
+		this.answers = answers;
+	}
 
 	public Long getId() {
 		return id;
