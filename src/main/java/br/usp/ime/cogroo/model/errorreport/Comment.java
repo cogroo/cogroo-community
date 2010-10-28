@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -33,7 +34,11 @@ public class Comment {
 	@ManyToOne
 	private ErrorEntry errorEntry;
 	
-	@OneToMany
+	@ManyToOne
+	private Comment question;
+
+	
+	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
 	private List<Comment> answers = new ArrayList<Comment>();
 	
 	public Comment() {
@@ -117,6 +122,14 @@ public class Comment {
 			}
 		}
 		return sb.toString();
+	}
+
+	public void setQuestion(Comment question) {
+		this.question = question;
+	}
+
+	public Comment getQuestion() {
+		return question;
 	}
 	
 }

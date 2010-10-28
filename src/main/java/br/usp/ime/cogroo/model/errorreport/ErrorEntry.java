@@ -30,8 +30,8 @@ public class ErrorEntry {
 	
 	private int spanEnd;
 
-	@OneToMany
-	private List<Comment> comments;;
+	@OneToMany(mappedBy = "errorEntry")
+	private List<Comment> comments;
 
 	@ManyToOne
 	private GrammarCheckerVersion version;

@@ -3,7 +3,8 @@
 		<h1>Analisador Gramatical.</h1>
 		<p>Digite o texto em português para verificar sua análise:</p>
 		<form action="<c:url value="/grammar"/>"  method="post" >
-		    <textarea rows="4" cols="70" name="text">${text}</textarea><br/>
+		    <textarea rows="4" cols="70" name="text">${text}</textarea>
+		    <br/>
 		    <input type="submit" value="Processar" id="go"/>
 		</form>
 		
