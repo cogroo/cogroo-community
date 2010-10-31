@@ -18,7 +18,6 @@ public class ApplicationData {
 	private AtomicInteger registeredMembers = new AtomicInteger();
 	
 	private AtomicInteger onlineUsers = new AtomicInteger();
-	private AtomicInteger onlineMembers = new AtomicInteger();
 	
 	private List<User> loggedUsers = new ArrayList<User>();
 	private List<User> idleUsers = new ArrayList<User>();
@@ -73,24 +72,11 @@ public class ApplicationData {
 	}
 	
 	public int getOnlineMembers() {
-		return this.onlineMembers.get();
-	}
-	
-	/*
-	 * public void setOnlineMembers(int onlineMembers) { this.onlineMembers =
-	 * onlineMembers; }
-	 */
-	
-	public void incOnlineMembers() {
-		this.onlineMembers.incrementAndGet();
-	}
-
-	public void decOnlineMembers() {
-		this.onlineMembers.decrementAndGet();
+		return this.loggedUsers.size();
 	}
 
 	public int getOnlineVisits() {
-		return this.onlineUsers.get() - this.onlineMembers.get();
+		return this.onlineUsers.get() - this.loggedUsers.size();
 	}
 	
 	public List<User> getLoggedUsers() {

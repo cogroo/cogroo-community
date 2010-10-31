@@ -19,7 +19,6 @@ public class LoggedUser {
 	}
 
 	public void login(User user) {
-		appData.incOnlineMembers();
 		appData.addLoggedUser(user);
 		this.user = user;
 	}
@@ -35,7 +34,6 @@ public class LoggedUser {
 	
 	public void logout(){
 		appData.removeLoggedUser(user);
-		appData.decOnlineMembers();
 		user = null;
 	}
 
