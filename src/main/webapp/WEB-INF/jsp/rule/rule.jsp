@@ -22,12 +22,12 @@
 								<ul>
 									<li><b>incorreto:</b> <br />
 										<div class="analise_text">
-											<p align="center"><c:out value="${example.a}" /></p>
+											<p>${example.a}</p>
 										</div>
 									</li>
 									<li><b>correto:</b> <br />
 										<div class="analise_text">
-											<p align="center">${example.b}</p>
+											<p>${example.b}</p>
 										</div>
 									</li>
 								</ul> 
