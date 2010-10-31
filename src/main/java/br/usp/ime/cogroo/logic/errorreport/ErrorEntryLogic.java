@@ -390,6 +390,19 @@ public class ErrorEntryLogic {
 		commentDAO.delete(comment);
 	}
 
+	public void remove(ErrorEntry errorEntry) {
+		errorEntry = errorEntryDAO.retrieve(errorEntry.getId());
+		LOG.debug("Will delete: " + errorEntry);
+		if(errorEntry.getBadIntervention() != null) {
+			badInterventionDAO.delete(errorEntry.getBadIntervention());
+		}
+		if(errorEntry.getOmission() != null) {
+			omissionDAO.delete(errorEntry.getOmission());
+		}
+		errorEntryDAO.delete(errorEntry);
+		
+	}
+
 
 
 }

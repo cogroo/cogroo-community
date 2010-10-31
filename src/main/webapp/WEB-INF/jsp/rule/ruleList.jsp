@@ -76,8 +76,8 @@
 			<tr>
 			  <th></th>
 			  <th>#</th>
-			  <th>Grupo</th>
 			  <th>Tipo</th>
+			  <th>Grupo</th>
 			  <th>Mensagem</th>
 			  <th>Detalhes</th>
 			</tr>
@@ -87,8 +87,8 @@
 				<tr>
 					<td valign="middle"><img src="./images/details_open.png"></td>
 					<td><a href="<c:url value="/rule?rule.id=${rule.id}"/>">${rule.id}</a></td>
-					<td>${rule.group}</td>
 					<td>${rule.type}</td>
+					<td>${rule.group}</td>
 					<td>${rule.shortMessage}</td>
 	  			  	<td>
 	  			  	<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">

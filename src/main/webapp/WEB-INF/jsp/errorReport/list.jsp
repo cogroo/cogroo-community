@@ -9,18 +9,39 @@
 <script src="<c:url value='/js/jquery.dataTables.min.js' />" type="text/javascript" ></script>
 <script type="text/javascript" charset="utf-8">
 	var oTable;
+	
+	var remove_error = function(currentId) {
+
+		var r=confirm("Você deseja remover este erro?");
+		if (r==true) {
+			
+			$.post("errorEntryDelete", $("#form_remove_error" + currentId).serialize(),
+		   		function(data){
+		   });
+			//location.reload();
+			//var nTr = $('#tr_errorEntry' + currentId).get(0);
+			//oTable.fnClose( nTr );
+			$('#tr_errorEntry' + currentId).remove();
+			
+			oTable.fnClearTable( 0 );
+			oTable.fnDraw();
+
+		};
+	};
 
 	/* Formating function for row details */
-	function fnFormatDetails ( nTr )
+	var fnFormatDetails = function ( nTr )
 	{
 		var iIndex = oTable.fnGetPosition( nTr );
 		var aData = oTable.fnSettings().aoData[iIndex]._aData;
 		
 		return '<div class="reportlist_details">'+aData[7]+'</div>';
-	}
-
-
+	};
+	
 	$(document).ready(function() {
+		
+		$('.remove_error').click(remove_error);
+		
 		oTable = $('#table_id').dataTable( {
 			"oLanguage": {
 				"sLengthMenu": "Exibir _MENU_ entradas por página",
@@ -34,7 +55,7 @@
 				"sInfoEmpty": "Exibindo de 0 até 0 de um total de 0 entradas",
 				"sInfoFiltered": "(filtrados de um total de _MAX_ entradas)"
 			},
-			"aaSorting": [[ 4, "desc" ]],
+			"aaSorting": [[ 1, 'desc' ]],
 			"iDisplayLength": 20,
 			"aoColumns": [
 				{ "bSortable": false },
@@ -87,8 +108,8 @@
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach items="${errorEntryList}" var="errorEntry">
-				<tr>
+			<c:forEach items="${errorEntryList}" var="errorEntry" varStatus="i">
+				<tr id="tr_errorEntry_${ i.count }">
 					<td valign="middle"><img src="./images/details_open.png"></td>
 					<td><a href="<c:url value="/errorEntry?errorEntry.id=${errorEntry.id}"/>">${errorEntry.id}</a></td>
 					<c:choose>
@@ -104,6 +125,12 @@
 					<td>${errorEntry.version.version}</td>
 					<td>${errorEntry.submitter.name}</td>
 	  			  	<td>
+  					<c:if test="${(errorEntry.submitter.login == loggedUser.user.login) || (loggedUser.user.login == 'admin') }"> 
+						<a onclick="remove_error('_${ i.count }'); return false;" id="_${ i.count }" href="about:blank" class="remove_error">excluir</a>
+						<form action="/errorEntryDelete" method="post" id="form_remove_error_${ i.count }">
+						    <input name="errorEntry.id" value="${errorEntry.id}" type="hidden" />
+						</form>
+					</c:if>
 	  			  	<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">
 		  			  	<c:choose>
 							<c:when test="${empty errorEntry.omission}">

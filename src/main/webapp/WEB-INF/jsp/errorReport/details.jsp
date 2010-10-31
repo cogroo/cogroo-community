@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" %>  
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
-<script src="<c:url value='/js/jquery.restful.js' />" type="text/javascript" ></script>
 
 	<script type="text/javascript"><!--//--><![CDATA[//><!--
 
