@@ -32,8 +32,8 @@
 		<h1>Bem-vindo ao CoGrOO Comunidade</h1>
 		Utilize o menu para navegação:
 		<DL>
-			<DT><STRONG>Bem-vindo</STRONG></DT>
-				<DD>No futuro teremos notícias sobre o projeto aqui.</DD>
+			<DT><STRONG>Comunidade</STRONG></DT>
+				<DD>Acompanhe notícias e saiba mais sobre o projeto</DD>
 			<DT><STRONG>Análise gramatical</STRONG></DT>
 				<DD>Experimente o CoGrOO e explore os resultados: erros gramaticais, análise morfológica e de agrupamentos.</DD>
 			<DT><STRONG>Dicionário</STRONG></DT>
