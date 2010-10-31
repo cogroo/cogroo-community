@@ -41,7 +41,7 @@ public class SessionListener implements HttpSessionListener {
 
 		LoggedUser user = (LoggedUser) se.getSession().getAttribute(
 				"loggedUser");
-		if (user != null)
+		if (user != null && user.isLogged())
 			user.logout();
 
 		// appData.decOnlineUsers();
