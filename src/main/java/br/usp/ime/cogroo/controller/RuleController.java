@@ -50,12 +50,12 @@ public class RuleController {
 			
 			exampleList.add(new Pair<String,String>(
 					cogroo.getAnnotatedText(
-							example.getCorrect(), 
-							cogroo.processText(example.getCorrect())), 
-					cogroo.getAnnotatedText(
 							example.getIncorrect(), 
-							cogroo.processText(example.getIncorrect())	
-					)));
+							cogroo.processText(example.getIncorrect())),
+					cogroo.getAnnotatedText(
+							example.getCorrect(), 
+							cogroo.processText(example.getCorrect()))
+					));
 		}
 		result.include("rule", rule)
 			.include("exampleList", exampleList);
