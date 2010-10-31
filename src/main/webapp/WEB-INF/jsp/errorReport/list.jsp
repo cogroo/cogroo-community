@@ -23,7 +23,7 @@
 			//oTable.fnClose( nTr );
 			$('#tr_errorEntry' + currentId).remove();
 			
-			oTable.fnClearTable( 0 );
+			//oTable.fnClearTable( 0 );
 			oTable.fnDraw();
 
 		};

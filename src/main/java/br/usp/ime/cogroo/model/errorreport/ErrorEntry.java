@@ -3,6 +3,7 @@ package br.usp.ime.cogroo.model.errorreport;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -43,10 +44,10 @@ public class ErrorEntry {
 
 	private Date modified;
 	
-	@OneToOne
+	@OneToOne(mappedBy = "errorEntry", cascade = CascadeType.ALL)
 	private GrammarCheckerBadIntervention badIntervention;
 	
-	@OneToOne
+	@OneToOne(mappedBy = "errorEntry", cascade = CascadeType.ALL)
 	private GrammarCheckerOmission omission;
 
 	public ErrorEntry(String text, int start, int end, List<Comment> comments,

@@ -1,4 +1,6 @@
 <script src="<c:url value='/js/jquery.twitter.search.js' />" type="text/javascript" ></script>
+<script src="<c:url value='/js/jquery.zrssfeed.js' />" type="text/javascript" ></script>
+
 <script type="text/javascript"><!--//--><![CDATA[//><!--
 
 	$(document).ready(function(){
@@ -13,6 +15,13 @@
 				img: { width: '30px', height: '30px' }
 				}
 			}); 
+		
+		$('#test').rssfeed('http://ccsl.ime.usp.br/cogroo/pt-br/rss.xml', {
+		    limit: 20,
+		    content: true,
+		    snippet: false,
+		    errormsg: 'Não foi possível abrir notícias.'
+		  });
 	});
 	
 //--><!]]>
@@ -38,4 +47,5 @@
 		</DL>
 		
 		<h1>Notícias</h1>
-		<i>Em construção...</i>
+		
+		<div id="test"><div> 
