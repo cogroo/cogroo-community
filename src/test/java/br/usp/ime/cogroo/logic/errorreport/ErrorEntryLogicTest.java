@@ -47,7 +47,7 @@ public class ErrorEntryLogicTest {
 		userDAO.add(wesley);
 		em.getTransaction().commit();
 		
-		LoggedUser lu = new LoggedUser();
+		LoggedUser lu = new LoggedUser(null);
 		lu.setUser(william);
 		
 		CogrooFacade facade = new CogrooFacade(new DummyBaseDictionary());

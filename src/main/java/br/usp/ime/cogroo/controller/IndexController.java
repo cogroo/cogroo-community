@@ -5,8 +5,6 @@ import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
-import br.usp.ime.cogroo.dao.CogrooFacade;
-import br.usp.ime.cogroo.logic.Stats;
 
 /**
  * Today this is the entry point of the web application. It shows a form where a
@@ -17,21 +15,14 @@ import br.usp.ime.cogroo.logic.Stats;
 public class IndexController {
 
 	private final Result result;
-	
-	//TODO Dependência parece ser necessária. Aqui é o melhor lugar?
-	private Stats stats;
 
-	public IndexController(Result result, Stats stats) {
+	public IndexController(Result result) {
 		this.result = result;
-		this.stats = stats;
 	}
 
 	@Get
 	@Path("/")
 	public void index() {
-		result.include("totalMembers", stats.getTotalMembers())
-				.include("onlineMembers", stats.getOnlineMembers())
-				.include("reportedErrors", stats.getReportedErrors());
 	}
 
 	@Post

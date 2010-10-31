@@ -13,7 +13,6 @@ import br.com.caelum.vraptor.validator.ValidationMessage;
 import br.com.caelum.vraptor.view.Results;
 import br.usp.ime.cogroo.dao.UserDAO;
 import br.usp.ime.cogroo.exceptions.Messages;
-import br.usp.ime.cogroo.logic.Stats;
 import br.usp.ime.cogroo.model.User;
 import br.usp.ime.cogroo.util.CriptoUtils;
 import br.usp.ime.cogroo.util.EmailSender;
@@ -26,16 +25,12 @@ public class RegisterController {
 	private Validator validator;
 	private static final Logger LOG = Logger
 			.getLogger(RegisterController.class);
-	
-	//TODO Dependência parece ser necessária. Aqui é o melhor lugar?
-	private Stats stats;
 
 	public RegisterController(Result result, UserDAO userDAO,
-			Validator validator, Stats stats) {
+			Validator validator) {
 		this.result = result;
 		this.userDAO = userDAO;
 		this.validator = validator;
-		this.stats = stats;
 	}
 
 	@Get
@@ -46,9 +41,6 @@ public class RegisterController {
 	@Get
 	@Path("/welcome")
 	public void welcome() {
-		result.include("totalMembers", stats.getTotalMembers())
-				.include("onlineMembers", stats.getOnlineMembers())
-				.include("reportedErrors", stats.getReportedErrors());
 	}
 	
 	@Post
@@ -63,8 +55,6 @@ public class RegisterController {
 			String email, String name, boolean iAgree) {
 
 		// TODO Fazer e refatorar as Validações.
-		// XXX Embora name não possa ser vazio, não há um asterisco de
-		//     campo obrigatório no jsp.
 		if (password.trim().isEmpty() || email.trim().isEmpty()
 				|| name.trim().isEmpty()) {
 			validator.add(new ValidationMessage(Messages.USER_CANNOT_BE_EMPTY,

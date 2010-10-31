@@ -1,45 +1,50 @@
 package br.usp.ime.cogroo.interceptors;
 
-// TODO estou no package correto?
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
-// XXX Acho que a annotation só funciona com Tomcat 7, pois é Servlets 3.0.
-//@WebListener
+import br.usp.ime.cogroo.model.LoggedUser;
+
 /**
  * @author Michel
  */
+// @WebListener
 public class SessionListener implements HttpSessionListener {
 
-	private static final String SESSION_COUNTER = "sessionCounter";
+	public static final String SESSION_COUNTER = "sessionCounter";
 
 	@Override
 	public void sessionCreated(HttpSessionEvent se) {
-		Integer counter = (Integer) se.getSession().getServletContext()
+		AtomicInteger counter = (AtomicInteger) se.getSession().getServletContext()
 				.getAttribute(SESSION_COUNTER);
 		if (counter == null)
-			counter = 0;
-		counter++;
+			counter = new AtomicInteger();
+		counter.incrementAndGet();
 		se.getSession().getServletContext()
 				.setAttribute(SESSION_COUNTER, counter);
+
+		// XXX Ideal caso ApplicationData fosse acessível a partir daqui.
+		// appData.incOnlineUsers()
 	}
 
 	@Override
 	public void sessionDestroyed(HttpSessionEvent se) {
-		Integer counter = (Integer) se.getSession().getServletContext()
+		AtomicInteger counter = (AtomicInteger) se.getSession().getServletContext()
 				.getAttribute(SESSION_COUNTER);
 		if (counter == null)
-			counter = 0;
-		counter--;
+			counter = new AtomicInteger(1);
+		counter.decrementAndGet();
 		se.getSession().getServletContext()
 				.setAttribute(SESSION_COUNTER, counter);
 
-		// FIXME Fazer logout do usuário atual
-		/*
-		 * User user = loggedUser.getUser(); user.setLogged(false);
-		 * userDAO.update(user); loggedUser.logout();
-		 */
+		LoggedUser user = (LoggedUser) se.getSession().getAttribute(
+				"loggedUser");
+		if (user != null)
+			user.logout();
+
+		// appData.decOnlineUsers();
 	}
 
 }

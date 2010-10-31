@@ -38,7 +38,7 @@ public class DictionaryEntryControllerTest {
 
 		EntityManager em = HSQLDBEntityManagerFactory.createEntityManager();
 
-		LoggedUser loggedUser = new LoggedUser();
+		LoggedUser loggedUser = new LoggedUser(null);
 		loggedUser.setUser(new User("cogroo"));
 		DictionaryEntryDAO dictionaryEntryDAO = new DictionaryEntryDAO(em);
 		DictionaryEntryUserDAO dictionaryEntryUserDAO = new DictionaryEntryUserDAO(
@@ -51,7 +51,7 @@ public class DictionaryEntryControllerTest {
 		Validator validator = new MockValidator();
 		EditPosTagLogic logic2 = new EditPosTagLogic();
 		dictionaryEntryController = new DictionaryEntryController(logic,
-				result, validator, loggedUser, logic2, null);
+				result, validator, loggedUser, logic2);
 
 	}
 

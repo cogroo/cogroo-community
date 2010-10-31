@@ -6,8 +6,6 @@ import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
 import br.usp.ime.cogroo.dao.CogrooFacade;
 import br.usp.ime.cogroo.logic.RulesLogic;
-import br.usp.ime.cogroo.logic.Stats;
-import br.usp.ime.cogroo.model.errorreport.ErrorEntry;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Rule;
 
 /**
@@ -21,14 +19,10 @@ public class RuleController {
 	private final Result result;
 	private CogrooFacade cogroo;
 	private RulesLogic rulesLogic;
-	
-	//TODO Dependência parece ser necessária. Aqui é o melhor lugar?
-	private Stats stats;
 
-	public RuleController(Result result, CogrooFacade cogroo, Stats stats, RulesLogic rulesLogic) {
+	public RuleController(Result result, CogrooFacade cogroo, RulesLogic rulesLogic) {
 		this.result = result;
 		this.cogroo = cogroo;
-		this.stats = stats;
 		this.rulesLogic = rulesLogic;
 	}
 

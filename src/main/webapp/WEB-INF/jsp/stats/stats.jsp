@@ -2,11 +2,11 @@
 
 <h2>Globais</h2>
 
-<p>Membros cadastrados: ${totalMembers}</p>
-<p>Usuários online: ${applicationScope.contadorSessao}
-<p>Membros online: ${onlineMembers}</p>
-<p>Visitantes: ${applicationScope.contadorSessao - onlineMembers}</p>
-<p>Erros reportados: ${reportedErrors}</p>
+<p>Membros cadastrados: ${appData.registeredMembers}</p>
+<p>Usuários online: ${appData.onlineUsers}
+<p>Membros online: ${appData.onlineMembers}</p>
+<p>Visitantes: ${appData.onlineVisits}</p>
+<p>Erros reportados: ${appData.reportedErrors}</p>
 <br />
 
 <h2>Temporais</h2>

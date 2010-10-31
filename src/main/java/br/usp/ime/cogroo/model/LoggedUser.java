@@ -8,11 +8,22 @@ import br.com.caelum.vraptor.ioc.SessionScoped;
 public class LoggedUser {
 
 	private User user = null;
+	private final ApplicationData appData;
+	
+	public LoggedUser(ApplicationData appData) {
+		this.appData = appData;
+	}
 
 	public boolean isLogged(){
 		return (this.user != null);
 	}
 
+	public void login(User user) {
+		appData.incOnlineMembers();
+		this.user = user;
+	}
+	
+	@Deprecated
 	public void setUser(User user) {
 		this.user = user;
 	}
@@ -22,6 +33,7 @@ public class LoggedUser {
 	}
 	
 	public void logout(){
+		appData.decOnlineMembers();
 		user = null;
 	}
 

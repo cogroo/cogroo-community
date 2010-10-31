@@ -384,16 +384,16 @@ public class DictionaryManagerTest {
 		DictionaryEntryUserDAO dud = new DictionaryEntryUserDAO(em);
 		
 		// dictionaryManager without user
-		dictionaryNull = new DictionaryManager( new LoggedUser(), dd, dud, wd, pd);
+		dictionaryNull = new DictionaryManager( new LoggedUser(null), dd, dud, wd, pd);
 		
 		wesley = new User("Wesley");
-		LoggedUser lu = new LoggedUser();
+		LoggedUser lu = new LoggedUser(null);
 		lu.setUser(wesley);
 		// dictionaryManager with Wesley as user
 		dictionaryUserWesley = new DictionaryManager( lu, dd, dud, wd, pd);
 		
 		william = new User("William");
-		LoggedUser lwill = new LoggedUser();
+		LoggedUser lwill = new LoggedUser(null);
 		lwill.setUser(william);
 		// dictionaryManager with Wesley as user
 		dictionaryUserWilliam = new DictionaryManager( lwill, dd, dud, wd, pd);

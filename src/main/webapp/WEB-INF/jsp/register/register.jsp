@@ -31,6 +31,7 @@
             <p>
             	<label for="name" style="width: 150px;" class="defaultlbl">Nome</label>
             	<input type="text"  value="${ name }" maxlength="40" style="width: 300px;" class="inputtxt" name="name" id="name">
+            	<span>*</span>
             </p>
             <p>
             	<span>* Campos obrigatórios</span>

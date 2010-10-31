@@ -1,5 +1,7 @@
 package br.usp.ime.cogroo.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
 
 import br.com.caelum.vraptor.Get;
@@ -23,14 +25,16 @@ public class LoginController {
 	private UserDAO userDAO;
 	private LoggedUser loggedUser;
 	private Validator validator;
+	private HttpServletRequest request;
 	private static final Logger LOG = Logger.getLogger(LoginController.class);
 
 	public LoginController(Result result, UserDAO userDAO,
-			LoggedUser loggedUser, Validator validator) {
+			LoggedUser loggedUser, Validator validator, HttpServletRequest request) {
 		this.result = result;
 		this.userDAO = userDAO;
 		this.loggedUser = loggedUser;
 		this.validator = validator;
+		this.request = request;
 	}
 
 	@Get
@@ -77,9 +81,9 @@ public class LoginController {
 			LOG.debug("User exists.");
 		}
 		userFromDB.setLastLogin(System.currentTimeMillis());
-		userFromDB.setLogged(true);
 		userDAO.update(userFromDB);
-		loggedUser.setUser(userFromDB);
+		loggedUser.login(userFromDB);
+		request.getSession().setAttribute("loggedUser", loggedUser);
 
 		result.redirectTo(IndexController.class).index();
 	}
@@ -87,9 +91,6 @@ public class LoginController {
 	@Get
 	@Path("/logout")
 	public void logout() {
-		User user = loggedUser.getUser();
-		user.setLogged(false);
-		userDAO.update(user);
 		loggedUser.logout();
 		result.redirectTo(IndexController.class).index();
 	}

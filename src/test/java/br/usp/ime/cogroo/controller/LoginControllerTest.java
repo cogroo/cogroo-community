@@ -35,9 +35,9 @@ public class LoginControllerTest {
 		
 		mockResult = new MockResult();
 		mockUserDAO = mock(UserDAO.class);
-		loggedUser = new LoggedUser();
+		loggedUser = new LoggedUser(null);
 		Validator mockValidator = new MockValidator();
-		loginController = new LoginController(mockResult, mockUserDAO, loggedUser, mockValidator);
+		loginController = new LoginController(mockResult, mockUserDAO, loggedUser, mockValidator, null);
 
 	}
 	

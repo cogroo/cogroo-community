@@ -6,7 +6,6 @@ import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
 import br.usp.ime.cogroo.dao.CogrooFacade;
-import br.usp.ime.cogroo.logic.Stats;
 
 /**
  * Today this is the entry point of the web application. It shows a form where a
@@ -18,22 +17,15 @@ public class GrammarController {
 
 	private final Result result;
 	private CogrooFacade cogroo;
-	
-	//TODO Dependência parece ser necessária. Aqui é o melhor lugar?
-	private Stats stats;
 
-	public GrammarController(Result result, CogrooFacade cogroo, Stats stats) {
+	public GrammarController(Result result, CogrooFacade cogroo) {
 		this.result = result;
 		this.cogroo = cogroo;
-		this.stats = stats;
 	}
 
 	@Get
 	@Path("/grammar")
 	public void grammar() {
-		result.include("totalMembers", stats.getTotalMembers())
-				.include("onlineMembers", stats.getOnlineMembers())
-				.include("reportedErrors", stats.getReportedErrors());
 	}
 
 	@Post

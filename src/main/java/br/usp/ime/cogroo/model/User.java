@@ -22,9 +22,6 @@ public class User {
 	
 	@Column
 	private Long lastLogin;
-	
-	@Column
-	private Boolean logged;
 
 	/**
 	 * password cripto
@@ -59,10 +56,6 @@ public class User {
 
 	public void setLastLogin(Long lastLogin) {
 		this.lastLogin = lastLogin;
-	}
-
-	public void setLogged(Boolean logged) {
-		this.logged = logged;
 	}
 
 	public void setLogin(String login) {
