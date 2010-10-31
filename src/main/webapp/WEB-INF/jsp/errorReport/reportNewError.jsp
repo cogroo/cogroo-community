@@ -12,7 +12,7 @@ $(document).ready(function() {
 	$('#text').NobleCount('#count',{
 		on_negative: 'go_red',
 		on_positive: 'go_green',
-		max_chars: 1024
+		max_chars: 255
 	});
     
   var count=0;

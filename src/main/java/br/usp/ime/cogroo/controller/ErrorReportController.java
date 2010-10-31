@@ -101,8 +101,8 @@ public class ErrorReportController {
 	@Path("/reportNewErrorAddText")
 	public void reportNewErrorAddText(String text) {
 		if(text != null && text.length() >= 0) {
-			if( text.length() > 1024 ) {
-				text = text.substring(0,1024);
+			if( text.length() > 255 ) {
+				text = text.substring(0,255);
 			}
 			
 			List<ProcessResult> pr = cogrooFacade.processText(text);
