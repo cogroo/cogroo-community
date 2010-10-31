@@ -7,12 +7,12 @@
 		    <br/>
 		    <input type="submit" value="Processar" id="go"/>
 		</form>
-		
-		<c:if test="${not empty text}">
-			<form id="formSendErrorText"  action="<c:url value="/reportNewErrorAddText"/>" method="post" >
-			    <input type="hidden" name="text" value="${text}" />
-			    <input type="submit" value="Reportar erro" id="sendErrorText"/>
-			</form>
+		<c:if test="${loggedUser.logged}">
+			<c:if test="${not empty text}">
+				<form id="formSendErrorText"  action="<c:url value="/reportNewErrorAddText"/>" method="post" >
+				    <input type="hidden" name="text" value="${text}" />
+				    <input type="submit" value="Reportar erro" id="sendErrorText"/>
+				</form>
+			</c:if>
 		</c:if>
-
 <jsp:include page="/analysisdetails.jspf" />

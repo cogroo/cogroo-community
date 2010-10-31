@@ -168,3 +168,10 @@ table.attributes td { vertical-align: top; }
 	border:3px solid #996666;
 	padding:20px;
 }
+
+.twitter {
+	float: right;
+	position:relative;
+	width:220px;
+	height:330px;
+}

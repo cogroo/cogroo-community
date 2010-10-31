@@ -1,5 +1,27 @@
+<script src="<c:url value='/js/jquery.twitter.search.js' />" type="text/javascript" ></script>
+<script type="text/javascript"><!--//--><![CDATA[//><!--
+
+	$(document).ready(function(){
+
+		alert('here');
 		
+		$('#twitter').twitterSearch({
+			term: 'cogroo',
+			title: '#cogroo',
+			avatar:  false, 
+			titleLink: 'http://twitter.com/cogroo',
+			birdLink: 'http://twitter.com/cogroo',
+			css: {
+				img: { width: '30px', height: '30px' }
+				}
+			}); 
+	});
+	
+//--><!]]>
+
+</script>
 		
+		<div id="twitter" class="twitter"></div>
 		<h1>Bem-vindo ao CoGrOO Comunidade</h1>
 		Utilize o menu para navegação:
 		<DL>

@@ -12,10 +12,11 @@ import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.Validator;
+import br.com.caelum.vraptor.validator.ValidationMessage;
 import br.usp.ime.cogroo.dao.CogrooFacade;
-import br.usp.ime.cogroo.dao.errorreport.CommentDAO;
 import br.usp.ime.cogroo.dao.errorreport.ErrorEntryDAO;
 import br.usp.ime.cogroo.exceptions.CommunityException;
+import br.usp.ime.cogroo.exceptions.Messages;
 import br.usp.ime.cogroo.logic.SecurityUtil;
 import br.usp.ime.cogroo.logic.Stats;
 import br.usp.ime.cogroo.logic.errorreport.ErrorEntryLogic;
@@ -41,8 +42,6 @@ public class ErrorReportController {
 
 	private CogrooFacade cogrooFacade;
 
-	private CommentDAO commentDAO; 
-	
 	//TODO Dependência parece ser necessária. Aqui é o melhor lugar?
 	private Stats stats;
 	
@@ -52,7 +51,6 @@ public class ErrorReportController {
 			Result result,
 			Validator validator,
 			ErrorEntryDAO errorEntryDAO,
-			CommentDAO commentDAO,
 			SecurityUtil securityUtil,
 			CogrooFacade cogrooFacade,
 			Stats stats) {
@@ -63,7 +61,6 @@ public class ErrorReportController {
 		this.errorEntryDAO = errorEntryDAO;
 		this.securityUtil = securityUtil;
 		this.cogrooFacade = cogrooFacade;
-		this.commentDAO = commentDAO;
 		this.stats = stats;
 	}
 	
@@ -88,36 +85,16 @@ public class ErrorReportController {
 			List<String> omissionStart,
 			List<String> omissionEnd) {
 		
-		System.out.println("text.......:  "+text);
-		
-		// badint 
-		if(badint != null) {
-			for (int i = 0; i < badint.size(); i++) {
-				System.out.println("badint["+ i +"].......:  "+badint.get(i));
-				System.out.println("Commentarios["+ i +"].:  "+comments.get(i));
-				System.out.println("badintStart["+ i +"].:  "+badintStart.get(i));
-				System.out.println("badintEnd["+ i +"].:  "+badintEnd.get(i));
-				System.out.println("badintRule["+ i +"].:  "+badintRule.get(i));
-				
-			}
+		if(loggedUser.isLogged()) {
+			errorEntryLogic.addErrorEntry(loggedUser.getUser(), text, badint, comments, badintStart, badintEnd, badintRule, omissionClassification,
+					customOmissionText,
+					omissionComment, omissionReplaceBy, omissionStart, omissionEnd);
+			
+			result.redirectTo(getClass()).list();
+		} else {
+			validator.add(new ValidationMessage(
+					Messages.ONLY_LOGGED_USER_CAN_DO_THIS, Messages.ERROR));
 		}
-		
-		if(omissionClassification != null) {
-			for (int i = 0; i < omissionClassification.size(); i++) {
-				System.out.println("omissionClassification["+ i +"].......:  "+omissionClassification.get(i));
-				System.out.println("customOmissionText["+ i +"].:  "+customOmissionText.get(i));
-				System.out.println("omissionComment["+ i +"].:  "+omissionComment.get(i));
-				System.out.println("omissionReplaceBy["+ i +"].:  "+omissionReplaceBy.get(i));
-				System.out.println("omissionStart["+ i +"].:  "+omissionStart.get(i));
-				System.out.println("omissionEnd["+ i +"].:  "+omissionEnd.get(i));
-			}
-		}
-		
-		errorEntryLogic.addErrorEntry(loggedUser.getUser(), text, badint, comments, badintStart, badintEnd, badintRule, omissionClassification,
-				customOmissionText,
-				omissionComment, omissionReplaceBy, omissionStart, omissionEnd);
-		
-		result.redirectTo(getClass()).list();
 	}
 	
 	@Post
