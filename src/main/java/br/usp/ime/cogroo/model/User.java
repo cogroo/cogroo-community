@@ -52,7 +52,7 @@ public class User {
 	}
 
 	public Date getLastLogin() {
-		return new Date(lastLogin);
+		return (lastLogin != 0) ? new Date(lastLogin) : null;
 	}
 
 	public void setLastLogin(long lastLogin) {

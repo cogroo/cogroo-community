@@ -33,7 +33,7 @@ public class StatsController {
 	@Get
 	@Path("/stats")
 	public void stats() {
-		appData.setDictionaryEntries((int) dictionaryEntryDAO.count());	// TODO testar em doncovim
+		appData.setDictionaryEntries((int) dictionaryEntryDAO.count());
 		
 		long lastMonth = System.currentTimeMillis() - A_MONTH;
 		appData.setIdleUsers(userDAO.retrieveIdleUsers(lastMonth, N));

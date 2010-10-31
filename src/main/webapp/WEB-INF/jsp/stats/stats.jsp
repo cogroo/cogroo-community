@@ -40,8 +40,15 @@
 			<tr>
 				<td>${user.name}</td>
 				<td>${user.login}</td>
-				<td><fmt:formatDate value="${user.lastLogin}"
-					pattern="dd/MM/yyyy HH:mm" /></td>
+				<td><c:choose>
+					<c:when test="${not empty user.lastLogin}">
+						<fmt:formatDate value="${user.lastLogin}"
+							pattern="dd/MM/yyyy HH:mm" />
+					</c:when>
+					<c:otherwise>
+					nunca
+					</c:otherwise>
+				</c:choose></td>
 			</tr>
 		</c:forEach>
 	</tbody>
@@ -63,8 +70,15 @@
 			<tr>
 				<td>${user.name}</td>
 				<td>${user.login}</td>
-				<td><fmt:formatDate value="${user.lastLogin}"
-					pattern="dd/MM/yyyy HH:mm" /></td>
+				<td><c:choose>
+					<c:when test="${not empty user.lastLogin}">
+						<fmt:formatDate value="${user.lastLogin}"
+							pattern="dd/MM/yyyy HH:mm" />
+					</c:when>
+					<c:otherwise>
+					nunca
+					</c:otherwise>
+				</c:choose></td>
 			</tr>
 		</c:forEach>
 	</tbody>
@@ -87,8 +101,15 @@
 			<tr>
 				<td>${user.name}</td>
 				<td>${user.login}</td>
-				<td><fmt:formatDate value="${user.lastLogin}"
-					pattern="dd/MM/yyyy HH:mm" /></td>
+				<td><c:choose>
+					<c:when test="${not empty user.lastLogin}">
+						<fmt:formatDate value="${user.lastLogin}"
+							pattern="dd/MM/yyyy HH:mm" />
+					</c:when>
+					<c:otherwise>
+					nunca
+					</c:otherwise>
+				</c:choose></td>
 			</tr>
 		</c:forEach>
 	</tbody>
