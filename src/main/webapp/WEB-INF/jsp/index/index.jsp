@@ -7,7 +7,7 @@
 
 		$('#twitter').twitterSearch({
 			term: 'cogroo',
-			title: '#cogroo',
+			title: '@cogroo',
 			avatar:  false, 
 			titleLink: 'http://twitter.com/cogroo',
 			birdLink: 'http://twitter.com/cogroo',

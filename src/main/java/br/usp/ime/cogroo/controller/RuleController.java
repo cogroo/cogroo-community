@@ -1,11 +1,16 @@
 package br.usp.ime.cogroo.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
 import br.usp.ime.cogroo.dao.CogrooFacade;
 import br.usp.ime.cogroo.logic.RulesLogic;
+import br.usp.ime.cogroo.model.Pair;
+import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Example;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Rule;
 
 /**
@@ -39,7 +44,20 @@ public class RuleController {
 			result.redirectTo(getClass()).ruleList();
 			return;
 		}
-		
-		result.include("rule", rulesLogic.getRule(rule.getId()));
+		rule = rulesLogic.getRule(rule.getId());
+		List<Pair<String,String>> exampleList = new ArrayList<Pair<String,String>>();
+		for (Example example : rule.getExample()) {
+			
+			exampleList.add(new Pair<String,String>(
+					cogroo.getAnnotatedText(
+							example.getCorrect(), 
+							cogroo.processText(example.getCorrect())), 
+					cogroo.getAnnotatedText(
+							example.getIncorrect(), 
+							cogroo.processText(example.getIncorrect())	
+					)));
+		}
+		result.include("rule", rule)
+			.include("exampleList", exampleList);
 	}
 }
