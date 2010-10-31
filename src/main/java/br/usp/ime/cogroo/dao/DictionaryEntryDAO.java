@@ -43,6 +43,10 @@ public class DictionaryEntryDAO {
 		em.remove(masterDictionaryEntry);
 
 	}
+	
+	public long count() {
+		return (Long) em.createQuery("SELECT count(*) from " + DICTIONARY_ENTRY_ENTITY).getSingleResult();
+	}
 
 	@SuppressWarnings("unchecked")
 	public List<DictionaryEntry> listAll() {

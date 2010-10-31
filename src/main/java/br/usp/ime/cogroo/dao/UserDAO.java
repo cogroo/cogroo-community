@@ -40,14 +40,14 @@ public class UserDAO {
 	public void delete(User user) {
 		em.remove(user);
 	}
+	
+	public long count() {
+		return (Long) em.createQuery("SELECT count(*) from " + USER_ENTITY).getSingleResult();
+	}
 
 	@SuppressWarnings("unchecked")
 	public List<User> listAll() {
 		return em.createQuery("from " + USER_ENTITY).getResultList();
-	}
-	
-	public long count() {
-		return (Long) em.createQuery("SELECT count(*) from " + USER_ENTITY).getSingleResult();
 	}
 	
 	public long countLoginLater(long lastLogin) {

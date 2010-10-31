@@ -112,7 +112,6 @@
 			<c:if test="${loggedUser.logged}">
 				<p>Bem-vindo, <span>${loggedUser.user.name}</span>, ao CoGrOO Comunidade.<a href="<c:url value="/logout"/>">(logout)</logout></a></p>
 			</c:if>
-			<!-- ${appData.version} -->
     </div>
 	<div id="logoCogroo"><div id="logoBROffice"></div></div>
 	<div>
