@@ -1,6 +1,7 @@
 package br.usp.ime.cogroo.model;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.annotation.PostConstruct;
@@ -19,7 +20,9 @@ public class ApplicationData {
 	private AtomicInteger onlineUsers = new AtomicInteger();
 	private AtomicInteger onlineMembers = new AtomicInteger();
 	
-	private ArrayList<User> loggedUsers = new ArrayList<User>();
+	private List<User> loggedUsers = new ArrayList<User>();
+	private List<User> idleUsers = new ArrayList<User>();
+	private List<User> topUsers = new ArrayList<User>();
 
 	@PostConstruct
 	public void populate() {
@@ -90,7 +93,7 @@ public class ApplicationData {
 		return this.onlineUsers.get() - this.onlineMembers.get();
 	}
 	
-	public ArrayList<User> getLoggedUsers() {
+	public List<User> getLoggedUsers() {
 		return loggedUsers;
 	}
 	
@@ -100,5 +103,21 @@ public class ApplicationData {
 	
 	public void removeLoggedUser(User user) {
 		this.loggedUsers.remove(user);
+	}
+
+	public List<User> getIdleUsers() {
+		return idleUsers;
+	}
+	
+	public void setIdleUsers(List<User> idleUsers) {
+		this.idleUsers = idleUsers;
+	}
+
+	public List<User> getTopUsers() {
+		return topUsers;
+	}
+
+	public void setTopUsers(List<User> topUsers) {
+		this.topUsers = topUsers;
 	}
 }

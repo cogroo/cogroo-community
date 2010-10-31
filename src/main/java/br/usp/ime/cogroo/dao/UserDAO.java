@@ -57,6 +57,24 @@ public class UserDAO {
 								+ " where lastLogin > ?")
 				.setParameter(1, lastLogin).getSingleResult();
 	}
+	
+	@SuppressWarnings("unchecked")
+	public List<User> retrieveTopUsers(long lastLogin, int n) {
+		return em
+				.createQuery(
+						"from "
+								+ USER_ENTITY
+								+ " where lastLogin > ? order by lastLogin desc")
+				.setParameter(1, lastLogin).setMaxResults(n).getResultList();
+	}
+
+	@SuppressWarnings("unchecked")
+	public List<User> retrieveIdleUsers(long lastLogin, int n) {
+		return em
+				.createQuery(
+						"from " + USER_ENTITY + " where lastLogin < ?")
+				.setParameter(1, lastLogin).setMaxResults(n).getResultList();
+	}
 
 	public boolean exist(String toBeFound) {
 		return (retrieveByLogin(toBeFound) != null);

@@ -10,7 +10,6 @@ import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.core.InterceptorStack;
 import br.com.caelum.vraptor.interceptor.Interceptor;
 import br.com.caelum.vraptor.resource.ResourceMethod;
-import br.usp.ime.cogroo.dao.DictionaryEntryDAO;
 import br.usp.ime.cogroo.dao.UserDAO;
 import br.usp.ime.cogroo.dao.errorreport.ErrorEntryDAO;
 import br.usp.ime.cogroo.model.ApplicationData;
@@ -22,7 +21,6 @@ public class SystemInterceptor implements Interceptor {
 	private final Result result;
 
 	private final ErrorEntryDAO errorEntryDAO;
-	private final DictionaryEntryDAO dictionaryEntryDAO;
 	private final UserDAO userDAO;
 
 	private final HttpServletRequest request;
@@ -31,12 +29,11 @@ public class SystemInterceptor implements Interceptor {
 
 	public SystemInterceptor(Result result, HttpServletRequest request,
 			ApplicationData appData, ErrorEntryDAO errorEntryDAO,
-			DictionaryEntryDAO dictionaryEntryDAO, UserDAO userDAO) {
+			UserDAO userDAO) {
 		this.result = result;
 		this.request = request;
 		this.appData = appData;
 		this.errorEntryDAO = errorEntryDAO;
-		this.dictionaryEntryDAO = dictionaryEntryDAO;
 		this.userDAO = userDAO;
 	}
 
@@ -51,7 +48,6 @@ public class SystemInterceptor implements Interceptor {
 		// XXX Ineficiente. Porém, não consigo acessar a DAO em nenhum outro
 		// ponto "global".
 		appData.setReportedErrors((int) errorEntryDAO.count());
-		appData.setDictionaryEntries((int) dictionaryEntryDAO.count());	// TODO testar em doncovim
 		appData.setRegisteredMembers((int) userDAO.count());
 		appData.setOnlineUsers(((AtomicInteger) request.getSession()
 				.getServletContext()

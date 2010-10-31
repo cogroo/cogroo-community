@@ -1,6 +1,7 @@
 package br.usp.ime.cogroo.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -21,7 +22,7 @@ public class User {
 	private String login;
 	
 	@Column
-	private Long lastLogin;
+	private long lastLogin;
 
 	/**
 	 * password cripto
@@ -50,11 +51,11 @@ public class User {
 		this.id = id;
 	}
 
-	public Long getLastLogin() {
-		return lastLogin;
+	public Date getLastLogin() {
+		return new Date(lastLogin);
 	}
 
-	public void setLastLogin(Long lastLogin) {
+	public void setLastLogin(long lastLogin) {
 		this.lastLogin = lastLogin;
 	}
 
