@@ -40,6 +40,9 @@ public class GrammarController {
 	@Path("/grammar")
 	public void grammar(String text) {
 		if (text != null && text.length() > 0) {
+			if(text.length() > 1024) {
+				text = text.substring(0, 1024);
+			}
 			result.include("processResultList", cogroo.processText(text))
 					.include("text", text);
 		}

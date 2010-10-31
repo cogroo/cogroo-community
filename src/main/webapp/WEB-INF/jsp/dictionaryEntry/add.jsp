@@ -70,8 +70,8 @@ label.typeField {
 	<fieldset>
 		<legend>Inserir um novo verbete:</legend>
 		
-		   	Escolha o lema do verbete:      <input type="text" name="dictionaryEntry.lemma.word" value="${dictionaryEntry.lemma.word}"/><br/>
-		  	Palavra:      <input type="text" name="dictionaryEntry.word.word" value="${dictionaryEntry.word.word}"/><br/>
+		   	Escolha o lema do verbete:      <input type="text" name="dictionaryEntry.lemma.word" value="${dictionaryEntry.lemma.word}  maxlength="128""/><br/>
+		  	Palavra:      <input type="text" name="dictionaryEntry.word.word" value="${dictionaryEntry.word.word}" maxlength="128"/><br/>
 		  	Etiqueta morfológica:  <br />
 		  	
 		<%! int i=0; %>
@@ -79,7 +79,7 @@ label.typeField {
 		<c:forEach items="${typeFieldList}" var="typeField" > 
 		
 		<div class="grupo">
-		<label class="typeField"><input type="radio" name="tagClass" value="${typeField.type}" /> 
+		<label class="typeField"><input type="radio" name="tagClass" value="${typeField.type} " /> 
 			<fmt:message key="${typeField.type}"/>
 		</label>
 			

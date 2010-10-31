@@ -3,8 +3,6 @@
 
 	$(document).ready(function(){
 
-		alert('here');
-		
 		$('#twitter').twitterSearch({
 			term: 'cogroo',
 			title: '#cogroo',

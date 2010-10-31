@@ -3,14 +3,21 @@
 <%@ page contentType="text/html; charset=UTF-8" %>  
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <script src="<c:url value='/js/jquery-fieldselection.js' />" type="text/javascript" ></script>
+<script src="<c:url value='/js/jquery.NobleCount.min.js' />" type="text/javascript" ></script>
 
 <script type="text/javascript" charset="utf-8">
 
 $(document).ready(function() {
+	
+	$('#text').NobleCount('#count',{
+		on_negative: 'go_red',
+		on_positive: 'go_green',
+		max_chars: 1024
+	});
     
   var count=0;
   
-  // Webkit bug: can't use select if textarea is readonly
+    // Webkit bug: can't use select if textarea is readonly
   	if ($.browser.webkit) {
   		$("#selector").removeAttr( "readonly" )
 	 }
@@ -53,10 +60,11 @@ $(document).ready(function() {
     
   });
   
-$('#b').click(function() {     
-  alert(getSelection());
-});
+	$('#b').click(function() {     
+	  alert(getSelection());
+	});
 
+	
 });
 </script>
 
@@ -77,8 +85,8 @@ $('#b').click(function() {
 	<c:if test="${empty text}">
 		<legend>Digite um texto para verificar o comportamento do CoGrOO:</legend>
 		<form id="formSendErrorText"  action="<c:url value="/reportNewErrorAddText"/>" method="post" >
-		    <textarea rows="4" cols="70" name="text">${text}</textarea>
-		    <input type="submit" value="Enviar" id="sendErrorText"/>
+		    <textarea rows="4" cols="70" name="text" id="text">${text}</textarea><br/>
+		    <span id="count">1024</span> <input type="submit" value="Enviar" id="sendErrorText"/>
 		</form>
 	</c:if>
 	<c:if test="${not empty text}">

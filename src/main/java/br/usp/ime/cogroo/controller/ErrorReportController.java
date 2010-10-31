@@ -100,12 +100,20 @@ public class ErrorReportController {
 	@Post
 	@Path("/reportNewErrorAddText")
 	public void reportNewErrorAddText(String text) {
-		List<ProcessResult> pr = cogrooFacade.processText(text);
-		result.include("text", text).
-			include("annotatedText", cogrooFacade.getAnnotatedText(text, pr)).
-			include("singleGrammarErrorList", cogrooFacade.asSingleGrammarErrorList(text, pr)).
-			include("omissionCategoriesList", this.errorEntryLogic.getErrorCategoriesForUser()).
-			redirectTo(getClass()).reportNewError();
+		if(text != null && text.length() >= 0) {
+			if( text.length() > 1024 ) {
+				text = text.substring(0,1024);
+			}
+			
+			List<ProcessResult> pr = cogrooFacade.processText(text);
+			result.include("text", text).
+				include("annotatedText", cogrooFacade.getAnnotatedText(text, pr)).
+				include("singleGrammarErrorList", cogrooFacade.asSingleGrammarErrorList(text, pr)).
+				include("omissionCategoriesList", this.errorEntryLogic.getErrorCategoriesForUser()).
+				redirectTo(getClass()).reportNewError();
+		} else {
+			result.redirectTo(getClass()).reportNewError();
+		}
 		
 	}
 	
