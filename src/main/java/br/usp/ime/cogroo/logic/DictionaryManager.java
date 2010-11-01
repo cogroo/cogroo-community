@@ -452,7 +452,7 @@ public class DictionaryManager implements LexicalDictionary {
 	
 	public NicePrintDictionaryEntry generateNicePrint(DictionaryEntry dictionaryEntry) {
 		MorphologicalTag mt = ti.parseMorphologicalTag(dictionaryEntry.getPosTag().getPosTag());
-		NicePrintDictionaryEntry np = new NicePrintDictionaryEntry(dictionaryEntry, mt.asTagList());
+		NicePrintDictionaryEntry np = new NicePrintDictionaryEntry(dictionaryEntry, mt.getAsTagList());
 		return np;
 	}
 

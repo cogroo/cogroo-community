@@ -31,7 +31,7 @@ public class ErrorEntry {
 	
 	private int spanEnd;
 
-	@OneToMany(mappedBy = "errorEntry")
+	@OneToMany(mappedBy = "errorEntry", cascade = CascadeType.ALL)
 	private List<Comment> comments;
 
 	@ManyToOne

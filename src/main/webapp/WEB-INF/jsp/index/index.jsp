@@ -16,8 +16,8 @@
 				}
 			}); 
 		
-		$('#test').rssfeed('http://ccsl.ime.usp.br/cogroo/pt-br/rss.xml', {
-		    limit: 20,
+		$('#news').rssfeed('http://ccsl.ime.usp.br/cogroo/pt-br/rss.xml', {
+		    limit: 1,
 		    content: true,
 		    snippet: false,
 		    errormsg: 'Não foi possível abrir notícias.'
@@ -48,4 +48,4 @@
 		
 		<h1>Notícias</h1>
 		
-		<div id="test"><div> 
+		<div id="news"><div> 

@@ -60,7 +60,7 @@
 											<td>${ j.count }</td>
 											<td>${token.lexeme}</td>
 											<td>${token.primitive}</td>
-											<td>${token.morphologicalTag}</td>
+											<td><c:forEach items="${token.morphologicalTag.asTagList}" var="tagPart"><fmt:message key="${tagPart}"/>, </c:forEach></td>
 									    </tr>
 									</c:forEach>
 								</tbody>
