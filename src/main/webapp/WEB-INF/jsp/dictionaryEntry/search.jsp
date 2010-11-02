@@ -5,11 +5,10 @@
 <script src="<c:url value='/js/jquery.dataTables.min.js' />" type="text/javascript" ></script>
 
 <script type="text/javascript" charset="utf-8">
-	var oTable;
 	
 	$(document).ready(function() {
 		
-		oTable = $('#resultsTable').dataTable( {
+		$('#table_id').dataTable({
 			"oLanguage": {
 				"sLengthMenu": "Exibir _MENU_ entradas por página",
 				"sSearch": "Filtrar entradas:",
@@ -20,7 +19,7 @@
 				"sZeroRecords": "Desculpe, nada encontrado.",
 				"sInfo": "Exibindo de _START_ até _END_ de um total de _TOTAL_ entradas",
 				"sInfoEmpty": "Exibindo de 0 até 0 de um total de 0 entradas",
-				"sInfoFiltered": "(filtrados de um total de _MAX_ entradas)"
+			"sInfoFiltered": "(filtrados de um total de _MAX_ entradas)"
 			}
 		} );
 		
@@ -47,7 +46,7 @@
 		</c:when>
 		<c:when test="${not empty dictionaryEntryList}">
 			<form action="<c:url value="/dictionaryEntryDelete"/>" method="post">
-			<table id="resultsTable">
+			<table cellpadding="0" cellspacing="0" border="0" class="display" id="table_id">
 				<caption>
 					<p>Resultado da busca pela palavra: "<b>${word}</b>"</p>
 				</caption>
@@ -59,7 +58,6 @@
 						<th>Etiqueta</th>
 					</tr>					
 				</thead>
-				<tr>
 				<%!int i = 0;%>
 				<c:forEach items="${dictionaryEntryList}" var="dictionaryEntry">
 					<tr>
@@ -83,8 +81,6 @@
 <!--				<button type="submit" name="_method" value="DELETE">Apagar</button>-->
 <!--			</c:if>-->
 			</form>
-			<br/>
-			<br/>
 			<br/>
 		</c:when>
 	</c:choose>
