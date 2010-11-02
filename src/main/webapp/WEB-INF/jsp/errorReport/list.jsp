@@ -19,14 +19,10 @@
 		   		function(data){
 		   });
 			//location.reload();
-			//var nTr = $('#tr_errorEntry' + currentId).get(0);
-			//oTable.fnClose( nTr );
-			//$('#tr_errorEntry' + currentId).remove();
+			var nTr = $('#tr_errorEntry' + currentId).get(0);
+			oTable.fnClose( nTr );
+			oTable.fnDeleteRow(nTr);
 			
-			//oTable.fnClearTable( 0 );
-			//oTable.fnDraw();
-			oTable.fnDeleteRow('#tr_errorEntry' + currentId);
-
 		};
 	};
 

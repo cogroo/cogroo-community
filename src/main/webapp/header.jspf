@@ -116,29 +116,29 @@
 	<div id="logoCogroo"><div id="logoBROffice"></div></div>
 	<div>
 		<ul id="menu" class="menu">
-			<li><span>Comunidade</span>
+			<li><span title="Acompanhe notícias e saiba mais sobre o projeto">Comunidade</span>
 				<ul>
-					<li><a href="<c:url value="/"/>">Bem-vindo</a></li>
-					<li><a href="<c:url value="/about"/>">Sobre...</a></li>
+					<li><a title="Notícias do projeto" href="<c:url value="/"/>">Bem-vindo</a></li>
+					<li><a title="Histórico do Cogroo Comunidade" href="<c:url value="/about"/>">Sobre</a></li>
 				</ul>
 			</li>
-			<li><a href="<c:url value="/grammar"/>">Análise Gramatical</a></li>
-			<li><span>Dicionário</span>
+			<li><a title="Experimente o CoGrOO e explore os resultados: erros gramaticais, análise morfológica e de agrupamentos." href="<c:url value="/grammar"/>">Análise Gramatical</a></li>
+			<li><span title="Explore o dicionário do CoGrOO. No futuro, será possível editar e criar novas entradas.">Dicionário</span>
 				<ul>
-					<li><a href="<c:url value="/dictionaryEntrySearch"/>">Consultar Palavra</a></li>
+					<li><a title="Faça consultas ao léxico" href="<c:url value="/dictionaryEntrySearch"/>">Consultar Palavra</a></li>
 					<!--<c:if test="${loggedUser.logged}">
 						<li><a href="<c:url value="/dictionaryEntry"/>">Inserir Palavra</a></li>
 						<li><a href="<c:url value="/dictionaryEntries"/>">Minhas palavras</a></li>					
 					</c:if>-->
 				</ul>
 			</li>
-			<li><a href="<c:url value="/ruleList"/>">Regras</a></li>
+			<li><a title="Explore as regras implementadas no CoGrOO. No futuro, será possível editar e criar novas regras." href="<c:url value="/ruleList"/>">Regras</a></li>
 			<!-- <li><a href="#">Sugestões</a></li> -->
-			<li><span>Problemas</span>
+			<li><span title="Veja os problemas reportados pela comunidade. É possível reportar usando um formulário on-line, ou pelo próprio BrOffice.org com CoGrOO 3.0.7 ou melhor.">Problemas</span>
 				<ul>
-					<li><a href="<c:url value="/errorEntries"/>">Reportados</a></li>
+					<li><a title="Veja a lista de erros reportados" href="<c:url value="/errorEntries"/>">Reportados</a></li>
 					<c:if test="${loggedUser.logged}">
-						<li><a href="<c:url value="/reportNewError"/>">Reportar novo</a></li>
+						<li><a title="Reporte um novo erro"  href="<c:url value="/reportNewError"/>">Reportar novo</a></li>
 					</c:if>
 				</ul>
 			</li>

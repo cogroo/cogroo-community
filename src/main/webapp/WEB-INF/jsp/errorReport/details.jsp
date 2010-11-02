@@ -2,6 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" %>  
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<script src="<c:url value='/js/analysisdetails.js' />" type="text/javascript" ></script>
 
 	<script type="text/javascript"><!--//--><![CDATA[//><!--
 
@@ -136,6 +137,9 @@ table.answer td {
 		                              
 		<p><strong>Análise gramatical</strong></p>
 		
+		
+		<c:set var="processResultList" scope="request" value="${processResultList}" />    
+		<c:set var="id" scope="request" value="c${i.count}" />
 		<jsp:include page="/analysisdetails.jspf" />
 	</div>
 	<div class="report_disscussion">

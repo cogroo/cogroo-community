@@ -17,11 +17,13 @@
 			}); 
 		
 		$('#news').rssfeed('http://ccsl.ime.usp.br/cogroo/pt-br/rss.xml', {
-		    limit: 1,
+		    limit: 10,
 		    content: true,
 		    snippet: false,
 		    errormsg: 'Não foi possível abrir notícias.'
 		  });
+		
+		alert('dada');
 	});
 	
 //--><!]]>
@@ -29,23 +31,9 @@
 </script>
 		
 		<div id="twitter" class="twitter"></div>
-		<h1>Bem-vindo ao CoGrOO Comunidade</h1>
-		Utilize o menu para navegação:
-		<DL>
-			<DT><STRONG>Comunidade</STRONG></DT>
-				<DD>Acompanhe notícias e saiba mais sobre o projeto</DD>
-			<DT><STRONG>Análise gramatical</STRONG></DT>
-				<DD>Experimente o CoGrOO e explore os resultados: erros gramaticais, análise morfológica e de agrupamentos.</DD>
-			<DT><STRONG>Dicionário</STRONG></DT>
-				<DD>Explore o dicionário do CoGrOO. No futuro, será possível editar e criar novas entradas.</DD>
-			<DT><STRONG>Regras</STRONG></DT>
-				<DD>Explore as regras implementadas no CoGrOO. No futuro, será possível editar e criar novas regras.</DD>
-			<DT><STRONG>Sugestões</STRONG></DT>
-				<DD>No futuro será possível ver as sugestões enviadas pela comunidade (em construção)</DD>
-			<DT><STRONG>Problemas</STRONG></DT>
-				<DD>Veja os problemas reportados pela comunidade. É possível reportar usando um formulário on-line, ou pelo próprio BrOffice.org com CoGrOO 3.0.7 ou melhor.</DD>
-		</DL>
-		
+	
 		<h1>Notícias</h1>
 		
-		<div id="news"><div> 
+		<div id="newswrapper">
+			<div id="news"></div>
+		</div> 
