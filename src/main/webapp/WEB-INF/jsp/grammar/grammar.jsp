@@ -1,3 +1,4 @@
+<script src="<c:url value='/js/analysisdetails.js' />" type="text/javascript" ></script>
 <script src="<c:url value='/js/jquery.NobleCount.min.js' />" type="text/javascript" ></script>
 <script type="text/javascript"><!--//--><![CDATA[//><!--
 
@@ -28,4 +29,6 @@
 				</form>
 			</c:if>
 		</c:if>
-<jsp:include page="/analysisdetails.jspf" />
+		<c:set var="processResultList" scope="request" value="${processResultList}" />    
+		<c:set var="id" scope="request" value="id" />
+		<jsp:include page="/analysisdetails.jspf" />

@@ -10,6 +10,7 @@ import br.com.caelum.vraptor.Result;
 import br.usp.ime.cogroo.dao.CogrooFacade;
 import br.usp.ime.cogroo.logic.RulesLogic;
 import br.usp.ime.cogroo.model.Pair;
+import br.usp.ime.cogroo.model.ProcessResult;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Example;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Rule;
 
@@ -45,18 +46,27 @@ public class RuleController {
 			return;
 		}
 		rule = rulesLogic.getRule(rule.getId());
-		List<Pair<String,String>> exampleList = new ArrayList<Pair<String,String>>();
+		
+		List<Pair<Pair<String,List<ProcessResult>>,Pair<String,List<ProcessResult>>>> exampleList =
+			new ArrayList<Pair<Pair<String,List<ProcessResult>>,Pair<String,List<ProcessResult>>>>();
+		
 		for (Example example : rule.getExample()) {
 			
-			exampleList.add(new Pair<String,String>(
-					cogroo.getAnnotatedText(
-							example.getIncorrect(), 
-							cogroo.processText(example.getIncorrect())),
-					cogroo.getAnnotatedText(
-							example.getCorrect(), 
-							cogroo.processText(example.getCorrect()))
-					));
+			List<ProcessResult> incorrect = cogroo.processText(example.getIncorrect());
+			List<ProcessResult> correct = cogroo.processText(example.getCorrect());
+			
+			String incorrectStr = cogroo.getAnnotatedText(example.getIncorrect(), incorrect);
+			String correctStr = cogroo.getAnnotatedText(example.getCorrect(), correct);
+			
+			Pair<String,List<ProcessResult>> incorrectPair = new Pair<String, List<ProcessResult>>(incorrectStr, incorrect);
+			Pair<String,List<ProcessResult>> correctPair = new Pair<String, List<ProcessResult>>(correctStr, correct);
+			
+			Pair<Pair<String,List<ProcessResult>>,Pair<String,List<ProcessResult>>> examplePair = 
+				new Pair<Pair<String,List<ProcessResult>>, Pair<String,List<ProcessResult>>>(incorrectPair, correctPair);
+			
+			exampleList.add(examplePair);
 		}
+		
 		result.include("rule", rule)
 			.include("exampleList", exampleList);
 	}

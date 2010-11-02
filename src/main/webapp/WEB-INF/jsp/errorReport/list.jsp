@@ -21,10 +21,11 @@
 			//location.reload();
 			//var nTr = $('#tr_errorEntry' + currentId).get(0);
 			//oTable.fnClose( nTr );
-			$('#tr_errorEntry' + currentId).remove();
+			//$('#tr_errorEntry' + currentId).remove();
 			
 			//oTable.fnClearTable( 0 );
-			oTable.fnDraw();
+			//oTable.fnDraw();
+			oTable.fnDeleteRow('#tr_errorEntry' + currentId);
 
 		};
 	};

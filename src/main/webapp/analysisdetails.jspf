@@ -9,10 +9,14 @@
 
 <script src="<c:url value='/js/jquery.dataTables.min.js' />" type="text/javascript" ></script>
 <script src="<c:url value='/js/jquery-ui-1.8.5.custom.min.js' />" type="text/javascript" ></script>
-<script src="<c:url value='/js/analysisdetails.js' />" type="text/javascript" ></script>
 
 	<c:if test="${not empty processResultList}">
-		<table cellpadding="0" cellspacing="0" border="0" class="display" id="table_id">
+		<c:if test="${not empty hidden}">
+			<a onclick="onOff('hidden_${id}'); return false" href="#">análise</a>
+			<div id="hidden_${id}" class="hidden_div">
+		</c:if>
+
+		<table cellpadding="0" cellspacing="0" border="0" class="display" id="analysisTable_${id}">
 			<thead>
 				<tr>
 				  <th></th>
@@ -25,11 +29,11 @@
 			<tbody>
 				<c:forEach items="${processResultList}" var="processResult" varStatus="i">
 					<tr>
-						<td valign="middle"><img src="./images/details_open.png"></td>
+						<td valign="middle"><img class="analysisTableDetails" src="./images/details_open.png"></td>
 						<td>${ i.count }</td>
 						<td>${processResult.textAnnotatedWithErrors}</td>
 						<td>
-								<form id="form_${ i.count }" action="/phpsyntaxtree/?" method="post" target="externalSite">
+								<form id="form_${id}${ i.count }" action="/phpsyntaxtree/?" method="post" target="externalSite">
 									<input  type="hidden" name="antialias" value="on" />
 									<input  type="hidden" name="autosub" value="on" />
 									<input  type="hidden" name="autosub" value="on" />
@@ -40,7 +44,7 @@
 									<input  type="hidden" name="fontsize" value="8" />
 									<input  type="hidden" name="opencount" value="5" />
 									<input  type="hidden" name="triangles" value="on" />
-									<a id="_${ i.count }" class="iframe" href="about:blank" title="Agrupamentos">Exibir agrupamentos</a>
+									<a id="_${id}${ i.count }" class="iframe" href="about:blank" title="Agrupamentos">Exibir agrupamentos</a>
 								</form>
 						</td>
 						<td>
@@ -95,4 +99,7 @@
 				</c:forEach>
 			</tbody>
 		</table>
+		<c:if test="${not empty hidden}">
+			</div>
+		</c:if>
 	</c:if>
