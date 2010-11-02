@@ -1,6 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<link rel="stylesheet" type="text/css" href="<c:url value="/css/dataTables_table_jui.css"/>" />
+<link rel="stylesheet" type="text/css" href="<c:url value="/css/dataTables_table.css"/>" />
+
+<script src="<c:url value='/js/jquery.dataTables.min.js' />" type="text/javascript" ></script>
 
 <script type="text/javascript" charset="utf-8">
 	var oTable;
