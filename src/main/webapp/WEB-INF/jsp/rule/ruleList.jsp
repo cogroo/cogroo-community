@@ -70,7 +70,8 @@
 
 
 	<br/>
-	<p>Erros enviados através do plug-in CoGrOO para BrOffice.org</p>
+	Regras implementadas. Clique no número da regra para detalhes. 
+	Regras com número tachado significa que está desabilitada. 
 	<table cellpadding="0" cellspacing="0" border="0" class="display" id="table_id">
 		<thead>
 			<tr>
@@ -86,7 +87,15 @@
 			<c:forEach items="${ruleList}" var="rule">
 				<tr>
 					<td valign="middle"><img src="./images/details_open.png"></td>
-					<td><a href="<c:url value="/rule?rule.id=${rule.id}"/>">${rule.id}</a></td>
+					<td>
+						<c:if test="${rule.active == false}">
+						<span style="text-decoration: line-through;">
+						</c:if>
+						<a href="<c:url value="/rule?rule.id=${rule.id}"/>">${rule.id}</a>
+						<c:if test="${rule.active == false}">
+						</span>
+						</c:if>
+					</td>
 					<td>${rule.type}</td>
 					<td>${rule.group}</td>
 					<td>${rule.shortMessage}</td>

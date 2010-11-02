@@ -36,5 +36,25 @@ public class RulesLogic {
 		init();
 		return ruleMap.get(id);
 	}
+	
+	public String getNextRuleID(long currentRuleID) {
+		long max = ruleMap.lastKey().longValue();
+		for(long i = currentRuleID + 1; i <= max; i++) {
+			if(ruleMap.get(Long.valueOf(i)) != null) {
+				return Long.toString(i);
+			}
+		}
+		return null;
+	}
+	
+	public String getPreviousRuleID(long currentRuleID) {
+		long min = ruleMap.firstKey().longValue();
+		for(long i = currentRuleID - 1; i >= min; i--) {
+			if(ruleMap.get(Long.valueOf(i)) != null) {
+				return Long.toString(i);
+			}
+		}
+		return null;
+	}
 
 }

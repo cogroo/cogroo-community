@@ -1,6 +1,13 @@
 <script src="<c:url value='/js/analysisdetails.js' />" type="text/javascript" ></script>
 
-
+<span style="FLOAT: right; POSITION: static">
+<c:if test="${previousRule != NULL}">
+<a href="<c:url value="/rule?rule.id=${previousRule}"/>">anterior</a>
+</c:if>
+<c:if test="${nextRule != NULL}">
+<a href="<c:url value="/rule?rule.id=${nextRule}"/>">próxima</a>
+</c:if>
+</span>
 <div class="report_details">
 	<table class="attributes">
 		<tbody>
@@ -15,6 +22,9 @@
 			</tr>
 			<tr>
 			    <th>Mensagem:</th><td>${rule.message}</td>
+			</tr>
+			<tr>
+			    <th>Ativa:</th><td><fmt:message  key="${rule.active}"/></td>
 			</tr>
 			<tr>
 			    <th>Exemplos:</th>

@@ -2,25 +2,27 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
-<script type="text/javascript">
-//<![CDATA[
+<script type="text/javascript" charset="utf-8">
+	var oTable;
+	
 	$(document).ready(function() {
-		$('#resposta tbody tr:odd').addClass('odd');
-		$('#resposta tbody tr:even').addClass('even');
-		var word = "palavra";
-		$('#word').val(word).css('color', '#999')
-			.focus(function(){
-				if ($(this).val() == word){
-					$(this).css('color', '').val('');
-				}
-			}).blur(function(){
-				if ($(this).val() == '' ){
-					$(this).val(word).css('color', '#999');
-				}
-			});
-			
-	});
-   // ]]>
+		
+		oTable = $('#resultsTable').dataTable( {
+			"oLanguage": {
+				"sLengthMenu": "Exibir _MENU_ entradas por página",
+				"sSearch": "Filtrar entradas:",
+				"sFirst": "Primeira página",
+				"sLast": "Última página",
+				"sNext": "Próxima página",
+				"sPrevious": "Página anterior",
+				"sZeroRecords": "Desculpe, nada encontrado.",
+				"sInfo": "Exibindo de _START_ até _END_ de um total de _TOTAL_ entradas",
+				"sInfoEmpty": "Exibindo de 0 até 0 de um total de 0 entradas",
+				"sInfoFiltered": "(filtrados de um total de _MAX_ entradas)"
+			}
+		} );
+		
+	} );
 </script>
 
 <div>
@@ -36,34 +38,35 @@
 	</form>
 </div>
 
-<div class="relatorio">
+<div class="search">
 	<c:choose>
 		<c:when	test="${dictionaryEntryList ne null and empty dictionaryEntryList}">
 			<p>Não foi possível encontrar a palavra <i>${word}</i></p>
 		</c:when>
 		<c:when test="${not empty dictionaryEntryList}">
 			<form action="<c:url value="/dictionaryEntryDelete"/>" method="post">
-			<table id="resposta" border="1">
+			<table id="resultsTable">
 				<caption>
 					<p>Resultado da busca pela palavra: "<b>${word}</b>"</p>
 				</caption>
 				<thead>
 					<tr>
-						<th></th>
+<!--						<th></th>-->
 						<th>Palavra</th>
 						<th>Lemma</th>
 						<th>Etiqueta</th>
 					</tr>					
 				</thead>
+				<tr>
 				<%!int i = 0;%>
 				<c:forEach items="${dictionaryEntryList}" var="dictionaryEntry">
 					<tr>
-						<td>
-							<c:if test="${loggedUser.logged}">
-								<input type="checkbox" name="listaWords[<%=i++%>]"
-									value="${dictionaryEntry.word.word}-${dictionaryEntry.lemma.word}-${dictionaryEntry.posTag.posTag}">
-							</c:if>
-						</td>
+<!--						<td>-->
+<!--							<c:if test="${loggedUser.logged}">-->
+<!--								<input type="checkbox" name="listaWords[<%=i++%>]"-->
+<!--									value="${dictionaryEntry.word.word}-${dictionaryEntry.lemma.word}-${dictionaryEntry.posTag.posTag}">-->
+<!--							</c:if>-->
+<!--						</td>-->
 						<td>${dictionaryEntry.word.word}</td>
 						<td>${dictionaryEntry.lemma.word}</td>
 						<td>
@@ -74,9 +77,9 @@
 					</tr>
 				</c:forEach>
 			</table>
-			<c:if test="${loggedUser.logged}">
-				<button type="submit" name="_method" value="DELETE">Apagar</button>
-			</c:if>
+<!--			<c:if test="${loggedUser.logged}">-->
+<!--				<button type="submit" name="_method" value="DELETE">Apagar</button>-->
+<!--			</c:if>-->
 			</form>
 			<br/>
 			<br/>

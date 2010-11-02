@@ -68,6 +68,8 @@ public class RuleController {
 		}
 		
 		result.include("rule", rule)
-			.include("exampleList", exampleList);
+			.include("exampleList", exampleList)
+			.include("nextRule", rulesLogic.getNextRuleID(rule.getId()))
+			.include("previousRule", rulesLogic.getPreviousRuleID(rule.getId()));
 	}
 }
