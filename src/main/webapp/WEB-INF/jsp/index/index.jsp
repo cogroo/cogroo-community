@@ -22,8 +22,6 @@
 		    snippet: false,
 		    errormsg: 'Não foi possível abrir notícias.'
 		  });
-		
-		alert('dada');
 	});
 	
 //--><!]]>
