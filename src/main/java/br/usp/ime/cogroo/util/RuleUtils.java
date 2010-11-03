@@ -250,9 +250,9 @@ public class RuleUtils {
 				if (replace.getLexeme() != null) {
 					sb.append(openSpan(ELEMENT, "substituir elemento A por " + replace.getLexeme()) + "\"" + replace.getLexeme() + "\"" + CLOSESPAN);
 				} else if (replace.getTagReference() != null) {
-					String tr = getTagMaskElementAsString(replace.getTagReference()
+					String tr = getTagMaskAsString(replace.getTagReference()
 							.getTagMask());
-					sb.append(openSpan(REFERENCE, "alterar flexão morfológica do element A, tomando como referência '"+tr+"' do elemento na posição de índice " + replace.getTagReference().getIndex()) + "ref[" + replace.getTagReference().getIndex() + "]{");
+					sb.append(openSpan(REFERENCE, "alterar flexão morfológica do element B na posição " + replace.getTagReference().getIndex() + " para '"+tr+"' e substituir A") + "ref[" + replace.getTagReference().getIndex() + "]{");
 					sb.append(tr);
 					sb.append("}" + CLOSESPAN);
 				}

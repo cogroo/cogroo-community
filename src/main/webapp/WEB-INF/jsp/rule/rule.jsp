@@ -30,13 +30,13 @@
 			    <th>É ativa:</th><td><fmt:message  key="${rule.active}"/></td>
 			</tr>
 			<tr>
-			    <td>Padrão da regra:</td><td></td>
+			    <th>Padrão da regra:</th><td></td>
 			</tr>
 			<tr>
 			    <td align="center" colspan="2">${pattern}</td>
 			</tr>
 			<tr>
-			    <td>Padrão da sugestão:</td><td>${replacePattern}</td>
+			    <th>Padrão da sugestão:</th><td>${replacePattern}</td>
 			</tr>
 		</tbody>
 	</table>
