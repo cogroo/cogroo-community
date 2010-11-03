@@ -11,6 +11,7 @@ import br.usp.ime.cogroo.dao.CogrooFacade;
 import br.usp.ime.cogroo.logic.RulesLogic;
 import br.usp.ime.cogroo.model.Pair;
 import br.usp.ime.cogroo.model.ProcessResult;
+import br.usp.ime.cogroo.util.RuleUtils;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Example;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Rule;
 
@@ -70,6 +71,8 @@ public class RuleController {
 		result.include("rule", rule)
 			.include("exampleList", exampleList)
 			.include("nextRule", rulesLogic.getNextRuleID(rule.getId()))
-			.include("previousRule", rulesLogic.getPreviousRuleID(rule.getId()));
+			.include("previousRule", rulesLogic.getPreviousRuleID(rule.getId()))
+			.include("pattern", RuleUtils.getPatternAsString(rule))
+			.include("replacePattern", RuleUtils.getSuggestionsAsString(rule));
 	}
 }

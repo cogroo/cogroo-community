@@ -2,10 +2,10 @@
 
 <span style="FLOAT: right; POSITION: static">
 <c:if test="${previousRule != NULL}">
-<a href="<c:url value="/rule?rule.id=${previousRule}"/>">anterior</a>
+[<a href="<c:url value="/rule?rule.id=${previousRule}"/>">anterior</a>]
 </c:if>
 <c:if test="${nextRule != NULL}">
-<a href="<c:url value="/rule?rule.id=${nextRule}"/>">próxima</a>
+[<a href="<c:url value="/rule?rule.id=${nextRule}"/>">próxima</a>]
 </c:if>
 </span>
 <div class="report_details">
@@ -24,12 +24,16 @@
 			    <th>Mensagem:</th><td>${rule.message}</td>
 			</tr>
 			<tr>
-			    <th>Ativa:</th><td><fmt:message  key="${rule.active}"/></td>
+			    <th>É ativa:</th><td><fmt:message  key="${rule.active}"/></td>
 			</tr>
-			<tr>
-			    <th>Exemplos:</th>
-		    	<td>
-	    			<ol>
+		</tbody>
+	</table>
+	<br/>
+	
+	Padrão da regra: <br />
+	${pattern}<br /><br />
+	${replacePattern}<br /><br />
+	Exemplos: <br />
 		    			<c:forEach items="${exampleList}" var="example" varStatus="i">
 		    				<div style="border:1px dashed #808080;">
 								<b>incorreto:</b> <br />
@@ -52,9 +56,6 @@
 							<br/>
 						</c:forEach> 
 					</ol>
-				</td>
-			</tr>
-		</tbody>
-	</table>
+			
 	<br />
 </div>

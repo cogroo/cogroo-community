@@ -10,21 +10,21 @@ import br.usp.pcs.lta.cogroo.entity.impl.runtime.ChunkTag;
 import br.usp.pcs.lta.cogroo.entity.impl.runtime.MorphologicalTag;
 import br.usp.pcs.lta.cogroo.entity.impl.runtime.SyntacticTag;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.applier.RulesProvider;
-import br.usp.pcs.lta.cogroo.tools.checker.rules.applier.RulesTreesFromScratchAccess;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Composition;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Element;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Mask;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Operator;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.model.PatternElement;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Reference;
+import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Reference.Property;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Rule;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Rules;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Suggestion;
-import br.usp.pcs.lta.cogroo.tools.checker.rules.model.TagMask;
-import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Reference.Property;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Suggestion.Replace;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Suggestion.ReplaceMapping;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Suggestion.Swap;
+import br.usp.pcs.lta.cogroo.tools.checker.rules.model.TagMask;
+import br.usp.pcs.lta.cogroo.tools.checker.rules.util.RulesContainerHelper;
 
 /**
  * Set of utility methods, mostly to convert a rule element to a human readable string.
@@ -66,16 +66,20 @@ public class RuleUtils {
 	public static String getShortMessageAsString(Rule rule) {
 		return rule.getShortMessage();
 	}
+	
+	private static final String ARROW = " &rarr; ";
 
 	public static String getPatternAsString(Rule rule) {
 		StringBuilder sb = new StringBuilder();
+		int count = 0;
 		for (PatternElement patternElement : rule.getPattern()
 				.getPatternElement()) {
+			sb.append(openSpan(STATE, ""));
 			sb.append(getPatternElementAsString(patternElement));
-			sb.append(" ");
+			sb.append(CLOSESPAN + "<sup title=\"índice de referência\">" + count++ + "</sup>" + ARROW);
 		}
-		sb.deleteCharAt(sb.length() - 1);
-		return sb.toString();
+		
+		return sb.substring(0, sb.length() - ARROW.length());
 	}
 
 	public static String getPatternElementAsString(PatternElement patternElement) {
@@ -89,9 +93,9 @@ public class RuleUtils {
 
 	private static String getCompositionAsString(Composition composition) {
 		if (composition.getAnd() != null)
-			return getOperatorAsString(composition.getAnd(), " & ");
+			return getOperatorAsString(composition.getAnd(), openSpan(OP, "e") + " & " + CLOSESPAN);
 		else if (composition.getOr() != null)
-			return getOperatorAsString(composition.getOr(), " | ");
+			return getOperatorAsString(composition.getOr(), openSpan(OP, "ou") + " | " + CLOSESPAN);
 
 		return "NULL";
 	}
@@ -99,15 +103,16 @@ public class RuleUtils {
 	private static String getOperatorAsString(Operator operator, String op) {
 		List<PatternElement> peList = operator.getPatternElement();
 		StringBuilder sb = new StringBuilder();
-		sb.append("( ");
+		sb.append(openSpan(ELEMENT, ""));
+		sb.append(" ( ");
 
 		int i = 0;
 		for (; i < peList.size() - 1; i++) {
 			sb.append(getPatternElementAsString(peList.get(i)) + op);
 		}
 
-		sb.append(getPatternElementAsString(peList.get(i)) + ") ");
-
+		sb.append(getPatternElementAsString(peList.get(i)) + " ) ");
+		sb.append(CLOSESPAN);
 		return sb.toString();
 	}
 
@@ -122,7 +127,10 @@ public class RuleUtils {
 		StringBuilder sb = new StringBuilder();
 
 		if (element.isNegated() != null && element.isNegated().booleanValue()) {
-			sb.append("~");
+			sb.append(openSpan(NELEMENT, "não combina elemento") + "&ne;");
+//			sb.append(openSpan(OP, "não") + "&ne;" + CLOSESPAN);
+		} else {
+			sb.append(openSpan(ELEMENT, "combinar elemento"));
 		}
 
 		int masks = element.getMask().size();
@@ -134,73 +142,76 @@ public class RuleUtils {
 		for (Mask mask : element.getMask()) {
 			// Encloses lexemes between quotes.
 			if (mask.getLexemeMask() != null) {
-				sb.append("\"").append(mask.getLexemeMask()).append("\"");
+				sb.append(openSpan(LEXEME, "combinar literal") + "\"").append(mask.getLexemeMask()).append("\"" + CLOSESPAN);
 			} else if (mask.getPrimitiveMask() != null) {
 				// Primitives are enclosed between curly brackets.
-				sb.append("{").append(mask.getPrimitiveMask()).append("}");
+				sb.append(openSpan(LEXEME, "combinar lema") + "{").append(mask.getPrimitiveMask()).append("}" + CLOSESPAN);
 			} else if (mask.getTagMask() != null) {
 				sb.append(getTagMaskAsString(mask.getTagMask()));
 			} else if (mask.getTagReference() != null) {
 				sb.append(getTagReferenceAsString(mask.getTagReference()));
 			}
 			if (maskCounter < masks - 1) {
-				sb.append("|");
+				sb.append(openSpan(OP, "ou") + " | " + CLOSESPAN);
 			}
 			maskCounter++;
 		}
 
+		
 		if (masks > 1) {
 			sb.append(")");
 		}
-
+		sb.append(CLOSESPAN);
 		return sb.toString();
 	}
 
 	public static String getTagReferenceAsString(Reference tagRef) {
 		StringBuilder sb = new StringBuilder();
 		String index = Long.toString(tagRef.getIndex());
-		sb.append("( ref[" + index + "] ");
+		sb.append(openSpan(REFERENCE, "Obtêm máscara baseada em elemento referenciado") + "ref[" + index + "]{");
 		tagRef.getProperty();
 		for (Property prop : tagRef.getProperty()) {
 			sb.append(prop + " ");
 		}
-		sb.append(")");
+		sb.trimToSize();
+		sb.append("}" + CLOSESPAN);
 		return sb.toString();
 	}
 
 	public static String getTagMaskAsString(TagMask tagMask) {
 		StringBuilder sb = new StringBuilder();
+		sb.append(openSpan(MASK, "combina uma classificação parcial"));
 		if (tagMask.getSyntacticFunction() != null) {
-			sb.append(tagMask.getSyntacticFunction().value()).append("_");
+			sb.append(tagMask.getSyntacticFunction().value()).append(" ");
 		}
 		if (tagMask.getClazz() != null) {
-			sb.append(tagMask.getClazz().value()).append("_");
+			sb.append(tagMask.getClazz().value()).append(" ");
 		}
 		if (tagMask.getGender() != null) {
-			sb.append(tagMask.getGender().value()).append("_");
+			sb.append(tagMask.getGender().value()).append(" ");
 		}
 		if (tagMask.getNumber() != null) {
-			sb.append(tagMask.getNumber().value()).append("_");
+			sb.append(tagMask.getNumber().value()).append(" ");
 		}
 		if (tagMask.getCase() != null) {
-			sb.append(tagMask.getCase().value()).append("_");
+			sb.append(tagMask.getCase().value()).append(" ");
 		}
 		if (tagMask.getPerson() != null) {
-			sb.append(tagMask.getPerson().value()).append("_");
+			sb.append(tagMask.getPerson().value()).append(" ");
 		}
 		if (tagMask.getTense() != null) {
-			sb.append(tagMask.getTense().value()).append("_");
+			sb.append(tagMask.getTense().value()).append(" ");
 		}
 		if (tagMask.getMood() != null) {
-			sb.append(tagMask.getMood().value()).append("_");
+			sb.append(tagMask.getMood().value()).append(" ");
 		}
 		if (tagMask.getFiniteness() != null) {
-			sb.append(tagMask.getFiniteness().value()).append("_");
+			sb.append(tagMask.getFiniteness().value()).append(" ");
 		}
 		if (tagMask.getPunctuation() != null) {
-			sb.append(tagMask.getPunctuation().value()).append("_");
+			sb.append(tagMask.getPunctuation().value()).append(" ");
 		}
-		return sb.toString();
+		return sb.substring(0, sb.length() - 1) + CLOSESPAN;
 	}
 
 	public static String getBoundariesAsString(Rule rule) {
@@ -218,50 +229,48 @@ public class RuleUtils {
 		for (Suggestion suggestion : rule.getSuggestion()) {
 			// Replaces.
 			if (!suggestion.getReplace().isEmpty()) {
-				sb.append("Replace: ");
+				sb.append("<br/>Sugestões tipo substituição: <br/>");
 			}
 			for (Replace replace : suggestion.getReplace()) {
-				sb.append(replace.getIndex());
-				sb.append(" <=> ");
+				sb.append(openSpan(ELEMENT, "Elemento A na posição de índice " + replace.getIndex()) + "e[" + replace.getIndex() +"] " + CLOSESPAN);
+				sb.append(openSpan(OP, "A &harr; B &equiv; substituir A por B") + " &harr; " + CLOSESPAN);
 				if (replace.getLexeme() != null) {
-					sb.append("\"");
-					sb.append(replace.getLexeme());
-					sb.append("\"");
+					sb.append(openSpan(ELEMENT, "substituir literal A por este") + "\"" + replace.getLexeme() + "\"" + CLOSESPAN);
 				} else if (replace.getTagReference() != null) {
-					sb.append(replace.getTagReference().getIndex());
-					sb.append("_");
+					sb.append(openSpan(REFERENCE, "altera atributos do literal A tomando por referência elemnto na posição de índice " + replace.getTagReference().getIndex()) + "ref[" + replace.getTagReference().getIndex() + "]{");
 					sb.append(getTagMaskAsString(replace.getTagReference()
 							.getTagMask()));
+					sb.append("}" + CLOSESPAN);
 				}
-				sb.append("|");
+				sb.append("<br />");
 			}
-			sb = removeLastVerticalBar(sb);
+//			sb = removeLastVerticalBar(sb);
 
 			// Replace mappings.
 			if (!suggestion.getReplaceMapping().isEmpty()) {
-				sb.append("Replace Mapping: ");
+				sb.append("<br/>Sugestões tipo mapa de substituição: <br/>");
 			}
 			for (ReplaceMapping replaceMapping : suggestion.getReplaceMapping()) {
-				sb.append(replaceMapping.getIndex());
-				sb.append(" ");
-				sb.append(replaceMapping.getKey());
-				sb.append(" => ");
-				sb.append(replaceMapping.getValue());
-				sb.append("|");
+				sb.append("(" + openSpan(ELEMENT, "Elemento A na posição de índice " + replaceMapping.getIndex()) + "se[" + replaceMapping.getIndex() +"] " + CLOSESPAN);
+				sb.append(openSpan(OP, "se A = B") + " = " + CLOSESPAN);
+				sb.append(openSpan(ELEMENT, "Elemento B") + replaceMapping.getKey() + CLOSESPAN + ")");
+				sb.append(openSpan(OP, "então substituir por C") + " &rArr; " + CLOSESPAN);
+				sb.append(openSpan(ELEMENT, "Elemento C") + replaceMapping.getValue() + CLOSESPAN);
+				sb.append("<br />");
 			}
-			sb = removeLastVerticalBar(sb);
+//			sb = removeLastVerticalBar(sb);
 
 			// Swaps.
 			if (!suggestion.getSwap().isEmpty()) {
-				sb.append("Swap: ");
+				sb.append("<br/>Sugestões tipo troca: <br/>");
 			}
 			for (Swap swap : suggestion.getSwap()) {
-				sb.append(swap.getA());
-				sb.append(" <=> ");
-				sb.append(swap.getB());
-				sb.append("|");
+				sb.append(openSpan(ELEMENT, "Elemento A na posição de índice " + swap.getA()) + "e[" + swap.getA() +"] " + CLOSESPAN);
+				sb.append(openSpan(OP, "trocar A por B") + " &hArr; " + CLOSESPAN);
+				sb.append(openSpan(ELEMENT, "Elemento B na posição de índice " + swap.getB()) + "e[" + swap.getB() +"] " + CLOSESPAN);
+				sb.append("<br />");
 			}
-			sb = removeLastVerticalBar(sb);
+//			sb = removeLastVerticalBar(sb);
 			sb.append("\n");
 		}
 		return sb.toString();
@@ -342,18 +351,34 @@ int pos = refPos + (int)ref.getIndex();
 			return new TagMask();
 		}
 	}
+	
+	private static final String STATE = "state";
+	private static final String REFERENCE = "reference";
+	private static final String NELEMENT = "nelement";
+	private static final String ELEMENT = "element";
+	private static final String LEXEME = "lexeme";
+	private static final String OP = "op";
+	private static final String MASK = "mask";
+	private static final String CLOSESPAN = "</span>";
+	
+	private static String openSpan(String clazz, String title) {
+		return "<span ONMOUSEOVER=\"this.style.fontWeight='bold'\" ONMOUSEOUT=\"this.style.fontWeight='normal'\" class=\"" + clazz + "\" title=\"" + title + "\">";
+	}
 
-//	public static void main(String[] args) {
-//		// Rule rule = RulesService.getInstance().getRule(69, true);
-//		// System.out.println(patternAsString(rule.getPattern()));
+	public static void main(String[] args) {
+		List<Rule> rules = new RulesContainerHelper(RuleUtils.class.getResource("/")
+				.getPath()).getContainerForXMLAccess()
+				.getComponent(RulesProvider.class).getRules().getRule();
+		// Rule rule = RulesService.getInstance().getRule(69, true);
+		// System.out.println(patternAsString(rule.getPattern()));
 //		Rules rules = new RulesContainerHelper().getContainerForXMLAccess().getComponent(RulesProvider.class).getRules();
-//		
-//		for (Rule rule : rules.getRule()) {
-//			// System.out.println(rule.getId() + "\t" +
-//			// getPatternAsString(rule));
-//			System.out.println(rule.getId() + "\t"
-//					+ getSuggestionsAsString(rule));
-//		}
-//	}
+		
+		for (Rule rule : rules) {
+			System.out.println(rule.getId() + "\t" +
+			 getPatternAsString(rule));
+			System.out.println(rule.getId() + "\t"
+					+ getSuggestionsAsString(rule));
+		}
+	}
 
 }

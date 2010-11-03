@@ -183,3 +183,26 @@ table.attributes td { vertical-align: top; }
 .go_red {
 	color:red;
 }
+
+.op {
+	color:blue;
+}
+
+.state
+{
+/*	MARGIN: 2px 2px 2px 2px;*/
+	
+/*	PADDING: 4px;*/
+    BORDER: Gray 2px solid;
+    BACKGROUND-COLOR: Gainsboro  
+}
+
+.element
+{
+	COLOR: Green;
+}
+
+.nelement
+{
+	COLOR: Red;
+}
