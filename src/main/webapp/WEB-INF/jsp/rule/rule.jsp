@@ -27,7 +27,7 @@
 			    <th>Mensagem:</th><td>${rule.message}</td>
 			</tr>
 			<tr>
-			    <th>É ativa:</th><td><fmt:message  key="${rule.active}"/></td>
+			    <th>É ativa:</th><td><fmt:message key="yn${rule.active}"/></td>
 			</tr>
 			<tr>
 			    <th>Padrão da regra:</th><td></td>
