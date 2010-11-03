@@ -118,6 +118,25 @@ DIV.report_details
 	margin-bottom:6px;
 }
 
+DIV.report_details_table
+{
+}
+
+.report_details_table table {
+	width: 100%;
+}
+
+.report_details_table table th {
+	font-weight: bold; 
+	font-size: 15px;
+	text-align: right;
+}
+
+.report_details_table table td {
+	font-size: 15px;
+	padding-left: 2ex;
+}
+
 DIV.report_disscussion
 {
 	border: 1px solid #D7D7D7;
@@ -146,6 +165,25 @@ DIV.analise_text
 	border-width: medium;
 	border-color: #FFD700;
 }
+
+DIV.analise_text_correct
+{
+	padding: 10px; padding-bottom: 10px; padding-left: 10px; padding-right: 10px; 
+	BACKGROUND-COLOR: PaleGreen;
+	width: 95%;
+	border-width: medium;
+	border-color: #FFD700;
+}
+
+DIV.analise_text_incorrect
+{
+	padding: 10px; padding-bottom: 10px; padding-left: 10px; padding-right: 10px; 
+	BACKGROUND-COLOR: LightSalmon;
+	width: 95%;
+	border-width: medium;
+	border-color: #FFD700;
+}
+
 table.attributes { width: 100% }
 table.attributes th { vertical-align: top; text-align: left; }
 table.attributes td { vertical-align: top; }
@@ -190,9 +228,10 @@ table.attributes td { vertical-align: top; }
 
 .state
 {
-/*	MARGIN: 2px 2px 2px 2px;*/
-	
-/*	PADDING: 4px;*/
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding-left: 2px;
+	padding-right: 2px;
     BORDER: Gray 2px solid;
     BACKGROUND-COLOR: Gainsboro  
 }
@@ -206,3 +245,55 @@ table.attributes td { vertical-align: top; }
 {
 	COLOR: Red;
 }
+
+/*___________________________________ >>> .rule_details _____________________________________*/
+
+.rule_details {
+	border: 1px solid #D7D7D7;
+	padding: 10px 0 0 15px;
+	BACKGROUND-COLOR: #FAFAD2;
+	margin-bottom:6px;
+}
+
+.rule_examples {
+	border: 1px solid #D7D7D7;
+	padding: 10px 0 0 15px;
+	BACKGROUND-COLOR: White;
+	margin-bottom:6px;
+}
+
+.rule_details table {
+	width: 100%;
+}
+
+.rule_details table th {
+	font-weight: bold;
+	font-size: 15px;
+	width: 160px;
+	text-align: right;
+}
+
+.rule_details table td {
+	font-size: 15px;
+	padding-left: 2ex;
+}
+
+.rule_details table caption {
+	font-size: 20px;
+	background-color: #d6e2e5;	
+	text-align: left;
+	padding-top: 10px;
+	margin-top: 10px;
+	margin-bottom: 0.3em;
+	border-bottom: 1px solid #333;
+	padding-right: 0.3ex;
+}
+
+
+.rule_details legend {
+	color: #8b4500; 
+	float: right;
+	font-size: 13px;
+	font-weight: bold;
+}
+/*___________________________________ .rule_details <<< _____________________________________*/

@@ -88,10 +88,12 @@ table.answer td {
 
 	<h2>Entrada #${errorEntry.id}</h2>
 	<div class="report_details">
-		<p>Enviado por ${errorEntry.submitter.name}</p>
-
-		<table class="attributes">
+		<div class="report_details_table">
+		<table >
 			<tbody>
+			<tr>
+			    <th>Enviado por:</th><td>${errorEntry.submitter.name}</td>
+			</tr>
 			<tr>
 			    <th>Versão:</th><td>${errorEntry.version.version}</td>
 			    <th>Criado em:</th><td><fmt:formatDate type="both" dateStyle="long" value="${errorEntry.creation}" /></td>
@@ -128,6 +130,7 @@ table.answer td {
 			</tr>
 			</tbody>
 		</table>
+		</div>
 		<hr>	
 		<div class="analise_text">
 			<p><b>${errorEntry.markedText}</b></p>

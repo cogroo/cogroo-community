@@ -1,0 +1,136 @@
+
+	
+
+/*___________________________________ Classe .rule_details _____________________________________*/
+
+.rule_details {
+	border: 1px solid #D7D7D7;
+	padding: 10px 0 0 15px;
+	BACKGROUND-COLOR: #FAFAD2;
+	margin-bottom:6px;
+}
+
+.rule_details table {
+	width: 100%;
+}
+
+.rule_details table th {
+	background-color: #00C; 
+	font-style: bold; 
+	font-size: 20px;
+	color: #FFFFFF;
+	border-left: 0px solid #FFFFFF;
+	border-right: 1px solid #FFFFFF;
+	border-bottom: 1px solid #FFFFFF;
+}
+
+.rule_details table td {
+	font-size: 15px;
+	padding-right: 1ex;
+	border: 0px;
+	border-right: 1px solid #FFFFFF;
+}
+
+.rule_details table caption {
+	font-size: 20px;
+	background-color: #d6e2e5;	
+	text-align: left;
+	padding-top: 10px;
+	margin-top: 10px;
+	margin-bottom: 0.3em;
+	border-bottom: 1px solid #333;
+	padding-right: 0.3ex;
+}
+
+
+.rule_details legend {
+	color: #8b4500; 
+	float: right;
+	font-size: 13px;
+	font-weight: bold;
+}
+
+/*___________________________________ Classe .tabelaIdentificacao _____________________________________*/
+
+.tabelaIdentificacao table {
+	width: 100%;
+}
+
+.tabelaIdentificacao table th {
+	background-color: #00C; 
+	font-style: bold; 
+	font-size: 12px; 
+	color: #FFFFFF;
+	border-left: 0px solid #FFFFFF;
+	border-right: 1px solid #FFFFFF;
+	border-bottom: 1px solid #FFFFFF;
+}
+
+.tabelaIdentificacao table td {
+	font-size: 10px;
+	padding-right: 1ex;
+	border: 0px;
+	border-right: 1px solid #FFFFFF;
+}
+
+.tabelaIdentificacao table caption {
+	background-color: #d6e2e5;	
+	text-align: left;
+	margin-bottom: 0.3em;
+	border-bottom: 1px solid #333;
+	padding-right: 0.3ex;
+}
+
+/*___________________________________ Classe .opcoesDaPagina _____________________________________*/
+.opcoesDaPagina ul {
+	width: 100%;
+}
+
+.opcoesDaPagina li {
+    list-style: none;
+}
+
+.opcoesDaPagina button {
+/*	display: inline;	*/
+}
+.opcoesDaPagina button {
+/*	float: left; */ 
+	display: block;	
+	width: 30%; 
+	border:1px solid #a29bc0;
+	padding: 5px;
+	cursor:pointer;
+	/*
+	border:1px solid #fff;
+	border-bottom:1px solid #b17676!important;
+	background-color:#00C;
+	font-weight:bold;
+	font-family:verdana,sans-serif;
+	font-size:0.90em;
+	margin-right:0px;
+	margin-left:5px;
+	*/
+}
+
+/*___________________________________ TESTES _____________________________________*/
+
+/*
+label, legend {
+	display: block;
+	text-align: left;
+	width: 27em;
+	color: yellow;
+}
+input, select {
+	display: block;
+	text-align: left;
+	width: 27em;
+}
+
+fieldset {
+	width: 300px;
+	margin: 15px auto 0;
+	border:1px solid #a29bc0;
+	padding: 10px;
+}
+*/
