@@ -1,18 +1,42 @@
+
 #logoCCSL {
-	background-image: url(../images/ccsl.png);
+	background: #336699 url(../images/ccsl.png) no-repeat scroll 20% 50%;
+	background-position: center;
 	background-repeat: no-repeat;
-	position: relative;
-	border: none;
-	left: 5px;
-	top: 20px;
+	display:block;
+	float:left;
+	text-align:justify;
 	height: 100px;
+	width: 250px;
+}
+#logoVRaptor {
+	background-image: url(../images/logo-vraptor.png);
+	background-position: center;
+	background-repeat: no-repeat;
+	display:block;
+	float:left;
+	text-align:justify;
+	height: 100px;
+	width: 100px;
+}
+
+#stats {
+	background-repeat: no-repeat;
+	display: block;
+	width: 400px;
+	float: right;
+	color: #ffffff;
+	font-size: 10px;
+	position: 50%;
+	vertical-align: middle;
+	padding-top: 30px;
 }
 
 #footer {
-/*  background: transparent url(./images/footer.jpg) no-repeat scroll 0% 50%; */
-  background: #336699; 
-  clear: both;
-  height: 100px;
+	background: #336699; 
+	display: block;
+	clear: both;
+	height: 100px;
 }
 #footer #ftlink {
   padding-top: 70px;
@@ -34,9 +58,3 @@
   color: #9d6f4f;
 }
 
-#stats {
-  width: 400px;
-  float: right;
-  color: #ffffff;
-  font-size: 10px;
-}

@@ -94,21 +94,24 @@ public class ErrorReportController {
 	@Post
 	@Path("/reportNewErrorAddText")
 	public void reportNewErrorAddText(String text) {
-		if(text != null && text.length() >= 0) {
-			if( text.length() > 255 ) {
-				text = text.substring(0,255);
+		try {
+			if(text != null && text.length() >= 0) {
+				if( text.length() > 255 ) {
+					text = text.substring(0,255);
+				}
+				
+				List<ProcessResult> pr = cogrooFacade.processText(text);
+				result.include("text", text).
+					include("annotatedText", cogrooFacade.getAnnotatedText(text, pr)).
+					include("singleGrammarErrorList", cogrooFacade.asSingleGrammarErrorList(text, pr)).
+					include("omissionCategoriesList", this.errorEntryLogic.getErrorCategoriesForUser()).
+					redirectTo(getClass()).reportNewError();
+			} else {
+				result.redirectTo(getClass()).reportNewError();
 			}
-			
-			List<ProcessResult> pr = cogrooFacade.processText(text);
-			result.include("text", text).
-				include("annotatedText", cogrooFacade.getAnnotatedText(text, pr)).
-				include("singleGrammarErrorList", cogrooFacade.asSingleGrammarErrorList(text, pr)).
-				include("omissionCategoriesList", this.errorEntryLogic.getErrorCategoriesForUser()).
-				redirectTo(getClass()).reportNewError();
-		} else {
-			result.redirectTo(getClass()).reportNewError();
+		} catch (Exception e) {
+			LOG.error("Error processing text: " + text);
 		}
-		
 	}
 	
 	@Post

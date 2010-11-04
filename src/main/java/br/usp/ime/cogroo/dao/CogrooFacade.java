@@ -117,6 +117,10 @@ public class CogrooFacade {
 	public List<ProcessResult> processText(String text) {
 		CheckerResult result = getCogroo().analyseAndCheckText(text);
 		List<ProcessResult> processResults = new ArrayList<ProcessResult>();
+		if(result == null || result.sentences == null) {
+			LOG.warn("Cogroo returned null for text: " + text);
+			return processResults;
+		}
 		for (Sentence sentence : result.sentences) {
 			List<Mistake> filteredMistakes = filterMistakes(sentence, result.mistakes);
 			

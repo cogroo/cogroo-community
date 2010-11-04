@@ -2,21 +2,17 @@
 <!-- Inicio Rodape -->
 </div>
 
-<div id="footer">
-
-	<div id="logoCCSL">
-	<div id="stats">
-	<p>Foram reportados ${appData.reportedErrors} erros até agora.</p>
-	<p>Há ${appData.registeredMembers} membros cadastrados.</p>
-	<p>Há ${appData.onlineUsers} usuários online (${appData.onlineMembers} membros cadastrados e ${appData.onlineVisits} visitantes).</p>
-	<p><a href="<c:url value="/stats"/>">Mais estatísticas...</a></p>
-	</div>
-	</div>
+	<div id="footer">
 	
-	
+		<div id="logoCCSL"></div>
+		<div id="logoVRaptor"></div>
+		<div id="stats">
+			<p>Foram reportados ${appData.reportedErrors} erros até agora.</p>
+			<p>Há ${appData.registeredMembers} membros cadastrados.</p>
+			<p>Há ${appData.onlineUsers} usuários online (${appData.onlineMembers} membros cadastrados e ${appData.onlineVisits} visitantes).</p>
+			<p><a href="<c:url value="/stats"/>">Mais estatísticas...</a></p>
+		</div>
 
-</div>
-
-</div>
+	</div>
 </body>
 </html>
