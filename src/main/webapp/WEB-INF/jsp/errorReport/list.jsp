@@ -5,8 +5,9 @@
 
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/dataTables_table_jui.css"/>" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/dataTables_table.css"/>" />
-
 <script src="<c:url value='/js/jquery.dataTables.min.js' />" type="text/javascript" ></script>
+<script src="<c:url value='/js/jquery.dataTables.sort.js' />" type="text/javascript" ></script>
+
 <script type="text/javascript" charset="utf-8">
 	var oTable;
 	
@@ -39,7 +40,7 @@
 		
 		$('.remove_error').click(remove_error);
 		
-		oTable = $('#table_id').dataTable( {
+		oTable = $('#errorList').dataTable( {
 			"oLanguage": {
 				"sLengthMenu": "Exibir _MENU_ entradas por página",
 				"sSearch": "Filtrar entradas:",
@@ -55,12 +56,12 @@
 			"aaSorting": [[ 1, 'desc' ]],
 			"iDisplayLength": 20,
 			"aoColumns": [
-				{ "bSortable": false },
-				{"sType": "numeric"},
+					{ "bSortable": false },
+				{ "sType": "num-html" }, 
 				null,
-				null, 
-				null, 
-				null,
+				null,  
+				{ "sType": "title-string" },
+				null,  
 				null,
 				{ "bVisible": false }
 			]
@@ -91,7 +92,7 @@
 
 	<br/>
 	<p>Erros enviados através do plug-in CoGrOO para BrOffice.org</p>
-	<table cellpadding="0" cellspacing="0" border="0" class="display" id="table_id">
+	<table cellpadding="0" cellspacing="0" border="0" class="display" id="errorList">
 		<thead>
 			<tr>
 			  <th></th>
@@ -118,7 +119,7 @@
 				  		</c:otherwise>
 					</c:choose>
 					<td>${errorEntry.markedText}</td>
-					<td><fmt:formatDate type="both" dateStyle="long" value="${errorEntry.modified}" /></td>
+					<td><span title="${errorEntry.modified}"></span><fmt:formatDate type="both" dateStyle="long" value="${errorEntry.modified}" /></span></td>
 					<td>${errorEntry.version.version}</td>
 					<td>${errorEntry.submitter.name}</td>
 	  			  	<td>

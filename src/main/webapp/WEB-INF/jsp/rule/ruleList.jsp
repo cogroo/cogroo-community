@@ -7,9 +7,10 @@
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/dataTables_table.css"/>" />
 
 <script src="<c:url value='/js/jquery.dataTables.min.js' />" type="text/javascript" ></script>
+<script src="<c:url value='/js/jquery.dataTables.sort.js' />" type="text/javascript" ></script>
 <script type="text/javascript" charset="utf-8">
 	var oTable;
-
+	
 	/* Formating function for row details */
 	function fnFormatDetails ( nTr )
 	{
@@ -34,11 +35,11 @@
 				"sInfoEmpty": "Exibindo de 0 até 0 de um total de 0 entradas",
 				"sInfoFiltered": "(filtados de um total de _MAX_ entradas)"
 			},
-			//"aaSorting": [[ 1, "desc" ]],
-			"iDisplayLength": 20,
+			"aaSorting": [[ 1, "asc" ]],
+			"iDisplayLength": 150,
 			"aoColumns": [
 				{ "bSortable": false },
-				null, 
+				{ "sType": "num-html" }, 
 				null,
 				null,  
 				null,
@@ -87,14 +88,15 @@
 			<c:forEach items="${ruleList}" var="rule">
 				<tr>
 					<td valign="middle"><img src="./images/details_open.png"></td>
-					<td>
-						<c:if test="${rule.active == false}">
-						<span style="text-decoration: line-through;">
-						</c:if>
+					<c:choose> 
+					  <c:when test="${rule.active == true}" > 
+					    <td>
+					  </c:when> 
+					  <c:otherwise> 
+					    <td style="text-decoration: line-through;">
+					  </c:otherwise> 
+					</c:choose> 
 						<a href="<c:url value="/rule?rule.id=${rule.id}"/>">${rule.id}</a>
-						<c:if test="${rule.active == false}">
-						</span>
-						</c:if>
 					</td>
 					<td>${rule.type}</td>
 					<td>${rule.group}</td>

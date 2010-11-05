@@ -9,10 +9,11 @@ import opennlp.tools.util.Span;
 
 import org.apache.log4j.Logger;
 
+import br.com.caelum.vraptor.ioc.ApplicationScoped;
 import br.com.caelum.vraptor.ioc.Component;
 import br.usp.ime.cogroo.model.ProcessResult;
 import br.usp.ime.cogroo.model.SingleGrammarError;
-import br.usp.pcs.lta.cogroo.configuration.CachedConfigurationFactory;
+import br.usp.pcs.lta.cogroo.configuration.LegacyRuntimeConfiguration;
 import br.usp.pcs.lta.cogroo.entity.Mistake;
 import br.usp.pcs.lta.cogroo.entity.Sentence;
 import br.usp.pcs.lta.cogroo.entity.impl.runtime.MistakeImpl;
@@ -27,19 +28,22 @@ import br.usp.pcs.lta.cogroo.tools.dictionary.LexicalDictionary;
  * have one.
  */
 @Component
+@ApplicationScoped // don't work if using DB
 public class CogrooFacade {
 	private static final Logger LOG = Logger.getLogger(CogrooFacade.class);
 	
 	/** The Cogroo instance */
 	private CogrooI theCogroo = null;
-	private LexicalDictionary lexicalDictionary;
+//	private LexicalDictionary lexicalDictionary;
 	private String resources = getClass().getResource("/").getPath();
 
 	private ErrorReportAccess errorReportAccess; 
 	
 	private void start(){
-		CachedConfigurationFactory configFactory = new CachedConfigurationFactory(resources);
-		this.theCogroo = new Cogroo(configFactory.getNewRuntimeConfiguration(lexicalDictionary));
+		// For now we use the built in dictionary (to avoid SQL traffic)
+//		CachedConfigurationFactory configFactory = new CachedConfigurationFactory(resources);
+//		this.theCogroo = new Cogroo(configFactory.getNewRuntimeConfiguration(lexicalDictionary));
+		this.theCogroo = new Cogroo(new LegacyRuntimeConfiguration(resources));
 		this.errorReportAccess = new ErrorReportAccess();
 	}
 	
@@ -57,6 +61,9 @@ public class CogrooFacade {
 		return this.errorReportAccess;
 	}
 	
+	public CogrooFacade() {
+	}
+	
 	/**
 	 * Creates a new {@link CogrooFacade}. The instance of {@link CogrooI} will 
 	 * use the dictionary of the user.
@@ -64,7 +71,7 @@ public class CogrooFacade {
 	 */
 	public CogrooFacade(LexicalDictionary lexicalDictionary) {
 		LOG.debug("Creating CoGrOO from: " + resources);
-		this.lexicalDictionary = lexicalDictionary;
+//		this.lexicalDictionary = lexicalDictionary;
 	}
 	
 //	/**
