@@ -75,6 +75,7 @@
 									<thead>
 										<tr>
 										  <th>#</th>
+										  <th>Regra</th>
 										  <th>Mensagem curta</th>
 										  <th>Substituir por</th>
 										</tr>
@@ -83,6 +84,7 @@
 										<c:forEach items="${processResult.mistakes}" var="mistake" varStatus="l">
 											<tr>
 												<td>${ l.count }</td>
+												<td><a href="<c:url value="/rule?rule.id=${rule.id}"/>">${rule.id}</a></td>
 												<td>${mistake.shortMessage}</td>
 												<td>
 													<c:forEach items="${mistake.suggestions}" var="suggestion">
