@@ -11,6 +11,7 @@
 			<p>Há ${appData.registeredMembers} membros cadastrados.</p>
 			<p>Há ${appData.onlineUsers} usuários online (${appData.onlineMembers} membros cadastrados e ${appData.onlineVisits} visitantes).</p>
 			<p><a href="<c:url value="/stats"/>">Mais estatísticas...</a></p>
+			<p align="right">Versão: ${version} <br/>Publicado em <fmt:formatDate type="both" dateStyle="long" value="${date}" /><p>
 		</div>
 
 	</div>

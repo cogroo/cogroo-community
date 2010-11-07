@@ -70,8 +70,8 @@
 </script>
 
 
-	<br/>
-	Regras implementadas. Clique no número da regra para detalhes. 
+	<h2>Regras</h2>
+	Clique no número da regra para detalhes. 
 	Regras com número tachado significa que está desabilitada. 
 	<table cellpadding="0" cellspacing="0" border="0" class="display" id="table_id">
 		<thead>

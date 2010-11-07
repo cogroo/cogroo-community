@@ -13,6 +13,7 @@ import br.com.caelum.vraptor.resource.ResourceMethod;
 import br.usp.ime.cogroo.dao.UserDAO;
 import br.usp.ime.cogroo.dao.errorreport.ErrorEntryDAO;
 import br.usp.ime.cogroo.model.ApplicationData;
+import br.usp.ime.cogroo.util.BuildUtil;
 
 @Intercepts
 public class SystemInterceptor implements Interceptor {
@@ -53,7 +54,9 @@ public class SystemInterceptor implements Interceptor {
 				.getServletContext()
 				.getAttribute(SessionListener.SESSION_COUNTER)).get());
 
-		result.include("appData", appData);
+		result.include("appData", appData)
+			.include("version", BuildUtil.POM_VERSION)
+			.include("date", BuildUtil.BUILD_TIME);
 		stack.next(method, resourceInstance);
 	}
 

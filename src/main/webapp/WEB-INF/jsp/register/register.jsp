@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" %>  
 
-	<h1>Cadastro no CoGrOO Comunidade</h1>
+	<h2>Cadastro no CoGrOO Comunidade</h2>
 	
 	<p>O cadastro é necessário para evitar abusos como spam. Seus dados nunca serão divulgados.</p>
 	

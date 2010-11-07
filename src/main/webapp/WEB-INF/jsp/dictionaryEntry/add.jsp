@@ -60,7 +60,7 @@ label.typeField {
    // ]]>
 </script>
 
-<h1>Inserir verbete.</h1>
+<h2>Inserir verbete.</h2>
 
 <c:forEach var="error" items="${errors}">
     <span style="color: red">[<fmt:message  key="${error.category}"/>] <i><fmt:message  key="${error.message}"/></i></span><br />

@@ -44,7 +44,7 @@
 	<div class="rule_examples">
 	<h3>Exemplos de erros</h3>
 		    			<c:forEach items="${exampleList}" var="example" varStatus="i">
-		    				<div style="border:1px dashed #808080; margin-right: 12px; padding-left: 12px">
+		    				<div class="dashed_white">
 								<b>incorreto:</b> <br />
 									<div class="analise_text_incorrect">
 										<p>${example.a.a}</p>

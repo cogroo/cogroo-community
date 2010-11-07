@@ -12,7 +12,12 @@
 
 	<c:if test="${not empty processResultList}">
 		<c:if test="${not empty hidden}">
-			<a onclick="onOff('hidden_${id}'); return false" href="#">análise</a>
+			<div id="showAnalysis_${id}">
+				<a onclick="on('hidden_${id}'); on('hideAnalysis_${id}'); off('showAnalysis_${id}'); return false" href="#">exibir análise</a>
+			</div>
+			<div style="display: none;" id="hideAnalysis_${id}">
+				<a onclick="off('hidden_${id}'); off('hideAnalysis_${id}'); on('showAnalysis_${id}'); return false" href="#">fechar análise</a>
+			</div>
 			<div id="hidden_${id}" class="hidden_div">
 		</c:if>
 

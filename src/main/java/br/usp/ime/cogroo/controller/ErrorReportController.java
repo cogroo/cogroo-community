@@ -105,6 +105,7 @@ public class ErrorReportController {
 					include("annotatedText", cogrooFacade.getAnnotatedText(text, pr)).
 					include("singleGrammarErrorList", cogrooFacade.asSingleGrammarErrorList(text, pr)).
 					include("omissionCategoriesList", this.errorEntryLogic.getErrorCategoriesForUser()).
+					include("processResultList", pr).
 					redirectTo(getClass()).reportNewError();
 			} else {
 				result.redirectTo(getClass()).reportNewError();

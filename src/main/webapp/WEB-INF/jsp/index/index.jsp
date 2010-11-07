@@ -30,7 +30,7 @@
 		
 		<div id="twitter" class="twitter"></div>
 	
-		<h1>Notícias</h1>
+		<h2>Notícias</h2>
 		
 		<div id="newswrapper">
 			<div id="news"></div>

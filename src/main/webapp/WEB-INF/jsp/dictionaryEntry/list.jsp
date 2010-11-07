@@ -12,7 +12,7 @@
 </script>
 
 <div>
-	<h1>Entradas cadastradas por <i>${loggedUser.user.name}</i>:</h1>
+	<h2>Entradas cadastradas por <i>${loggedUser.user.name}</i>:</h2>
 </div>
 
 <div class="relatorio">

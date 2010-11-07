@@ -149,7 +149,7 @@ table.answer td {
 		<h2>Discussão</h2>
 		<c:forEach items="${errorEntry.errorEntryComments}" var="comment" varStatus="i">
 			<div id="comment_${ i.count }">
-				<h4>Por ${comment.user.name} em <fmt:formatDate type="both" dateStyle="long" value="${comment.date}" />
+				<h4 class="undeline">Por ${comment.user.name} em <fmt:formatDate type="both" dateStyle="long" value="${comment.date}" />
 				<c:if test="${(comment.user.login == loggedUser.user.login) || (loggedUser.user.login == 'admin') }"> 
 					<a id="_${ i.count }" href="about:blank" class="comment_remove">excluir</a>
 				</c:if>

@@ -224,6 +224,10 @@
 		</repository>
 	</repositories>
 	<build>
+	    <filters>
+			<filter>${basedir}/target/filter.properties</filter>
+	    </filters>
+	
 		<finalName>cogrooWeb</finalName>
 		<resources>
 			<resource>
@@ -231,6 +235,21 @@
 			</resource>
 			<resource>
 				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
+				<excludes>
+					<exclude>version.properties</exclude>
+				</excludes>
+			</resource>			
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+				<includes>
+					<include>build.properties</include>
+				</includes>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>false</filtering>
 			</resource>
 		</resources>
 		<!-- add Eclipse WTP support -->
@@ -343,6 +362,28 @@
 					   -->
               	</configuration>
              </plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+			    	<phase>generate-resources</phase>
+			    	<goals>
+			      		<goal>run</goal>
+			    	</goals>
+			    	<configuration>
+				      <tasks>
+				        <mkdir dir="${project.build.directory}"/>
+				        <tstamp>
+				          <format property="last.builds"
+				            	pattern="yyyy.MM.dd G 'at' HH:mm:ss z"/>
+				        </tstamp>
+				        <echo file="${basedir}/target/filter.properties" message="build.time=${last.builds}"/>
+				      </tasks>
+			    </configuration>
+			  </execution>
+			</executions>
+			</plugin>
 
 			
 		</plugins>

@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" %>  
 <script src="<c:url value='/js/analysisdetails.js' />" type="text/javascript" ></script>
 <script src="<c:url value='/js/jquery.NobleCount.min.js' />" type="text/javascript" ></script>
 <script type="text/javascript"><!--//--><![CDATA[//><!--
@@ -14,8 +15,8 @@
 
 </script>		
 		
-		<h1>Analisador Gramatical.</h1>
-		<p>Digite o texto em português para verificar sua análise:</p>
+		<h2>Analisador Gramatical.</h2>
+		<p>Digite o texto em portuguÃªs para verificar sua anÃ¡lise:</p>
 		<form action="<c:url value="/grammar"/>"  method="post" >
 		    <textarea rows="4" cols="70" name="text" id="text">${text}</textarea>
 		    <br/>

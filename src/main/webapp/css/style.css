@@ -118,6 +118,30 @@ DIV.report_details
 	margin-bottom:6px;
 }
 
+DIV.help
+{
+	border: 1px solid #D7D7D7;
+	padding: 15px 15px 15px 15px;
+	BACKGROUND-COLOR: #FAFAD2;
+	margin-bottom:6px;
+	text-align: justify;
+}
+
+DIV.dashed_white {
+	border: 1px dashed rgb(128, 128, 128); 
+	margin-right: 12px; 
+	padding: 15px 15px 15px 15px;
+	margin-bottom:6px;
+}
+
+DIV.red_border_box {
+	border: 2px solid red;
+	margin-right: 12px; 
+	padding: 5px 5px 5px 5px;
+/*	BACKGROUND-COLOR: PaleGreen;*/
+	margin-bottom:6px;
+}
+
 DIV.report_details_table
 {
 }
@@ -153,7 +177,7 @@ DIV.report_answer
 	width: 95%
 }
 
-h4, h5 {
+h4.undeline, h5.undeline {
 	border-bottom:1px dotted #C0C0C0;
 }
 
@@ -222,6 +246,11 @@ table.attributes td { vertical-align: top; }
 	color:red;
 }
 
+SPAN.help {
+	font-size: x-small;
+	vertical-align: sub;
+	}
+
 .op {
 	color:blue;
 }
@@ -255,9 +284,16 @@ table.attributes td { vertical-align: top; }
 	margin-bottom:6px;
 }
 
-.rule_examples {
+.rule_examples { /* should use white_box */
 	border: 1px solid #D7D7D7;
 	padding: 10px 0 0 15px;
+	BACKGROUND-COLOR: White;
+	margin-bottom:6px;
+}
+
+DIV.white_box {
+	border: 1px solid #D7D7D7;
+	padding: 15px 15px 15px 15px;
 	BACKGROUND-COLOR: White;
 	margin-bottom:6px;
 }
