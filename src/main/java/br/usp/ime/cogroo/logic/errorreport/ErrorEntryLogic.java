@@ -19,6 +19,7 @@ import br.usp.ime.cogroo.dao.errorreport.GrammarCheckerBadInterventionDAO;
 import br.usp.ime.cogroo.dao.errorreport.GrammarCheckerOmissionDAO;
 import br.usp.ime.cogroo.exceptions.CommunityException;
 import br.usp.ime.cogroo.exceptions.CommunityExceptionMessages;
+import br.usp.ime.cogroo.model.ApplicationData;
 import br.usp.ime.cogroo.model.GrammarCheckerVersion;
 import br.usp.ime.cogroo.model.LoggedUser;
 import br.usp.ime.cogroo.model.User;
@@ -46,11 +47,12 @@ public class ErrorEntryLogic {
 	private GrammarCheckerVersionDAO versionDAO;
 	private GrammarCheckerOmissionDAO omissionDAO;
 	private GrammarCheckerBadInterventionDAO badInterventionDAO;
+	private ApplicationData appData;
 
 	public ErrorEntryLogic(LoggedUser loggedUser, ErrorEntryDAO errorEntryDAO,
 			UserDAO userDAO, CommentDAO commentDAO, CogrooFacade cogrooFacade,
 			GrammarCheckerVersionDAO versionDAO, GrammarCheckerOmissionDAO omissionDAO,
-			GrammarCheckerBadInterventionDAO badInterventionDAO) {
+			GrammarCheckerBadInterventionDAO badInterventionDAO, ApplicationData appData) {
 		this.userDAO = userDAO;
 		this.commentDAO = commentDAO;
 		this.errorEntryDAO = errorEntryDAO;
@@ -59,6 +61,7 @@ public class ErrorEntryLogic {
 		this.versionDAO = versionDAO;
 		this.omissionDAO = omissionDAO;
 		this.badInterventionDAO = badInterventionDAO;
+		this.appData = appData;
 	}
 
 	public void addErrorEntry(String userName, String text, String comment,
@@ -184,6 +187,7 @@ public class ErrorEntryLogic {
 					errorEntry.setOmissions(gcOmission);
 					
 					errorEntryDAO.add(errorEntry);
+					appData.incReportedErrors();
 					list.add(errorEntry);
 				}
 			}
@@ -237,6 +241,7 @@ public class ErrorEntryLogic {
 					errorEntry.setBadIntervention(gcBadIntervention);
 					
 					errorEntryDAO.add(errorEntry);
+					appData.incReportedErrors();
 					list.add(errorEntry);
 				}
 			}
@@ -308,6 +313,7 @@ public class ErrorEntryLogic {
 					errorEntry.setOmissions(gcOmission);
 					
 					errorEntryDAO.add(errorEntry);
+					appData.incReportedErrors();
 
 					LOG.debug("Added errorEntry:" + errorEntry);
 				}
@@ -347,6 +353,7 @@ public class ErrorEntryLogic {
 					errorEntry.setBadIntervention(gcBadIntervention);
 					
 					errorEntryDAO.add(errorEntry);
+					appData.incReportedErrors();
 					LOG.debug("Added errorEntry:" + errorEntry);
 				}
 			}
@@ -400,7 +407,7 @@ public class ErrorEntryLogic {
 			omissionDAO.delete(errorEntry.getOmission());
 		}
 		errorEntryDAO.delete(errorEntry);
-		
+		appData.decReportedErrors();		
 	}
 
 

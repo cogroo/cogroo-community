@@ -1,6 +1,7 @@
 package br.usp.ime.cogroo.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -8,10 +9,13 @@ import javax.annotation.PostConstruct;
 
 import br.com.caelum.vraptor.ioc.ApplicationScoped;
 import br.com.caelum.vraptor.ioc.Component;
+import br.usp.ime.cogroo.util.BuildUtil;
 
 @Component
 @ApplicationScoped
 public class ApplicationData {
+	
+	private boolean initialized = false;
 
 	private AtomicInteger reportedErrors = new AtomicInteger();
 	private AtomicInteger dictionaryEntries = new AtomicInteger();
@@ -31,12 +35,36 @@ public class ApplicationData {
 		// http://www.guj.com.br/posts/list/200676.java .
 	}
 	
+	public String getVersion() {
+		return BuildUtil.POM_VERSION;
+	}
+	
+	public Date getDate() {
+		return BuildUtil.BUILD_TIME;
+	}
+	
+	public boolean isInitialized() {
+		return this.initialized;
+	}
+	
+	public void setInitialized(boolean initialized) {
+		this.initialized = initialized;
+	}
+
 	public int getReportedErrors() {
 		return this.reportedErrors.get();
 	}
 	
 	public void setReportedErrors(int reportedErrors) {
 		this.reportedErrors.set(reportedErrors);
+	}
+	
+	public void incReportedErrors() {
+		this.reportedErrors.incrementAndGet();
+	}
+
+	public void decReportedErrors() {
+		this.reportedErrors.decrementAndGet();
 	}
 
 	public int getDictionaryEntries() {
@@ -46,13 +74,21 @@ public class ApplicationData {
 	public void setDictionaryEntries(int dictionaryEntries) {
 		this.dictionaryEntries.set(dictionaryEntries);
 	}
-
+	
+	public int getRegisteredMembers() {
+		return registeredMembers.get();
+	}
+	
 	public void setRegisteredMembers(int registeredMembers) {
 		this.registeredMembers.set(registeredMembers);
 	}
 	
-	public int getRegisteredMembers() {
-		return registeredMembers.get();
+	public void incRegisteredMembers() {
+		this.registeredMembers.incrementAndGet();
+	}
+
+	public void decRegisteredMembers() {
+		this.registeredMembers.decrementAndGet();
 	}
 	
 	public int getOnlineUsers() {

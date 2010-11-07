@@ -29,7 +29,7 @@
 	font-size: 10px;
 	position: 50%;
 	vertical-align: middle;
-	padding-top: 22px;
+	padding-top: 18px;
 }
 
 #footer {
@@ -39,7 +39,7 @@
 	height: 100px;
 }
 #footer #ftlink {
-  padding-top: 70px;
+  padding-top: 0px;
 }
 #ftlink, #copyright {
   padding-bottom: 8px;

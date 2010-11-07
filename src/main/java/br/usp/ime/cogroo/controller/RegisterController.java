@@ -13,6 +13,7 @@ import br.com.caelum.vraptor.validator.ValidationMessage;
 import br.com.caelum.vraptor.view.Results;
 import br.usp.ime.cogroo.dao.UserDAO;
 import br.usp.ime.cogroo.exceptions.Messages;
+import br.usp.ime.cogroo.model.ApplicationData;
 import br.usp.ime.cogroo.model.User;
 import br.usp.ime.cogroo.util.CriptoUtils;
 import br.usp.ime.cogroo.util.EmailSender;
@@ -23,14 +24,16 @@ public class RegisterController {
 	private final Result result;
 	private UserDAO userDAO;
 	private Validator validator;
+	private ApplicationData appData;
 	private static final Logger LOG = Logger
 			.getLogger(RegisterController.class);
 
 	public RegisterController(Result result, UserDAO userDAO,
-			Validator validator) {
+			Validator validator, ApplicationData appData) {
 		this.result = result;
 		this.userDAO = userDAO;
 		this.validator = validator;
+		this.appData = appData;
 	}
 
 	@Get
@@ -88,6 +91,7 @@ public class RegisterController {
 		user.setEmail(email);
 		user.setName(name);
 		userDAO.add(user);
+		appData.incRegisteredMembers();
 		
 		result.redirectTo(this).welcome();
 

@@ -60,7 +60,7 @@ public class ErrorEntryLogicTest {
 				facade,
 				new GrammarCheckerVersionDAO(em),
 				new GrammarCheckerOmissionDAO(em),
-				new GrammarCheckerBadInterventionDAO(em));
+				new GrammarCheckerBadInterventionDAO(em), null);
 	}
 
 	@Test(expected=CommunityException.class)

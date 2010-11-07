@@ -1,38 +1,29 @@
 package br.usp.ime.cogroo.interceptors;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
-import javax.servlet.http.HttpServletRequest;
-
 import br.com.caelum.vraptor.InterceptionException;
 import br.com.caelum.vraptor.Intercepts;
-import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.core.InterceptorStack;
 import br.com.caelum.vraptor.interceptor.Interceptor;
 import br.com.caelum.vraptor.resource.ResourceMethod;
 import br.usp.ime.cogroo.dao.UserDAO;
 import br.usp.ime.cogroo.dao.errorreport.ErrorEntryDAO;
 import br.usp.ime.cogroo.model.ApplicationData;
-import br.usp.ime.cogroo.util.BuildUtil;
 
 @Intercepts
 public class SystemInterceptor implements Interceptor {
 
 	private final ApplicationData appData;
-	private final Result result;
+	//private final Result result;
 
 	private final ErrorEntryDAO errorEntryDAO;
 	private final UserDAO userDAO;
 
-	private final HttpServletRequest request;
+	//private final HttpServletRequest request;
 
 	// private final ServletContext context;
 
-	public SystemInterceptor(Result result, HttpServletRequest request,
-			ApplicationData appData, ErrorEntryDAO errorEntryDAO,
-			UserDAO userDAO) {
-		this.result = result;
-		this.request = request;
+	public SystemInterceptor(ApplicationData appData,
+			ErrorEntryDAO errorEntryDAO, UserDAO userDAO) {
 		this.appData = appData;
 		this.errorEntryDAO = errorEntryDAO;
 		this.userDAO = userDAO;
@@ -40,23 +31,17 @@ public class SystemInterceptor implements Interceptor {
 
 	@Override
 	public boolean accepts(ResourceMethod method) {
-		return true;
+		return !appData.isInitialized();
 	}
 
 	@Override
 	public void intercept(InterceptorStack stack, ResourceMethod method,
 			Object resourceInstance) throws InterceptionException {
 		// XXX Ineficiente. Porém, não consigo acessar a DAO em nenhum outro
-		// ponto "global".
+		// ponto "global" único. Ver comentário em ApplicationData.populate().
 		appData.setReportedErrors((int) errorEntryDAO.count());
 		appData.setRegisteredMembers((int) userDAO.count());
-		appData.setOnlineUsers(((AtomicInteger) request.getSession()
-				.getServletContext()
-				.getAttribute(SessionListener.SESSION_COUNTER)).get());
-
-		result.include("appData", appData)
-			.include("version", BuildUtil.POM_VERSION)
-			.include("date", BuildUtil.BUILD_TIME);
+		appData.setInitialized(true);
 		stack.next(method, resourceInstance);
 	}
 
