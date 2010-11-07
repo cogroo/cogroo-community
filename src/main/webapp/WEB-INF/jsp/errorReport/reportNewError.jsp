@@ -92,6 +92,7 @@ $(document).ready(function() {
 			    <textarea rows="4" cols="70" name="text" id="text">${text}</textarea><br/>
 			    <span id="count">1024</span> <input type="submit" value="Enviar" id="sendErrorText"/>
 			</form>
+	</div>
 		</c:if>
 	
 		<c:if test="${not empty text}">
