@@ -7,11 +7,11 @@
 		<div id="logoCCSL"></div>
 		<div id="logoVRaptor"></div>
 		<div id="stats">
-			<p>Foram reportados ${appData.reportedErrors} erros atÈ agora.</p>
-			<p>H· ${appData.registeredMembers} membros cadastrados.</p>
-			<p>H· ${appData.onlineUsers} usu·rios online (${appData.onlineMembers} membros cadastrados e ${appData.onlineVisits} visitantes).</p>
-			<div id="ftlink"><p><a href="<c:url value="/stats"/>">Mais estatÌsticas...</a></p></div>
-			<p align="right">Vers„o: ${appData.version} <br/>Publicado em <fmt:formatDate type="both" dateStyle="long" value="${appData.date}" /><p>
+			<p>Foram reportados ${appData.reportedErrors} erros at√© agora.</p>
+			<p>H√° ${appData.registeredMembers} membros cadastrados.</p>
+			<p>H√° ${appData.onlineUsers} usu√°rios online (${appData.onlineMembers} membros cadastrados e ${appData.onlineVisits} visitantes).</p>
+			<div id="ftlink"><p><a href="<c:url value="/stats"/>">Mais estat√≠sticas...</a></p></div>
+			<p align="right">Vers√£o: ${appData.version} <br/>Publicado em <fmt:formatDate type="both" dateStyle="long" value="${appData.date}" /><p>
 		</div>
 
 	</div>
