@@ -33,7 +33,7 @@
 				"sZeroRecords": "Desculpe, nada encontrado.",
 				"sInfo": "Exibindo de _START_ até _END_ de um total de _TOTAL_ entradas",
 				"sInfoEmpty": "Exibindo de 0 até 0 de um total de 0 entradas",
-				"sInfoFiltered": "(filtados de um total de _MAX_ entradas)"
+				"sInfoFiltered": "(filtrados de um total de _MAX_ entradas)"
 			},
 			"aaSorting": [[ 1, "asc" ]],
 			"iDisplayLength": 150,
