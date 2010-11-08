@@ -96,7 +96,7 @@
 					    <td style="text-decoration: line-through;">
 					  </c:otherwise> 
 					</c:choose> 
-						<a href="<c:url value="/rule?rule.id=${rule.id}"/>">${rule.id}</a>
+						<a href="<c:url value="/rule/${rule.id}"/>">${rule.id}</a>
 					</td>
 					<td>${rule.type}</td>
 					<td>${rule.group}</td>
@@ -109,7 +109,7 @@
 				    			<c:forEach items="${rule.example}" var="example">
 									<li>${ i.count }
 										<ul>
-											<c:forEach items="${rule.example}" var="example" varStatus="i">
+											<c:forEach items="${rule.example}" var="example">
 												<li><b>incorreto:</b> ${example.incorrect}</li>
 												<li><b>correto:</b> ${example.correct}</li>
 											</c:forEach>

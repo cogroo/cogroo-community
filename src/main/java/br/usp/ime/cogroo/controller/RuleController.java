@@ -15,11 +15,6 @@ import br.usp.ime.cogroo.util.RuleUtils;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Example;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Rule;
 
-/**
- * Today this is the entry point of the web application. It shows a form where a
- * user can enter a text to be analyzed.
- * 
- */
 @Resource
 public class RuleController {
 
@@ -40,7 +35,7 @@ public class RuleController {
 	}
 	
 	@Get
-	@Path("/rule")
+	@Path(value = "/rule/{rule.id}")
 	public void rule(Rule rule) {
 		if(rule == null) {
 			result.redirectTo(getClass()).ruleList();
