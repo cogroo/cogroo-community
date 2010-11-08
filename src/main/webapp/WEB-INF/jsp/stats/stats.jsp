@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" %>  
 <link rel="stylesheet" type="text/css"
 	href="<c:url value="/css/dataTables_table_jui.css"/>" />
 <link rel="stylesheet" type="text/css"
