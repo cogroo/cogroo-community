@@ -3,15 +3,15 @@
 <link rel="stylesheet" type="text/css"
 	href="<c:url value="/css/dataTables_table.css"/>" />
 
-<h2>Estatísticas</h2>
+<h2>EstatÃ­sticas</h2>
 
 <h3>Globais</h3>
 
 <p>Erros reportados: ${appData.reportedErrors}</p>
-<p>Palavras no dicionário: ${appData.dictionaryEntries}</p>
+<p>Palavras no dicionÃ¡rio: ${appData.dictionaryEntries}</p>
 <p>Membros cadastrados: ${appData.registeredMembers}</p>
 <br />
-<p>Usuários online: ${appData.onlineUsers}</p>
+<p>UsuÃ¡rios online: ${appData.onlineUsers}</p>
 <p>Visitantes: ${appData.onlineVisits}</p>
 <p>Membros online: ${appData.onlineMembers}</p>
 <br />
@@ -23,7 +23,7 @@
 
 <br />
 
---><h3>Relatórios</h3>
+--><h3>RelatÃ³rios</h3>
 
 <h4>Membros online</h4>
 <table cellpadding="0" cellspacing="0" border="0" class="display"
@@ -32,7 +32,7 @@
 		<tr>
 			<th>Nome</th>
 			<th>Login</th>
-			<th>Último login</th>
+			<th>Ãšltimo login</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -55,14 +55,14 @@
 </table>
 <br />
 
-<h4>Usuários inativos (sem login há mais de um mês)</h4>
+<h4>UsuÃ¡rios inativos (sem login hÃ¡ mais de um mÃªs)</h4>
 <table cellpadding="0" cellspacing="0" border="0" class="display"
 	id="table_id">
 	<thead>
 		<tr>
 			<th>Nome</th>
 			<th>Login</th>
-			<th>Último login</th>
+			<th>Ãšltimo login</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -86,14 +86,14 @@
 <br />
 <br />
 
-<h4>Usuários mais ativos (por ordem de login)</h4>
+<h4>UsuÃ¡rios mais ativos (por ordem de login)</h4>
 <table cellpadding="0" cellspacing="0" border="0" class="display"
 	id="table_id">
 	<thead>
 		<tr>
 			<th>Nome</th>
 			<th>Login</th>
-			<th>Último login</th>
+			<th>Ãšltimo login</th>
 		</tr>
 	</thead>
 	<tbody>
