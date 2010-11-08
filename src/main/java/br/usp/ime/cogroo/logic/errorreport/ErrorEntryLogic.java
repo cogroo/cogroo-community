@@ -28,6 +28,7 @@ import br.usp.ime.cogroo.model.errorreport.Comment;
 import br.usp.ime.cogroo.model.errorreport.ErrorEntry;
 import br.usp.ime.cogroo.model.errorreport.GrammarCheckerBadIntervention;
 import br.usp.ime.cogroo.model.errorreport.GrammarCheckerOmission;
+import br.usp.ime.cogroo.util.BuildUtil;
 import br.usp.pcs.lta.cogroo.errorreport.model.BadIntervention;
 import br.usp.pcs.lta.cogroo.errorreport.model.ErrorReport;
 import br.usp.pcs.lta.cogroo.errorreport.model.Omission;
@@ -265,7 +266,7 @@ public class ErrorEntryLogic {
 			List<String> omissionStart,
 			List<String> omissionEnd) {
 		
-		GrammarCheckerVersion version = versionDAO.retrieve("site");
+		GrammarCheckerVersion version = versionDAO.retrieve("c" + BuildUtil.POM_VERSION);
 		
 		Date time = new Date();
 		
