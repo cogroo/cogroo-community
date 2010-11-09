@@ -43,13 +43,13 @@
 <script type="text/javascript">
 
   var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-18985930-1']);
+  _gaq.push(['_setAccount', 'UA-18985930-2']);
   
   // Comentar a linha seguinte para funcionar no CCSL ou localhost.
-  _gaq.push(['_setCookiePath', '/comunidade/']);
+  //_gaq.push(['_setCookiePath', '/comunidade/']);
   
   // Descomentar a linha seguinte para funcionar no CCSL.
-  //_gaq.push(['_setCookiePath', '/cogroo/comunidade/']);
+  _gaq.push(['_setCookiePath', '/cogroo/comunidade/']);
   
   // Descomentar as duas próximas linhas para funcionar em localhost.
   //_gaq.push(['_setDomainName', 'none']);
