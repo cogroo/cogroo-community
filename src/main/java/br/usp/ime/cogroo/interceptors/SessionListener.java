@@ -16,7 +16,7 @@ public class SessionListener implements HttpSessionListener {
 	public static final String SESSION_COUNTER = "sessionCounter";
 
 	@Override
-	public void sessionCreated(HttpSessionEvent se) {
+	public synchronized void sessionCreated(HttpSessionEvent se) {
 		AtomicInteger counter = (AtomicInteger) se.getSession().getServletContext()
 				.getAttribute(SESSION_COUNTER);
 		if (counter == null)
@@ -30,7 +30,7 @@ public class SessionListener implements HttpSessionListener {
 	}
 
 	@Override
-	public void sessionDestroyed(HttpSessionEvent se) {
+	public synchronized void sessionDestroyed(HttpSessionEvent se) {
 		AtomicInteger counter = (AtomicInteger) se.getSession().getServletContext()
 				.getAttribute(SESSION_COUNTER);
 		if (counter == null)
