@@ -131,7 +131,7 @@ $(document).ready(function() {
 			
 			<c:if test="${empty singleGrammarErrorList}">
 				<div class="dashed_white">
-					<p>Não foram emcontrados erros no texto.</p>
+					<p>Não foram encontrados erros no texto.</p>
 				</div>
 			</c:if>
 			<c:if test="${not empty singleGrammarErrorList}">
