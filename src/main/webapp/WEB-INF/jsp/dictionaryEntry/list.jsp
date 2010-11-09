@@ -3,6 +3,13 @@
 <%@ page contentType="text/html; charset=UTF-8" %>  
 
 <script type="text/javascript">
+	if (${justRegistered})
+	{
+		_gaq.push(['_trackEvent', 'Register', 'succeeded register', '${login}']);
+	}
+</script>
+
+<script type="text/javascript">
 //<![CDATA[
 	$(document).ready(function() {
 		$('.relatorio tbody tr:odd').addClass('odd');

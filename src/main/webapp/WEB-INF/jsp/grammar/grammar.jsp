@@ -13,6 +13,13 @@
 	
 //--><!]]>
 
+</script>
+
+<script type="text/javascript">
+	if (${justAnalyzed})
+	{
+		_gaq.push(['_trackEvent', 'Grammatical Analysis', 'succeeded analysis', '${login}']);
+	}
 </script>		
 		
 		<h2>Analisador Gramatical.</h2>

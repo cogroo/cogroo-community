@@ -8,6 +8,13 @@
 <script src="<c:url value='/js/jquery.dataTables.min.js' />" type="text/javascript" ></script>
 <script src="<c:url value='/js/jquery.dataTables.sort.js' />" type="text/javascript" ></script>
 
+<script type="text/javascript">
+	if (${justReported})
+	{
+		_gaq.push(['_trackEvent', 'Problems', 'report', '${login}']);
+	}
+</script>
+
 <script type="text/javascript" charset="utf-8">
 	var oTable;
 	

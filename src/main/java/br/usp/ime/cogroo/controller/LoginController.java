@@ -84,6 +84,8 @@ public class LoginController {
 		userDAO.update(userFromDB);
 		loggedUser.login(userFromDB);
 		request.getSession().setAttribute("loggedUser", loggedUser);
+		
+		result.include("justLogged", true).include("login", login);
 
 		result.redirectTo(IndexController.class).index();
 	}

@@ -84,6 +84,8 @@ public class ErrorReportController {
 					customOmissionText,
 					omissionComment, omissionReplaceBy, omissionStart, omissionEnd);
 			
+			result.include("justReported", true).include("login", loggedUser.getUser().getLogin());
+			
 			result.redirectTo(getClass()).list();
 		} else {
 			validator.add(new ValidationMessage(

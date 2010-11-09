@@ -75,6 +75,14 @@ public class ApplicationData {
 		this.dictionaryEntries.set(dictionaryEntries);
 	}
 	
+	public void incDictionaryEntries() {
+		this.dictionaryEntries.incrementAndGet();
+	}
+
+	public void decDictionaryEntries() {
+		this.dictionaryEntries.decrementAndGet();
+	}
+	
 	public int getRegisteredMembers() {
 		return registeredMembers.get();
 	}

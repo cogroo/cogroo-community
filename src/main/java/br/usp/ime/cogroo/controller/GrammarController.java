@@ -6,6 +6,7 @@ import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
 import br.usp.ime.cogroo.dao.CogrooFacade;
+import br.usp.ime.cogroo.model.LoggedUser;
 
 /**
  * Today this is the entry point of the web application. It shows a form where a
@@ -17,10 +18,12 @@ public class GrammarController {
 
 	private final Result result;
 	private CogrooFacade cogroo;
-
-	public GrammarController(Result result, CogrooFacade cogroo) {
+	private LoggedUser loggedUser;
+	
+	public GrammarController(Result result, CogrooFacade cogroo, LoggedUser loggedUser) {
 		this.result = result;
 		this.cogroo = cogroo;
+		this.loggedUser = loggedUser;
 	}
 
 	@Get
@@ -35,6 +38,11 @@ public class GrammarController {
 			if(text.length() > 255) {
 				text = text.substring(0, 255);
 			}
+			result.include("justAnalyzed", true).include(
+					"login",
+					loggedUser.isLogged() ? loggedUser.getUser().getLogin()
+							: "anonymous");
+			
 			result.include("processResultList", cogroo.processText(text))
 					.include("text", text);
 		}

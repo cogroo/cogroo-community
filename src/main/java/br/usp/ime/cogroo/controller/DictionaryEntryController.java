@@ -17,6 +17,7 @@ import br.com.caelum.vraptor.view.Results;
 import br.usp.ime.cogroo.exceptions.Messages;
 import br.usp.ime.cogroo.logic.DictionaryManager;
 import br.usp.ime.cogroo.logic.EditPosTagLogic;
+import br.usp.ime.cogroo.model.ApplicationData;
 import br.usp.ime.cogroo.model.DictionaryEntry;
 import br.usp.ime.cogroo.model.LoggedUser;
 import br.usp.ime.cogroo.model.NicePrintDictionaryEntry;
@@ -33,17 +34,19 @@ public class DictionaryEntryController {
 	private Result result;
 	private Validator validator;
 	private LoggedUser loggedUser;
+	private ApplicationData appData;
 	private static final Logger LOG = Logger
 			.getLogger(DictionaryEntryController.class);
 
 	public DictionaryEntryController(DictionaryManager dictionaryManager,
 			Result result, Validator validator, LoggedUser loggedUser,
-			EditPosTagLogic editPosTagLogic) {
+			EditPosTagLogic editPosTagLogic, ApplicationData appData) {
 		this.dictionaryManager = dictionaryManager;
 		this.editPosTagLogic = editPosTagLogic;
 		this.result = result;
 		this.validator = validator;
 		this.loggedUser = loggedUser;
+		this.appData = appData;
 	}
 
 	@Get
@@ -98,6 +101,8 @@ public class DictionaryEntryController {
 
 		try {
 			dictionaryManager.add(dictionaryEntry);
+			appData.incDictionaryEntries();
+			result.include("justAddedDictionaryEntry", true).include("login", loggedUser.getUser().getLogin());
 			result.redirectTo(DictionaryEntryController.class).list();
 		} catch (Exception e) {
 			LOG.error("Couldn't add dictionaryEntry: " + dictionaryEntry, e);
@@ -142,6 +147,7 @@ public class DictionaryEntryController {
 				LOG.debug("Will delete dictionaryEntry: "
 						+ dictionaryEntry.toString());
 				dictionaryManager.delete(dictionaryEntry);
+				appData.decDictionaryEntries();
 			}
 
 		}

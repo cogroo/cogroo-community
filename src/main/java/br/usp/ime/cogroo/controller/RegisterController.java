@@ -93,6 +93,8 @@ public class RegisterController {
 		userDAO.add(user);
 		appData.incRegisteredMembers();
 		
+		result.include("justRegistered", true).include("login", login);
+		
 		result.redirectTo(this).welcome();
 
 	}
