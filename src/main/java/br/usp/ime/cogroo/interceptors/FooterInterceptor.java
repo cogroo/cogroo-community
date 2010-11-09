@@ -37,13 +37,14 @@ public class FooterInterceptor implements Interceptor {
 	@Override
 	public void intercept(InterceptorStack stack, ResourceMethod method,
 			Object resourceInstance) throws InterceptionException {
-		
-		appData.setOnlineUsers(((AtomicInteger) request.getSession()
-				.getServletContext()
-				.getAttribute(SessionListener.SESSION_COUNTER)).get());
 
-		result.include("appData", appData);
-		stack.next(method, resourceInstance);
+		if(appData != null && request != null) {
+			appData.setOnlineUsers(((AtomicInteger) request.getSession()
+					.getServletContext()
+					.getAttribute(SessionListener.SESSION_COUNTER)).get());
+			result.include("appData", appData);
+		} 
+		stack.next(method, resourceInstance);		
 	}
 
 }
