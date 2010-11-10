@@ -38,7 +38,7 @@
 						<td>${ i.count }</td>
 						<td>${processResult.textAnnotatedWithErrors}</td>
 						<td>
-								<form id="form_${id}${ i.count }" action="/phpsyntaxtree/?" method="post" target="externalSite">
+								<form id="form_${id}${ i.count }" action="/cogroo/phpsyntaxtree/?" method="post" target="externalSite">
 									<input  type="hidden" name="antialias" value="on" />
 									<input  type="hidden" name="autosub" value="on" />
 									<input  type="hidden" name="autosub" value="on" />
