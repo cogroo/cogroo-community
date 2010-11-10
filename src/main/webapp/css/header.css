@@ -20,6 +20,8 @@ a:hover {
 
 #logoCogroo {
   background: #336699 url(../images/cogroo_comunidade.png) no-repeat scroll 0% 50%;
+  display: block;
+  float: left;
   height: 100px; 
   width: 400px;
   text-align: left;
@@ -32,6 +34,9 @@ a:hover {
 	left: 420px;
 	top: 20px;
 	height: 80px;
+}
+#menu {
+  clear: both;
 }
 
 ul#nav {

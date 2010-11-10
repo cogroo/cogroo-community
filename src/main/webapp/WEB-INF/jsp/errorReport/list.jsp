@@ -97,7 +97,7 @@
 </script>
 
 
-	<br/>
+	<h2>Problemas reportados</h2>
 	<p>Erros enviados através do plug-in CoGrOO para BrOffice.org</p>
 	<table cellpadding="0" cellspacing="0" border="0" class="display" id="errorList">
 		<thead>

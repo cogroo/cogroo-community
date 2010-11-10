@@ -27,7 +27,7 @@
 </script>
 
 <div>
-	<h2>Consultar palavras</h2>
+	<h2>Consultar palavra</h2>
 </div>
 
 

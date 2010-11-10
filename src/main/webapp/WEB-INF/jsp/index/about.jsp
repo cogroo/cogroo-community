@@ -2,8 +2,7 @@
 <div>
 	<h2>Sobre o CoGrOO Comunidade</h2>
 	<p>
-	O CoGrOO Comunidade é um portal que pretende viabilizar a colaboratividade 
-	no desenvolvimento do Corretor Gramatical CoGrOO. <br />
+	O CoGrOO Comunidade é um portal colaborativo para aprimorar o CoGrOO, o corretor gramatical em português para OpenOffice.<br />
 	</p>
 	<br/><br/>
 	<h2>Créditos do desenvolvimento</h2>

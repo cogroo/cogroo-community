@@ -112,7 +112,7 @@ table.answer td {
 			<tr>
 				<c:choose>
 					<c:when test="${empty errorEntry.omission}">
-						<th>Regra:</th><td><a href="<c:url value="/rule?rule.id=${errorEntry.badIntervention.rule}"/>">${errorEntry.badIntervention.rule}</a></td>
+						<th>Regra:</th><td><a href="<c:url value="/rule/${errorEntry.badIntervention.rule}"/>">${errorEntry.badIntervention.rule}</a></td>
 			    		<th>Erro:</th><td><fmt:message key="${errorEntry.badIntervention.classification}" /></td>
 			  		</c:when>
 			  		<c:otherwise>

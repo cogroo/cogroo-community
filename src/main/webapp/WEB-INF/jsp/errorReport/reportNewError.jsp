@@ -69,13 +69,14 @@ $(document).ready(function() {
 </script>
 
 <c:if test="${not loggedUser.logged}">
-	Por favor, efetue login para enviar novo erro.
+	<p>Por favor, conecte-se para enviar novo erro.</p>
+	<p>Não é cadastrado? <a href="<c:url value="/register"/>">Clique aqui</a> e cadastre-se! É rápido e gratuito!</p>
 </c:if>
 <c:if test="${loggedUser.logged}">
 
 	<div class="white_box">
 	
-		<h2>Reportar novo problema <span class="help"><a onclick="onOff('helpNewError'); return false" href="#">ajuda</a></span></h2>
+		<h2>Reportar problema <span class="help"><a onclick="onOff('helpNewError'); return false" href="#">ajuda</a></span></h2>
 		
 		<div id="helpNewError" style="display: none;" class="help">
 			<p>
@@ -87,10 +88,10 @@ $(document).ready(function() {
 		</div>
 
 		<c:if test="${empty text}">
-			Digite um texto para verificar o comportamento do CoGrOO:
+			Digite um texto para buscar erros gramaticais com o CoGrOO:
 			<form id="formSendErrorText"  action="<c:url value="/reportNewErrorAddText"/>" method="post" >
 			    <textarea rows="4" cols="70" name="text" id="text">${text}</textarea><br/>
-			    <span id="count">1024</span> <input type="submit" value="Enviar" id="sendErrorText"/>
+			    <span id="count">1024</span> <input type="submit" value="Analisar" id="sendErrorText"/>
 			</form>
 	</div>
 		</c:if>

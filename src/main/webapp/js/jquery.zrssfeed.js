@@ -112,7 +112,7 @@
 				html += '<div class="newsContent">'+ content +'</div>'
 			}
 			
-			html += '</div>';
+			html += '<br /></div>';
 						
 		}
 		

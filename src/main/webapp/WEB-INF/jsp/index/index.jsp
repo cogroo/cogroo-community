@@ -24,9 +24,10 @@
 			}); 
 		
 		$('#news').rssfeed('http://ccsl.ime.usp.br/cogroo/pt-br/rss.xml', {
-		    limit: 10,
+		    limit: 5,
+		    date: false,
 		    content: true,
-		    snippet: false,
+		    snippet: true,
 		    errormsg: 'Não foi possível abrir notícias.'
 		  });
 	});
@@ -35,9 +36,20 @@
 
 </script>
 		
-		<div id="twitter" class="twitter"></div>
+		
+	
+		<h2>Sobre o projeto</h2>
+		
+		<p>O CoGrOO Comunidade é um portal colaborativo para aprimorar o CoGrOO, o corretor gramatical em português para OpenOffice. <a href="<c:url value="/about"/>">Mais informações...</a></p>
+		<br />
+		<p><a href="<c:url value="/grammar"/>">Busque</a> erros gramaticais em uma frase. Algo estranho? <a href="<c:url value="/reportNewError"/>">Conte</a> para nós!</p>
+		<br />
+		
+		
 	
 		<h2>Notícias</h2>
+		
+		<div id="twitter" class="twitter"></div>
 		
 		<div id="newswrapper">
 			<div id="news"></div>

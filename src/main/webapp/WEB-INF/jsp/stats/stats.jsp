@@ -31,7 +31,6 @@
 	id="table_id">
 	<thead>
 		<tr>
-			<th>Nome</th>
 			<th>Login</th>
 			<th>Último login</th>
 		</tr>
@@ -39,7 +38,6 @@
 	<tbody>
 		<c:forEach var="user" items="${appData.loggedUsers}">
 			<tr>
-				<td>${user.name}</td>
 				<td>${user.login}</td>
 				<td><c:choose>
 					<c:when test="${not empty user.lastLogin}">
@@ -61,7 +59,6 @@
 	id="table_id">
 	<thead>
 		<tr>
-			<th>Nome</th>
 			<th>Login</th>
 			<th>Último login</th>
 		</tr>
@@ -69,7 +66,6 @@
 	<tbody>
 		<c:forEach var="user" items="${appData.idleUsers}">
 			<tr>
-				<td>${user.name}</td>
 				<td>${user.login}</td>
 				<td><c:choose>
 					<c:when test="${not empty user.lastLogin}">
@@ -92,7 +88,6 @@
 	id="table_id">
 	<thead>
 		<tr>
-			<th>Nome</th>
 			<th>Login</th>
 			<th>Último login</th>
 		</tr>
@@ -100,7 +95,6 @@
 	<tbody>
 		<c:forEach var="user" items="${appData.topUsers}">
 			<tr>
-				<td>${user.name}</td>
 				<td>${user.login}</td>
 				<td><c:choose>
 					<c:when test="${not empty user.lastLogin}">
