@@ -223,7 +223,7 @@
 			<filter>${basedir}/target/filter.properties</filter>
 	    </filters>
 	
-		<finalName>cogrooWeb</finalName>
+		<finalName>cogroo</finalName>
 		<resources>
 			<resource>
 				<directory>target/cogroo</directory>
