@@ -159,7 +159,7 @@
 		avatar: true,				// true or false (show or hide twitter profile images)
 		bird: true,					// true or false (show or hide twitter bird image)
 		birdLink: false,			// url that twitter bird image should like to
-		birdSrc: 'http://cloud.github.com/downloads/malsup/twitter/tweet.gif', // twitter bird image
+		birdSrc: './images/tweet.gif', // twitter bird image
 		colorExterior: null,        // css override of frame border-color and title background-color
 		colorInterior: null,        // css override of container background-color
 		filter: null,               // callback fn to filter tweets:  fn(tweetJson) { /* return false to skip tweet */ }
