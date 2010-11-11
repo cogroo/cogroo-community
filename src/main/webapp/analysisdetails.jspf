@@ -34,7 +34,7 @@
 			<tbody>
 				<c:forEach items="${processResultList}" var="processResult" varStatus="i">
 					<tr>
-						<td valign="middle"><img class="analysisTableDetails" src="./images/details_open.png"></td>
+						<td valign="middle"><img class="analysisTableDetails" src="../images/details_open.png"></td>
 						<td>${ i.count }</td>
 						<td>${processResult.textAnnotatedWithErrors}</td>
 						<td>
