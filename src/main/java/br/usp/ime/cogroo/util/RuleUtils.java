@@ -18,7 +18,6 @@ import br.usp.pcs.lta.cogroo.tools.checker.rules.model.PatternElement;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Reference;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Reference.Property;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Rule;
-import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Rules;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Suggestion;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Suggestion.Replace;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Suggestion.ReplaceMapping;
