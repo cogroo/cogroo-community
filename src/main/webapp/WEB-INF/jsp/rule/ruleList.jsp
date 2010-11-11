@@ -71,8 +71,9 @@
 
 
 	<h2>Regras</h2>
-	Clique no número da regra para detalhes. 
-	Regras com número tachado significa que está desabilitada. 
+	<p>Exibe as regras utilizadas pelo CoGrOO.</p>
+	<p>Clique no número da regra para detalhes. Regras com identificador tachado estão desabilitadas.</p> 
+	<br />
 	<table cellpadding="0" cellspacing="0" border="0" class="display" id="table_id">
 		<thead>
 			<tr>

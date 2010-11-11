@@ -80,7 +80,7 @@ $(document).ready(function() {
 		
 		<div id="helpNewError" style="display: none;" class="help">
 			<p>
-				Bem-vindo ao relatório de erros do corretor gramatical CoGrOO. Obrigado por sua colaboração, que é importante para o aprimoramento da ferramenta.
+				Bem-vindo ao relatório de erros do corretor gramatical CoGrOO. Obrigado por sua colaboração, ela é fundamental para o aprimoramento da ferramenta.
 			</p>
 			<p>
 				Ao submeter textos, sempre tome cuidado para não enviar conteúdo confidencial. Você deve concordar em licenciar o texto submetido sob os termos da <a target="_blank" href="http://www.gnu.org/licenses/lgpl-3.0-standalone.html">LGPL</a>, tornando o público.
@@ -138,7 +138,7 @@ $(document).ready(function() {
 			<c:if test="${not empty singleGrammarErrorList}">
 				<c:forEach items="${singleGrammarErrorList}" var="singleGrammarError" varStatus="i">
 						<div class="dashed_white">
-						<h4>Intervenção ${ i.count }:</h4>
+						<h3>Intervenção ${ i.count }:</h3>
 						
 							<div class="analise_text_incorrect">
 								<p><b>${singleGrammarError.annotatedText}</b></p>
@@ -165,7 +165,7 @@ $(document).ready(function() {
 									</tr>
 								</table>
 							</div>
-							Classifique esta intervenção:<br/>
+							Classifique essa intervenção:<br/>
 							<select name="badint[${ i.count }]" 
 								ONCHANGE="if( this.selectedIndex == 0 ) {off('comments_${ i.count }');} else {on('comments_${ i.count }');} ;">
 								<option value="ok">Intervenção correta.</option>
@@ -199,15 +199,15 @@ $(document).ready(function() {
 				</div>
 			</div>
 			<div class="red_border_box">
-				<h5>Adicionar omissão<span class="help"><a onclick="onOff('helpAddOmission'); return false" href="#">ajuda</a></span></h5>
+				<h5>Nova omissão<span class="help"><a onclick="onOff('helpAddOmission'); return false" href="#">ajuda</a></span></h5>
 				<div id="helpAddOmission" style="display: none;" class="help">
-					<p>Para adicionar uma omissão, selecione o trecho errado na área abaixo e acione o botão "Adicionar".
-					Em seguida, preencha os dados da omissão na caixa acima.</p>
+					<p>Para adicionar uma omissão, selecione o trecho omisso na área abaixo e clique no botão "Adicionar omissão".</p>
+					<p>Em seguida, preencha os dados da omissão na caixa acima.</p>
 					<p>Repita o procedimento para cada omissão.</p>
 				</div>
-				Selecione com o mouse o trecho que contém a omissão:<br/>
+				Selecione com o mouse o trecho que contém uma omissão, se houver:<br/>
 				<textarea rows="2" cols="70" readonly="readonly" id="selector" >${text}</textarea><br/>
-				<button type="button" id="addNewOmission" class="a_button"> Adicionar &raquo; </button>
+				<button type="button" id="addNewOmission" class="a_button"> Adicionar omissão &raquo; </button>
 			</div>
 			<div id="toCopy" style="display:none;">
 			 	<div class="dashed_white">
@@ -238,7 +238,7 @@ $(document).ready(function() {
 			</div>
 			
 		</div>
-			<input type="submit" value=" Enviar problema &raquo; " id="sendError"/>
+			<input type="submit" value=" Reportar problema &raquo; " id="sendError"/>
 		</form>
 	</c:if>
 </c:if>

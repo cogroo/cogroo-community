@@ -96,9 +96,14 @@
 	} );
 </script>
 
+<c:if test="${justReported}">
+	<h3>Erro reportado com sucesso!</h3>
+	<br />
+</c:if>
 
-	<h2>Problemas reportados</h2>
-	<p>Erros enviados através do plug-in CoGrOO para BrOffice.org</p>
+<h2>Problemas reportados</h2>
+	<p>Exibe todos os problemas reportados através da página e do plug-in CoGrOO para BrOffice.org.</p>
+	<br />
 	<table cellpadding="0" cellspacing="0" border="0" class="display" id="errorList">
 		<thead>
 			<tr>
@@ -126,7 +131,7 @@
 				  		</c:otherwise>
 					</c:choose>
 					<td>${errorEntry.markedText}</td>
-					<td><span title="${errorEntry.modified}"></span><fmt:formatDate type="both" dateStyle="long" value="${errorEntry.modified}" /></span></td>
+					<td><span title="${errorEntry.modified}"></span><fmt:formatDate type="both" dateStyle="long" value="${errorEntry.modified}" /></td>
 					<td>${errorEntry.version.version}</td>
 					<td>${errorEntry.submitter.name}</td>
 	  			  	<td>

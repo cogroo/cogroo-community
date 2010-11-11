@@ -22,7 +22,7 @@
 	}
 </script>		
 		
-		<h2>Analisador Gramatical</h2>
+		<h2>Análise Gramatical</h2>
 		<p>Digite um texto para buscar erros gramaticais com o CoGrOO:</p>
 		<form action="<c:url value="/grammar"/>"  method="post" >
 		    <textarea rows="4" cols="70" name="text" id="text">${text}</textarea>
