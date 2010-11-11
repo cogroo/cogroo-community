@@ -61,6 +61,7 @@ public class ErrorReportController {
 	@Get
 	@Path("/reportNewError")
 	public void reportNewError() {
+		result.include("text", "Isso são um exemplo de erro gramaticais.");
 	}
 	
 	@Post
@@ -103,7 +104,8 @@ public class ErrorReportController {
 				}
 				
 				List<ProcessResult> pr = cogrooFacade.processText(text);
-				result.include("text", text).
+				result.include("analyzed", true).
+					include("text", text).
 					include("annotatedText", cogrooFacade.getAnnotatedText(text, pr)).
 					include("singleGrammarErrorList", cogrooFacade.asSingleGrammarErrorList(text, pr)).
 					include("omissionCategoriesList", this.errorEntryLogic.getErrorCategoriesForUser()).

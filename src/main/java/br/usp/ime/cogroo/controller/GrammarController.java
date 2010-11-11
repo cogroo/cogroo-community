@@ -29,6 +29,7 @@ public class GrammarController {
 	@Get
 	@Path("/grammar")
 	public void grammar() {
+		result.include("text", "Isso são um exemplo de erro gramaticais.");
 	}
 
 	@Post

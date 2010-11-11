@@ -32,10 +32,10 @@
 
 
 <div>
-	<p>Digite a palavra que deseja procurar</p>
+	<p>Digite a palavra que deseja procurar no dicionário:</p>
 	<form action="<c:url value="/dictionaryEntrySearch"/>" method="post">
 		<input type="text" id="word" value="${word}" name="word"  maxlength="128"/> 
-		<input type="submit" value="Procurar" id="go" />
+		<input type="submit" value=" Procurar &raquo; " id="go" />
 	</form>
 </div>
 

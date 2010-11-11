@@ -99,6 +99,6 @@ label.typeField {
 		</div>
 			 
 		</c:forEach>
-		<input type="submit" value="Salvar" />
+		<input type="submit" value=" Salvar &raquo; " />
 	</fieldset>
 </form>

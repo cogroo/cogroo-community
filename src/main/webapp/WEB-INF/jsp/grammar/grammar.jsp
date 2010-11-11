@@ -27,14 +27,14 @@
 		<form action="<c:url value="/grammar"/>"  method="post" >
 		    <textarea rows="4" cols="70" name="text" id="text">${text}</textarea>
 		    <br/>
-		    <span id="count">1024</span> <input type="submit" value="Analisar" id="go"/>
+		    <span id="count">255</span> <input type="submit" value=" Analisar &raquo; " id="go"/>
 		</form>
-		<c:if test="${not empty text}">
-			<form id="formSendErrorText"  action="<c:url value="/reportNewErrorAddText"/>" method="post" >
-			    <input type="hidden" name="text" value="${text}" />
-			    <input type="submit" value="Reportar erro" id="sendErrorText"/>
-			</form>
-		</c:if>
 		<c:set var="processResultList" scope="request" value="${processResultList}" />    
 		<c:set var="id" scope="request" value="id" />
 		<jsp:include page="/analysisdetails.jspf" />
+		<c:if test="${justAnalyzed && not empty text}">
+			<form id="formSendErrorText"  action="<c:url value="/reportNewErrorAddText"/>" method="post" >
+			    <input type="hidden" name="text" value="${text}" />
+			    <input type="submit" value=" Reportar problema &raquo; " id="sendErrorText"/>
+			</form>
+		</c:if>

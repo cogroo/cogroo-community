@@ -33,7 +33,7 @@ a:hover {
 	top: 20px;
 	height: 80px;
 }
-#menu {
+.clear {
   clear: both;
 }
 

@@ -69,7 +69,7 @@ $(document).ready(function() {
 </script>
 
 <c:if test="${not loggedUser.logged}">
-	<p>Por favor, conecte-se para enviar novo erro.</p>
+	<p>Por favor, conecte-se no canto superior direito para enviar novo erro.</p>
 	<p>Não é cadastrado? <a href="<c:url value="/register"/>">Clique aqui</a> e cadastre-se! É rápido e gratuito!</p>
 </c:if>
 <c:if test="${loggedUser.logged}">
@@ -87,16 +87,16 @@ $(document).ready(function() {
 			</p>
 		</div>
 
-		<c:if test="${empty text}">
+		<c:if test="${!analyzed}">
 			Digite um texto para buscar erros gramaticais com o CoGrOO:
 			<form id="formSendErrorText"  action="<c:url value="/reportNewErrorAddText"/>" method="post" >
 			    <textarea rows="4" cols="70" name="text" id="text">${text}</textarea><br/>
-			    <span id="count">1024</span> <input type="submit" value="Analisar" id="sendErrorText"/>
+			    <span id="count">255</span> <input type="submit" value=" Analisar &raquo; " id="sendErrorText"/>
 			</form>
 	</div>
 		</c:if>
 	
-		<c:if test="${not empty text}">
+		<c:if test="${analyzed && 	not empty text}">
 			<legend>Seu texto:</legend>
 			<div class="analise_text_correct">
 				<p><b>${annotatedText}</b></p>
@@ -199,15 +199,15 @@ $(document).ready(function() {
 				</div>
 			</div>
 			<div class="red_border_box">
-				<h5>Adicionar omissão:<span class="help"><a onclick="onOff('helpAddOmission'); return false" href="#">ajuda</a></span></h5>
+				<h5>Adicionar omissão<span class="help"><a onclick="onOff('helpAddOmission'); return false" href="#">ajuda</a></span></h5>
 				<div id="helpAddOmission" style="display: none;" class="help">
 					<p>Para adicionar uma omissão, selecione o trecho errado na área abaixo e acione o botão "Adicionar".
-					Em seguida preencha os dados da omissão na caixa acima.</p>
-					<p>Repida o procedimento para cada omissão.</p>
+					Em seguida, preencha os dados da omissão na caixa acima.</p>
+					<p>Repita o procedimento para cada omissão.</p>
 				</div>
-				Selecione a omissão:<br/>
+				Selecione com o mouse o trecho que contém a omissão:<br/>
 				<textarea rows="2" cols="70" readonly="readonly" id="selector" >${text}</textarea><br/>
-				<button type="button" id="addNewOmission" class="a_button">Adicionar</button>
+				<button type="button" id="addNewOmission" class="a_button"> Adicionar &raquo; </button>
 			</div>
 			<div id="toCopy" style="display:none;">
 			 	<div class="dashed_white">
@@ -238,7 +238,7 @@ $(document).ready(function() {
 			</div>
 			
 		</div>
-			<input type="submit" value="Enviar relatório" id="sendError"/>
+			<input type="submit" value=" Enviar problema &raquo; " id="sendError"/>
 		</form>
 	</c:if>
 </c:if>

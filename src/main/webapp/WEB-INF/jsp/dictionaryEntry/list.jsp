@@ -3,9 +3,9 @@
 <%@ page contentType="text/html; charset=UTF-8" %>  
 
 <script type="text/javascript">
-	if (${justRegistered})
+	if (${justAddedDictionaryEntry})
 	{
-		_gaq.push(['_trackEvent', 'Register', 'succeeded register', '${login}']);
+		_gaq.push(['_trackEvent', 'Dictionary', 'add entry', '${login}']);
 	}
 </script>
 
@@ -47,6 +47,6 @@
 </div>
 	
 <form action="<c:url value="/dictionaryEntry"/>"  method="get" >
-    <input type="submit" value="Incluir" />
+    <input type="submit" value=" Incluir &raquo; " />
 </form>
 

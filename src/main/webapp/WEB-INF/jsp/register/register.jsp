@@ -45,7 +45,7 @@
 			<p>Eu entendo os princípios do código aberto e os aceito. Aceito também que os dicionários podem ser liberados sob outras licenças "open source", como definido pela OSI (<a  target="_blank" href="http://www.opensource.org/">Open Source Initiative</a>).</p>
 
 
-            <p style="text-align: right;"><label><img alt="" src="./images/tag_integrated.png"> Eu aceito <input type="checkbox" ${ iAgree ? "checked" :"" } name="iAgree"></label></p>
+            <p style="text-align: right;"><label><img alt="" src="./images/tag_integrated.png"><b> Eu aceito </b><input type="checkbox" ${ iAgree ? "checked" :"" } name="iAgree"></label></p>
         </div>
-        <p style="text-align: right;"><input type="submit" value="Se inscrever" class="button"></p>
+        <p style="text-align: right;"><input type="submit" value=" Inscrever-se &raquo; " class="button"></p>
     </form>

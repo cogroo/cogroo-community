@@ -2,6 +2,13 @@
 <script src="<c:url value='/js/jquery.zrssfeed.js' />" type="text/javascript" ></script>
 
 <script type="text/javascript">
+	if (${justRegistered})
+	{
+		_gaq.push(['_trackEvent', 'Register', 'succeeded register', '${login}']);
+	}
+</script>
+
+<script type="text/javascript">
 	if (${justLogged})
 	{
 		_gaq.push(['_trackEvent', 'Login', 'succeeded login', '${login}']);

@@ -12,7 +12,7 @@
 		<label>Senha:</label>
 		<input type="password" name="password" maxlength="20" size="20" class="inputtxt"> 
 		
-		<input type="submit" value="Entrar" class="button"> 
+		<input type="submit" value=" Entrar &raquo; " class="button"> 
 	</p>
 </form>
 	

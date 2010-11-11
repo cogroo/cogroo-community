@@ -9,9 +9,9 @@
 	<h3>Segunda fase</h3>
 	Desenvolvimento de forma colaborativa do portal versão 1.0.x:
 	<ul>
-		<li>Michel Oleynik (como parte da disciplina  MAC5856 - Desenvolvimento de Software Livre IME/USP)</li>
-		<li>Wesley Seidel</li>
-		<li>William Colen (CNPq)</li>
+		<li><a href="<c:url value="http://www.google.com/profiles/michelole"/>">Michel Oleynik</a> (como parte da disciplina  MAC5856 - Desenvolvimento de Software Livre IME/USP)</li>
+		<li><a href="<c:url value="http://twitter.com/wseidel"/>">Wesley Seidel</a></li>
+		<li><a href="<c:url value="http://twitter.com/wcolen"/>">William Colen</a> (CNPq)</li>
 	</ul>
 	<br/><br/>
 	<h3>Primeira fase</h3>

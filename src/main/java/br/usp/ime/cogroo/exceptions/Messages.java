@@ -12,4 +12,5 @@ public class Messages {
 	public final static String MISSING_CLASS_TAG = "MISSING_CLASS_TAG";
 	public static final String ERROR = "ERROR";
 	public static final String ONLY_LOGGED_USER_CAN_DO_THIS="ONLY_LOGGED_USER_CAN_DO_THIS";
+	public static final String INVALID_EMAIL="INVALID_EMAIL";
 }

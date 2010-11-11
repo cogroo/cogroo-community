@@ -187,7 +187,7 @@ table.answer td {
 							    <textarea name="answer" cols="80" rows="4"></textarea>
 							    <input name="errorEntry.id" value="${errorEntry.id}" type="hidden" />
 							    <input name="comment.id" value="${comment.id}" type="hidden" />
-							    <input type="submit" id="go" value="Responder">
+							    <input type="submit" id="go" value=" Responder &raquo; ">
 							</form>
 						</div>
 					</c:if>
@@ -200,7 +200,7 @@ table.answer td {
 				<legend>Novo comentário:</legend><br/>
 			    <textarea name="newComment" cols="80" rows="4"></textarea>
 			    <input name="errorEntry.id" value="${errorEntry.id}" type="hidden" />
-			    <input type="submit" id="go" value="Enviar">
+			    <input type="submit" id="go" value=" Enviar &raquo; ">
 			</form>
 		</c:if>
 	</div>

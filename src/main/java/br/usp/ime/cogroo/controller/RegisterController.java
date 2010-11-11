@@ -85,7 +85,6 @@ public class RegisterController {
 		validator.onErrorUse(Results.page()).of(RegisterController.class)
 				.register();
 
-		// TODO CRIAR USUARIO E Redirecionar.
 		User user = new User(login);
 		user.setPassword(CriptoUtils.digestMD5(login, password));
 		user.setEmail(email);
@@ -95,8 +94,9 @@ public class RegisterController {
 		
 		result.include("justRegistered", true).include("login", login);
 		
-		result.redirectTo(this).welcome();
-
+		result.forwardTo(LoginController.class).login(login, password);
+		
+		//result.redirectTo(this).welcome();
 	}
 	
 	@Get
