@@ -61,7 +61,7 @@
 				"sInfoFiltered": "(filtrados de um total de _MAX_ entradas)"
 			},
 			"aaSorting": [[ 1, 'desc' ]],
-			"iDisplayLength": 20,
+			"iDisplayLength": 10,
 			"aoColumns": [
 					{ "bSortable": false },
 				{ "sType": "num-html" }, 

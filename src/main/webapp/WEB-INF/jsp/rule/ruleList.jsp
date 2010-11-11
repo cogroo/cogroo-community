@@ -36,7 +36,7 @@
 				"sInfoFiltered": "(filtrados de um total de _MAX_ entradas)"
 			},
 			"aaSorting": [[ 1, "asc" ]],
-			"iDisplayLength": 150,
+			"iDisplayLength": 10,
 			"aoColumns": [
 				{ "bSortable": false },
 				{ "sType": "num-html" }, 
