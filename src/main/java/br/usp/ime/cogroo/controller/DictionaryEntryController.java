@@ -118,6 +118,7 @@ public class DictionaryEntryController {
 	@Get
 	@Path("/dictionaryEntrySearch")
 	public void search() {
+		result.include("word", "casa");
 	}
 
 	@Post
