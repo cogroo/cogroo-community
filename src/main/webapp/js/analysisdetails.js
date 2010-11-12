@@ -91,8 +91,8 @@ $(function() {
 				background: "black"
 			    }
 			}).width(730 - horizontalPadding).height(280 - verticalPadding);
-
-		$.post(path + "../phpsyntaxtree/cogroo.php?", $("#form" + currentId).serialize(), function(data, textStatus, XMLHttpRequest) {
+		alert(path + "/../phpsyntaxtree/cogroo.php");
+		$.post(path + "/../phpsyntaxtree/cogroo.php?", $("#form" + currentId).serialize(), function(data, textStatus, XMLHttpRequest) {
 			
 	    	  var d = $("#externalSite")[0].contentWindow.document; // contentWindow works in IE7 and FF
 			  d.open(); d.close(); // must open and close document object to start using it!
