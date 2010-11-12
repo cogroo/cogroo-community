@@ -1,4 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>  
+<script type="text/javascript">
+	var path = '${pageContext.servletContext.contextPath}';
+</script>
 <script src="<c:url value='/js/analysisdetails.js' />" type="text/javascript" ></script>
 <script src="<c:url value='/js/jquery.NobleCount.min.js' />" type="text/javascript" ></script>
 <script type="text/javascript"><!--//--><![CDATA[//><!--

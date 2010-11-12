@@ -2,6 +2,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" %>  
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<script type="text/javascript">
+	var path = '${pageContext.servletContext.contextPath}';
+</script>
 <script src="<c:url value='/js/jquery-fieldselection.js' />" type="text/javascript" ></script>
 <script src="<c:url value='/js/jquery.NobleCount.min.js' />" type="text/javascript" ></script>
 <script src="<c:url value='/js/analysisdetails.js' />" type="text/javascript" ></script>

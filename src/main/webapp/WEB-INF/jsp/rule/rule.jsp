@@ -1,4 +1,6 @@
-
+<script type="text/javascript">
+	var path = '${pageContext.servletContext.contextPath}';
+</script>
 <script src="<c:url value='/js/analysisdetails.js' />" type="text/javascript" ></script>
 
 <span style="FLOAT: right; POSITION: static">

@@ -50,13 +50,13 @@ $(document).ready(function() {
 			if ( this.src.match('details_close') )
 			{
 				/* This row is already open - close it */
-				this.src = "./images/details_open.png";
+				this.src = path + "/images/details_open.png";
 				oTables[id].fnClose( nTr );
 			}
 			else
 			{
 				/* Open this row */
-				this.src = "./images/details_close.png";
+				this.src = path + "/images/details_close.png";
 				oTables[id].fnOpen( nTr, fnFormatDetails(oTables[id], nTr), 'details' );
 			}
 		} );
@@ -92,7 +92,7 @@ $(function() {
 			    }
 			}).width(730 - horizontalPadding).height(280 - verticalPadding);
 
-		$.post("/cogroo/phpsyntaxtree/cogroo.php?", $("#form" + currentId).serialize(), function(data, textStatus, XMLHttpRequest) {
+		$.post(path + "../phpsyntaxtree/cogroo.php?", $("#form" + currentId).serialize(), function(data, textStatus, XMLHttpRequest) {
 			
 	    	  var d = $("#externalSite")[0].contentWindow.document; // contentWindow works in IE7 and FF
 			  d.open(); d.close(); // must open and close document object to start using it!
