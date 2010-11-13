@@ -12,7 +12,9 @@
 			<p>Há ${appData.registeredMembers} membros cadastrados.</p>
 			<p>Há ${appData.onlineUsers} usuários online (${appData.onlineMembers} membros cadastrados e ${appData.onlineVisits} visitantes).</p>
 			<div id="ftlink"><p><a href="<c:url value="/stats"/>">Mais estatísticas...</a></p></div>
-			<p align="right">Versão: ${appData.version} <br/>Publicado em <fmt:formatDate type="both" dateStyle="long" value="${appData.date}" /></p>
+			<p class="right">Versão: ${appData.version}</p>
+			<p class="right">Publicado em <fmt:formatDate type="both" dateStyle="long" value="${appData.date}" /></p>
+			</div>
 		</div>
 
 	</div>

@@ -32,6 +32,10 @@
 	padding-top: 18px;
 }
 
+p.right {
+	text-align: right;
+}
+
 #footer {
 	background: #336699; 
 	display: block;
