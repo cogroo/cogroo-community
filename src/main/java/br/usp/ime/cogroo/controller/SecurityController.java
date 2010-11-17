@@ -39,17 +39,19 @@ public class SecurityController {
 	@Post
 	@Path("/saveClientSecurityKey")
 	public void saveClientSecurityKey(String user, String pubKey) {
+		LOG.debug("Saving pubkey for user: " + user + ". Will prepare a secret key for user send the password.");
 		try {
 			if(this.userDAO.exist(user)) {
 				String key = this.securityUtil.genSecretKeyForUser(this.userDAO.retrieveByLogin(user), this.securityUtil.decodeURLSafe(pubKey));
 				result.include("encryptedSecretKey", RestUtil.prepareResponse("encryptedSecretKey", key));
 			} else {
 				LOG.error("Unknown user trying to save security key");
-				validator.add(new ValidationMessage("INVALID_USER", Messages.ERROR));
+				result.include("error", RestUtil.prepareResponse("error","INVALID_USER"));
 			}
 			
 		} catch (Throwable e) {
 			LOG.error("Got an invalid key from user: " + user, e);
+			result.include("error", RestUtil.prepareResponse("error","INVALID_USER"));
 		}
 
 	}
@@ -66,14 +68,19 @@ public class SecurityController {
 			if(this.userDAO.exist(username)) {
 				LOG.debug("Will generate token for " + username);
 				String token = this.securityUtil.generateAuthenticationTokenForUser(this.userDAO.retrieveByLogin(username), securityUtil.decodeURLSafe(encryptedPassword));
-				result.include("token", RestUtil.prepareResponse("token",token));
+				if(token != null) {
+					result.include("token", RestUtil.prepareResponse("token",token));
+				} else {
+					result.include("error", RestUtil.prepareResponse("error","INVALID_USER"));
+				}
 			} else {
 				LOG.error("Unknown user trying to authenticate.");
-				validator.add(new ValidationMessage("INVALID_USER", Messages.ERROR));
+				result.include("error", RestUtil.prepareResponse("error","INVALID_USER"));
 			}
 			
 		} catch (Exception e) {
 			LOG.error("Got an invalid key from user: " + username, e);
+			result.include("error", RestUtil.prepareResponse("error","INVALID_USER"));
 		}
 
 	}

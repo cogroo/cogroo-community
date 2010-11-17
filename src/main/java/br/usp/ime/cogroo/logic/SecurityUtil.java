@@ -17,6 +17,7 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.spec.RSAKeyGenParameterSpec;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -35,6 +36,7 @@ import sun.security.rsa.RSAPublicKeyImpl;
 import br.com.caelum.vraptor.ioc.ApplicationScoped;
 import br.com.caelum.vraptor.ioc.Component;
 import br.usp.ime.cogroo.model.User;
+import br.usp.ime.cogroo.util.CriptoUtils;
 
 @SuppressWarnings("restriction")
 @Component
@@ -43,38 +45,13 @@ public class SecurityUtil {
 	
 	private static final String UTF8 = "UTF-8";
 	
-	private Map<String, KeyTime> keyCache = new HashMap<String, KeyTime>();
+	private Map<String, KeyTime> keyCache = Collections.synchronizedMap( new HashMap<String, KeyTime>() );
 	
 	private static final Logger LOG = Logger
 		.getLogger(SecurityUtil.class);
 	
 	public SecurityUtil() {
 	}
-
-//	public byte[][] encrypt(PublicKey pub, byte[] textoClaro)
-//			throws NoSuchAlgorithmException, NoSuchPaddingException,
-//			InvalidKeyException, IllegalBlockSizeException,
-//			BadPaddingException, InvalidAlgorithmParameterException {
-//		byte[] textoCifrado = null;
-//		byte[] chaveCifrada = null;
-//
-//		// -- A) Gerando uma chave simétrica de 128 bits
-//		KeyGenerator kg = KeyGenerator.getInstance("AES");
-//		kg.init(128);
-//		SecretKey sk = kg.generateKey();
-//		byte[] chave = sk.getEncoded();
-//		// -- B) Cifrando o texto com a chave simétrica gerada
-//		Cipher aescf = Cipher.getInstance("AES/CBC/PKCS5Padding");
-//		IvParameterSpec ivspec = new IvParameterSpec(new byte[16]);
-//		aescf.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(chave, "AES"), ivspec);
-//		textoCifrado = aescf.doFinal(textoClaro);
-//		// -- C) Cifrando a chave com a chave pública
-//		Cipher rsacf = Cipher.getInstance("RSA");
-//		rsacf.init(Cipher.ENCRYPT_MODE, pub);
-//		chaveCifrada = rsacf.doFinal(chave);
-//
-//		return new byte[][] { textoCifrado, chaveCifrada };
-//	}
 	
 	/**
 	 * Encrypt data using an key encrypted with a private key.
@@ -342,11 +319,14 @@ public class SecurityUtil {
 				}
 				
 				// remove the key and check for expired ones
-				keyCache.remove(user);
+				keyCache.remove(user.getLogin());
 				deleteExpiredKeys();
 			} else {
 				LOG.error("Couldn't get key for " + user);
-				LOG.error(keyCache.toString());
+				LOG.error("Cache size: " + keyCache.size());
+				for (String key : keyCache.keySet()) {
+					LOG.error("   key: " + key);
+				}
 			}
 		}
 		else {
@@ -356,23 +336,30 @@ public class SecurityUtil {
 		return encryptedToken;
 	}
 	
-	private boolean isValid(User username, byte[] encryptedPassword) {
-		
-		if(this.keyCache.containsKey(username)) {
-			byte[] secretKey = this.keyCache.get(username).secretKey;
+	private boolean isValid(User user, byte[] encryptedPassword) {
+		LOG.info("check user");
+		boolean isValid = false;
+		if(this.keyCache.containsKey(user.getLogin())) {
+			byte[] secretKey = this.keyCache.get(user.getLogin()).secretKey;
 			try {
-				LOG.info("Got encrypted secret key for " + username);
+				LOG.info("Got encrypted secret key for " + user);
 				byte[] passwdBytes = decrypt(secretKey, encryptedPassword);
 				String passwd = new String(passwdBytes, UTF8);
-				LOG.info("PASSWORD " + passwd);
+				String passCripto = CriptoUtils.digestMD5(user.getLogin(), passwd);
+				isValid = passCripto.equalsIgnoreCase(user.getPassword());
+				
 			} catch (UnsupportedEncodingException e) {
 				LOG.error("Error", e);
 			}
 		} else {
-			LOG.info("Couldn't get secret key for " + username);
+			LOG.info("Couldn't get secret key for " + user);
+			LOG.error("Cache size: " + keyCache.size());
+			for (String key : keyCache.keySet()) {
+				LOG.error("   key: " + key);
+			}
 		}
-		
-		return true;
+		LOG.trace("User is valid: " + isValid);
+		return isValid;
 	}
 
 	private void deleteExpiredKeys() {
