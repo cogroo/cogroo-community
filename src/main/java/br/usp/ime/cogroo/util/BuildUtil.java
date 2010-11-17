@@ -18,6 +18,9 @@ public final class BuildUtil {
 	
 	public static final Date BUILD_TIME = getDate(getString("BUILD_TIME"));
 	
+	public static final Date ANALYTICS_USR = getDate(getString("ANALYTICS_USR"));
+	public static final Date ANALYTICS_PWD = getDate(getString("ANALYTICS_PWD"));
+	
 	private static String getString(String key) {
 		return PROPERTIES.getString(key);
 	}
