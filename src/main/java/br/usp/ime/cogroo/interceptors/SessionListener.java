@@ -33,7 +33,7 @@ public class SessionListener implements HttpSessionListener {
 	public synchronized void sessionDestroyed(HttpSessionEvent se) {
 		AtomicInteger counter = (AtomicInteger) se.getSession().getServletContext()
 				.getAttribute(SESSION_COUNTER);
-		if (counter == null)
+		if (counter == null || counter.get() <= 0)
 			counter = new AtomicInteger(1);
 		counter.decrementAndGet();
 		se.getSession().getServletContext()
