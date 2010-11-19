@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import br.com.caelum.vraptor.ioc.ApplicationScoped;
+import br.com.caelum.vraptor.ioc.Component;
 import br.usp.ime.cogroo.model.DataFeed;
 import br.usp.ime.cogroo.model.DataFeed.DataEntry;
 import br.usp.ime.cogroo.model.DataFeed.Metric;
@@ -18,6 +20,7 @@ import com.google.api.client.googleapis.GoogleTransport;
 import com.google.api.client.googleapis.GoogleUrl;
 import com.google.api.client.googleapis.auth.clientlogin.ClientLogin;
 import com.google.api.client.http.HttpRequest;
+import com.google.api.client.http.HttpResponseException;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.util.Key;
 import com.google.api.client.xml.XmlHttpParser;
@@ -29,6 +32,8 @@ import com.google.api.client.xml.atom.AtomParser;
  * @author Michel
  * 
  */
+@Component
+@ApplicationScoped
 public class AnalyticsManager {
 
 	private HttpTransport transport;
@@ -104,6 +109,11 @@ public class AnalyticsManager {
 		}
 	}
 
+	public AnalyticsManager() {
+		this.transport = setUpTransport(BuildUtil.APP_NAME);
+		authenticate(BuildUtil.ANALYTICS_USR, BuildUtil.ANALYTICS_PWD);
+	}
+
 	public AnalyticsManager(String appName, String username, String password) {
 		this.transport = setUpTransport(appName);
 		authenticate(username, password);
@@ -138,20 +148,28 @@ public class AnalyticsManager {
 		return dataRequest;
 	}
 
-	public void authenticate(String username, String password) {
+	public synchronized void authenticate(String username, String password) {
 		ClientLogin authenticator = new ClientLogin();
 		authenticator.authTokenType = "analytics";
 		authenticator.username = username;
 		authenticator.password = password;
 		try {
 			authenticator.authenticate().setAuthorizationHeader(transport);
+		} catch (HttpResponseException e) {
+			if (e.getMessage().equals("403 Forbidden")) {
+				System.err
+						.println("Did you set the Analytics username and password at build time?");
+				e.printStackTrace();
+			}
+			else
+				e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	public DataFeed getData(String ids, List<String> metrics,
+	public synchronized DataFeed getData(String ids, List<String> metrics,
 			List<String> dimensions, Date startDate, Date endDate) {
 		HttpRequest request = setUpDataRequest(ids, metrics, dimensions,
 				startDate, endDate);

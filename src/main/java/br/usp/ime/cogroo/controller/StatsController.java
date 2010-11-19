@@ -11,7 +11,6 @@ import br.usp.ime.cogroo.dao.UserDAO;
 import br.usp.ime.cogroo.logic.AnalyticsManager;
 import br.usp.ime.cogroo.model.ApplicationData;
 import br.usp.ime.cogroo.model.DataFeed;
-import br.usp.ime.cogroo.util.BuildUtil;
 
 /**
  * @author Michel
@@ -19,7 +18,6 @@ import br.usp.ime.cogroo.util.BuildUtil;
 @Resource
 public class StatsController {
 
-	private static final String APPNAME = "CoGrOO Comunidade";
 	private static final String IDS = "ga:38929232";
 	private static final ArrayList<String> METRICS = new ArrayList<String>(2);
 	static {
@@ -40,14 +38,14 @@ public class StatsController {
 
 	private final UserDAO userDAO;
 
-	private final AnalyticsManager manager = new AnalyticsManager(APPNAME,
-			BuildUtil.ANALYTICS_USR, BuildUtil.ANALYTICS_PWD);
+	private final AnalyticsManager manager;
 
 	public StatsController(Result result, ApplicationData appData,
-			UserDAO userDAO) {
+			UserDAO userDAO, AnalyticsManager manager) {
 		this.result = result;
 		this.appData = appData;
 		this.userDAO = userDAO;
+		this.manager = manager;
 	}
 
 	@Get
