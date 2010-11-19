@@ -14,6 +14,8 @@ public final class BuildUtil {
 	
 	private static final ResourceBundle PROPERTIES = ResourceBundle.getBundle("build");
 	
+	public static final String APP_NAME = "CoGrOO Comunidade";
+	
 	public static final String POM_VERSION = getString("POM_VERSION");
 	
 	public static final Date BUILD_TIME = getDate(getString("BUILD_TIME"));
