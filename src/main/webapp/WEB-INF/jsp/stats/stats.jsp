@@ -8,9 +8,9 @@
     function drawVisualization() {
       var data = new google.visualization.DataTable();
       data.addColumn('date', 'Date');
+      data.addColumn('number', 'Eventos');
       data.addColumn('number', 'Visitas');
       data.addColumn('number', 'Impressões');
-      data.addColumn('number', 'Eventos');
       
       var str = "${metrics}";
       var entries = str.split(";")

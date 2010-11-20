@@ -21,9 +21,9 @@ public class StatsController {
 	private static final String IDS = "ga:38929232";
 	private static final ArrayList<String> METRICS = new ArrayList<String>(2);
 	static {
+		METRICS.add("ga:totalEvents");
 		METRICS.add("ga:visits");
 		METRICS.add("ga:pageviews");
-		METRICS.add("ga:totalEvents");
 	}
 
 	private static final ArrayList<String> DIMENSIONS = new ArrayList<String>(1);
@@ -53,7 +53,7 @@ public class StatsController {
 	public void stats() {
 		Calendar now = Calendar.getInstance();
 		Calendar monthAgo = (Calendar) now.clone();
-		monthAgo.add(Calendar.MONTH, -1);
+		monthAgo.add(Calendar.MONTH, -2);
 
 		DataFeed feed = manager.getData(IDS, METRICS, DIMENSIONS,
 				monthAgo.getTime(), now.getTime());
