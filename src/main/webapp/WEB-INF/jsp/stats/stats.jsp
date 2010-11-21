@@ -26,7 +26,7 @@
       
       var annotatedtimeline = new google.visualization.AnnotatedTimeLine(
           document.getElementById('visualization'));
-      annotatedtimeline.draw(data, {'displayAnnotations': true});
+      annotatedtimeline.draw(data, {'displayAnnotations': false});
     }
     
     google.setOnLoadCallback(drawVisualization);
