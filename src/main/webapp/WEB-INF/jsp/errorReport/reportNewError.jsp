@@ -112,7 +112,7 @@ $(document).ready(function() {
 	</div>
 		<form id="report"  action="<c:url value="/reportNewError"/>" method="post" >
 		
-			<input type="hidden" id="userText" name="text" value="${text}"/>
+			<input type="hidden" id="userText" name="text" value="${cleanText}"/>
 	
 	<div class="white_box">	
 		
@@ -209,7 +209,7 @@ $(document).ready(function() {
 					<p>Repita o procedimento para cada omissão.</p>
 				</div>
 				Selecione com o mouse o trecho que contém uma omissão, se houver:<br/>
-				<textarea rows="2" cols="70" readonly="readonly" id="selector" >${text}</textarea><br/>
+				<textarea rows="2" cols="70" readonly="readonly" id="selector" >${cleanText}</textarea><br/>
 				<button type="button" id="addNewOmission" class="a_button"> Adicionar omissão &raquo; </button>
 			</div>
 			<div id="toCopy" style="display:none;">

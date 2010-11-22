@@ -105,7 +105,7 @@ public class ErrorReportController {
 				
 				List<ProcessResult> pr = cogrooFacade.processText(text);
 				result.include("analyzed", true).
-					include("text", text).
+					include("cleanText", text).
 					include("annotatedText", cogrooFacade.getAnnotatedText(text, pr)).
 					include("singleGrammarErrorList", cogrooFacade.asSingleGrammarErrorList(text, pr)).
 					include("omissionCategoriesList", this.errorEntryLogic.getErrorCategoriesForUser()).
