@@ -30,7 +30,7 @@
 		<thead>
 		<tr>
 		  <th>Palavra</th>
-		  <th>Lemma</th>
+		  <th>Lema</th>
 		  <th>Etiqueta</th>
 		</tr>
 		</thead>
