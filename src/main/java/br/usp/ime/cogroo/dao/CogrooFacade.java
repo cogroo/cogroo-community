@@ -101,14 +101,20 @@ public class CogrooFacade {
 	 * @return list of errors
 	 */
 	public List<String> getMistakes(String text) {
-
-		List<Mistake> errors = getCogroo().checkText(text);
-
 		List<String> mistakes = new ArrayList<String>();
-		for (Mistake mistake : errors) {			
-			StringBuilder str = new StringBuilder();
-			str.append(mistake);
-			mistakes.add(str.toString());
+		
+		try {
+			
+			List<Mistake> errors = getCogroo().checkText(text);
+
+			for (Mistake mistake : errors) {			
+				StringBuilder str = new StringBuilder();
+				str.append(mistake);
+				mistakes.add(str.toString());
+			}
+			
+		} catch (Exception e) {
+			LOG.error("Failed to process text: " + text, e);
 		}
 
 		return mistakes;
@@ -122,21 +128,27 @@ public class CogrooFacade {
 	 * @return the structure of the text.
 	 */
 	public List<ProcessResult> processText(String text) {
-		CheckerResult result = getCogroo().analyseAndCheckText(text);
 		List<ProcessResult> processResults = new ArrayList<ProcessResult>();
-		if(result == null || result.sentences == null) {
-			LOG.warn("Cogroo returned null for text: " + text);
-			return processResults;
-		}
-		for (Sentence sentence : result.sentences) {
-			List<Mistake> filteredMistakes = filterMistakes(sentence, result.mistakes);
+		
+		try {
+			CheckerResult result = getCogroo().analyseAndCheckText(text);
 			
-			ProcessResult pr = new ProcessResult();
-			pr.setSyntaxTree(sentence.getSyntaxTree());
-			pr.setTextAnnotatedWithErrors(annotateText(sentence, filteredMistakes));
-			pr.setSentence(sentence);
-			pr.setMistakes(filterMistakes(sentence, filteredMistakes));
-			processResults.add(pr);
+			if(result == null || result.sentences == null) {
+				LOG.warn("Cogroo returned null for text: " + text);
+				return processResults;
+			}
+			for (Sentence sentence : result.sentences) {
+				List<Mistake> filteredMistakes = filterMistakes(sentence, result.mistakes);
+				
+				ProcessResult pr = new ProcessResult();
+				pr.setSyntaxTree(sentence.getSyntaxTree());
+				pr.setTextAnnotatedWithErrors(annotateText(sentence, filteredMistakes));
+				pr.setSentence(sentence);
+				pr.setMistakes(filterMistakes(sentence, filteredMistakes));
+				processResults.add(pr);
+			}
+		} catch (Exception e) {
+			LOG.error("Failed to process text: " + text, e);
 		}
 		
 		return processResults;
