@@ -16,7 +16,6 @@ import br.usp.ime.cogroo.model.SingleGrammarError;
 import br.usp.pcs.lta.cogroo.configuration.LegacyRuntimeConfiguration;
 import br.usp.pcs.lta.cogroo.entity.Mistake;
 import br.usp.pcs.lta.cogroo.entity.Sentence;
-import br.usp.pcs.lta.cogroo.entity.impl.runtime.MistakeImpl;
 import br.usp.pcs.lta.cogroo.errorreport.ErrorReportAccess;
 import br.usp.pcs.lta.cogroo.grammarchecker.CheckerResult;
 import br.usp.pcs.lta.cogroo.grammarchecker.Cogroo;
@@ -223,48 +222,6 @@ public class CogrooFacade {
 			}
 		}
 		return filterdMistakes;
-	}
-
-	private String prettyPrint(List<Sentence> sentences, List<Mistake> mistakes) {
-		// print the sentence structure, and after the mistakes in it
-		StringBuilder sb = new StringBuilder();
-		int sentCounter = 1;
-		for (Sentence sentence : sentences) {
-			sb.append("Sentence " + sentCounter++ + ": ");
-			sb.append(prettyPrint(sentence));
-			int mistakeCounter = 1;
-			for (Mistake mistake : mistakes) {
-				if(mistake.getStart() >= sentence.getOffset() && mistake.getEnd() <= sentence.getOffset() + sentence.getSentence().length() ) {
-					sb.append("   Mistake " + mistakeCounter++ + ": ");
-					sb.append(prettyPrint(mistake));
-				}
-
-			}
-			sb.append("\n");
-		}
-		
-		return sb.toString();
-	}
-	
-	private String prettyPrint(Mistake mistake) {
-		return "rule["
-		+ ((MistakeImpl) mistake).getId()
-		+ "], span["
-		+ ((MistakeImpl) mistake).getStart() + ", "
-		+ ((MistakeImpl) mistake).getEnd() + "]\n";
-	}
-	
-	private String prettyPrint(Sentence sentence) {
-		StringBuilder sb = new StringBuilder();
-		
-		sb.append("\"" + sentence.getSentence()
-				+ "\"\n");
-		sb.append(sentence.getTree());
-		
-		sb.append("\n");
-		sb.append(sentence.getSyntaxTree());
-		
-		return sb.toString();
 	}
 
 	public void setResources(String resources) {
