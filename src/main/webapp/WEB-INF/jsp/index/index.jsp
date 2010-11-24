@@ -60,5 +60,5 @@
 		
 		<div id="newswrapper">
 			<div id="news"></div>
-			<a href="http://ccsl.ime.usp.br/cogroo/pt-br/rss.xml"><img width="16" height="16" title="Divulgar conteúdo" alt="Divulgar conteúdo" src="/images/feed.png"></a>
+			<a href="http://ccsl.ime.usp.br/cogroo/pt-br/rss.xml"><img width="16" height="16" title="Divulgar conteúdo" alt="Divulgar conteúdo" src="./images/feed.png"></a>
 		</div> 
