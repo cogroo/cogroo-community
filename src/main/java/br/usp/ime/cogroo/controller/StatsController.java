@@ -52,6 +52,7 @@ public class StatsController {
 	@Path("/stats")
 	public void stats() {
 		Calendar now = Calendar.getInstance();
+		now.add(Calendar.DATE, -1);
 		Calendar monthAgo = (Calendar) now.clone();
 		monthAgo.add(Calendar.MONTH, -2);
 
