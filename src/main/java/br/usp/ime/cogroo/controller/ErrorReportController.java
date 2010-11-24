@@ -1,8 +1,11 @@
 package br.usp.ime.cogroo.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 
@@ -17,6 +20,7 @@ import br.usp.ime.cogroo.dao.CogrooFacade;
 import br.usp.ime.cogroo.dao.errorreport.ErrorEntryDAO;
 import br.usp.ime.cogroo.exceptions.CommunityException;
 import br.usp.ime.cogroo.exceptions.Messages;
+import br.usp.ime.cogroo.logic.AnalyticsManager;
 import br.usp.ime.cogroo.logic.SecurityUtil;
 import br.usp.ime.cogroo.logic.errorreport.ErrorEntryLogic;
 import br.usp.ime.cogroo.model.LoggedUser;
@@ -40,6 +44,9 @@ public class ErrorReportController {
 	private SecurityUtil securityUtil;
 
 	private CogrooFacade cogrooFacade;
+	
+	private AnalyticsManager manager;
+	private HttpServletRequest request;
 
 	public ErrorReportController(
 			LoggedUser loggedUser, 
@@ -48,7 +55,9 @@ public class ErrorReportController {
 			Validator validator,
 			ErrorEntryDAO errorEntryDAO,
 			SecurityUtil securityUtil,
-			CogrooFacade cogrooFacade) {
+			CogrooFacade cogrooFacade,
+			AnalyticsManager manager,
+			HttpServletRequest request) {
 		this.loggedUser = loggedUser;
 		this.errorEntryLogic = errorEntryLogic;
 		this.result = result;
@@ -56,6 +65,8 @@ public class ErrorReportController {
 		this.errorEntryDAO = errorEntryDAO;
 		this.securityUtil = securityUtil;
 		this.cogrooFacade = cogrooFacade;
+		this.manager = manager;
+		this.request = request;
 	}
 	
 	@Get
@@ -119,9 +130,34 @@ public class ErrorReportController {
 		}
 	}
 	
+	@Get
+	@Path("/submitErrorReport")
+	public void submitAnalytics() {
+		try {
+			// FIXME This is a test.
+			//System.out.println("GET");
+			//System.out.println(manager.googleAnalyticsGetImageUrl(request));
+			
+			result.include("googleAnalyticsImageUrl",
+					manager.googleAnalyticsGetImageUrl(request));
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	@Post
 	@Path("/submitErrorReport")
 	public void submitErrorEntry(String username, String token, String error) {
+		// FIXME This is a test.
+/*		System.out.println("POST");
+		try {
+			System.out.println(manager.googleAnalyticsGetImageUrl(request));
+		} catch (UnsupportedEncodingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}*/
+		
 		
 		error = securityUtil.decodeURLSafeString(error);
 		

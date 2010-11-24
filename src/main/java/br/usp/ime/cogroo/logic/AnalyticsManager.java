@@ -1,12 +1,16 @@
 package br.usp.ime.cogroo.logic;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import br.com.caelum.vraptor.ioc.ApplicationScoped;
 import br.com.caelum.vraptor.ioc.Component;
@@ -108,6 +112,38 @@ public class AnalyticsManager {
 			super(encodedUrl);
 		}
 	}
+	
+	  // Copyright 2009 Google Inc. All Rights Reserved.
+	  private static final String GA_ACCOUNT = "MO-18985930-1";
+	  private static final String GA_PIXEL = "ga.jspf";
+
+	  public String googleAnalyticsGetImageUrl(
+	      HttpServletRequest request) throws UnsupportedEncodingException {
+	    StringBuilder url = new StringBuilder();
+	    url.append(GA_PIXEL + "?");
+	    url.append("utmac=").append(GA_ACCOUNT);
+	    url.append("&utmn=").append(Integer.toString((int) (Math.random() * 0x7fffffff)));
+
+	    String referer = request.getHeader("referer");
+	    String query = request.getQueryString();
+	    String path = request.getRequestURI();
+
+	    if (referer == null || "".equals(referer)) {
+	      referer = "-";
+	    }
+	    url.append("&utmr=").append(URLEncoder.encode(referer, "UTF-8"));
+
+	    if (path != null) {
+	      if (query != null) {
+	        path += "?" + query;
+	      }
+	      url.append("&utmp=").append(URLEncoder.encode(path, "UTF-8"));
+	    }
+
+	    url.append("&guid=ON");
+
+	    return url.toString();
+	  }
 
 	public AnalyticsManager() {
 		this.transport = setUpTransport(BuildUtil.APP_NAME);
@@ -215,6 +251,7 @@ public class AnalyticsManager {
 
 	public static void main(String[] args) {
 		Calendar today = Calendar.getInstance();
+		today.add(Calendar.DATE, -1);
 		Calendar monthAgo = (Calendar) today.clone();
 		monthAgo.add(Calendar.MONTH, -1);
 
