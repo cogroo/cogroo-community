@@ -112,38 +112,6 @@ public class AnalyticsManager {
 			super(encodedUrl);
 		}
 	}
-	
-	  // Copyright 2009 Google Inc. All Rights Reserved.
-	  private static final String GA_ACCOUNT = "MO-18985930-1";
-	  private static final String GA_PIXEL = "ga.jspf";
-
-	  public String googleAnalyticsGetImageUrl(
-	      HttpServletRequest request) throws UnsupportedEncodingException {
-	    StringBuilder url = new StringBuilder();
-	    url.append(GA_PIXEL + "?");
-	    url.append("utmac=").append(GA_ACCOUNT);
-	    url.append("&utmn=").append(Integer.toString((int) (Math.random() * 0x7fffffff)));
-
-	    String referer = request.getHeader("referer");
-	    String query = request.getQueryString();
-	    String path = request.getRequestURI();
-
-	    if (referer == null || "".equals(referer)) {
-	      referer = "-";
-	    }
-	    url.append("&utmr=").append(URLEncoder.encode(referer, "UTF-8"));
-
-	    if (path != null) {
-	      if (query != null) {
-	        path += "?" + query;
-	      }
-	      url.append("&utmp=").append(URLEncoder.encode(path, "UTF-8"));
-	    }
-
-	    url.append("&guid=ON");
-
-	    return url.toString();
-	  }
 
 	public AnalyticsManager() {
 		this.transport = setUpTransport(BuildUtil.APP_NAME);
@@ -196,8 +164,7 @@ public class AnalyticsManager {
 				System.err
 						.println("Did you set the Analytics username and password at build time?");
 				e.printStackTrace();
-			}
-			else
+			} else
 				e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -236,7 +203,7 @@ public class AnalyticsManager {
 
 		StringBuffer sb = new StringBuffer();
 		for (DataEntry e : dataFeed.answers) {
-			sb.append(DATE_FORMAT.format(start.getTime()));
+			sb.append(AnalyticsManager.DATE_FORMAT.format(start.getTime()));
 			start.add(Calendar.DATE, 1);
 			sb.append(',');
 			for (Metric m : e.metrics) {
@@ -247,6 +214,39 @@ public class AnalyticsManager {
 			sb.append(';');
 		}
 		return sb.substring(0, sb.length() - 1);
+	}
+
+	// Copyright 2009 Google Inc. All Rights Reserved.
+	private static final String GA_ACCOUNT = "MO-18985930-1";
+	private static final String GA_PIXEL = "ga.jspf";
+
+	public String googleAnalyticsGetImageUrl(HttpServletRequest request)
+			throws UnsupportedEncodingException {
+		StringBuilder url = new StringBuilder();
+		url.append(GA_PIXEL + "?");
+		url.append("utmac=").append(GA_ACCOUNT);
+		url.append("&utmn=").append(
+				Integer.toString((int) (Math.random() * 0x7fffffff)));
+
+		String referer = request.getHeader("referer");
+		String query = request.getQueryString();
+		String path = request.getRequestURI();
+
+		if (referer == null || "".equals(referer)) {
+			referer = "-";
+		}
+		url.append("&utmr=").append(URLEncoder.encode(referer, "UTF-8"));
+
+		if (path != null) {
+			if (query != null) {
+				path += "?" + query;
+			}
+			url.append("&utmp=").append(URLEncoder.encode(path, "UTF-8"));
+		}
+
+		url.append("&guid=ON");
+
+		return url.toString();
 	}
 
 	public static void main(String[] args) {

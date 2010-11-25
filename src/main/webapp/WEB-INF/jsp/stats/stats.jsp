@@ -12,7 +12,7 @@
       data.addColumn('number', 'Visitas');
       data.addColumn('number', 'Impressões');
       
-      var str = "${metrics}";
+      var str = "${appData.temporalData}";
       var entries = str.split(";")
       data.addRows(entries.length);   
       
@@ -47,6 +47,7 @@
 
 <h3>Temporais</h3>
 <div id="visualization" style="width: 750px; height: 400px;"></div>	
+<p class="right"><a href="<c:url value="/stats/EstatisticasCogrooComunidade.csv"/>" >download</a></p>
 <br />
 
 <h3>Relatórios</h3>
