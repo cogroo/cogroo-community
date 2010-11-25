@@ -15,14 +15,20 @@ a:hover {
 
 #header {
   background: #336699; 
-  height: 100px;
+  height: 140px;
 }
 
 #logoCogroo {
   background: #336699 url(../images/cogroo_comunidade.png) no-repeat scroll 0% 50%;
   height: 100px; 
   width: 400px;
-  text-align: left;
+  position: absolute;
+  top: 0px;
+}
+#logoCogrooLink {
+  display: block;
+  height: 100px; 
+  width: 400px;
 }
 #logoBROffice {
 	background-image: url(../images/broffice.png);
@@ -70,6 +76,8 @@ ul#nav li a:hover {
 	background-color:#F0F0FF; 
 	margin:2px 10px;
 	padding:4px;
+	position:relative;
+	z-index:3;
 }
 
 #message_error {

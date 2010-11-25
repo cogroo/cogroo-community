@@ -83,7 +83,8 @@
 	                    <input type="hidden" value="connx" name="cmd"/>
 	                    <input type="submit" style="font-size: 11px;" value=" entrar &raquo; " class="button"/> | 
 	                    <a href="<c:url value="/register"/>"><b>criar um usuário</b></a> | 
-	                    <a onclick="off('logform'); on('pwrecup'); return false;" href="#"><b>esqueci a senha</b></a>
+	                    <a onclick="off('logform'); on('pwrecup'); return false;" href="#"><b>esqueci a senha</b></a> | 
+	                    <a onclick="off('logform'); on('loginlink'); return false" href="#"><b>voltar</b></a>
 	                    
 	                </p>
 	            </form>
@@ -106,9 +107,9 @@
 				<p><span>${loggedUser.user.name}</span> | <a href="<c:url value="/logout"/>"><b>logout</b></a></p>
 			</c:if>
     </div>
-	<div id="logoCogroo"><a href="<c:url value="/"/>" id="logoCogrooLink"></a><div id="logoBROffice"></div></div>
+	<div id="logoCogroo"><a href="<c:url value="/"/>" title="CoGrOO Comunidade" id="logoCogrooLink"></a></div>
+	<div id="logoBROffice"></div>
 	
-	<div class=".clear">
 		<ul id="menu" class="menu">
 			<li><span title="Acompanhe notícias e saiba mais sobre o projeto.">Comunidade</span>
 				<ul>
@@ -144,7 +145,6 @@
 			</li>
 			
 		</ul>
-	</div>
 	
 <!--	<c:if test="${not empty errors}">-->
 		<div id="message_error">
@@ -154,4 +154,5 @@
 			</c:forEach>
 		</div>
 <!--	</c:if>-->
+</div>
 <div id="content">
