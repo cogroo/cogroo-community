@@ -46,8 +46,8 @@
 <br />
 
 <h3>Temporais</h3>
-<div id="visualization" style="width: 750px; height: 400px;"></div>	
-<p class="right"><a href="<c:url value="/stats/EstatisticasCogrooComunidade.csv"/>" >download</a></p>
+<div id="visualization" style="width: 740px; height: 400px;"></div>	
+<p class="right"><a href="<c:url value="/stats/EstatisticasCogrooComunidade.csv"/>" ><b>download</b></a></p>
 <br />
 
 <h3>Relatórios</h3>
