@@ -189,6 +189,8 @@ public class ApplicationData {
 	}
 
 	public int getOnlineUsers() {
+		if (onlineUsers.get() < loggedUsers.size())
+			setOnlineUsers(loggedUsers.size());
 		return onlineUsers.get();
 	}
 
@@ -209,7 +211,7 @@ public class ApplicationData {
 	}
 
 	public int getOnlineVisits() {
-		return this.onlineUsers.get() - this.loggedUsers.size();
+		return getOnlineUsers() - loggedUsers.size();
 	}
 
 	public List<User> getLoggedUsers() {
