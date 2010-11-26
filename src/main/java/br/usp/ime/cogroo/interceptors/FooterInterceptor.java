@@ -2,7 +2,9 @@ package br.usp.ime.cogroo.interceptors;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import br.com.caelum.vraptor.InterceptionException;
 import br.com.caelum.vraptor.Intercepts;
@@ -39,9 +41,16 @@ public class FooterInterceptor implements Interceptor {
 			Object resourceInstance) throws InterceptionException {
 
 		if(appData != null && request != null) {
-			appData.setOnlineUsers(((AtomicInteger) request.getSession()
+			HttpSession session = request.getSession();
+			ServletContext context = session.getServletContext();
+			String name = SessionListener.SESSION_COUNTER;
+			Object attribute = context.getAttribute(name);
+			AtomicInteger i = (AtomicInteger) attribute;
+			int counter = i.get();
+			appData.setOnlineUsers(counter);
+/*			appData.setOnlineUsers(((AtomicInteger) request.getSession()
 					.getServletContext()
-					.getAttribute(SessionListener.SESSION_COUNTER)).get());
+					.getAttribute(SessionListener.SESSION_COUNTER)).get());*/
 			result.include("appData", appData);
 		} 
 		stack.next(method, resourceInstance);		
