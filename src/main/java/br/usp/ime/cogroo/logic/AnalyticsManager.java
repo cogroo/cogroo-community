@@ -217,7 +217,7 @@ public class AnalyticsManager {
 	}
 
 	// Copyright 2009 Google Inc. All Rights Reserved.
-	private static final String GA_ACCOUNT = "MO-18985930-1";
+	private static final String GA_ACCOUNT = "MO-18985930-2";
 	private static final String GA_PIXEL = "ga.jspf";
 
 	public String googleAnalyticsGetImageUrl(HttpServletRequest request)
