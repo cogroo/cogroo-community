@@ -46,6 +46,8 @@ public class FooterInterceptor implements Interceptor {
 			String name = SessionListener.SESSION_COUNTER;
 			Object attribute = context.getAttribute(name);
 			AtomicInteger i = (AtomicInteger) attribute;
+			if (i == null)
+				i = new AtomicInteger();
 			int counter = i.get();
 			appData.setOnlineUsers(counter);
 /*			appData.setOnlineUsers(((AtomicInteger) request.getSession()
