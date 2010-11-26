@@ -1,8 +1,6 @@
 ul.menu{
 	background: #333;
 	height: 40px;
-	position: relative;
-    top: 20px;
 }
 ul.menu li{
 	list-style: none;

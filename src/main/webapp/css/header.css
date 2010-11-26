@@ -14,8 +14,7 @@ a:hover {
 }
 
 #header {
-  background: #336699; 
-  height: 140px;
+  background: #336699;
 }
 
 #logoCogroo {
@@ -25,19 +24,23 @@ a:hover {
   position: absolute;
   top: 0px;
 }
+
 #logoCogrooLink {
-  display: block;
   height: 100px; 
   width: 400px;
+  display: block;
 }
+
 #logoBROffice {
 	background-image: url(../images/broffice.png);
 	background-repeat: no-repeat;
+	background-position: center center;
 	position: relative;
 	border: none;
-	left: 420px;
-	top: 20px;
-	height: 80px;
+	top: 0px;
+	margin-left: 400px;
+	height: 100px;
+	width: 400px;
 }
 .clear {
   clear: both;
@@ -83,7 +86,7 @@ ul#nav li a:hover {
 #message_error {
 	background-color:#AA0000;
 	border:1px solid #FF5555;
-	margin:0 0 20px;
+	margin:0 0 0px;
 	padding:12px 25px;
 }
 
