@@ -10,12 +10,12 @@
 		<dependency>
 			<groupId>br.usp.pcs.lta.cogroo</groupId>
 			<artifactId>CoGrOOBase</artifactId>
-			<version>3.0.7-SNAPSHOT</version>
+			<version>3.1.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>br.usp.pcs.lta.cogroo</groupId>
 			<artifactId>CoGrOOBase</artifactId>
-			<version>3.0.7-SNAPSHOT</version>
+			<version>3.1.1-SNAPSHOT</version>
 			<classifier>bin</classifier>
 			<type>zip</type>
 			<scope>provided</scope>
@@ -282,7 +282,7 @@
 								<artifactItem>
 									<groupId>br.usp.pcs.lta.cogroo</groupId>
 									<artifactId>CoGrOOBase</artifactId>
-									<version>3.0.7-SNAPSHOT</version>
+									<version>3.1.1-SNAPSHOT</version>
 									<classifier>bin</classifier>
 									<type>zip</type>
 									<outputDirectory>target/cogroo</outputDirectory>

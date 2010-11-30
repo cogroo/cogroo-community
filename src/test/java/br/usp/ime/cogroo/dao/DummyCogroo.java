@@ -64,4 +64,10 @@ public class DummyCogroo implements CogrooI {
 		return dic;
 	}
 
+	@Override
+	public int checkFirstSentence(String arg0, List<Mistake> arg1) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
 }
