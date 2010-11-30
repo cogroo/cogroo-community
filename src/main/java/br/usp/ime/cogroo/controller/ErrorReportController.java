@@ -16,6 +16,7 @@ import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.Validator;
 import br.com.caelum.vraptor.validator.ValidationMessage;
+import br.com.caelum.vraptor.view.Results;
 import br.usp.ime.cogroo.dao.CogrooFacade;
 import br.usp.ime.cogroo.dao.errorreport.ErrorEntryDAO;
 import br.usp.ime.cogroo.exceptions.CommunityException;
@@ -35,6 +36,8 @@ public class ErrorReportController {
 
 	private static final Logger LOG = Logger
 			.getLogger(ErrorReportController.class);
+
+	private static final int COMMENT_MAX_SIZE = 700;
 
 	private LoggedUser loggedUser;
 	private ErrorEntryLogic errorEntryLogic;
@@ -212,8 +215,9 @@ public class ErrorReportController {
 			return;
 		}
 		
-		LOG.debug("Details for: " + errorEntry);
 		ErrorEntry errorEntryFromDB =errorEntryDAO.retrieve(new Long(errorEntry.getId())); 
+		LOG.debug("Details for: " + errorEntryFromDB);
+		
 		
 		
 		result.include("errorEntry", errorEntryFromDB).
@@ -223,10 +227,25 @@ public class ErrorReportController {
 	@Post
 	@Path("/errorEntryAddComment")
 	public void addComment(ErrorEntry errorEntry, String newComment) {
-		LOG.debug("errorEntry: " + errorEntry);
+		ErrorEntry errorEntryFromDB = errorEntryDAO.retrieve(new Long(errorEntry.getId()));
+		
+		LOG.debug("errorEntry: " + errorEntryFromDB);
 		LOG.debug("newComment: " + newComment);
-		errorEntryLogic.addCommentToErrorEntry(errorEntry.getId(), loggedUser.getUser().getId(), newComment);
-		result.redirectTo(ErrorReportController.class).details(errorEntry);
+		if (newComment.trim().isEmpty()) {
+			validator.add(new ValidationMessage(Messages.COMMENT_SHOULD_NOT_BE_EMPTY,
+					Messages.ERROR));
+			validator.onErrorUse(Results.page()).of(ErrorReportController.class)
+					.details(errorEntryFromDB);
+		} else if (newComment.trim().length() > COMMENT_MAX_SIZE) {
+			validator.add(new ValidationMessage(Messages.COMMENT_SHOULD_NOT_EXCEED_CHAR,
+					Messages.ERROR));
+			validator.onErrorUse(Results.page()).of(ErrorReportController.class)
+					.details(errorEntryFromDB);
+		} else {
+			errorEntryLogic.addCommentToErrorEntry(errorEntryFromDB.getId(), loggedUser.getUser().getId(), newComment);
+			
+		}
+		result.redirectTo(ErrorReportController.class).details(errorEntryFromDB);
 	}
 	
 	@Post

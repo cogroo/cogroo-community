@@ -60,7 +60,37 @@
 		//--><!]]>
 
 	</script>
+<script src="<c:url value='/js/jquery.NobleCount.min.js' />" type="text/javascript" ></script>
+<script type="text/javascript"><!--//--><![CDATA[//><!--
 
+	$(document).ready(function(){
+		
+		
+		$.each($('.answerText'), function(key) {
+			
+			var id = key + 1;
+			 
+			$('#answerText' + id).NobleCount('#count' + id,{
+				on_negative: 'go_red',
+				on_positive: 'go_green',
+				max_chars: 700
+			});
+		});
+		
+		
+		
+
+		
+		$('#newCommentText').NobleCount('#newCommentTextCount',{
+			on_negative: 'go_red',
+			on_positive: 'go_green',
+			max_chars: 700
+		});
+	});
+	
+//--><!]]>
+
+</script>
 
 <style type="text/css">
 table.answer {
@@ -187,10 +217,10 @@ table.answer td {
 						<div style="display: none;" class="disscussion_reply_form" id="reply_${ i.count }">
 							<form method="post" action="<c:url value="/errorEntryAddAnswerToComment"/>">
 								<legend>Responder esta discussão:</legend><br/>
-							    <textarea name="answer" cols="80" rows="4"></textarea>
+							    <textarea class="answerText" id="answerText${comment.id}" name="answer" cols="80" rows="4"></textarea><br>
 							    <input name="errorEntry.id" value="${errorEntry.id}" type="hidden" />
 							    <input name="comment.id" value="${comment.id}" type="hidden" />
-							    <input type="submit" id="go" value=" Responder &raquo; ">
+							    <span class="count" id="count${comment.id}">700</span> <input type="submit" id="go" value=" Responder &raquo; ">
 							</form>
 						</div>
 					</c:if>
@@ -201,9 +231,9 @@ table.answer td {
 		<c:if test="${loggedUser.logged}">
 			<form method="post" action="<c:url value="/errorEntryAddComment"/>">
 				<legend>Novo comentário:</legend><br/>
-			    <textarea name="newComment" cols="80" rows="4"></textarea>
+			    <textarea id="newCommentText" name="newComment" cols="80" rows="4"></textarea><br>
 			    <input name="errorEntry.id" value="${errorEntry.id}" type="hidden" />
-			    <input type="submit" id="go" value=" Enviar &raquo; ">
+			    <span id="newCommentTextCount">700</span> <input type="submit" id="go" value=" Enviar &raquo; ">
 			</form>
 		</c:if>
 	</div>

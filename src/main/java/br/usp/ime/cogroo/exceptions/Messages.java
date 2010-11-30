@@ -13,4 +13,6 @@ public class Messages {
 	public static final String ERROR = "ERROR";
 	public static final String ONLY_LOGGED_USER_CAN_DO_THIS="ONLY_LOGGED_USER_CAN_DO_THIS";
 	public static final String INVALID_EMAIL="INVALID_EMAIL";
+	public static final String COMMENT_SHOULD_NOT_BE_EMPTY = "COMMENT_SHOULD_NOT_BE_EMPTY";
+	public static final String COMMENT_SHOULD_NOT_EXCEED_CHAR = "COMMENT_SHOULD_NOT_EXCEED_CHAR";
 }
