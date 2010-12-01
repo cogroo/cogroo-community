@@ -28,7 +28,7 @@ public class Comment {
 	
 	private Date date;
 	
-//	@Column(length=1024)
+	@Column(length=700)
 	private String comment;
 	
 	//@ManyToOne(fetch = FetchType.EAGER)
