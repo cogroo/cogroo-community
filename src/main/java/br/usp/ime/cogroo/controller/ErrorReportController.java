@@ -136,11 +136,7 @@ public class ErrorReportController {
 	@Get
 	@Path("/submitErrorReport")
 	public void submitAnalytics() {
-		try {
-			// FIXME This is a test.
-			//System.out.println("GET");
-			//System.out.println(manager.googleAnalyticsGetImageUrl(request));
-			
+		try {		
 			result.include("googleAnalyticsImageUrl",
 					manager.googleAnalyticsGetImageUrl(request));
 		} catch (UnsupportedEncodingException e) {
@@ -152,16 +148,6 @@ public class ErrorReportController {
 	@Post
 	@Path("/submitErrorReport")
 	public void submitErrorEntry(String username, String token, String error) {
-		// FIXME This is a test.
-/*		System.out.println("POST");
-		try {
-			System.out.println(manager.googleAnalyticsGetImageUrl(request));
-		} catch (UnsupportedEncodingException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}*/
-		
-		
 		error = securityUtil.decodeURLSafeString(error);
 		
 		LOG.debug("Got new error report from: " + username +
@@ -234,12 +220,12 @@ public class ErrorReportController {
 		if (newComment.trim().isEmpty()) {
 			validator.add(new ValidationMessage(Messages.COMMENT_SHOULD_NOT_BE_EMPTY,
 					Messages.ERROR));
-			validator.onErrorUse(Results.page()).of(ErrorReportController.class)
+			validator.onErrorUse(Results.logic()).redirectTo(ErrorReportController.class)
 					.details(errorEntryFromDB);
 		} else if (newComment.trim().length() > COMMENT_MAX_SIZE) {
 			validator.add(new ValidationMessage(Messages.COMMENT_SHOULD_NOT_EXCEED_CHAR,
 					Messages.ERROR));
-			validator.onErrorUse(Results.page()).of(ErrorReportController.class)
+			validator.onErrorUse(Results.logic()).redirectTo(ErrorReportController.class)
 					.details(errorEntryFromDB);
 		} else {
 			errorEntryLogic.addCommentToErrorEntry(errorEntryFromDB.getId(), loggedUser.getUser().getId(), newComment);
