@@ -15,4 +15,5 @@ public class Messages {
 	public static final String INVALID_EMAIL="INVALID_EMAIL";
 	public static final String COMMENT_SHOULD_NOT_BE_EMPTY = "COMMENT_SHOULD_NOT_BE_EMPTY";
 	public static final String COMMENT_SHOULD_NOT_EXCEED_CHAR = "COMMENT_SHOULD_NOT_EXCEED_CHAR";
+	public static final String PAGE_NOT_FOUND = "PAGE_NOT_FOUND";
 }

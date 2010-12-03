@@ -204,7 +204,12 @@ public class ErrorReportController {
 		ErrorEntry errorEntryFromDB =errorEntryDAO.retrieve(new Long(errorEntry.getId())); 
 		LOG.debug("Details for: " + errorEntryFromDB);
 		
-		
+		if (errorEntryFromDB == null) {
+			validator.add(new ValidationMessage(Messages.PAGE_NOT_FOUND,
+					Messages.ERROR));
+			validator.onErrorUse(Results.logic()).redirectTo(ErrorReportController.class)
+					.list();
+		}
 		
 		result.include("errorEntry", errorEntryFromDB).
 			include("processResultList", cogrooFacade.processText(errorEntryFromDB.getText()));
