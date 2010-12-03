@@ -172,7 +172,7 @@ $(document).ready(function() {
 							<select name="badint[${ i.count }]" 
 								ONCHANGE="if( this.selectedIndex == 0 ) {off('comments_${ i.count }');} else {on('comments_${ i.count }');} ;">
 								<option value="ok">Intervenção correta.</option>
-								<option value="falseError">Falso erro, a frase está correta.</option>
+								<option value="falseError">Falso erro, a oração está correta.</option>
 								<option value="inappropriateDescription">Erro existe, mas a descrição é inapropriada.</option>
 								<option value="inappropriateSuggestion">Erro existe, mas a sugestão é inapropriada.</option>
 							</select>
