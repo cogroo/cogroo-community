@@ -1,6 +1,8 @@
 package br.usp.ime.cogroo.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -191,6 +193,11 @@ public class ErrorReportController {
 		LOG.debug("Will list of size: "
 				+ reports.size());
 		result.include("errorEntryList", reports);
+		if(!loggedUser.isLogged()) {
+			Calendar now = Calendar.getInstance();
+			now.add(Calendar.DATE, -7);
+			result.include("oneWeekAgo", now.getTime());
+		}
 	}
 	
 	@Get

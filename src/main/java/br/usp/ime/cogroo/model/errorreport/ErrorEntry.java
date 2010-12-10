@@ -185,6 +185,14 @@ public class ErrorEntry {
 		}
 		return sb.toString();
 	}
+	
+	public int getCommentCount() {
+		int count = 0;
+		for (Comment comment : getComments()) {
+			count += comment.getCount();
+		}
+		return count;
+	}
 
 	@Override
 	public String toString() {

@@ -40,7 +40,7 @@
 		var iIndex = oTable.fnGetPosition( nTr );
 		var aData = oTable.fnSettings().aoData[iIndex]._aData;
 		
-		return '<div class="reportlist_details">'+aData[7]+'</div>';
+		return '<div class="reportlist_details">'+aData[8]+'</div>';
 	};
 	
 	$(document).ready(function() {
@@ -60,17 +60,18 @@
 				"sInfoEmpty": "Exibindo de 0 até 0 de um total de 0 entradas",
 				"sInfoFiltered": "(filtrados de um total de _MAX_ entradas)"
 			},
-			"aaSorting": [[ 1, 'desc' ]],
+			"aaSorting": [[ 4, 'desc' ]],
 			"iDisplayLength": 10,
 			"aoColumns": [
-					{ "bSortable": false },
-				{ "sType": "num-html" }, 
-				null,
-				null,  
-				{ "sType": "title-string" },
-				null,  
-				null,
-				{ "bVisible": false }
+				{ "bSortable": false }, 	//0
+				{ "sType": "num-html" }, 	//1
+				null,						//2
+				null,  						//3
+				{ "sType": "title-string" },//4
+				null,						//5
+				null,  						//6
+				null,						//7
+				{ "bVisible": false }		//8
 			]
 		} );
 		
@@ -107,21 +108,23 @@
 	<table cellpadding="0" cellspacing="0" border="0" class="display" id="errorList">
 		<thead>
 			<tr>
-			  <th></th>
-			  <th>#</th>
-			  <th>Tipo</th>
-			  <th>Texto</th>
-			  <th>Alterado em</th>
-			  <th>Versão</th>
-			  <th>Usuário</th>
-			  <th>Detalhes</th>
+			  <th></th> 			<!-- 0 -->
+			  <th title="ID">#</th>			<!-- 1 -->
+			  <th title="Tipo">Tipo</th>			<!-- 2 -->
+			  <th title="Texto">Texto</th>		<!-- 3 -->
+			  <th title="Alterado em">Alterado em</th>	<!-- 4 -->
+			  <th title="Comentários">#C</th>	<!-- 5 -->
+			  <th title="Versão">Versão</th>		<!-- 6 -->
+			  <th title="Usuário">Usuário</th>		<!-- 7 -->
+			  <th>Detalhes</th>		<!-- 8 -->
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach items="${errorEntryList}" var="errorEntry" varStatus="i">
 				<tr id="tr_errorEntry_${ i.count }">
 					<td valign="middle"><img src="./images/details_open.png"></td>
-					<td><a href="<c:url value="/errorEntry?errorEntry.id=${errorEntry.id}"/>">${errorEntry.id}</a></td>
+					<td><a href="<c:url value="/errorEntry?errorEntry.id=${errorEntry.id}"/>">${errorEntry.id}</a><c:if test="${ (loggedUser.logged && (loggedUser.user.previousLogin < errorEntry.modified)) || ( (not loggedUser.logged) && (oneWeekAgo < errorEntry.modified)) }"><sup style="color: red">novo</sup></c:if>
+					</td>
 					<c:choose>
 						<c:when test="${empty errorEntry.omission}">
 				    		<td>Intervenção indevida</td>
@@ -132,6 +135,7 @@
 					</c:choose>
 					<td>${errorEntry.markedText}</td>
 					<td><span title="${errorEntry.modified}"></span><fmt:formatDate type="both" dateStyle="long" value="${errorEntry.modified}" /></td>
+					<td>${errorEntry.commentCount}</td>
 					<td>${errorEntry.version.version}</td>
 					<td>${errorEntry.submitter.name}</td>
 	  			  	<td>

@@ -65,49 +65,6 @@ public class ErrorEntryLogic {
 		this.appData = appData;
 	}
 
-	public void addErrorEntry(String userName, String text, String comment,
-			String version) {
-
-		// // try to get user, or create it
-		// User cogrooUser;
-		// if(userDAO.exist(userName)) {
-		// cogrooUser = userDAO.retrieve(userName);
-		// if(LOG.isDebugEnabled()) {
-		// LOG.debug("Could get cogrooUser: " + cogrooUser);
-		// }
-		//
-		// } else {
-		// // in the future we raise an error instead
-		// cogrooUser = new User(userName);
-		// userDAO.add(cogrooUser);
-		//
-		// if(LOG.isDebugEnabled()) {
-		// LOG.debug("Added new cogrooUser: " + cogrooUser);
-		// }
-		// }
-		//
-		// ErrorEntry newReport =
-		// new ErrorEntry(text, null, version, cogrooUser, new Date(), new
-		// Date(), false, false);
-		//
-		// errorEntryDAO.add(newReport);
-		//
-		// List<Comment> comments = null;
-		// if(comment != null && comment.length() > 0) {
-		// Comment c = new Comment(cogrooUser, new Date(), comment, newReport);
-		// commentDAO.add(c);
-		// comments = new ArrayList<Comment>();
-		// comments.add(c);
-		// newReport.setComments(comments);
-		// errorEntryDAO.update(newReport);
-		// }
-		//
-		// if(LOG.isDebugEnabled()) {
-		// LOG.debug("Added new ErrorEntry: " + newReport);
-		// }
-
-	}
-
 	public List<ErrorEntry> getAllReports() {
 		return errorEntryDAO.listAll();
 	}
@@ -369,6 +326,8 @@ public class ErrorEntryLogic {
 		Comment c = new Comment(user, new Date(), comment, errorEntry, new ArrayList<Comment>());
 		commentDAO.add(c);
 		errorEntry.getComments().add(c);
+		errorEntry.setModified(new Date());
+		errorEntryDAO.update(errorEntry);
 		return c.getId();
 	}
 	
@@ -380,8 +339,9 @@ public class ErrorEntryLogic {
 		
 		commentDAO.add(answer);	
 		c.getAnswers().add(answer);
-		
 		commentDAO.update(c);
+		c.getErrorEntry().setModified(new Date());
+		errorEntryDAO.update(c.getErrorEntry());
 	}
 
 	public void removeAnswer(Comment answer, Comment comment) {

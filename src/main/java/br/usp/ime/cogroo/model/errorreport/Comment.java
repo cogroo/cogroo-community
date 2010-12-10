@@ -144,4 +144,12 @@ public class Comment {
 		return question;
 	}
 	
+	public int getCount() {
+		int count = 1;
+		for (Comment comment : getAnswers()) {
+			count += comment.getCount();
+		}
+		return count;
+	}
+	
 }

@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 @Entity
 public class User {
@@ -35,6 +36,12 @@ public class User {
 
 	@Column(length = 80)
 	private String name;
+	
+	@Transient
+	private Date previousLogin;
+
+	@Transient
+	private Date cachedLastLogin = null;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	private List<WordUser> wordUserList = new ArrayList<WordUser>();
@@ -52,10 +59,23 @@ public class User {
 	}
 
 	public Date getLastLogin() {
-		return (lastLogin != 0) ? new Date(lastLogin) : null;
+		if(cachedLastLogin == null) {
+			cachedLastLogin = (lastLogin != 0) ? new Date(lastLogin) : null;
+		}
+		return cachedLastLogin;
+	}
+	
+	public Date getPreviousLogin() {
+		if(previousLogin == null) {
+			previousLogin = (lastLogin != 0) ? new Date(lastLogin) : null;
+		}
+		return previousLogin;
 	}
 
 	public void setLastLogin(long lastLogin) {
+		// save previous login
+		this.previousLogin = getLastLogin();
+		this.cachedLastLogin = null;
 		this.lastLogin = lastLogin;
 	}
 
