@@ -1,3 +1,4 @@
+<%@ page contentType="text/html; charset=UTF-8" %>
 <script type="text/javascript">
 	var path = '${pageContext.servletContext.contextPath}';
 </script>
@@ -8,7 +9,7 @@
 [<a href="<c:url value="/rule/${previousRule}"/>">anterior</a>]
 </c:if>
 <c:if test="${nextRule != NULL}">
-[<a href="<c:url value="/rule/${nextRule}"/>">prÛxima</a>]
+[<a href="<c:url value="/rule/${nextRule}"/>">pr√≥xima</a>]
 </c:if>
 </span>
 
@@ -32,13 +33,13 @@
 			    <th>Ativa:</th><td><fmt:message key="yn${rule.active}"/></td>
 			</tr>
 			<tr>
-			    <th>Padr„o da regra:</th><td></td>
+			    <th>Padr√£o da regra:</th><td></td>
 			</tr>
 			<tr>
 			    <td align="center" colspan="2">${pattern}</td>
 			</tr>
 			<tr>
-			    <th>Padr„o da sugest„o:</th><td>${replacePattern}</td>
+			    <th>Padr√£o da sugest√£o:</th><td>${replacePattern}</td>
 			</tr>
 		</tbody>
 	</table>
