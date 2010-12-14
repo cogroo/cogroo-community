@@ -26,7 +26,7 @@
  
 
 	<category name="br.usp.ime.cogroo">
-		<priority value="debug" />
+		<priority value="error" />
 <!-- 		<appender-ref ref="Chainsaw" /> -->
 		<appender-ref ref="stdout" />
 	</category>
