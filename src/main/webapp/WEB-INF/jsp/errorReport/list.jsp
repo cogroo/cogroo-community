@@ -121,9 +121,16 @@
 		</thead>
 		<tbody>
 			<c:forEach items="${errorEntryList}" var="errorEntry" varStatus="i">
-				<tr id="tr_errorEntry_${ i.count }">
+
+				<c:if test="${errorEntry.isNew}">
+					<tr id="tr_errorEntry_${ i.count }" class="highlighted">
+				</c:if>
+				<c:if test="${not errorEntry.isNew}">
+					<tr id="tr_errorEntry_${ i.count }">
+				</c:if>
+			
 					<td valign="middle"><img src="./images/details_open.png"></td>
-					<td><a href="<c:url value="/errorEntry?errorEntry.id=${errorEntry.id}"/>">${errorEntry.id}</a><c:if test="${ (loggedUser.logged && (loggedUser.user.previousLogin < errorEntry.modified)) || ( (not loggedUser.logged) && (oneWeekAgo < errorEntry.modified)) }"><sup style="color: red">novo</sup></c:if>
+					<td><a href="<c:url value="/errorEntry?errorEntry.id=${errorEntry.id}"/>">${errorEntry.id}</a>
 					</td>
 					<c:choose>
 						<c:when test="${empty errorEntry.omission}">

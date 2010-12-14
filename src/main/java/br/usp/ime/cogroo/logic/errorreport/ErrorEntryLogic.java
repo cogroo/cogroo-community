@@ -2,6 +2,7 @@ package br.usp.ime.cogroo.logic.errorreport;
 
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.SortedSet;
@@ -66,7 +67,59 @@ public class ErrorEntryLogic {
 	}
 
 	public List<ErrorEntry> getAllReports() {
-		return errorEntryDAO.listAll();
+		// set isNew property!
+		Calendar now = Calendar.getInstance();
+		now.add(Calendar.DATE, -7);
+		Date oneWeekAgo = now.getTime();
+		List<ErrorEntry> errors = errorEntryDAO.listAll();
+
+		for (ErrorEntry errorEntry : errors) {
+
+			if(this.user == null && oneWeekAgo.before(errorEntry.getModified()) ) {
+
+				errorEntry.setIsNew(true);
+			} else if(this.user != null && this.user.getPreviousLogin().before(errorEntry.getModified())) {
+				// if comments is empty, check only the submitter
+				if(errorEntry.getComments().size() == 0) {
+					if(!errorEntry.getSubmitter().getLogin().equals(this.user.getLogin())) {
+						errorEntry.setIsNew(true);
+					}
+				}
+				
+				else {
+					// we check the comments. we skip if the newest is of this user
+					Date newest = this.user.getPreviousLogin();
+					boolean isNew = false;
+					for (Comment comment : errorEntry.getComments()) {
+						
+						for(Comment answer : comment.getAnswers()) {
+							if(answer.getDate().after(newest)) {
+								newest = answer.getDate();
+								if(!answer.getUser().getLogin().equals(this.user.getLogin())) {
+									isNew = true;
+								} else {
+									isNew = false;
+								}
+							}
+						}
+						if(comment.getDate().after(newest)) {
+							newest = comment.getDate();
+							if(!comment.getUser().getLogin().equals(this.user.getLogin())) {
+								isNew = true;
+							} else {
+								isNew = false;
+							}
+						}
+
+					}
+					if(isNew) {
+						errorEntry.setIsNew(true);
+					}
+				}
+
+			}
+		}
+		return errors;
 	}
 
 	public SortedSet<String> getErrorCategoriesForUser(String userName) {

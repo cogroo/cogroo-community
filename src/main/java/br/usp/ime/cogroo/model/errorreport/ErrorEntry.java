@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Transient;
 
 import org.apache.log4j.Logger;
 
@@ -49,6 +50,9 @@ public class ErrorEntry {
 	
 	@OneToOne(mappedBy = "errorEntry", cascade = CascadeType.ALL)
 	private GrammarCheckerOmission omission;
+	
+	@Transient
+	private boolean isNew = false;
 
 	public ErrorEntry(String text, int start, int end, List<Comment> comments,
 			GrammarCheckerVersion version, User submitter, Date creation,
@@ -193,6 +197,17 @@ public class ErrorEntry {
 		}
 		return count;
 	}
+	
+	@Transient
+	public boolean getIsNew() {
+		return isNew;
+	}
+	
+	@Transient
+	public void setIsNew(boolean value) {
+		isNew = value;
+	}
+	
 
 	@Override
 	public String toString() {

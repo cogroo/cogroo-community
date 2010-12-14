@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import br.usp.ime.cogroo.model.User;
 
@@ -42,6 +43,9 @@ public class Comment {
 	
 	@OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
 	private List<Comment> answers = new ArrayList<Comment>();
+	
+	@Transient
+	private boolean isNew = false;
 	
 	public Comment() {
 		// TODO Auto-generated constructor stub
@@ -122,6 +126,16 @@ public class Comment {
 
 	public void setAnswers(List<Comment> answers) {
 		this.answers = answers;
+	}
+	
+	@Transient
+	public boolean isNew() {
+		return isNew;
+	}
+	
+	@Transient
+	public void setIsNew(boolean value) {
+		isNew = value;
 	}
 
 	@Override
