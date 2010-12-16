@@ -31,7 +31,7 @@
  
 	<!-- (all|debug|info|warn|error|fatal|off|null) -->
 	<category name="br.usp.ime.cogroo">
-		<priority value="all" />
+		<priority value="info" />
 		<appender-ref ref="stdout" />
 		<appender-ref ref="R" />
 	</category>
