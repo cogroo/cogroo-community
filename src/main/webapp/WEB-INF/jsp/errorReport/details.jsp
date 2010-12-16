@@ -180,7 +180,7 @@ table.answer td {
 	</div>
 	<div class="report_disscussion">
 		<h2>Discussão</h2>
-		<c:forEach items="${errorEntry.errorEntryComments}" var="comment" varStatus="i">
+		<c:forEach items="${errorEntry.processedComments}" var="comment" varStatus="i">
 			<div id="comment_${ i.count }">
 				<h4 class="undeline">Por ${comment.user.name} em <fmt:formatDate type="both" dateStyle="long" value="${comment.date}" />
 				<c:if test="${(comment.user.login == loggedUser.user.login) || (loggedUser.user.login == 'admin') }"> 
@@ -190,14 +190,14 @@ table.answer td {
 				<form action="/errorEntryDeleteComment" method="post" id="form_comment_remove_${ i.count }">
 				    <input name="comment.id" value="${comment.id}" type="hidden" />
 				</form>
-				<div>${comment.errorEntryComment}</div>
+				<div>${comment.processedComment}</div>
 				<div class="report_answer">
 					<c:if test="${not empty comment.answers}">
 						<b>Respostas</b>
 						<table class="answer">
 							<c:forEach items="${comment.answers}" var="answer"  varStatus="j">
 								<tr id="tr_answer_${ i.count }_${ j.count }">
-									<td>${answer.errorEntryComment} <i> -- ${answer.user.name} em <fmt:formatDate type="both" dateStyle="long" value="${answer.date}" /></i>
+									<td>${answer.processedComment} <i> -- ${answer.user.name} em <fmt:formatDate type="both" dateStyle="long" value="${answer.date}" /></i>
 									<c:if test="${(answer.user.login == loggedUser.user.login) || (loggedUser.user.login == 'admin') }">
 										<a id="_${ i.count }_${ j.count }" href="about:blank" class="answer_remove">excluir</a>
 										<form action="/errorEntryAnswerToComment" method="post" id="form_answer_remove_${ i.count }_${ j.count }">

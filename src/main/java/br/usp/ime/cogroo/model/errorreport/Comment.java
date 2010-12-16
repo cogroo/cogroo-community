@@ -94,14 +94,6 @@ public class Comment {
 		this.date = date;
 	}
 
-	public String getErrorEntryComment() {
-		return comment;
-	}
-
-	public void setErrorEntryComment(String comment) {
-		this.comment = comment;
-	}
-
 	public void setErrorEntry(ErrorEntry errorEntry) {
 		this.errorEntry = errorEntry;
 	}
@@ -110,10 +102,16 @@ public class Comment {
 		return errorEntry;
 	}
 	
-	
-	
 	public String getComment() {
 		return comment;
+	}
+	
+	public String getProcessedComment() {
+		return commentProcessor(comment);
+	}
+	
+	private String commentProcessor(String originalComment) {
+		return originalComment.replaceAll("\\n", "<br>");
 	}
 
 	public void setComment(String comment) {
@@ -140,7 +138,7 @@ public class Comment {
 
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder("user: " + getUser() + " date: " + getDate() + " comment: " + getErrorEntryComment());
+		StringBuilder sb = new StringBuilder("user: " + getUser() + " date: " + getDate() + " comment: " + getComment());
 		
 		if(getAnswers() != null && getAnswers().size() > 0 ) {
 			for (Comment answer : getAnswers()) {
