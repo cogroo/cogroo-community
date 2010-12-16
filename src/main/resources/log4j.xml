@@ -7,12 +7,17 @@
 			<param name="ConversionPattern" value="%d{HH:mm:ss,SSS} %5p [%-20c{1}] %m%n" />
 		</layout>
 	</appender>
-	
-	<appender name="FileHandler" class="org.apache.juli.FileHandler">
-		<param name="level" value="FINE" />
-		<param name="directory" value="${catalina.base}/logs" />
-		<param name="prefix" value="cogroo-comunidade" />
-	</appender>
+
+	<appender name="R" class="org.apache.log4j.RollingFileAppender">
+		<param name="file" value="${catalina.home}/logs/cogroo-comunidade.log" />
+		<param name="MaxFileSize" value="10MB" />
+		<!-- Keep one backup file -->
+		<param name="MaxBackupIndex" value="1" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%p %t %c - %m%n" />
+		</layout>
+	</appender> 
+
 	
 
  
@@ -24,17 +29,17 @@
 <!--		</layout>-->
 <!--	</appender>-->
  
-
+	<!-- (all|debug|info|warn|error|fatal|off|null) -->
 	<category name="br.usp.ime.cogroo">
-		<priority value="error" />
-<!-- 		<appender-ref ref="Chainsaw" /> -->
+		<priority value="all" />
 		<appender-ref ref="stdout" />
+		<appender-ref ref="R" />
 	</category>
 
 	<root>
 		<priority value="error" />
 		<appender-ref ref="stdout" />
-<!--		<appender-ref ref="Chainsaw" />-->
+		<appender-ref ref="R" />
 	</root>
 
 
