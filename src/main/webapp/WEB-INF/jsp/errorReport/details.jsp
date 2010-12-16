@@ -180,7 +180,7 @@ table.answer td {
 	</div>
 	<div class="report_disscussion">
 		<h2>Discussão</h2>
-		<c:forEach items="${errorEntry.processedComments}" var="comment" varStatus="i">
+		<c:forEach items="${errorEntry.errorEntryComments}" var="comment" varStatus="i">
 			<div id="comment_${ i.count }">
 				<h4 class="undeline">Por ${comment.user.name} em <fmt:formatDate type="both" dateStyle="long" value="${comment.date}" />
 				<c:if test="${(comment.user.login == loggedUser.user.login) || (loggedUser.user.login == 'admin') }"> 

@@ -106,6 +106,7 @@ public class Comment {
 		return comment;
 	}
 	
+	@Transient
 	public String getProcessedComment() {
 		return commentProcessor(comment);
 	}
