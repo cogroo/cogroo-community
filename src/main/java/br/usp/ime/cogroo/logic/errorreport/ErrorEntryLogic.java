@@ -183,7 +183,7 @@ public class ErrorEntryLogic {
 					
 					if(omission.getComment() != null && omission.getComment().length() > 0) {
 						List<Comment> comments = new ArrayList<Comment>();
-						Comment c = new Comment(cogrooUser, time, omission.getComment(), errorEntry, null);
+						Comment c = new Comment(cogrooUser, time, commentProcessor(omission.getComment()), errorEntry, null);
 						commentDAO.add(c);
 						comments.add(c);
 						errorEntry.setComments(comments);
@@ -223,7 +223,7 @@ public class ErrorEntryLogic {
 					
 					if(badIntervention.getComment() != null && badIntervention.getComment().length() > 0) {
 						List<Comment> comments = new ArrayList<Comment>();
-						Comment c = new Comment(cogrooUser, time, badIntervention.getComment(), errorEntry, null);
+						Comment c = new Comment(cogrooUser, time, commentProcessor(badIntervention.getComment()), errorEntry, null);
 						commentDAO.add(c);
 						comments.add(c);
 						errorEntry.setComments(comments);
@@ -298,7 +298,7 @@ public class ErrorEntryLogic {
 					
 					if(omissionComment.get(i) != null && omissionComment.get(i).length() > 0) {
 						List<Comment> comments = new ArrayList<Comment>();
-						Comment c = new Comment(cogrooUser, time, omissionComment.get(i), errorEntry, null);
+						Comment c = new Comment(cogrooUser, time, commentProcessor(omissionComment.get(i)), errorEntry, null);
 						commentDAO.add(c);
 						comments.add(c);
 						errorEntry.setComments(comments);
@@ -347,7 +347,7 @@ public class ErrorEntryLogic {
 					
 					if(badintComments.get(i) != null && badintComments.get(i).length() > 0) {
 						List<Comment> comments = new ArrayList<Comment>();
-						Comment c = new Comment(cogrooUser, time, badintComments.get(i), errorEntry, null);
+						Comment c = new Comment(cogrooUser, time, commentProcessor(badintComments.get(i)), errorEntry, null);
 						commentDAO.add(c);
 						comments.add(c);
 						errorEntry.setComments(comments);
@@ -373,10 +373,14 @@ public class ErrorEntryLogic {
 		
 	}
 	
+	public static String commentProcessor(String originalComment) {
+		return originalComment.replaceAll("\\n", "<br>");
+	}
+	
 	public Long addCommentToErrorEntry(Long errorEntryID, Long userID, String comment) {
 		ErrorEntry errorEntry = errorEntryDAO.retrieve(errorEntryID);
 		User user = userDAO.retrieve(userID);
-		Comment c = new Comment(user, new Date(), comment, errorEntry, new ArrayList<Comment>());
+		Comment c = new Comment(user, new Date(), commentProcessor(comment), errorEntry, new ArrayList<Comment>());
 		commentDAO.add(c);
 		errorEntry.getComments().add(c);
 		errorEntry.setModified(new Date());
@@ -388,7 +392,7 @@ public class ErrorEntryLogic {
 		Comment c = commentDAO.retrieve(commentID);
 		User user = userDAO.retrieve(userID);
 		
-		Comment answer = new Comment(user, new Date(), comment, c, new ArrayList<Comment>());
+		Comment answer = new Comment(user, new Date(), commentProcessor(comment), c, new ArrayList<Comment>());
 		
 		commentDAO.add(answer);	
 		c.getAnswers().add(answer);

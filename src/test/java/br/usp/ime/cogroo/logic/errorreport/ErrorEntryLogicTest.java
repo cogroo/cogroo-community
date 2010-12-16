@@ -155,4 +155,12 @@ public class ErrorEntryLogicTest {
 		
 		assertEquals(0, error1.getComments().get(1).getAnswers().size());
 	}
+	
+	@Test
+	public void testCommentProcessor() {
+		String in = "The girl\n\narrived.\nIs it ok?";
+		String out = "The girl<br><br>arrived.<br>Is it ok?";
+		
+		assertEquals(out, ErrorEntryLogic.commentProcessor(in));
+	}
 }
