@@ -9,6 +9,8 @@ import java.security.InvalidKeyException;
 import java.security.KeyPair;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.persistence.EntityManager;
 
@@ -123,6 +125,43 @@ public class ErrorReportControllerTest {
 		assertNotNull(cat);
 	}
 	
+	private static final Pattern imgSrc = Pattern.compile("<img\\s+id=\"gaMobileTrackingCode\"\\s+src=\"([^\"]+)\".*");
+	
+	@Test
+	public void testGetImageForAnalytics() throws IOException, InvalidKeyException {
+		
+		
+		System.out.println(System.getProperty("java.version"));
+		System.out.println(System.getProperty("java.vendor"));
+		
+		System.out.println(System.getProperty("os.name"));
+		System.out.println(System.getProperty("os.arch"));
+		System.out.println(System.getProperty("os.version"));
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append("CoGrOO/" + "3.0.7" + " ");
+		sb.append("Java/" + System.getProperty("java.version") + " (" + System.getProperty("java.vendor") + ") ");
+		sb.append(System.getProperty("os.name") + "/" + System.getProperty("os.version") + " (" + System.getProperty("os.arch") + ") ");
+		
+		RestUtil rest = new RestUtil();
+		String resp = rest.get("http://whatsmyuseragent.com/", "");
+		//String resp = "<img id=\"gaMobileTrackingCode\" src=\"ga.jspf?utmac=MO-18985930-1&utmn=1453012713&utmr=-&utmp=%2FsubmitErrorReport&guid=ON\" /> ";
+		
+		// get the img URL
+		
+		System.out.println(resp);
+		Matcher m = imgSrc.matcher(resp);
+		if(m.find()) {
+			String respImg = rest.get(ROOT, m.group(1));
+		} else {
+			fail();
+		}
+		
+		
+		
+		assertNotNull(resp);
+	}
+	
 	private String getSampleError() throws IOException {
 		File f = new File(getClass().getResource("sampleError.xml").getFile());
 		BufferedReader reader = new BufferedReader(new FileReader(f));
@@ -134,6 +173,8 @@ public class ErrorReportControllerTest {
 		}
 		return sb.toString();
 	}
+	
+	
 	
 	@Before
 	public void setup() {

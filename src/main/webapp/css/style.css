@@ -231,11 +231,18 @@ table.attributes td { vertical-align: top; }
 	padding:20px;
 }
 
-.twitter {
+.socialNetworks {
 	float: right;
 	position:relative;
+}
+
+.twitter {
 	width:220px;
 	height:330px;
+}
+
+.facebook {
+
 }
 
 .go_green {

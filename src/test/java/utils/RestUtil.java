@@ -18,18 +18,18 @@ public class RestUtil {
 
 	private static final Logger LOG = Logger.getLogger(RestUtil.class);
 
-	public void get(String urlRoot, String path, Map<String, String> data)
+	public String get(String urlRoot, String path)
 			throws IOException {
-		// request("GET", urlRoot, path, data);
+		
+		return execute("GET", urlRoot, path, null);
 	}
 
 	public Map<String, String> post(String urlRoot, String path, Map<String, String> data)
 			throws IOException {
-		// request("POST", urlRoot, path, data);
-		return excutePost("POST", urlRoot, path, convert(data));
+		return br.usp.ime.cogroo.util.RestUtil.extractResponse(execute("POST", urlRoot, path, convert(data)));
 	}
 
-	public Map<String, String> excutePost(String method, String urlRoot, String path,
+	public String execute(String method, String urlRoot, String path,
 			String urlParameters) {
 		URL url;
 		HttpURLConnection connection = null;
@@ -40,21 +40,33 @@ public class RestUtil {
 			connection.setRequestMethod(method);
 			connection.setRequestProperty("Content-Type",
 					"application/x-www-form-urlencoded");
-
-			connection.setRequestProperty("Content-Length",
-					"" + Integer.toString(urlParameters.getBytes().length));
+			
+			
+			StringBuilder sb = new StringBuilder();
+			sb.append("CoGrOO/" + "3.0.7" + " ");
+			sb.append("Java/" + System.getProperty("java.version") + " (" + System.getProperty("java.vendor") + ") ");
+			sb.append(System.getProperty("os.name") + "/" + System.getProperty("os.version") + " (" + System.getProperty("os.arch") + ") ");
+			
+			connection.setRequestProperty ( "User-agent", sb.toString());
+			
 			connection.setRequestProperty("Content-Language", "en-US");
 
 			connection.setUseCaches(false);
 			connection.setDoInput(true);
 			connection.setDoOutput(true);
 
-			// Send request
-			DataOutputStream wr = new DataOutputStream(
-					connection.getOutputStream());
-			wr.writeBytes(urlParameters);
-			wr.flush();
-			wr.close();
+			if(urlParameters != null) {
+				connection.setRequestProperty("Content-Length",
+						"" + Integer.toString(urlParameters.getBytes().length));
+				
+				// Send request
+				DataOutputStream wr = new DataOutputStream(
+						connection.getOutputStream());
+				wr.writeBytes(urlParameters);
+				wr.flush();
+				wr.close();
+			}
+
 
 			// Get Response
 			InputStream is = connection.getInputStream();
@@ -66,7 +78,7 @@ public class RestUtil {
 				response.append('\r');
 			}
 			rd.close();
-			return br.usp.ime.cogroo.util.RestUtil.extractResponse(response.toString());
+			return response.toString();
 
 		} catch (Exception e) {
 			LOG.error("Communication error.", e);
