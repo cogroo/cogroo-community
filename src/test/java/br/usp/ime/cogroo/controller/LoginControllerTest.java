@@ -3,13 +3,16 @@ package br.usp.ime.cogroo.controller;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockServletContext;
 
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.Validator;
@@ -19,6 +22,10 @@ import br.com.caelum.vraptor.validator.Message;
 import br.com.caelum.vraptor.validator.ValidationException;
 import br.usp.ime.cogroo.dao.UserDAO;
 import br.usp.ime.cogroo.exceptions.Messages;
+import br.usp.ime.cogroo.logic.AnalyticsManager;
+import br.usp.ime.cogroo.logic.AnalyticsManagerImpl;
+import br.usp.ime.cogroo.model.ApplicationData;
+import br.usp.ime.cogroo.model.DataFeed;
 import br.usp.ime.cogroo.model.LoggedUser;
 import br.usp.ime.cogroo.model.User;
 import br.usp.ime.cogroo.util.CriptoUtils;
@@ -35,9 +42,14 @@ public class LoginControllerTest {
 		
 		mockResult = new MockResult();
 		mockUserDAO = mock(UserDAO.class);
-		loggedUser = new LoggedUser(null);
+		MockServletContext mockContext= new MockServletContext("../classes/");
+		mockContext.getRealPath("");
+		AnalyticsManager am = mock(AnalyticsManager.class);
+		when(am.getDatedMetricsAsString(any(DataFeed.class))).thenReturn("2010-11-17,0,8,21;2010-11-18,12,20,81;2010-11-19,9,16,65");
+		loggedUser = new LoggedUser(new ApplicationData(am, mockContext));
 		Validator mockValidator = new MockValidator();
-		loginController = new LoginController(mockResult, mockUserDAO, loggedUser, mockValidator, null);
+		HttpServletRequest mockRequest = new MockHttpServletRequest();
+		loginController = new LoginController(mockResult, mockUserDAO, loggedUser, mockValidator, mockRequest);
 
 	}
 	
