@@ -21,7 +21,7 @@
 
 		$('#twitter').twitterSearch({
 			term: 'cogroo',
-			title: '@cogroo',
+			title: 'Siga @cogroo no Twitter',
 			avatar:  false, 
 			titleLink: 'http://twitter.com/cogroo',
 			birdLink: 'http://twitter.com/cogroo',
@@ -31,7 +31,7 @@
 			}); 
 		
 		$('#news').rssfeed('http://ccsl.ime.usp.br/cogroo/pt-br/rss.xml', {
-		    limit: 5,
+		    limit: 7,
 		    date: false,
 		    content: true,
 		    snippet: true,
@@ -56,8 +56,12 @@
 	
 		<h2>Notícias</h2>
 		
-		<div id="twitter" class="twitter"></div>
-		
+		<div id="socialNetworks" class="socialNetworks">
+			<iframe src="http://www.facebook.com/plugins/likebox.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FCoGrOO%2F191205774239878&amp;width=240&amp;colorscheme=light&amp;show_faces=true&amp;stream=false&amp;header=false&amp;height=180" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:240px; height:180px;" allowTransparency="true"></iframe>		
+			<br><br>
+			<div id="twitter" class="twitter"></div>
+			
+		</div>
 		<div id="newswrapper">
 			<div id="news"></div>
 			<a href="http://ccsl.ime.usp.br/cogroo/pt-br/rss.xml"><img width="16" height="16" title="Divulgar conteúdo" alt="Divulgar conteúdo" src="./images/feed.png"/></a>
