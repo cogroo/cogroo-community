@@ -72,7 +72,7 @@ public class UserDAO {
 	public List<User> retrieveIdleUsers(long lastLogin, int n) {
 		return em
 				.createQuery(
-						"from " + USER_ENTITY + " where lastLogin < ?")
+						"from " + USER_ENTITY + " where lastLogin < ? order by lastLogin")
 				.setParameter(1, lastLogin).setMaxResults(n).getResultList();
 	}
 
