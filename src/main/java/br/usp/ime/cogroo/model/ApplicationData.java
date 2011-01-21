@@ -24,6 +24,10 @@ public class ApplicationData {
 	private boolean initialized = false;
 
 	private AnalyticsManager manager;
+	
+	private int events;
+	private int visits;
+	private int pageviews;
 
 	private AtomicInteger reportedErrors = new AtomicInteger();
 	private AtomicInteger dictionaryEntries = new AtomicInteger();
@@ -94,11 +98,11 @@ public class ApplicationData {
 	private synchronized void generateStats() {
 		Calendar now = Calendar.getInstance();
 		now.add(Calendar.DATE, -1);
-		Calendar twoMonthsAgo = (Calendar) now.clone();
-		twoMonthsAgo.add(Calendar.MONTH, -2);
+		Calendar past = (Calendar) now.clone();
+		past.add(Calendar.MONTH, -3);
 
 		DataFeed feed = manager.getData(IDS, METRICS, DIMENSIONS,
-				twoMonthsAgo.getTime(), now.getTime());
+				past.getTime(), now.getTime());
 
 		String metrics = manager.getDatedMetricsAsString(feed);
 
@@ -138,6 +142,30 @@ public class ApplicationData {
 
 	public void setInitialized(boolean initialized) {
 		this.initialized = initialized;
+	}
+
+	public int getEvents() {
+		return events;
+	}
+
+	public void setEvents(int events) {
+		this.events = events;
+	}
+
+	public int getVisits() {
+		return visits;
+	}
+
+	public void setVisits(int visits) {
+		this.visits = visits;
+	}
+
+	public int getPageviews() {
+		return pageviews;
+	}
+
+	public void setPageviews(int pageviews) {
+		this.pageviews = pageviews;
 	}
 
 	public int getReportedErrors() {
