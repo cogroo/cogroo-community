@@ -11,7 +11,7 @@
 <script type="text/javascript">
 	if (${justReported})
 	{
-		_gaq.push(['_trackEvent', 'Problems', 'report', '${login}']);
+		_gaq.push(['_trackEvent', 'Problems', 'succeeded report', '${login}']);
 	}
 </script>
 
@@ -113,9 +113,9 @@
 			  <th title="Tipo">Tipo</th>			<!-- 2 -->
 			  <th title="Texto">Texto</th>		<!-- 3 -->
 			  <th title="Alterado em">Alterado em</th>	<!-- 4 -->
-			  <th title="Comentários">#C</th>	<!-- 5 -->
+			  <th title="Comentários">Comentários</th>	<!-- 5 -->
 			  <th title="Versão">Versão</th>		<!-- 6 -->
-			  <th title="Usuário">Usuário</th>		<!-- 7 -->
+			  <th title="Login">Login</th>		<!-- 7 -->
 			  <th>Detalhes</th>		<!-- 8 -->
 			</tr>
 		</thead>
@@ -144,7 +144,7 @@
 					<td><span title="${errorEntry.modified}"></span><fmt:formatDate type="both" dateStyle="long" value="${errorEntry.modified}" /></td>
 					<td>${errorEntry.commentCount}</td>
 					<td>${errorEntry.version.version}</td>
-					<td>${errorEntry.submitter.name}</td>
+					<td>${errorEntry.submitter.login}</td>
 	  			  	<td>
   					<c:if test="${(errorEntry.submitter.login == loggedUser.user.login) || (loggedUser.user.login == 'admin') }"> 
 						<a onclick="remove_error('_${ i.count }'); return false;" id="_${ i.count }" href="about:blank" class="remove_error">excluir</a>
