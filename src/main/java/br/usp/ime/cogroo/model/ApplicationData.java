@@ -102,18 +102,13 @@ public class ApplicationData {
 	}
 
 	private synchronized void updateStats() {
-		Calendar now = Calendar.getInstance();
-		now.add(Calendar.DATE, -1);
-		Calendar past = (Calendar) now.clone();
-		past.add(Calendar.MONTH, -3);
-		
-		DataFeed aggregatedFeed = manager.getData(IDS, METRICS, null,
-				LAUNCH_DAY.getTime(), now.getTime());
+		Calendar yesterday = Calendar.getInstance();
+		yesterday.add(Calendar.DATE, -1);
 
-		DataFeed temporalFeed = manager.getData(IDS, METRICS, DIMENSIONS,
-				past.getTime(), now.getTime());
+		DataFeed feed = manager.getData(IDS, METRICS, DIMENSIONS,
+				LAUNCH_DAY.getTime(), yesterday.getTime());
 
-		String metrics = manager.getDatedMetricsAsString(temporalFeed);
+		String metrics = manager.getDatedMetricsAsString(feed);
 
 		String header = "data,eventos,visitas,impressões"
 				+ System.getProperty("line.separator");
@@ -132,13 +127,13 @@ public class ApplicationData {
 			e.printStackTrace();
 		}
 
-		this.lastUpdated = zeroTime(now);
+		this.lastUpdated = zeroTime(Calendar.getInstance());
 		this.csvStatsFile = statsFile;
 		this.temporalData = metrics;
 		
-		setEvents(aggregatedFeed.aggregates.metrics.get(0).value);
-		setVisits(aggregatedFeed.aggregates.metrics.get(1).value);
-		setPageviews(aggregatedFeed.aggregates.metrics.get(2).value);
+		setEvents(feed.aggregates.metrics.get(0).value);
+		setVisits(feed.aggregates.metrics.get(1).value);
+		setPageviews(feed.aggregates.metrics.get(2).value);
 	}
 
 	public String getVersion() {

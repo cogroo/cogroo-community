@@ -112,8 +112,8 @@
 			  <th title="ID">#</th>			<!-- 1 -->
 			  <th title="Tipo">Tipo</th>			<!-- 2 -->
 			  <th title="Texto">Texto</th>		<!-- 3 -->
-			  <th title="Alterado em">Alterado em</th>	<!-- 4 -->
-			  <th title="Comentários">Comentários</th>	<!-- 5 -->
+			  <th title="Data da última alteração">Data</th>	<!-- 4 -->
+			  <th title="Número de comentários">Comentários</th>	<!-- 5 -->
 			  <th title="Versão">Versão</th>		<!-- 6 -->
 			  <th title="Login">Login</th>		<!-- 7 -->
 			  <th>Detalhes</th>		<!-- 8 -->
@@ -141,7 +141,7 @@
 				  		</c:otherwise>
 					</c:choose>
 					<td>${errorEntry.markedText}</td>
-					<td><span title="${errorEntry.modified}"></span><fmt:formatDate type="both" dateStyle="long" value="${errorEntry.modified}" /></td>
+					<td><span title="${errorEntry.modified}"></span><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${errorEntry.modified}" /></td>
 					<td>${errorEntry.commentCount}</td>
 					<td>${errorEntry.version.version}</td>
 					<td>${errorEntry.submitter.login}</td>
