@@ -14,7 +14,7 @@
       
       var str = "${appData.temporalData}";
       var entries = str.split(";")
-      data.addRows(entries.length);   
+      data.addRows(entries.length);  
       
       for (i=0;i<entries.length;i++) {
     	  var metrics = entries[i].split(",");
@@ -36,9 +36,13 @@
 
 <h3>Globais</h3>
 
+<p>Eventos: ${appData.events}</p>
+<p>Visitas: ${appData.visits}</p>
+<p>Impressões: ${appData.pageviews}</p>
+<br />
 <p>Erros reportados: ${appData.reportedErrors}</p>
 <p>Palavras no dicionário: ${appData.dictionaryEntries}</p>
-<p>Membros cadastrados: ${appData.registeredMembers}</p>
+<p>Membros: ${appData.registeredMembers}</p>
 <br />
 <p>Usuários online: ${appData.onlineUsers}</p>
 <p>Visitantes: ${appData.onlineVisits}</p>
@@ -80,7 +84,7 @@
 </table>
 <br />
 
-<h4>Usuários inativos (sem login há mais de um mês)</h4>
+<h4>Usuários inativos</h4>
 <table cellpadding="0" cellspacing="0" border="0" class="display"
 	id="inactive_users">
 	<thead>
@@ -109,7 +113,7 @@
 <br />
 <br />
 
-<h4>Últimos usuários online (por ordem de login)</h4>
+<h4>Últimos usuários online</h4>
 <table cellpadding="0" cellspacing="0" border="0" class="display"
 	id="last_online_users">
 	<thead>

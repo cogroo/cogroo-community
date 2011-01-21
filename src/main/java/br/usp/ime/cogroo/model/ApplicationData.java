@@ -25,9 +25,9 @@ public class ApplicationData {
 
 	private AnalyticsManager manager;
 	
-	private int events;
-	private int visits;
-	private int pageviews;
+	private AtomicInteger events = new AtomicInteger();
+	private AtomicInteger visits = new AtomicInteger();
+	private AtomicInteger pageviews = new AtomicInteger();
 
 	private AtomicInteger reportedErrors = new AtomicInteger();
 	private AtomicInteger dictionaryEntries = new AtomicInteger();
@@ -43,6 +43,12 @@ public class ApplicationData {
 	private File csvFolder;
 	private File csvStatsFile;
 	private String temporalData;
+	
+	private static final Calendar LAUNCH_DAY = Calendar.getInstance();
+	static {
+		LAUNCH_DAY.clear();
+		LAUNCH_DAY.set(2010, 10, 10);
+	}
 
 	private static final long ONE_DAY = 24 * 60 * 60 * 1000L;
 
@@ -63,7 +69,7 @@ public class ApplicationData {
 		this.manager = manager;
 		csvFolder = new File(context.getRealPath("/WEB-INF/csv"));
 		csvFolder.mkdir();
-		generateStats();
+		updateStats();
 	}
 
 	@PostConstruct
@@ -77,14 +83,14 @@ public class ApplicationData {
 	public File getCsvStatsFile() {
 		Calendar now = Calendar.getInstance();
 		if (now.getTimeInMillis() - lastUpdated.getTimeInMillis() > ONE_DAY)
-			generateStats();
+			updateStats();
 		return csvStatsFile;
 	}
 
 	public String getTemporalData() {
 		Calendar now = Calendar.getInstance();
 		if (now.getTimeInMillis() - lastUpdated.getTimeInMillis() > ONE_DAY)
-			generateStats();
+			updateStats();
 		return temporalData;
 	}
 
@@ -95,16 +101,19 @@ public class ApplicationData {
 		return calendar;
 	}
 
-	private synchronized void generateStats() {
+	private synchronized void updateStats() {
 		Calendar now = Calendar.getInstance();
 		now.add(Calendar.DATE, -1);
 		Calendar past = (Calendar) now.clone();
 		past.add(Calendar.MONTH, -3);
+		
+		DataFeed aggregatedFeed = manager.getData(IDS, METRICS, null,
+				LAUNCH_DAY.getTime(), now.getTime());
 
-		DataFeed feed = manager.getData(IDS, METRICS, DIMENSIONS,
+		DataFeed temporalFeed = manager.getData(IDS, METRICS, DIMENSIONS,
 				past.getTime(), now.getTime());
 
-		String metrics = manager.getDatedMetricsAsString(feed);
+		String metrics = manager.getDatedMetricsAsString(temporalFeed);
 
 		String header = "data,eventos,visitas,impressões"
 				+ System.getProperty("line.separator");
@@ -126,6 +135,10 @@ public class ApplicationData {
 		this.lastUpdated = zeroTime(now);
 		this.csvStatsFile = statsFile;
 		this.temporalData = metrics;
+		
+		setEvents(aggregatedFeed.aggregates.metrics.get(0).value);
+		setVisits(aggregatedFeed.aggregates.metrics.get(1).value);
+		setPageviews(aggregatedFeed.aggregates.metrics.get(2).value);
 	}
 
 	public String getVersion() {
@@ -145,27 +158,37 @@ public class ApplicationData {
 	}
 
 	public int getEvents() {
-		return events;
+		Calendar now = Calendar.getInstance();
+		if (now.getTimeInMillis() - lastUpdated.getTimeInMillis() > ONE_DAY) {
+			updateStats();
+		}
+		return events.get();
 	}
 
 	public void setEvents(int events) {
-		this.events = events;
+		this.events.set(events);
 	}
 
 	public int getVisits() {
-		return visits;
+		Calendar now = Calendar.getInstance();
+		if (now.getTimeInMillis() - lastUpdated.getTimeInMillis() > ONE_DAY)
+			updateStats();
+		return visits.get();
 	}
 
 	public void setVisits(int visits) {
-		this.visits = visits;
+		this.visits.set(visits);
 	}
 
 	public int getPageviews() {
-		return pageviews;
+		Calendar now = Calendar.getInstance();
+		if (now.getTimeInMillis() - lastUpdated.getTimeInMillis() > ONE_DAY)
+			updateStats();
+		return pageviews.get();
 	}
 
 	public void setPageviews(int pageviews) {
-		this.pageviews = pageviews;
+		this.pageviews.set(pageviews);
 	}
 
 	public int getReportedErrors() {

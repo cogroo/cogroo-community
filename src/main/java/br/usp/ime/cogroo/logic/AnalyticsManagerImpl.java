@@ -140,7 +140,8 @@ public class AnalyticsManagerImpl implements AnalyticsManager {
 				"https://www.google.com/analytics/feeds/data");
 		url.ids = ids;
 		url.setMetrics(metrics);
-		url.setDimensions(dimensions);
+		if (dimensions != null)
+			url.setDimensions(dimensions);
 		url.setStartDate(startDate);
 		url.setEndDate(endDate);
 		// url.prettyprint = true;
@@ -257,7 +258,7 @@ public class AnalyticsManagerImpl implements AnalyticsManager {
 		Calendar today = Calendar.getInstance();
 		today.add(Calendar.DATE, -1);
 		Calendar monthAgo = (Calendar) today.clone();
-		monthAgo.add(Calendar.MONTH, -1);
+		monthAgo.add(Calendar.DATE, -2);
 
 		AnalyticsManager manager = new AnalyticsManagerImpl("CoGrOO Comunidade",
 				BuildUtil.ANALYTICS_USR, BuildUtil.ANALYTICS_PWD);
@@ -268,8 +269,8 @@ public class AnalyticsManagerImpl implements AnalyticsManager {
 		metrics.add("ga:totalEvents");
 
 		ArrayList<String> dimensions = new ArrayList<String>(1);
-		dimensions.add("ga:date");
-
+		dimensions.add("ga:visitCount");
+		
 		DataFeed feed = manager.getData("ga:38929232", metrics, dimensions,
 				monthAgo.getTime(), today.getTime());
 

@@ -31,7 +31,7 @@ public class DataFeed {
 	@Key("dxp:endDate")
 	public String endDate;
 	@Key("dxp:aggregates")
-	public List<Metric> aggregates;
+	public Aggregates aggregates;
 	@Key("dxp:dataSource")
 	public List<Source> dataSource;
 	// @Key("dxp:segment") public String segment;
@@ -56,6 +56,11 @@ public class DataFeed {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public static class Aggregates {
+		@Key("dxp:metric")
+		public List<Metric> metrics;
 	}
 
 	public static class Metric {
