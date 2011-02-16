@@ -216,11 +216,12 @@ table.answer td {
 						</div>
 						<div style="display: none;" class="disscussion_reply_form" id="reply_${ i.count }">
 							<form method="post" action="<c:url value="/errorEntryAddAnswerToComment"/>">
-								<legend>Responder esta discussão:</legend><br/>
-							    <textarea class="answerText" id="answerText${comment.id}" name="answer" cols="80" rows="4"></textarea><br>
+								<legend>Responder a esta discussão:</legend><br/>
+							    <textarea class="answerText" id="answerText${comment.id}" name="answer" cols="80" rows="4"></textarea>
 							    <input name="errorEntry.id" value="${errorEntry.id}" type="hidden" />
 							    <input name="comment.id" value="${comment.id}" type="hidden" />
-							    <span class="count" id="count${comment.id}">700</span> <input type="submit" id="go" value=" Responder &raquo; ">
+							    <span class="count" id="count${comment.id}">700</span> caracteres restantes<br>
+							    <input type="submit" id="go" value=" Responder &raquo; ">
 							</form>
 						</div>
 					</c:if>
@@ -231,9 +232,10 @@ table.answer td {
 		<c:if test="${loggedUser.logged}">
 			<form method="post" action="<c:url value="/errorEntryAddComment"/>">
 				<legend>Novo comentário:</legend><br/>
-			    <textarea id="newCommentText" name="newComment" cols="80" rows="4"></textarea><br>
+			    <textarea id="newCommentText" name="newComment" cols="80" rows="4"></textarea>
 			    <input name="errorEntry.id" value="${errorEntry.id}" type="hidden" />
-			    <span id="newCommentTextCount">700</span> <input type="submit" id="go" value=" Enviar &raquo; ">
+			    <span id="newCommentTextCount">700</span> caracteres restantes<br>
+			    <input type="submit" id="go" value=" Enviar &raquo; ">
 			</form>
 		</c:if>
 	</div>

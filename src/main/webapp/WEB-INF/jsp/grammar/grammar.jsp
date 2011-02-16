@@ -29,8 +29,8 @@
 		<p>Digite um texto para buscar erros gramaticais com o CoGrOO:</p>
 		<form action="<c:url value="/grammar"/>"  method="post" >
 		    <textarea rows="4" cols="70" name="text" id="text">${text}</textarea>
-		    <br/>
-		    <span id="count">255</span> <input type="submit" value=" Analisar &raquo; " id="go"/>
+		    <span id="count">255</span> caracteres restantes<br>
+		    <input type="submit" value=" Analisar &raquo; " id="go"/>
 		</form>
 		<c:set var="processResultList" scope="request" value="${processResultList}" />    
 		<c:set var="id" scope="request" value="id" />

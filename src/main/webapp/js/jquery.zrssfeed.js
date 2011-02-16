@@ -98,7 +98,7 @@
 			
 			// Add feed row
 			html += '<div class="newsEntry">' + 
-				'<'+ options.titletag +'><a href="'+ entry.link +'" title="View this feed at '+ feeds.title +'">'+ entry.title +'</a></'+ options.titletag +'>'
+				'<'+ options.titletag +'><a href="'+ entry.link +'" title="Veja essa notícia em '+ feeds.title +'">'+ entry.title +'</a></'+ options.titletag +'>'
 			if (options.date) html += '<div class="newsPubDate">'+ pubDate +'</div>'
 			if (options.content) {
 			

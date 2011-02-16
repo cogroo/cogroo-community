@@ -32,17 +32,20 @@
 
 
 <div>
-	<p>Digite a palavra que deseja procurar no dicionário:</p>
+	<p>Digite a palavra que deseja procurar no léxico:</p>
 	<form action="<c:url value="/dictionaryEntrySearch"/>" method="post">
-		<input type="text" id="word" value="${word}" name="word"  maxlength="128"/> 
+		<input type="text" id="word" value="${word}" name="word"  maxlength="128"/><br>
 		<input type="submit" value=" Procurar &raquo; " id="go" />
 	</form>
 </div>
 
 <div class="search">
 	<c:choose>
+		<c:when	test="${empty word}">
+			<p>É necessário digitar uma palavra.</i></p>
+		</c:when>
 		<c:when	test="${dictionaryEntryList ne null and empty dictionaryEntryList}">
-			<p>Não foi possível encontrar a palavra <i>${word}</i></p>
+			<p>Não foi possível encontrar a palavra <i>${word}</i>.</p>
 		</c:when>
 		<c:when test="${not empty dictionaryEntryList}">
 			<form action="<c:url value="/dictionaryEntryDelete"/>" method="post">
@@ -54,7 +57,7 @@
 					<tr>
 <!--						<th></th>-->
 						<th>Palavra</th>
-						<th>Lemma</th>
+						<th>Radical</th>
 						<th>Etiqueta</th>
 					</tr>					
 				</thead>

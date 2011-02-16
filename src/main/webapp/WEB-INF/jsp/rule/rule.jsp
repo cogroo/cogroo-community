@@ -14,7 +14,7 @@
 </span>
 
 <div class="rule_details">
-	<h3>Detalhes da regra #${rule.id}</h3>
+	<h3>Detalhes da regra número ${rule.id}</h3>
 	<table class="attributes">
 		<tbody>
 			<tr>
@@ -48,7 +48,7 @@
 	<h3>Exemplos de erros</h3>
 		    			<c:forEach items="${exampleList}" var="example" varStatus="i">
 		    				<div class="dashed_white">
-								<b>incorreto:</b> <br />
+								<b>Incorreto:</b> <br />
 									<div class="analise_text_incorrect">
 										<p>${example.a.a}</p>
 									</div>
@@ -56,7 +56,7 @@
 									<c:set var="id" scope="request" value="i${i.count}" />
 									<c:set var="hidden" scope="request" value="hidden" />
 									<jsp:include page="/analysisdetails.jspf" /><br />
-								<b>correto:</b> <br />
+								<b>Correto:</b> <br />
 									<div class="analise_text_correct">
 										<p>${example.b.a}</p>
 									</div>

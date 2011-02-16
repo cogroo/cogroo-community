@@ -35,8 +35,9 @@
 				"sInfoEmpty": "Exibindo de 0 até 0 de um total de 0 entradas",
 				"sInfoFiltered": "(filtrados de um total de _MAX_ entradas)"
 			},
+			"aLengthMenu": [20,50,100,200],
 			"aaSorting": [[ 1, "asc" ]],
-			"iDisplayLength": 10,
+			"iDisplayLength": 20,
 			"aoColumns": [
 				{ "bSortable": false },
 				{ "sType": "num-html" }, 
@@ -78,7 +79,7 @@
 		<thead>
 			<tr>
 			  <th></th>
-			  <th>#</th>
+			  <th>Nº.</th>
 			  <th>Tipo</th>
 			  <th>Grupo</th>
 			  <th>Mensagem</th>

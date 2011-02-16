@@ -119,21 +119,22 @@
 				</ul>
 			</li>
 			<li><a title="Experimente o CoGrOO e explore os resultados: erros gramaticais, análise morfológica e de agrupamentos." href="<c:url value="/grammar"/>">Análise Gramatical</a></li>
-			<li><span title="Explore o dicionário do CoGrOO. No futuro, será possível editar e criar novas entradas.">Dicionário</span>
+			<li><a title="Explore o léxico do CoGrOO. No futuro, será possível editar e criar novas entradas." href="<c:url value="/dictionaryEntrySearch"/>">Léxico</a></li>
+			<!--<li><span title="Explore o léxico do CoGrOO. No futuro, será possível editar e criar novas entradas.">Léxico</span>
 				<ul>
 					<li><a title="Faça consultas ao léxico" href="<c:url value="/dictionaryEntrySearch"/>">Consultar palavra</a></li>
-					<!--<c:if test="${loggedUser.logged}">
+					<c:if test="${loggedUser.logged}">
 						<li><a href="<c:url value="/dictionaryEntry"/>">Inserir Palavra</a></li>
 						<li><a href="<c:url value="/dictionaryEntries"/>">Minhas palavras</a></li>					
-					</c:if>-->
+					</c:if>
 				</ul>
-			</li>
+			</li>-->
 			<li><a title="Explore as regras implementadas no CoGrOO. No futuro, será possível editar e criar novas regras." href="<c:url value="/ruleList"/>">Regras</a></li>
 			<!-- <li><a href="#">Sugestões</a></li> -->
 			<li><span title="Veja os problemas reportados pela comunidade e contribua!">Problemas</span>
 				<ul>
-					<li><a title="Veja a lista de erros reportados" href="<c:url value="/errorEntries"/>">Reportados</a></li>
-					<li><a title="Reporte um novo problema"  href="<c:url value="/reportNewError"/>">Reportar problema</a></li>
+					<li><a title="Veja a lista de problemas reportados" href="<c:url value="/errorEntries"/>">Reportados</a></li>
+					<li><a title="Reporte um novo problema"  href="<c:url value="/grammar"/>">Reportar problema</a></li>
 				</ul>
 			</li>
 			<li><span title="Links relacionados ao CoGrOO.">Links</span>
@@ -149,9 +150,9 @@
 	
 <!--	<c:if test="${not empty errors}">-->
 		<div id="message_error">
-			<p>Message error</p>			
+			<p>Mensagem de erro</p>			
 			<c:forEach var="error" items="${errors}">
-			    <span style="color: red">[<fmt:message  key="${error.category}"/>] <i><fmt:message  key="${error.message}"/></i></span><br />
+			    <span style="color: white">[<fmt:message  key="${error.category}"/>] <i><fmt:message  key="${error.message}"/></i></span><br />
 			</c:forEach>
 		</div>
 <!--	</c:if>-->

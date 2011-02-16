@@ -92,8 +92,8 @@ ul#nav li a:hover {
 }
 
 #message_error {
-	background-color: #AA0000;
-	border: 1px solid #FF5555;
+	background-color: #FF5555;
+	border: 1px solid #AA0000;
 	margin: 0 0 0px;
 	padding: 12px 25px;
 }

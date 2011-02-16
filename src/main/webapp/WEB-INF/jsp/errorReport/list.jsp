@@ -60,8 +60,9 @@
 				"sInfoEmpty": "Exibindo de 0 até 0 de um total de 0 entradas",
 				"sInfoFiltered": "(filtrados de um total de _MAX_ entradas)"
 			},
+			"aLengthMenu": [20,50,100,200],
 			"aaSorting": [[ 4, 'desc' ]],
-			"iDisplayLength": 10,
+			"iDisplayLength": 20,
 			"aoColumns": [
 				{ "bSortable": false }, 	//0
 				{ "sType": "num-html" }, 	//1
@@ -104,14 +105,15 @@
 
 <h2>Problemas reportados</h2>
 	<p>Exibe todos os problemas reportados através da página e do plug-in CoGrOO para BrOffice.org.</p>
+	<p>Clique no número do problema reportado para detalhes.</p>
 	<br />
 	<table cellpadding="0" cellspacing="0" border="0" class="display" id="errorList">
 		<thead>
 			<tr>
 			  <th></th> 			<!-- 0 -->
-			  <th title="ID">#</th>			<!-- 1 -->
+			  <th title="Número">Nº.</th>			<!-- 1 -->
 			  <th title="Tipo">Tipo</th>			<!-- 2 -->
-			  <th title="Texto">Texto</th>		<!-- 3 -->
+			  <th title="Sentença com problema">Sentença com problema</th>		<!-- 3 -->
 			  <th title="Data da última alteração">Data</th>	<!-- 4 -->
 			  <th title="Número de comentários">Comentários</th>	<!-- 5 -->
 			  <th title="Versão">Versão</th>		<!-- 6 -->
