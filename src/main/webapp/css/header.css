@@ -1,34 +1,38 @@
 body {
-  text-align: center;
+	text-align: center;
 }
+
 a {
-  text-decoration: none;
+	text-decoration: none;
 }
+
 a:hover {
-  text-decoration: underline;
+	text-decoration: underline;
 }
+
 #wrap {
-  width: 800px; 
-  margin: 0 auto;
-  text-align: left;
+	width: 1024px;
+	margin: 0 auto;
+	text-align: left;
 }
 
 #header {
-  background: #336699;
+	background: #336699;
 }
 
 #logoCogroo {
-  background: #336699 url(../images/cogroo_comunidade.png) no-repeat scroll 0% 50%;
-  height: 100px; 
-  width: 400px;
-  position: absolute;
-  top: 0px;
+	background: #336699 url(../images/cogroo_comunidade.png) no-repeat
+		scroll 0% 50%;
+	height: 100px;
+	width: 400px;
+	position: absolute;
+	top: 0px;
 }
 
 #logoCogrooLink {
-  height: 100px; 
-  width: 400px;
-  display: block;
+	height: 100px;
+	width: 400px;
+	display: block;
 }
 
 #logoBROffice {
@@ -38,60 +42,64 @@ a:hover {
 	position: relative;
 	border: none;
 	top: 0px;
-	margin-left: 400px;
+	margin-left: 624px;
 	height: 100px;
 	width: 400px;
 }
+
 .clear {
-  clear: both;
+	clear: both;
 }
 
 ul#nav {
-  overflow: hidden;
-  padding-left: 80px;
-  padding-top: 10px;
+	overflow: hidden;
+	padding-left: 80px;
+	padding-top: 10px;
 }
+
 ul#nav li {
-  float: left;
-  height: 50px;
+	float: left;
+	height: 50px;
 }
+
 ul#nav li a {
-  padding: 0px 35px;
-  height: 50px;
-  line-height: 32px;
+	padding: 0px 35px;
+	height: 50px;
+	line-height: 32px;
 }
+
 ul#nav li a:hover {
-  padding: 8px 35px;
-/*  background: transparent url(images/nav_hover.gif) no-repeat scroll 0% 50%; */
-  background: #c7c8bc no-repeat scroll 0% 50%;
-  height: 40px;
-  line-height: 32px;
+	padding: 8px 35px;
+	/*  background: transparent url(images/nav_hover.gif) no-repeat scroll 0% 50%; */
+	background: #c7c8bc no-repeat scroll 0% 50%;
+	height: 40px;
+	line-height: 32px;
 }
 
 .login {
-  margin:4px 0 0 10px;
-  padding:2px 10px;
-  float: right;
+	margin: 4px 0 0 10px;
+	padding: 2px 10px;
+	float: right;
 }
 
 .login_roundcorner {
-	-moz-border-radius:5px 5px 5px 5px;
-	background-color:#F0F0FF; 
-	margin:2px 10px;
-	padding:4px;
-	position:relative;
-	z-index:3;
+	-moz-border-radius: 5px 5px 5px 5px;
+	background-color: #F0F0FF;
+	margin: 2px 10px;
+	padding: 4px;
+	position: relative;
+	z-index: 3;
 }
 
 #message_error {
-	background-color:#AA0000;
-	border:1px solid #FF5555;
-	margin:0 0 0px;
-	padding:12px 25px;
+	background-color: #AA0000;
+	border: 1px solid #FF5555;
+	margin: 0 0 0px;
+	padding: 12px 25px;
 }
 
 #message_error p {
-	color:#FFFFFF;
-	font:bold 16px "Trebuchet MS","Liberation Sans",sans-serif;
-	text-align:center;
+	color: #FFFFFF;
+	font: bold 16px "Trebuchet MS", "Liberation Sans", sans-serif;
+	text-align: center;
 }

@@ -50,7 +50,7 @@
 <br />
 
 <h3>Temporais</h3>
-<div id="visualization" style="width: 740px; height: 400px;"></div>	
+<div id="visualization" style="width: 964px; height: 400px;"></div>	
 <p class="right"><a href="<c:url value="/stats/EstatisticasCogrooComunidade.csv"/>" ><b>download</b></a></p>
 <br />
 

@@ -24,7 +24,7 @@ public class StatsController {
 	
 	private static final Logger LOG = Logger.getLogger(StatsController.class);
 
-	private static final int N = 10;
+	private static final int N = 15;
 
 	private final Result result;
 	private final ApplicationData appData;
