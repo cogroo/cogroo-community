@@ -29,6 +29,8 @@ import br.usp.ime.cogroo.model.errorreport.Comment;
 import br.usp.ime.cogroo.model.errorreport.ErrorEntry;
 import br.usp.ime.cogroo.model.errorreport.GrammarCheckerBadIntervention;
 import br.usp.ime.cogroo.model.errorreport.GrammarCheckerOmission;
+import br.usp.ime.cogroo.model.errorreport.Priority;
+import br.usp.ime.cogroo.model.errorreport.State;
 import br.usp.ime.cogroo.util.BuildUtil;
 import br.usp.pcs.lta.cogroo.errorreport.model.BadIntervention;
 import br.usp.pcs.lta.cogroo.errorreport.model.ErrorReport;
@@ -179,7 +181,9 @@ public class ErrorEntryLogic {
 							time, 
 							time,
 							null,
-							null);
+							null,
+							State.OPEN,
+							Priority.NORMAL);
 					
 					if(omission.getComment() != null && omission.getComment().length() > 0) {
 						List<Comment> comments = new ArrayList<Comment>();
@@ -219,7 +223,9 @@ public class ErrorEntryLogic {
 							time, 
 							time,
 							null,
-							null);
+							null,
+							State.OPEN,
+							Priority.NORMAL);
 					
 					if(badIntervention.getComment() != null && badIntervention.getComment().length() > 0) {
 						List<Comment> comments = new ArrayList<Comment>();
@@ -294,7 +300,9 @@ public class ErrorEntryLogic {
 							time, 
 							time,
 							null,
-							null);
+							null,
+							State.OPEN,
+							Priority.NORMAL);
 					
 					if(omissionComment.get(i) != null && omissionComment.get(i).length() > 0) {
 						List<Comment> comments = new ArrayList<Comment>();
@@ -343,7 +351,9 @@ public class ErrorEntryLogic {
 							time, 
 							time,
 							null,
-							null);
+							null,
+							State.OPEN,
+							Priority.NORMAL);
 					
 					if(badintComments.get(i) != null && badintComments.get(i).length() > 0) {
 						List<Comment> comments = new ArrayList<Comment>();

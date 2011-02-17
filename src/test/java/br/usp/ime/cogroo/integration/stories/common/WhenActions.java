@@ -24,9 +24,28 @@ public class WhenActions {
 	}
 
 	public void iSignUpAs(String username) {
-		browser.click("link=Efetuar login");
-		browser.type("user.name", username);
-		browser.click("login");
+		browser.click("//div[@id='loginlink']/p/a/b");
+		browser.type("login", username);
+		browser.click("//input[@value=' entrar » ']");
+	}
+	
+	public void iRegisterAs(String username,
+			String email,
+			String password,
+			String repeatPassword,
+			String name,
+			Boolean agree) {
+		browser.click("//div[@id='loginlink']/p/a/b");
+		browser.click("//div[@id='logform']/form/p/a[1]/b");
+		browser.type("login", username);
+		browser.type("email", email);
+		browser.type("pw", password);
+		browser.type("passwordRepeat", repeatPassword);
+		browser.type("name", name);
+		if(agree) {
+			browser.click("iAgree");
+		}
+		browser.click("//input[@value=' Inscrever-se » ']");
 	}
 
 	public void iLogout() {

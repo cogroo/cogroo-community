@@ -115,6 +115,9 @@
 			<li><span title="Acompanhe notícias e saiba mais sobre o projeto.">Comunidade</span>
 				<ul>
 					<li><a title="Notícias do projeto" href="<c:url value="/"/>">Página inicial</a></li>
+					<c:if test="${loggedUser.logged}">
+						<li><a title="Usuários do Cogroo Comunidade" href="<c:url value="/userList"/>">Usuários</a></li>
+					</c:if>
 					<li><a title="Histórico do Cogroo Comunidade" href="<c:url value="/about"/>">Sobre</a></li>
 				</ul>
 			</li>

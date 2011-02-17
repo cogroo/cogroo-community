@@ -19,7 +19,7 @@ public class GivenContexts {
 	}
 
 	public GivenContexts theUserDoesntExist(String string) {
-		// TODO Verificação que o usuário ainda não existe, como não guarda usuário por enquanto não faz nada
+		
 		return this;
 	}
 
@@ -29,6 +29,7 @@ public class GivenContexts {
 
 	public GivenContexts thereisAnUserNamed(String string) {
 		// TODO usuários ainda não sao salvos no bd, mas posteriormente este metodo iria criar ele.
+		
 		return this;
 	}
 

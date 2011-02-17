@@ -68,11 +68,13 @@
 				{ "sType": "num-html" }, 	//1
 				null,						//2
 				null,  						//3
-				{ "sType": "title-string" },//4
-				null,						//5
-				null,  						//6
+				null,						//4
+				null,  						//5
+				{ "sType": "title-string" },//6
 				null,						//7
-				{ "bVisible": false }		//8
+				null,  						//8
+				null,						//9
+				{ "bVisible": false }		//10
 			]
 		} );
 		
@@ -115,12 +117,14 @@
 			  <th></th> 			<!-- 0 -->
 			  <th title="Número">Nº.</th>			<!-- 1 -->
 			  <th title="Tipo">Tipo</th>			<!-- 2 -->
-			  <th title="Sentença com problema">Sentença com problema</th>		<!-- 3 -->
-			  <th title="Data da última alteração">Data</th>	<!-- 4 -->
-			  <th title="Número de comentários">Comentários</th>	<!-- 5 -->
-			  <th title="Versão">Versão</th>		<!-- 6 -->
-			  <th title="Login">Login</th>		<!-- 7 -->
-			  <th>Detalhes</th>		<!-- 8 -->
+			  <th title="Situação">Situação</th>				<!-- 3 -->
+			  <th title="Prioridade">Prioridade</th>			<!-- 4 -->
+			  <th title="Sentença com problema">Sentença com problema</th>		<!-- 5 -->
+			  <th title="Data da última alteração">Data</th>	<!-- 6 -->
+			  <th title="Número de comentários">Comentários</th>	<!-- 7 -->
+			  <th title="Versão">Versão</th>		<!-- 8 -->
+			  <th title="Login">Login</th>		<!-- 9 -->
+			  <th>Detalhes</th>		<!-- 10 -->
 			</tr>
 		</thead>
 		<tbody>
@@ -144,6 +148,8 @@
 				    		<td>Omissão</td>
 				  		</c:otherwise>
 					</c:choose>
+					<td><fmt:message key="${errorEntry.state}" /></td>
+					<td><fmt:message key="${errorEntry.priority}" /></td>
 					<td>${errorEntry.markedText}</td>
 					<td><span title="${errorEntry.modified}"></span><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${errorEntry.modified}" /></td>
 					<td>${errorEntry.commentCount}</td>

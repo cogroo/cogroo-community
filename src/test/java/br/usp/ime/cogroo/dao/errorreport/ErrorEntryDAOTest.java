@@ -16,6 +16,8 @@ import br.usp.ime.cogroo.dao.UserDAO;
 import br.usp.ime.cogroo.model.GrammarCheckerVersion;
 import br.usp.ime.cogroo.model.User;
 import br.usp.ime.cogroo.model.errorreport.ErrorEntry;
+import br.usp.ime.cogroo.model.errorreport.Priority;
+import br.usp.ime.cogroo.model.errorreport.State;
 
 public class ErrorEntryDAOTest {
 
@@ -59,6 +61,8 @@ public class ErrorEntryDAOTest {
 				new Date(),
 				new Date(), 
 				null, 
+				null, 
+				null, 
 				null);
 		ErrorEntry error2 = new ErrorEntry(
 				"A sample text", 
@@ -69,7 +73,9 @@ public class ErrorEntryDAOTest {
 				new Date(),
 				new Date(), 
 				null, 
-				null);
+				null, 
+				State.CLOSED, 
+				Priority.IMMEDIATE);
 		
 		em.getTransaction().begin();
 		errorReportDAO.add(error1);
@@ -85,6 +91,33 @@ public class ErrorEntryDAOTest {
 		}
 		
 		assertEquals(2, reports.size());
+	}
+	
+	@Test
+	public void testPriority() {
+		List<ErrorEntry> reports =  errorReportDAO.listAll();
+
+		assertEquals(Priority.NORMAL, reports.get(0).getPriority());
+		assertEquals(State.OPEN, reports.get(0).getState());
+		
+		assertEquals(Priority.IMMEDIATE, reports.get(1).getPriority());
+		assertEquals(State.CLOSED, reports.get(1).getState());
+	}
+	
+	@Test
+	public void testPriority2() {
+		List<ErrorEntry> reports =  errorReportDAO.listAll();
+		
+		reports.get(0).setPriority(Priority.HIGH);
+		reports.get(0).setState(State.FEEDBACK);
+
+		em.getTransaction().begin();
+		errorReportDAO.update(reports.get(0));
+		em.getTransaction().commit();
+		
+		List<ErrorEntry> reports1 =  errorReportDAO.listAll();
+		assertEquals(Priority.HIGH, reports1.get(0).getPriority());
+		assertEquals(State.FEEDBACK, reports1.get(0).getState());
 	}
 	
 }

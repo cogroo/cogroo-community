@@ -12,6 +12,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
+import br.usp.ime.cogroo.security.Role;
+import br.usp.ime.cogroo.security.RoleProvider;
+
 @Entity
 public class User {
 
@@ -45,6 +48,9 @@ public class User {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	private List<WordUser> wordUserList = new ArrayList<WordUser>();
+	
+	@Column(length = 10)
+	private String roleName;
 
 	public User() {
 	}
@@ -130,6 +136,28 @@ public class User {
 
 	public String getName() {
 		return name;
+	}
+
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
+	}
+
+	public String getRoleName() {
+		return roleName;
+	}
+	
+	@Transient
+	public Role getRole() {
+		Role r = RoleProvider.getInstance().getRoleForName(roleName);
+		if(r == null) {
+			r = RoleProvider.getInstance().getRoleForName(br.usp.ime.cogroo.security.User.ROLE_NAME);
+		}
+		return r;
+	}
+	
+	@Transient
+	public void setRole(Role role) {
+		this.roleName = role.getRoleName();
 	}
 
 }

@@ -51,13 +51,17 @@ public class ErrorEntry {
 	@OneToOne(mappedBy = "errorEntry", cascade = CascadeType.ALL)
 	private GrammarCheckerOmission omission;
 	
+	private State state;
+	
+	private Priority priority;
+	
 	@Transient
 	private boolean isNew = false;
 
 	public ErrorEntry(String text, int start, int end, List<Comment> comments,
 			GrammarCheckerVersion version, User submitter, Date creation,
 			Date modified, GrammarCheckerBadIntervention badIntervention,
-			GrammarCheckerOmission omissions) {
+			GrammarCheckerOmission omissions, State state, Priority priority) {
 		this.text = text;
 		this.spanStart = start;
 		this.spanEnd = end;
@@ -68,6 +72,8 @@ public class ErrorEntry {
 		this.modified = modified;
 		this.badIntervention = badIntervention;
 		this.omission = omissions;
+		this.state = state;
+		this.priority = priority;
 	}
 
 	public ErrorEntry() {
@@ -171,6 +177,28 @@ public class ErrorEntry {
 
 	public void setOmission(GrammarCheckerOmission omission) {
 		this.omission = omission;
+	}
+	
+	public State getState() {
+		if(state == null) {
+			this.state = State.OPEN;
+		}
+		return state;
+	}
+
+	public void setState(State state) {
+		this.state = state;
+	}
+
+	public Priority getPriority() {
+		if(priority == null) {
+			this.priority = Priority.NORMAL;
+		}
+		return priority;
+	}
+
+	public void setPriority(Priority priority) {
+		this.priority = priority;
 	}
 	
 	public String getMarkedText() {

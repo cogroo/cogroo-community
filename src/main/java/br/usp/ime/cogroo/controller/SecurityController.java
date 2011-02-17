@@ -7,9 +7,7 @@ import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.Validator;
-import br.com.caelum.vraptor.validator.ValidationMessage;
 import br.usp.ime.cogroo.dao.UserDAO;
-import br.usp.ime.cogroo.exceptions.Messages;
 import br.usp.ime.cogroo.logic.SecurityUtil;
 import br.usp.ime.cogroo.util.RestUtil;
 
