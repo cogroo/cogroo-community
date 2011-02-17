@@ -82,7 +82,7 @@
 									</table>
 								</c:when>
 								<c:otherwise>
-									<p>Nenhum erro gramatical encontrado.</p>
+									<p>Nenhum erro gramatical encontrado.</p><br/>
 								</c:otherwise>
 							</c:choose>
 							<h3>Análise morfológica</h3>

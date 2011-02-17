@@ -8,7 +8,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>CoGrOO Comunidade</title>
-  <meta name="keywords" content="cogroo, cogroo comunidade, corretor gramatical, análise gramatical, português, openoffice, libreoffice, broffice, grammar checker, online grammar checker, corretor online, crase" />
+  <meta name="keywords" content="cogroo, comunidade, cogroo comunidade, corretor gramatical, análise gramatical, português, openoffice, libreoffice, broffice, grammar checker, online grammar checker, corretor online" />
   <meta name="description" content="O CoGrOO Comunidade é um portal colaborativo para aprimorar o CoGrOO, o corretor gramatical em português para BrOffice."/>
   <meta name="language" content="pt-br"/>
   <link rel="shortcut icon" href="<c:url value="/favicon.ico"/>" />
@@ -23,6 +23,7 @@
 	<script src="<c:url value='/js/jquery.js' />" type="text/javascript" ></script>
 	<script src="<c:url value='/js/jquery.linha.nav.js' />" type="text/javascript" ></script>
 	<script src="<c:url value='/js/onoff.js' />" type="text/javascript" ></script>
+	<script src="<c:url value='/js/openclose.js' />" type="text/javascript" ></script>
 	<script type="text/javascript">
 	//<![CDATA[
 	$(document).ready(function() {

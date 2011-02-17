@@ -144,10 +144,9 @@ $(document).ready(function() {
 						<h3>Intervenção ${ i.count }:</h3>
 						
 							<div class="analise_text_incorrect">
-								<p><b>${singleGrammarError.annotatedText}</b></p>
+								<p><a onclick="onOff('helpBadInt_${ i.count }'); openClose('openCloseBadInt_${ i.count }'); return false" href="#"><img id="openCloseBadInt_${ i.count }" src="<c:url value='/images/details_open.png' />"></a> <b>${singleGrammarError.annotatedText}</b></p>
 							</div>
 							
-							<a onclick="onOff('helpBadInt_${ i.count }'); return false" href="#">detalhes</a> <br/>
 							<div id="helpBadInt_${ i.count }" style="display: none;" class="help">
 								<table border="0">
 									<tr>
@@ -168,6 +167,7 @@ $(document).ready(function() {
 									</tr>
 								</table>
 							</div>
+							<br/>
 							Classifique essa intervenção:<br/>
 							<select name="badint[${ i.count }]" 
 								ONCHANGE="if( this.selectedIndex == 0 ) {off('comments_${ i.count }');} else {on('comments_${ i.count }');} ;">
