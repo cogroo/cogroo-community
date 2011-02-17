@@ -20,7 +20,7 @@
 			<tr>
 			    <th>Papel:</th><td>${user.role}</td>
 			</tr>
-			<c:if test="${(user.roleName == 'admin') || (loggedUser.user.login == 'admin') }"> 
+			<c:if test="${(loggedUser.user.roleName == 'admin') || (loggedUser.user.login == 'admin') }"> 
 				<tr>
 			    	<th>Email:</th><td>${user.email}</td>
 				</tr>
@@ -29,7 +29,7 @@
 	</table>
 </div>
 
-<c:if test="${(user.roleName == 'admin') || (loggedUser.user.login == 'admin') }">
+<c:if test="${(loggedUser.user.roleName == 'admin') || (loggedUser.user.login == 'admin') }">
 	<form id="setUserRole"  action="<c:url value="/userRole"/>" method="post" >
 		Escolha um novo papel para o usuário: 
 		<select name="role">
