@@ -54,9 +54,9 @@
 		
 		
 		
-		<p>O CoGrOO Comunidade é um portal colaborativo para aprimorar o CoGrOO, o corretor gramatical em português para OpenOffice. <a href="<c:url value="/about"/>">Mais informações...</a></p>
+		<p>O CoGrOO Comunidade é um portal colaborativo para aprimorar o CoGrOO, o corretor gramatical em português para BrOffice. <a href="<c:url value="/about"/>">Mais informações...</a></p>
 		<br />
-		<p><a href="<c:url value="/grammar"/>">Busque</a> erros gramaticais em uma frase. Algo estranho? <a href="<c:url value="/reportNewError"/>">Conte</a> para nós!</p>
+		<p><a href="<c:url value="/grammar"/>">Busque</a> erros gramaticais em uma frase. Algo estranho? Conte para nós!</p>
 		<br />
 		
 		

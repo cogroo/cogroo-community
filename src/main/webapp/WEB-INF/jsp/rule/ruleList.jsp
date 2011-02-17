@@ -71,10 +71,12 @@
 </script>
 
 
-	<h2>Regras</h2>
-	<p>Exibe as regras utilizadas pelo CoGrOO.</p>
-	<p>Clique no número da regra para detalhes. Regras com identificador tachado estão desabilitadas.</p> 
-	<br />
+	<h2>Regras <span class="help"><a onclick="onOff('helpRuleList'); return false" href="#"><img src="<c:url value='/images/help.gif' />" /></a></span></h2>
+		<div id="helpRuleList" style="display: none;" class="help">
+			<p>Exibe as regras utilizadas pelo corretor gramatical CoGrOO para identificar erros.</p>
+			<p>Clique no número da regra para detalhes. Regras com identificador tachado estão desabilitadas.</p>
+		</div>
+		 
 	<table cellpadding="0" cellspacing="0" border="0" class="display" id="table_id">
 		<thead>
 			<tr>

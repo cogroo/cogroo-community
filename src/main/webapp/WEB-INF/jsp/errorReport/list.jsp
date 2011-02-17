@@ -103,10 +103,12 @@
 	<br />
 </c:if>
 
-<h2>Problemas reportados</h2>
-	<p>Exibe todos os problemas reportados através da página e do plug-in CoGrOO para BrOffice.org.</p>
-	<p>Clique no número do problema reportado para detalhes.</p>
-	<br />
+<h2>Problemas reportados <span class="help"><a onclick="onOff('helpErrorList'); return false" href="#"><img src="<c:url value='/images/help.gif' />" /></a></span></h2>
+	<div id="helpErrorList" style="display: none;" class="help">
+		<p>Exibe todos os problemas reportados através da página e do plug-in CoGrOO para BrOffice.</p>
+		<p>Clique no número do problema reportado para detalhes.</p>
+	</div>
+	
 	<table cellpadding="0" cellspacing="0" border="0" class="display" id="errorList">
 		<thead>
 			<tr>

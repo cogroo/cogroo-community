@@ -25,8 +25,8 @@
 			<thead>
 				<tr>
 				  <th></th>
-				  <th>#</th>
-				  <th>Elementos</th>
+				  <th>Nº.</th>
+				  <th>Sentença</th>
 				  <th>Agrupamentos</th>
 				  <th>Detalhes</th>
 				</tr>
@@ -53,34 +53,13 @@
 								</form>
 						</td>
 						<td>
-							<h3>Análise morfológica</h3>
-							<table cellpadding="0" cellspacing="0" border="0" class="display" id="table_morf">
-								<thead>
-									<tr>
-									  <th>#</th>
-									  <th>Elemento</th>
-									  <th>Primitiva</th>
-									  <th>Classificação</th>
-									</tr>
-								</thead>
-								<tbody>
-									<c:forEach items="${processResult.sentence.tokens}" var="token" varStatus="j">
-										<tr>
-											<td>${ j.count }</td>
-											<td>${token.lexeme}</td>
-											<td>${token.primitive}</td>
-											<td><c:forEach items="${token.morphologicalTag.asTagList}" var="tagPart"><fmt:message key="${tagPart}"/>, </c:forEach></td>
-									    </tr>
-									</c:forEach>
-								</tbody>
-							</table>
-							<h3>Erros gramaticais</h3>
+						<h3>Erros gramaticais</h3>
 							<c:choose>
 								<c:when test="${not empty processResult.mistakes}">
 									<table cellpadding="0" cellspacing="0" border="0" class="display" id="table_err">
 										<thead>
 											<tr>
-											  <th>#</th>
+											  <th>Nº.</th>
 											  <th>Regra</th>
 											  <th>Mensagem curta</th>
 											  <th>Substituir por</th>
@@ -106,6 +85,27 @@
 									<p>Nenhum erro gramatical encontrado.</p>
 								</c:otherwise>
 							</c:choose>
+							<h3>Análise morfológica</h3>
+							<table cellpadding="0" cellspacing="0" border="0" class="display" id="table_morf">
+								<thead>
+									<tr>
+									  <th>Nº.</th>
+									  <th>Elemento</th>
+									  <th>Primitiva</th>
+									  <th>Classificação</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach items="${processResult.sentence.tokens}" var="token" varStatus="j">
+										<tr>
+											<td>${ j.count }</td>
+											<td>${token.lexeme}</td>
+											<td>${token.primitive}</td>
+											<td><c:forEach items="${token.morphologicalTag.asTagList}" var="tagPart"><fmt:message key="${tagPart}"/>, </c:forEach></td>
+									    </tr>
+									</c:forEach>
+								</tbody>
+							</table>
 						</td>
 				    </tr>
 				</c:forEach>

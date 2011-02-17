@@ -79,15 +79,12 @@ $(document).ready(function() {
 
 	<div class="white_box">
 	
-		<h2>Reportar problema <span class="help"><a onclick="onOff('helpNewError'); return false" href="#">ajuda</a></span></h2>
+		<h2>Reportar problema <span class="help"><a onclick="onOff('helpNewError'); return false" href="#"><img src="<c:url value='/images/help.gif' />" /></a></span></h2>
 		
 		<div id="helpNewError" style="display: none;" class="help">
-			<p>
-				Bem-vindo ao relatório de erros do corretor gramatical CoGrOO. Obrigado por sua colaboração, ela é fundamental para o aprimoramento da ferramenta.
-			</p>
-			<p>
-				Ao submeter textos, sempre tome cuidado para não enviar conteúdo confidencial. Você deve concordar em licenciar o texto submetido sob os termos da <a target="_blank" href="http://www.gnu.org/licenses/lgpl-3.0-standalone.html">LGPL</a>, tornando o público.
-			</p>
+			<p>Reporta um problema no corretor gramatical CoGrOO para a equipe, de modo com que a ferramenta possa ser aprimorada.</p>
+			<p>Ao submeter textos, sempre tome cuidado para não enviar conteúdo confidencial.
+			Você deve concordar em licenciar o texto submetido sob os termos da <a target="_blank" href="http://www.gnu.org/licenses/lgpl-3.0-standalone.html">LGPL</a>, tornando-o público.</p>
 		</div>
 
 		<c:if test="${!analyzed}">
@@ -107,7 +104,6 @@ $(document).ready(function() {
 		
 			<c:set var="processResultList" scope="request" value="${processResultList}" />    
 			<c:set var="id" scope="request" value="id" />
-			<c:set var="hidden" scope="request" value="hidden" />
 			<jsp:include page="/analysisdetails.jspf" />
 	</div>
 		<form id="report"  action="<c:url value="/reportNewError"/>" method="post" >
@@ -116,26 +112,30 @@ $(document).ready(function() {
 	
 	<div class="white_box">	
 		
-			<h3>Intervenções indevidas <span class="help"><a onclick="onOff('helpBadInt'); return false" href="#">ajuda</a></span></h3>
+			<h3>Intervenções indevidas <span class="help"><a onclick="onOff('helpBadInt'); return false" href="#"><img src="<c:url value='/images/help.gif' />" /></a></span></h3>
 			
 			<div id="helpBadInt" style="display: none;" class="help">
 				<p>Uma intervenção é considerada indevida quando o corretor identifica um erro onde ele não 
-				existe, ou quando o erro existe, mas houve algum erro na sua classificação.</p>
-				<p>Tipos de intervenções indevidas:</p>
+				existe, ou quando o erro existe, mas houve algum erro em sua classificação.
+				Existem três tipos de intervenções indevidas:</p>
 			
 				<DL>
-					<DT>Falso erro</DT>
+					<DT><b>Falso erro</b></DT>
 						<DD>Não existe erro, o verificador identificou erroneamente.</DD>
-					<DT>Classificação inapropriada</DT>
+					<DT><b>Classificação inapropriada</b></DT>
 						<DD>O erro existe, mas foi classificado de forma errada.</DD>
-					<DT>Sugestão inapropriada</DT>
+					<DT><b>Sugestão inapropriada</b></DT>
 						<DD>O erro existe e está classificado corretamente, mas nenhuma das sugestões indicadas é correta.</DD>
 				</DL>
+				
+				<p>Você só pode indicar intervenções indevidas quando o corretor encontrou algum erro no seu texto.</p><br>
+				<p>Para indicar uma intervenção indevida, selecione uma das opções na caixa "Classifique essa intervenção".</p>
+				<p>Em seguida, forneça detalhes adicionais na caixa "Comentários" de acordo com seu julgamento. Os comentários são opcionais.</p>
 			</div>
 			
 			<c:if test="${empty singleGrammarErrorList}">
 				<div class="dashed_white">
-					<p>Não foram encontrados erros no texto.</p>
+					<p>Não foram encontrados erros no seu texto.</p>
 				</div>
 			</c:if>
 			<c:if test="${not empty singleGrammarErrorList}">
@@ -191,10 +191,13 @@ $(document).ready(function() {
 		</div>
 		
 		<div class="white_box">	
-			<h3>Omissões<span class="help"><a onclick="onOff('helpOmission'); return false" href="#">ajuda</a></span></h3>
+			<h3>Omissões <span class="help"><a onclick="onOff('helpOmission'); return false" href="#"><img src="<c:url value='/images/help.gif' />" /></a></span></h3>
 			
 			<div id="helpOmission" style="display: none;" class="help">
-				<p>Indique os erros gramaticais que foram ignorados pelo CoGrOO.</p>
+				<p>Uma omissão ocorre quando o corretor não indica um erro que existe em seu texto.</p><br>
+				<p>Para adicionar uma nova omissão, selecione o trecho com erro na caixa abaixo de "Nova omissão" e clique no botão "Adicionar omissão".</p>
+				<p>Em seguida, preencha os dados da omissão na caixa correspondente.</p>
+				<p>Repita o procedimento para cada omissão.</p>
 			</div>
 			<div id="omissionList">
 				<div class="dashed_white" id="deleteIfHaveOmission">
@@ -202,13 +205,8 @@ $(document).ready(function() {
 				</div>
 			</div>
 			<div class="red_border_box">
-				<h5>Nova omissão<span class="help"><a onclick="onOff('helpAddOmission'); return false" href="#">ajuda</a></span></h5>
-				<div id="helpAddOmission" style="display: none;" class="help">
-					<p>Para adicionar uma omissão, selecione o trecho omisso na área abaixo e clique no botão "Adicionar omissão".</p>
-					<p>Em seguida, preencha os dados da omissão na caixa acima.</p>
-					<p>Repita o procedimento para cada omissão.</p>
-				</div>
-				Selecione com o mouse o trecho que contém uma omissão, se houver:<br/>
+				<h5>Nova omissão</h5>
+				Selecione com o mouse o trecho que contém um erro, se houver:<br/>
 				<textarea rows="2" cols="70" readonly="readonly" id="selector" >${cleanText}</textarea><br/>
 				<button type="button" id="addNewOmission" class="a_button"> Adicionar omissão &raquo; </button>
 			</div>
