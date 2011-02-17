@@ -20,14 +20,20 @@
 				"sInfo": "Exibindo de _START_ até _END_ de um total de _TOTAL_ entradas",
 				"sInfoEmpty": "Exibindo de 0 até 0 de um total de 0 entradas",
 			"sInfoFiltered": "(filtrados de um total de _MAX_ entradas)"
-			}
+			},
+			"aLengthMenu": [20,50,100,200],
+			"iDisplayLength": 20
 		} );
 		
 	} );
 </script>
 
 <div>
-	<h2>Consultar palavra</h2>
+	<h2>Consultar palavra <span class="help"><a onclick="onOff('helpRuleList'); return false" href="#"><img src="<c:url value='/images/help.gif' />" /></a></span></h2>
+		<div id="helpRuleList" style="display: none;" class="help">
+			<p>Busca uma palavra no dicionário léxico do corretor CoGrOO.</p>
+			<p>Para cada entrada encontrada, é exibido o radical e a etiqueta gramatical correspondente.</p>
+		</div>
 </div>
 
 

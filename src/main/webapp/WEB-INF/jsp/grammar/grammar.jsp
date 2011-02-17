@@ -25,7 +25,11 @@
 	}
 </script>		
 		
-		<h2>Análise Gramatical</h2>
+		<h2>Análise Gramatical <span class="help"><a onclick="onOff('helpRuleList'); return false" href="#"><img src="<c:url value='/images/help.gif' />" /></a></span></h2>
+		<div id="helpRuleList" style="display: none;" class="help">
+			<p>Analisa um texto fornecido pelo usuário em busca de erros gramaticais.</p>
+			<p>Após a análise, é possível reportar qualquer problema do corretor através do botão "Reportar problema".</p>
+		</div>
 		<p>Digite um texto para buscar erros gramaticais com o CoGrOO:</p>
 		<form action="<c:url value="/grammar"/>"  method="post" >
 		    <textarea rows="4" cols="70" name="text" id="text">${text}</textarea>
