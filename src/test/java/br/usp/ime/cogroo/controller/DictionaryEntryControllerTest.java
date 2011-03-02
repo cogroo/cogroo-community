@@ -18,7 +18,7 @@ import br.usp.ime.cogroo.dao.DictionaryEntryDAO;
 import br.usp.ime.cogroo.dao.DictionaryEntryUserDAO;
 import br.usp.ime.cogroo.dao.PosTagDAO;
 import br.usp.ime.cogroo.dao.WordDAO;
-import br.usp.ime.cogroo.exceptions.Messages;
+import br.usp.ime.cogroo.exceptions.ExceptionMessages;
 import br.usp.ime.cogroo.logic.DictionaryManager;
 import br.usp.ime.cogroo.logic.EditPosTagLogic;
 import br.usp.ime.cogroo.model.DictionaryEntry;
@@ -86,7 +86,7 @@ public class DictionaryEntryControllerTest {
 			List<Message> errors = e.getErrors();
 			Assert.assertEquals(1, errors.size());
 			Message message = errors.get(0);
-			Assert.assertEquals(Messages.MISSING_CLASS_TAG, message.getMessage());
+			Assert.assertEquals(ExceptionMessages.MISSING_CLASS_TAG, message.getMessage());
 		}
 	}
 
@@ -112,8 +112,8 @@ public class DictionaryEntryControllerTest {
 			List<Message> errors = e.getErrors();
 			Assert.assertTrue(errors.size() > 0);
 			Message message = errors.get(0);
-			Assert.assertEquals(Messages.INVALID_ENTRY, message.getMessage());
-			Assert.assertEquals(Messages.EMPTY_FIELD, message.getCategory());
+			Assert.assertEquals(ExceptionMessages.INVALID_ENTRY, message.getMessage());
+			Assert.assertEquals(ExceptionMessages.EMPTY_FIELD, message.getCategory());
 		}
 	}
 }

@@ -13,7 +13,7 @@ import br.com.caelum.vraptor.Validator;
 import br.com.caelum.vraptor.validator.ValidationMessage;
 import br.com.caelum.vraptor.view.Results;
 import br.usp.ime.cogroo.dao.UserDAO;
-import br.usp.ime.cogroo.exceptions.Messages;
+import br.usp.ime.cogroo.exceptions.ExceptionMessages;
 import br.usp.ime.cogroo.model.LoggedUser;
 import br.usp.ime.cogroo.model.User;
 import br.usp.ime.cogroo.security.RoleProvider;
@@ -44,7 +44,7 @@ public class UserController {
 			result.include("userList", userDAO.listAll());
 		} else {
 			validator.add(new ValidationMessage(
-					Messages.ONLY_LOGGED_USER_CAN_DO_THIS, Messages.ERROR));
+					ExceptionMessages.ONLY_LOGGED_USER_CAN_DO_THIS, ExceptionMessages.ERROR));
 			validator.onErrorUse(Results.logic()).redirectTo(IndexController.class)
 				.index();
 		}
@@ -60,8 +60,8 @@ public class UserController {
 			}
 			user = userDAO.retrieve(user.getId());
 			if (user == null) {
-				validator.add(new ValidationMessage(Messages.PAGE_NOT_FOUND,
-						Messages.ERROR));
+				validator.add(new ValidationMessage(ExceptionMessages.PAGE_NOT_FOUND,
+						ExceptionMessages.ERROR));
 				validator.onErrorUse(Results.logic())
 						.redirectTo(UserController.class).userList();
 			}
@@ -70,7 +70,7 @@ public class UserController {
 			result.include("roleList", RoleProvider.getInstance().getRoles());
 		} else {
 			validator.add(new ValidationMessage(
-					Messages.ONLY_LOGGED_USER_CAN_DO_THIS, Messages.ERROR));
+					ExceptionMessages.ONLY_LOGGED_USER_CAN_DO_THIS, ExceptionMessages.ERROR));
 			validator.onErrorUse(Results.logic()).redirectTo(IndexController.class)
 				.index();
 		}
@@ -90,7 +90,7 @@ public class UserController {
 			
 		} else {
 			validator.add(new ValidationMessage(
-					Messages.ONLY_LOGGED_USER_CAN_DO_THIS, Messages.ERROR));
+					ExceptionMessages.ONLY_LOGGED_USER_CAN_DO_THIS, ExceptionMessages.ERROR));
 			validator.onErrorUse(Results.logic()).redirectTo(IndexController.class)
 				.index();
 		}

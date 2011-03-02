@@ -13,7 +13,7 @@ import br.com.caelum.vraptor.Validator;
 import br.com.caelum.vraptor.validator.ValidationMessage;
 import br.com.caelum.vraptor.view.Results;
 import br.usp.ime.cogroo.dao.UserDAO;
-import br.usp.ime.cogroo.exceptions.Messages;
+import br.usp.ime.cogroo.exceptions.ExceptionMessages;
 import br.usp.ime.cogroo.model.LoggedUser;
 import br.usp.ime.cogroo.model.User;
 import br.usp.ime.cogroo.util.CriptoUtils;
@@ -50,8 +50,8 @@ public class LoginController {
 		}
 
 		if (login.trim().isEmpty() || password.trim().isEmpty()) {
-			validator.add(new ValidationMessage(Messages.USER_CANNOT_BE_EMPTY,
-					Messages.ERROR));
+			validator.add(new ValidationMessage(ExceptionMessages.USER_CANNOT_BE_EMPTY,
+					ExceptionMessages.ERROR));
 			validator.onErrorUse(Results.page()).of(LoginController.class)
 					.login();
 		}
@@ -60,8 +60,8 @@ public class LoginController {
 		if (userFromDB == null) {
 			LOG.info("User unknown[" + login
 					+ "]. Redirecting to register page.");
-			validator.add(new ValidationMessage(Messages.USER_DONT_EXISTS,
-					Messages.ERROR));
+			validator.add(new ValidationMessage(ExceptionMessages.USER_DONT_EXISTS,
+					ExceptionMessages.ERROR));
 			validator.onErrorUse(Results.page()).of(RegisterController.class).register();
 		}
 
@@ -71,8 +71,8 @@ public class LoginController {
 		if (!passCripto.equalsIgnoreCase(passFromDB)) {
 			LOG.info("Password Failed[" + login
 					+ "]. Redirecting to login page.");
-			validator.add(new ValidationMessage(Messages.USER_PASSWORD_FAILED,
-					Messages.ERROR));
+			validator.add(new ValidationMessage(ExceptionMessages.USER_PASSWORD_FAILED,
+					ExceptionMessages.ERROR));
 			validator.onErrorUse(Results.page()).of(LoginController.class)
 					.login();
 		}

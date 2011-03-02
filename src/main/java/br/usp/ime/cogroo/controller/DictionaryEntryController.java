@@ -14,7 +14,7 @@ import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.Validator;
 import br.com.caelum.vraptor.validator.ValidationMessage;
 import br.com.caelum.vraptor.view.Results;
-import br.usp.ime.cogroo.exceptions.Messages;
+import br.usp.ime.cogroo.exceptions.ExceptionMessages;
 import br.usp.ime.cogroo.logic.DictionaryManager;
 import br.usp.ime.cogroo.logic.EditPosTagLogic;
 import br.usp.ime.cogroo.model.ApplicationData;
@@ -64,7 +64,7 @@ public class DictionaryEntryController {
 		if (!loggedUser.isLogged()) {
 			LOG.error("Unknown user trying to add dictionaryEntry.");
 			validator.add(new ValidationMessage(
-					Messages.ONLY_LOGGED_USER_CAN_DO_THIS, Messages.ERROR));
+					ExceptionMessages.ONLY_LOGGED_USER_CAN_DO_THIS, ExceptionMessages.ERROR));
 		}
 
 		validator.onErrorUse(Results.page()).of(LoginController.class).login();
@@ -78,12 +78,12 @@ public class DictionaryEntryController {
 			String tagClass) {
 
 		if (!dictionaryEntry.isValid()) {
-			validator.add(new ValidationMessage(Messages.INVALID_ENTRY,
-					Messages.EMPTY_FIELD));
+			validator.add(new ValidationMessage(ExceptionMessages.INVALID_ENTRY,
+					ExceptionMessages.EMPTY_FIELD));
 		}
 		if (tagClass == null || tagClass.length() == 0) {
-			validator.add(new ValidationMessage(Messages.MISSING_CLASS_TAG,
-					Messages.EMPTY_FIELD));
+			validator.add(new ValidationMessage(ExceptionMessages.MISSING_CLASS_TAG,
+					ExceptionMessages.EMPTY_FIELD));
 		}
 		if (validator.hasErrors()) {
 			result.include("typeFieldList", editPosTagLogic.listTypeFields());
@@ -106,7 +106,7 @@ public class DictionaryEntryController {
 			result.redirectTo(DictionaryEntryController.class).list();
 		} catch (Exception e) {
 			LOG.error("Couldn't add dictionaryEntry: " + dictionaryEntry, e);
-			validator.add(new ValidationMessage(e.getMessage(), Messages.ERROR));
+			validator.add(new ValidationMessage(e.getMessage(), ExceptionMessages.ERROR));
 
 			result.include("dictionaryEntry", dictionaryEntry).include("typeFieldList", editPosTagLogic.listTypeFields());
 			validator.onErrorUse(Results.page()).of(DictionaryEntryController.class).add();

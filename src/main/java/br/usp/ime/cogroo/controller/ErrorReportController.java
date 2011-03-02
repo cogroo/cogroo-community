@@ -21,7 +21,7 @@ import br.com.caelum.vraptor.view.Results;
 import br.usp.ime.cogroo.dao.CogrooFacade;
 import br.usp.ime.cogroo.dao.errorreport.ErrorEntryDAO;
 import br.usp.ime.cogroo.exceptions.CommunityException;
-import br.usp.ime.cogroo.exceptions.Messages;
+import br.usp.ime.cogroo.exceptions.ExceptionMessages;
 import br.usp.ime.cogroo.logic.AnalyticsManager;
 import br.usp.ime.cogroo.logic.SecurityUtil;
 import br.usp.ime.cogroo.logic.errorreport.ErrorEntryLogic;
@@ -107,7 +107,7 @@ public class ErrorReportController {
 			result.redirectTo(getClass()).list();
 		} else {
 			validator.add(new ValidationMessage(
-					Messages.ONLY_LOGGED_USER_CAN_DO_THIS, Messages.ERROR));
+					ExceptionMessages.ONLY_LOGGED_USER_CAN_DO_THIS, ExceptionMessages.ERROR));
 		}
 	}
 	
@@ -213,8 +213,8 @@ public class ErrorReportController {
 		LOG.debug("Details for: " + errorEntryFromDB);
 		
 		if (errorEntryFromDB == null) {
-			validator.add(new ValidationMessage(Messages.PAGE_NOT_FOUND,
-					Messages.ERROR));
+			validator.add(new ValidationMessage(ExceptionMessages.PAGE_NOT_FOUND,
+					ExceptionMessages.ERROR));
 			validator.onErrorUse(Results.logic()).redirectTo(ErrorReportController.class)
 					.list();
 		}
@@ -233,13 +233,13 @@ public class ErrorReportController {
 		LOG.debug("errorEntry: " + errorEntryFromDB);
 		LOG.debug("newComment: " + newComment);
 		if (newComment.trim().isEmpty()) {
-			validator.add(new ValidationMessage(Messages.COMMENT_SHOULD_NOT_BE_EMPTY,
-					Messages.ERROR));
+			validator.add(new ValidationMessage(ExceptionMessages.COMMENT_SHOULD_NOT_BE_EMPTY,
+					ExceptionMessages.ERROR));
 			validator.onErrorUse(Results.logic()).redirectTo(ErrorReportController.class)
 					.details(errorEntryFromDB);
 		} else if (newComment.trim().length() > COMMENT_MAX_SIZE) {
-			validator.add(new ValidationMessage(Messages.COMMENT_SHOULD_NOT_EXCEED_CHAR,
-					Messages.ERROR));
+			validator.add(new ValidationMessage(ExceptionMessages.COMMENT_SHOULD_NOT_EXCEED_CHAR,
+					ExceptionMessages.ERROR));
 			validator.onErrorUse(Results.logic()).redirectTo(ErrorReportController.class)
 					.details(errorEntryFromDB);
 		} else {

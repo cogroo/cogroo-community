@@ -11,7 +11,7 @@ import br.com.caelum.vraptor.Validator;
 import br.com.caelum.vraptor.validator.ValidationMessage;
 import br.com.caelum.vraptor.view.Results;
 import br.usp.ime.cogroo.dao.CogrooFacade;
-import br.usp.ime.cogroo.exceptions.Messages;
+import br.usp.ime.cogroo.exceptions.ExceptionMessages;
 import br.usp.ime.cogroo.logic.RulesLogic;
 import br.usp.ime.cogroo.model.Pair;
 import br.usp.ime.cogroo.model.ProcessResult;
@@ -49,8 +49,8 @@ public class RuleController {
 		}
 		rule = rulesLogic.getRule(rule.getId());
 		if (rule == null) {
-			validator.add(new ValidationMessage(Messages.PAGE_NOT_FOUND,
-					Messages.ERROR));
+			validator.add(new ValidationMessage(ExceptionMessages.PAGE_NOT_FOUND,
+					ExceptionMessages.ERROR));
 			validator.onErrorUse(Results.logic())
 					.redirectTo(RuleController.class).ruleList();
 		}

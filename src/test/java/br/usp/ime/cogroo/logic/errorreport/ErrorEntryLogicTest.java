@@ -3,8 +3,7 @@ package br.usp.ime.cogroo.logic.errorreport;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
-
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
 
 import java.io.IOException;
 import java.util.List;
@@ -19,6 +18,8 @@ import utils.ResourcesUtil;
 import br.usp.ime.cogroo.dao.CogrooFacade;
 import br.usp.ime.cogroo.dao.DummyBaseDictionary;
 import br.usp.ime.cogroo.dao.GrammarCheckerVersionDAO;
+import br.usp.ime.cogroo.dao.HistoryEntryDAO;
+import br.usp.ime.cogroo.dao.HistoryEntryFieldDAO;
 import br.usp.ime.cogroo.dao.UserDAO;
 import br.usp.ime.cogroo.dao.errorreport.CommentDAO;
 import br.usp.ime.cogroo.dao.errorreport.ErrorEntryDAO;
@@ -67,7 +68,10 @@ public class ErrorEntryLogicTest {
 				facade,
 				new GrammarCheckerVersionDAO(em),
 				new GrammarCheckerOmissionDAO(em),
-				new GrammarCheckerBadInterventionDAO(em), appdata);
+				new GrammarCheckerBadInterventionDAO(em),
+				new HistoryEntryDAO(em),
+				new HistoryEntryFieldDAO(em),
+				appdata);
 	}
 
 	@Test(expected=CommunityException.class)
@@ -185,10 +189,49 @@ public class ErrorEntryLogicTest {
 		ErrorEntry error = dao.retrieve(new Long(errorID));
 		
 		assertEquals(Priority.IMMEDIATE, error.getPriority());
+		
+		assertEquals(1, error.getHistoryEntries().size());
+		
+		
 	}
 	
 	@Test
 	public void testSetState() throws CommunityException, IOException {
+		
+		
+		em.getTransaction().begin();
+		List<ErrorEntry> list = mErrorEntryLogic.addErrorEntry(william.getLogin(), ResourcesUtil.getResourceAsString(getClass(), "/br/usp/ime/cogroo/logic/ErrorReport1.xml"));
+		em.getTransaction().commit();
+
+		Long errorID = list.get(0).getId();
+		
+		assertEquals(State.OPEN, list.get(0).getState());
+		
+		em.getTransaction().begin();
+		mErrorEntryLogic.setState(list.get(0), State.CLOSED);
+		em.getTransaction().commit();
+		
+		
+		ErrorEntryDAO dao = new ErrorEntryDAO(em);
+		
+		ErrorEntry error = dao.retrieve(new Long(errorID));
+		
+		assertEquals(State.CLOSED, error.getState());
+		
+		assertEquals(Priority.NORMAL, list.get(0).getPriority());
+		
+		em.getTransaction().begin();
+		mErrorEntryLogic.setPriority(list.get(0), Priority.IMMEDIATE);
+		em.getTransaction().commit();
+		
+		
+		assertEquals(Priority.IMMEDIATE, error.getPriority());
+		
+		assertEquals(2, error.getHistoryEntries().size());
+	}
+	
+	@Test
+	public void testSetStateAndPriority() throws CommunityException, IOException {
 		
 		
 		em.getTransaction().begin();

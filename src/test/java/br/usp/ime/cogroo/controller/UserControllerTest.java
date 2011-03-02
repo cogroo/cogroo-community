@@ -19,7 +19,7 @@ import br.com.caelum.vraptor.util.test.MockValidator;
 import br.com.caelum.vraptor.validator.Message;
 import br.com.caelum.vraptor.validator.ValidationException;
 import br.usp.ime.cogroo.dao.UserDAO;
-import br.usp.ime.cogroo.exceptions.Messages;
+import br.usp.ime.cogroo.exceptions.ExceptionMessages;
 import br.usp.ime.cogroo.model.LoggedUser;
 import br.usp.ime.cogroo.model.User;
 import br.usp.ime.cogroo.security.Admin;
@@ -87,8 +87,8 @@ public class UserControllerTest {
 			List<Message> errors = e.getErrors();
 			assertTrue(errors.size() > 0);
 			Message message = errors.get(0);
-			assertEquals(Messages.ONLY_LOGGED_USER_CAN_DO_THIS, message.getMessage());
-			assertEquals(Messages.ERROR, message.getCategory());
+			assertEquals(ExceptionMessages.ONLY_LOGGED_USER_CAN_DO_THIS, message.getMessage());
+			assertEquals(ExceptionMessages.ERROR, message.getCategory());
 		}
 	}
 	
@@ -117,8 +117,8 @@ public class UserControllerTest {
 			List<Message> errors = e.getErrors();
 			assertTrue(errors.size() > 0);
 			Message message = errors.get(0);
-			assertEquals(Messages.ONLY_LOGGED_USER_CAN_DO_THIS, message.getMessage());
-			assertEquals(Messages.ERROR, message.getCategory());
+			assertEquals(ExceptionMessages.ONLY_LOGGED_USER_CAN_DO_THIS, message.getMessage());
+			assertEquals(ExceptionMessages.ERROR, message.getCategory());
 		}
 	}
 	
@@ -131,8 +131,8 @@ public class UserControllerTest {
 			List<Message> errors = e.getErrors();
 			assertTrue(errors.size() > 0);
 			Message message = errors.get(0);
-			assertEquals(Messages.ONLY_LOGGED_USER_CAN_DO_THIS, message.getMessage());
-			assertEquals(Messages.ERROR, message.getCategory());
+			assertEquals(ExceptionMessages.ONLY_LOGGED_USER_CAN_DO_THIS, message.getMessage());
+			assertEquals(ExceptionMessages.ERROR, message.getCategory());
 		}
 	}
 	
@@ -145,8 +145,8 @@ public class UserControllerTest {
 			List<Message> errors = e.getErrors();
 			assertTrue(errors.size() > 0);
 			Message message = errors.get(0);
-			assertEquals(Messages.ONLY_LOGGED_USER_CAN_DO_THIS, message.getMessage());
-			assertEquals(Messages.ERROR, message.getCategory());
+			assertEquals(ExceptionMessages.ONLY_LOGGED_USER_CAN_DO_THIS, message.getMessage());
+			assertEquals(ExceptionMessages.ERROR, message.getCategory());
 		}
 	}
 	

@@ -12,7 +12,7 @@ import br.com.caelum.vraptor.Validator;
 import br.com.caelum.vraptor.validator.ValidationMessage;
 import br.com.caelum.vraptor.view.Results;
 import br.usp.ime.cogroo.dao.UserDAO;
-import br.usp.ime.cogroo.exceptions.Messages;
+import br.usp.ime.cogroo.exceptions.ExceptionMessages;
 import br.usp.ime.cogroo.model.ApplicationData;
 import br.usp.ime.cogroo.model.User;
 import br.usp.ime.cogroo.util.CriptoUtils;
@@ -60,25 +60,25 @@ public class RegisterController {
 		// TODO Fazer e refatorar as Validações.
 		if (password.trim().isEmpty() || email.trim().isEmpty()
 				|| name.trim().isEmpty()) {
-			validator.add(new ValidationMessage(Messages.USER_CANNOT_BE_EMPTY,
-					Messages.INVALID_ENTRY));
+			validator.add(new ValidationMessage(ExceptionMessages.USER_CANNOT_BE_EMPTY,
+					ExceptionMessages.INVALID_ENTRY));
 		}
 
 		if (!password.equals(passwordRepeat)) {
-			validator.add(new ValidationMessage(Messages.USER_REPEAT_PASSWORD_WRONG,
-					Messages.INVALID_ENTRY));
+			validator.add(new ValidationMessage(ExceptionMessages.USER_REPEAT_PASSWORD_WRONG,
+					ExceptionMessages.INVALID_ENTRY));
 		}
 
 		if (!iAgree) {
 			validator.add(new ValidationMessage(
-					Messages.USER_MUST_BE_AGREE_TERMS, Messages.INVALID_ENTRY));
+					ExceptionMessages.USER_MUST_BE_AGREE_TERMS, ExceptionMessages.INVALID_ENTRY));
 		}
 
 		if (!login.trim().isEmpty()) {
 			User userFromDB = userDAO.retrieveByLogin(login);
 			if (userFromDB != null) {
 				validator.add(new ValidationMessage(
-						Messages.USER_ALREADY_EXIST, Messages.INVALID_ENTRY));
+						ExceptionMessages.USER_ALREADY_EXIST, ExceptionMessages.INVALID_ENTRY));
 			}
 		}
 

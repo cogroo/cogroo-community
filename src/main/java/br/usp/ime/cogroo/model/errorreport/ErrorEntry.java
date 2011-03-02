@@ -34,6 +34,9 @@ public class ErrorEntry {
 
 	@OneToMany(mappedBy = "errorEntry", cascade = CascadeType.ALL)
 	private List<Comment> comments;
+	
+	@OneToMany(mappedBy = "errorEntry", cascade = CascadeType.ALL)
+	private List<HistoryEntry> historyEntries;
 
 	@ManyToOne
 	private GrammarCheckerVersion version;
@@ -236,6 +239,13 @@ public class ErrorEntry {
 		isNew = value;
 	}
 	
+	public List<HistoryEntry> getHistoryEntries() {
+		return historyEntries;
+	}
+
+	public void setHistoryEntries(List<HistoryEntry> historyEntries) {
+		this.historyEntries = historyEntries;
+	}
 
 	@Override
 	public String toString() {

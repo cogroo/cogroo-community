@@ -21,7 +21,7 @@ import br.com.caelum.vraptor.util.test.MockValidator;
 import br.com.caelum.vraptor.validator.Message;
 import br.com.caelum.vraptor.validator.ValidationException;
 import br.usp.ime.cogroo.dao.UserDAO;
-import br.usp.ime.cogroo.exceptions.Messages;
+import br.usp.ime.cogroo.exceptions.ExceptionMessages;
 import br.usp.ime.cogroo.logic.AnalyticsManager;
 import br.usp.ime.cogroo.logic.AnalyticsManagerImpl;
 import br.usp.ime.cogroo.model.ApplicationData;
@@ -63,7 +63,7 @@ public class LoginControllerTest {
 			fail();			
 		} catch(ValidationException e) {
 			assertTrue("Couldn't assert that message for empty user was created.", 
-					checkIfContainsError(e.getErrors(), Messages.USER_CANNOT_BE_EMPTY, Messages.ERROR));
+					checkIfContainsError(e.getErrors(), ExceptionMessages.USER_CANNOT_BE_EMPTY, ExceptionMessages.ERROR));
 		}
 		
 	}
@@ -79,7 +79,7 @@ public class LoginControllerTest {
 			fail();			
 		} catch(ValidationException e) {
 			assertTrue("Couldn't assert that message for empty user was created.", 
-					checkIfContainsError(e.getErrors(), Messages.USER_CANNOT_BE_EMPTY, Messages.ERROR));
+					checkIfContainsError(e.getErrors(), ExceptionMessages.USER_CANNOT_BE_EMPTY, ExceptionMessages.ERROR));
 		}
 		
 	}

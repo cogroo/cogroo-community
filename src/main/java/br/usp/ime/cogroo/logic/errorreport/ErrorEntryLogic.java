@@ -11,8 +11,11 @@ import java.util.TreeSet;
 import org.apache.log4j.Logger;
 
 import br.com.caelum.vraptor.ioc.Component;
+import br.usp.ime.cogroo.Messages;
 import br.usp.ime.cogroo.dao.CogrooFacade;
 import br.usp.ime.cogroo.dao.GrammarCheckerVersionDAO;
+import br.usp.ime.cogroo.dao.HistoryEntryDAO;
+import br.usp.ime.cogroo.dao.HistoryEntryFieldDAO;
 import br.usp.ime.cogroo.dao.UserDAO;
 import br.usp.ime.cogroo.dao.errorreport.CommentDAO;
 import br.usp.ime.cogroo.dao.errorreport.ErrorEntryDAO;
@@ -29,6 +32,8 @@ import br.usp.ime.cogroo.model.errorreport.Comment;
 import br.usp.ime.cogroo.model.errorreport.ErrorEntry;
 import br.usp.ime.cogroo.model.errorreport.GrammarCheckerBadIntervention;
 import br.usp.ime.cogroo.model.errorreport.GrammarCheckerOmission;
+import br.usp.ime.cogroo.model.errorreport.HistoryEntry;
+import br.usp.ime.cogroo.model.errorreport.HistoryEntryField;
 import br.usp.ime.cogroo.model.errorreport.Priority;
 import br.usp.ime.cogroo.model.errorreport.State;
 import br.usp.ime.cogroo.util.BuildUtil;
@@ -51,12 +56,14 @@ public class ErrorEntryLogic {
 	private GrammarCheckerVersionDAO versionDAO;
 	private GrammarCheckerOmissionDAO omissionDAO;
 	private GrammarCheckerBadInterventionDAO badInterventionDAO;
+	private HistoryEntryDAO historyEntryDAO;
+	private HistoryEntryFieldDAO historyEntryFieldDAO;
 	private ApplicationData appData;
 
 	public ErrorEntryLogic(LoggedUser loggedUser, ErrorEntryDAO errorEntryDAO,
 			UserDAO userDAO, CommentDAO commentDAO, CogrooFacade cogrooFacade,
 			GrammarCheckerVersionDAO versionDAO, GrammarCheckerOmissionDAO omissionDAO,
-			GrammarCheckerBadInterventionDAO badInterventionDAO, ApplicationData appData) {
+			GrammarCheckerBadInterventionDAO badInterventionDAO, HistoryEntryDAO historyEntryDAO, HistoryEntryFieldDAO historyEntryFieldDAO, ApplicationData appData) {
 		this.userDAO = userDAO;
 		this.commentDAO = commentDAO;
 		this.errorEntryDAO = errorEntryDAO;
@@ -65,6 +72,8 @@ public class ErrorEntryLogic {
 		this.versionDAO = versionDAO;
 		this.omissionDAO = omissionDAO;
 		this.badInterventionDAO = badInterventionDAO;
+		this.historyEntryDAO = historyEntryDAO;
+		this.historyEntryFieldDAO = historyEntryFieldDAO;
 		this.appData = appData;
 	}
 
@@ -436,19 +445,76 @@ public class ErrorEntryLogic {
 	
 	public void setPriority(ErrorEntry errorEntry, Priority priority) {
 		errorEntry = errorEntryDAO.retrieve(errorEntry.getId());
+		if(priority.equals(errorEntry.getPriority())) {
+			return;
+		}
+		String before = errorEntry.getPriority().name();
 		errorEntry.setPriority(priority);
+		addHistory(errorEntry, Messages.ERROR_ENTRY_FIELD_PRIORITY, before, priority.name(), true);
+		updateModified(errorEntry);
 		errorEntryDAO.update(errorEntry);
 	}
 
 	public void setState(ErrorEntry errorEntry, State state) {
 		errorEntry = errorEntryDAO.retrieve(errorEntry.getId());
+		if(state.equals(errorEntry.getState())) {
+			return;
+		}
+		String before = errorEntry.getState().name();
 		errorEntry.setState(state);
+		addHistory(errorEntry, Messages.ERROR_ENTRY_FIELD_STATE, before, state.name(), true);
 		updateModified(errorEntry);
 		errorEntryDAO.update(errorEntry);
 	}
 	
 	public void updateModified(ErrorEntry errorEntry) {
 		errorEntry.setModified(new Date());
+	}
+	
+	private void addHistory(ErrorEntry errorEntry,
+			List<String> fieldList, List<String> beforeList, List<String> afterList, boolean isFormatted) {
+		
+		List<HistoryEntryField> hefList = new ArrayList<HistoryEntryField>();
+
+		
+		HistoryEntry he = new HistoryEntry(this.user, new Date(), hefList, errorEntry);
+		
+		for(int i = 0; i < fieldList.size(); i++) {
+			HistoryEntryField h = new HistoryEntryField(
+					he, 
+					fieldList.get(i), 
+					beforeList.get(i), 
+					afterList.get(i),
+					isFormatted);
+			this.historyEntryFieldDAO.add(h);
+			hefList.add(h);
+		}
+		
+		this.historyEntryDAO.add(he);
+		
+		List<HistoryEntry> heList = errorEntry.getHistoryEntries();
+		if(heList == null) {
+			heList = new ArrayList<HistoryEntry>();
+			errorEntry.setHistoryEntries(heList);
+		}
+		
+		errorEntry.getHistoryEntries().add(he);
+		this.errorEntryDAO.update(errorEntry);
+		
+	}
+	
+	private void addHistory(ErrorEntry errorEntry,
+			String field, String before, String after, boolean isFormatted) {
+		
+		List<String> fields = new ArrayList<String>(1);
+		List<String> befores = new ArrayList<String>(1);
+		List<String> afters = new ArrayList<String>(1);
+		
+		fields.add(field);
+		befores.add(before);
+		afters.add(after);
+		
+		addHistory(errorEntry, fields, befores, afters, isFormatted);
 	}
 
 }

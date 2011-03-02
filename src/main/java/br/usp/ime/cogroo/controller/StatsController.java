@@ -13,7 +13,7 @@ import br.com.caelum.vraptor.Validator;
 import br.com.caelum.vraptor.validator.ValidationMessage;
 import br.com.caelum.vraptor.view.Results;
 import br.usp.ime.cogroo.dao.UserDAO;
-import br.usp.ime.cogroo.exceptions.Messages;
+import br.usp.ime.cogroo.exceptions.ExceptionMessages;
 import br.usp.ime.cogroo.model.ApplicationData;
 
 /**
@@ -55,9 +55,9 @@ public class StatsController {
 	
 			result.include("appData", appData);
 		} catch(Exception e) {
-			LOG.error(Messages.ERROR_LOADING_STATS, e);
-			validator.add(new ValidationMessage(Messages.ERROR_LOADING_STATS,
-					Messages.ERROR));
+			LOG.error(ExceptionMessages.ERROR_LOADING_STATS, e);
+			validator.add(new ValidationMessage(ExceptionMessages.ERROR_LOADING_STATS,
+					ExceptionMessages.ERROR));
 			validator.onErrorUse(Results.page()).of(IndexController.class)
 					.index();
 		}

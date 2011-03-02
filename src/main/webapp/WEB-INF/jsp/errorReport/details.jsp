@@ -222,6 +222,7 @@ table.answer td {
 		<c:set var="id" scope="request" value="c${i.count}" />
 		<jsp:include page="/analysisdetails.jspf" />
 	</div>
+	
 	<div class="report_disscussion">
 		<h2>Discussão</h2>
 		<c:forEach items="${errorEntry.errorEntryComments}" var="comment" varStatus="i">
@@ -282,4 +283,24 @@ table.answer td {
 			    <input type="submit" id="go" value=" Enviar &raquo; ">
 			</form>
 		</c:if>
+	</div>
+
+	<div class="report_disscussion">
+		<h2>Histórico</h2>
+		<c:forEach items="${errorEntry.historyEntries}" var="historyEntry">
+			<h4 class="undeline">Por ${historyEntry.user.name} em <fmt:formatDate type="both" dateStyle="long" value="${historyEntry.creation}" /></h4>
+			<ul>
+				<c:forEach items="${historyEntry.historyEntryField}" var="historyEntryField">
+					<c:choose>
+						<c:when test="${historyEntryField.isFormatted}">
+				    		<li><b><fmt:message key="${historyEntryField.fieldName}" /></b> alterado de <i><fmt:message key="${historyEntryField.before}" /></i> para <i><fmt:message key="${historyEntryField.after}" /></i></li>
+				  		</c:when>
+				  		<c:otherwise>
+				    		<li><b><fmt:message key="${historyEntryField.fieldName}" /></b> alterado de <i>${historyEntryField.before}</i> para <i>${historyEntryField.after}</i></li>
+				  		</c:otherwise>
+					</c:choose>
+					
+				</c:forEach>
+			</ul>		
+		</c:forEach>
 	</div>
