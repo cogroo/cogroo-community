@@ -8,12 +8,12 @@ public class Linguist extends User {
 	}
 	
 	@Override
-	public boolean canSetErrorReportPriority() {
+	public boolean getCanSetErrorReportPriority() {
 		return true;
 	}
 	
 	@Override
-	public boolean canSetErrorReportState() {
+	public boolean getCanSetErrorReportState() {
 		return true;
 	}
 

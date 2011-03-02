@@ -2,7 +2,6 @@ package br.usp.ime.cogroo.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -30,6 +29,8 @@ import br.usp.ime.cogroo.model.LoggedUser;
 import br.usp.ime.cogroo.model.ProcessResult;
 import br.usp.ime.cogroo.model.errorreport.Comment;
 import br.usp.ime.cogroo.model.errorreport.ErrorEntry;
+import br.usp.ime.cogroo.model.errorreport.Priority;
+import br.usp.ime.cogroo.model.errorreport.State;
 import br.usp.ime.cogroo.util.RestUtil;
 
 
@@ -219,7 +220,9 @@ public class ErrorReportController {
 		}
 		
 		result.include("errorEntry", errorEntryFromDB).
-			include("processResultList", cogrooFacade.processText(errorEntryFromDB.getText()));
+			include("processResultList", cogrooFacade.processText(errorEntryFromDB.getText())).
+			include("priorities", Priority.values()).
+			include("states", State.values());
 	}
 	
 	@Post
@@ -272,4 +275,18 @@ public class ErrorReportController {
 		errorEntryLogic.remove(errorEntry);
 	}
 	
+	@Post
+	@Path("/errorEntrySetPriority")
+	public void errorEntrySetPriority(ErrorEntry errorEntry, String priority) {
+		errorEntryLogic.setPriority(errorEntry, Enum.valueOf(Priority.class, priority));
+		result.redirectTo(ErrorReportController.class).details(errorEntry);
+	}
+	
+	
+	@Post
+	@Path("/errorEntrySetState")
+	public void errorEntrySetState(ErrorEntry errorEntry, String state) {
+		errorEntryLogic.setState(errorEntry, Enum.valueOf(State.class, state));
+		result.redirectTo(ErrorReportController.class).details(errorEntry);
+	}
 }

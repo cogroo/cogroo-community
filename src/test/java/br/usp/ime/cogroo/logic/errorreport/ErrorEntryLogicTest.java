@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import static org.mockito.Mockito.*;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -23,10 +25,13 @@ import br.usp.ime.cogroo.dao.errorreport.ErrorEntryDAO;
 import br.usp.ime.cogroo.dao.errorreport.GrammarCheckerBadInterventionDAO;
 import br.usp.ime.cogroo.dao.errorreport.GrammarCheckerOmissionDAO;
 import br.usp.ime.cogroo.exceptions.CommunityException;
+import br.usp.ime.cogroo.model.ApplicationData;
 import br.usp.ime.cogroo.model.LoggedUser;
 import br.usp.ime.cogroo.model.User;
 import br.usp.ime.cogroo.model.errorreport.Comment;
 import br.usp.ime.cogroo.model.errorreport.ErrorEntry;
+import br.usp.ime.cogroo.model.errorreport.Priority;
+import br.usp.ime.cogroo.model.errorreport.State;
 
 public class ErrorEntryLogicTest {
 	
@@ -53,6 +58,8 @@ public class ErrorEntryLogicTest {
 		CogrooFacade facade = new CogrooFacade(new DummyBaseDictionary());
 		facade.setResources("target/cogroo");
 		
+		ApplicationData appdata = mock(ApplicationData.class);
+		
 		mErrorEntryLogic = new ErrorEntryLogic(
 				lu, new ErrorEntryDAO(em), 
 				new UserDAO(em), 
@@ -60,7 +67,7 @@ public class ErrorEntryLogicTest {
 				facade,
 				new GrammarCheckerVersionDAO(em),
 				new GrammarCheckerOmissionDAO(em),
-				new GrammarCheckerBadInterventionDAO(em), null);
+				new GrammarCheckerBadInterventionDAO(em), appdata);
 	}
 
 	@Test(expected=CommunityException.class)
@@ -154,5 +161,53 @@ public class ErrorEntryLogicTest {
 		ErrorEntry error1 = dao.retrieve(new Long(errorID));
 		
 		assertEquals(0, error1.getComments().get(1).getAnswers().size());
+	}
+	
+	@Test
+	public void testSetPriority() throws CommunityException, IOException {
+		
+		
+		em.getTransaction().begin();
+		List<ErrorEntry> list = mErrorEntryLogic.addErrorEntry(william.getLogin(), ResourcesUtil.getResourceAsString(getClass(), "/br/usp/ime/cogroo/logic/ErrorReport1.xml"));
+		em.getTransaction().commit();
+
+		Long errorID = list.get(0).getId();
+		
+		assertEquals(Priority.NORMAL, list.get(0).getPriority());
+		
+		em.getTransaction().begin();
+		mErrorEntryLogic.setPriority(list.get(0), Priority.IMMEDIATE);
+		em.getTransaction().commit();
+		
+		
+		ErrorEntryDAO dao = new ErrorEntryDAO(em);
+		
+		ErrorEntry error = dao.retrieve(new Long(errorID));
+		
+		assertEquals(Priority.IMMEDIATE, error.getPriority());
+	}
+	
+	@Test
+	public void testSetState() throws CommunityException, IOException {
+		
+		
+		em.getTransaction().begin();
+		List<ErrorEntry> list = mErrorEntryLogic.addErrorEntry(william.getLogin(), ResourcesUtil.getResourceAsString(getClass(), "/br/usp/ime/cogroo/logic/ErrorReport1.xml"));
+		em.getTransaction().commit();
+
+		Long errorID = list.get(0).getId();
+		
+		assertEquals(State.OPEN, list.get(0).getState());
+		
+		em.getTransaction().begin();
+		mErrorEntryLogic.setState(list.get(0), State.CLOSED);
+		em.getTransaction().commit();
+		
+		
+		ErrorEntryDAO dao = new ErrorEntryDAO(em);
+		
+		ErrorEntry error = dao.retrieve(new Long(errorID));
+		
+		assertEquals(State.CLOSED, error.getState());
 	}
 }

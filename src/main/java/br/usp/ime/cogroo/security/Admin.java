@@ -10,7 +10,7 @@ public class Admin extends Developer {
 	}
 	
 	@Override
-	public boolean canSetUserRole() {
+	public boolean getCanSetUserRole() {
 		return true;
 	}
 	

@@ -80,7 +80,7 @@ public class UserController {
 	@Path("/userRole")
 	public void userRole(User user, String role) {
 		if(loggedUser.isLogged() 
-				&& (loggedUser.getUser().getRole().canSetUserRole()
+				&& (loggedUser.getUser().getRole().getCanSetUserRole()
 						|| loggedUser.getUser().getLogin().equals("admin"))
 			) {
 			user = userDAO.retrieve(user.getId());

@@ -10,12 +10,12 @@ public class User extends Role {
 	}
 	
 	@Override
-	public boolean canDeleteOwnCommment() {
+	public boolean getCanDeleteOwnCommment() {
 		return true;
 	}
 	
 	@Override
-	public boolean canDeleteOwnErrorReport() {
+	public boolean getCanDeleteOwnErrorReport() {
 		return true;
 	}
 

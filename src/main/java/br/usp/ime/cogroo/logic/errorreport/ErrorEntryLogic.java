@@ -389,7 +389,7 @@ public class ErrorEntryLogic {
 		Comment c = new Comment(user, new Date(), comment, errorEntry, new ArrayList<Comment>());
 		commentDAO.add(c);
 		errorEntry.getComments().add(c);
-		errorEntry.setModified(new Date());
+		updateModified(errorEntry);
 		errorEntryDAO.update(errorEntry);
 		return c.getId();
 	}
@@ -403,7 +403,7 @@ public class ErrorEntryLogic {
 		commentDAO.add(answer);	
 		c.getAnswers().add(answer);
 		commentDAO.update(c);
-		c.getErrorEntry().setModified(new Date());
+		updateModified(c.getErrorEntry());
 		errorEntryDAO.update(c.getErrorEntry());
 	}
 
@@ -433,7 +433,22 @@ public class ErrorEntryLogic {
 		errorEntryDAO.delete(errorEntry);
 		appData.decReportedErrors();		
 	}
+	
+	public void setPriority(ErrorEntry errorEntry, Priority priority) {
+		errorEntry = errorEntryDAO.retrieve(errorEntry.getId());
+		errorEntry.setPriority(priority);
+		errorEntryDAO.update(errorEntry);
+	}
 
-
+	public void setState(ErrorEntry errorEntry, State state) {
+		errorEntry = errorEntryDAO.retrieve(errorEntry.getId());
+		errorEntry.setState(state);
+		updateModified(errorEntry);
+		errorEntryDAO.update(errorEntry);
+	}
+	
+	public void updateModified(ErrorEntry errorEntry) {
+		errorEntry.setModified(new Date());
+	}
 
 }

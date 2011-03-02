@@ -8,7 +8,7 @@ public class Developer extends Linguist {
 	}
 	
 	@Override
-	public boolean canDeleteOtherUserCommment() {
+	public boolean getCanDeleteOtherUserCommment() {
 		return true;
 	}
 	

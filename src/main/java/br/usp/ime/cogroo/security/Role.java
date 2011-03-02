@@ -4,15 +4,15 @@ public abstract class Role {
 	
 	public abstract String getRoleName();
 	
-	public boolean canDeleteOwnCommment() {
+	public boolean getCanDeleteOwnCommment() {
 		return false;
 	}
 	
-	public boolean canDeleteOwnErrorReport() {
+	public boolean getCanDeleteOwnErrorReport() {
 		return false;
 	}
 	
-	public boolean canDeleteOtherUserCommment() {
+	public boolean getCanDeleteOtherUserCommment() {
 		return false;
 	}
 	
@@ -20,15 +20,15 @@ public abstract class Role {
 		return false;
 	}
 	
-	public boolean canSetErrorReportPriority() {
+	public boolean getCanSetErrorReportPriority() {
 		return false;
 	}
 	
-	public boolean canSetErrorReportState() {
+	public boolean getCanSetErrorReportState() {
 		return false;
 	}
 	
-	public boolean canSetUserRole() {
+	public boolean getCanSetUserRole() {
 		return false;
 	}
 

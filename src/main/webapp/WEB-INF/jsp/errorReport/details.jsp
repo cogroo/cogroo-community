@@ -161,6 +161,50 @@ table.answer td {
 			  		</c:otherwise>
 				</c:choose>
 			</tr>
+			<tr>
+				<c:choose>
+					<c:when test="${loggedUser.user.role.canSetErrorReportState}">
+						<th>Situação:</th><td>
+					      	<div style="display: none;" id="editstate">
+					            <form action="<c:url value='/errorEntrySetState'/>" method="post">
+					            	<select name="state">
+										<c:forEach items="${states}" var="s">
+											<option value="${s}"><fmt:message key="${s}" /></option>
+										</c:forEach>
+									</select>
+									<input name="errorEntry.id" value="${errorEntry.id}" type="hidden" />
+				                    <input type="submit" style="font-size: 11px;" value=" Alterar " class="button"/> | 
+				                    <a onclick="off('editstate'); on('state'); return false" href="#"><b>voltar</b></a>
+					            </form>
+					        </div>
+					      	<div id="state">
+			    				<fmt:message key="${errorEntry.state}" /> <a onclick="on('editstate'); off('state'); return false" href="#">(alterar)</a>
+					        </div>
+			    		</td>
+			    		<th>Prioridade:</th><td>
+					      	<div style="display: none;" id="editpriority">
+					            <form action="<c:url value='/errorEntrySetPriority'/>" method="post">
+					            	<select name="priority">
+										<c:forEach items="${priorities}" var="p">
+											<option value="${p}"><fmt:message key="${p}" /></option>
+										</c:forEach>
+									</select>
+									<input name="errorEntry.id" value="${errorEntry.id}" type="hidden" />
+				                    <input type="submit" style="font-size: 11px;" value=" Alterar " class="button"/> | 
+				                    <a onclick="off('editpriority'); on('priority'); return false" href="#"><b>voltar</b></a>
+					            </form>
+					        </div>
+					      	<div id="priority">
+			    				<fmt:message key="${errorEntry.priority}" /> <a onclick="on('editpriority'); off('priority'); return false" href="#">(alterar)</a>
+					        </div>
+			    		</td>
+			  		</c:when>
+			  		<c:otherwise>
+			  			<th>Situação:</th><td><fmt:message key="${errorEntry.state}" /></td>
+			    		<th>Prioridade:</th><td><fmt:message key="${errorEntry.priority}" /></td>
+			  		</c:otherwise>
+				</c:choose>
+			</tr>
 			</tbody>
 		</table>
 		</div>
@@ -183,7 +227,7 @@ table.answer td {
 		<c:forEach items="${errorEntry.errorEntryComments}" var="comment" varStatus="i">
 			<div id="comment_${ i.count }">
 				<h4 class="undeline">Por ${comment.user.name} em <fmt:formatDate type="both" dateStyle="long" value="${comment.date}" />
-				<c:if test="${(comment.user.login == loggedUser.user.login) || (loggedUser.user.login == 'admin') }"> 
+				<c:if test="${((comment.user.login == loggedUser.user.login) && loggedUser.user.role.canDeleteOwnCommment) || (loggedUser.user.role.canDeleteOtherUserCommment) }"> 
 					<a id="_${ i.count }" href="about:blank" class="comment_remove">excluir</a>
 				</c:if>
 				</h4>
@@ -198,7 +242,7 @@ table.answer td {
 							<c:forEach items="${comment.answers}" var="answer"  varStatus="j">
 								<tr id="tr_answer_${ i.count }_${ j.count }">
 									<td>${answer.processedComment} <i> -- ${answer.user.name} em <fmt:formatDate type="both" dateStyle="long" value="${answer.date}" /></i>
-									<c:if test="${(answer.user.login == loggedUser.user.login) || (loggedUser.user.login == 'admin') }">
+									<c:if test="${((answer.user.login == loggedUser.user.login) && loggedUser.user.role.canDeleteOwnCommment) || (loggedUser.user.role.canDeleteOtherUserCommment) }">
 										<a id="_${ i.count }_${ j.count }" href="about:blank" class="answer_remove">excluir</a>
 										<form action="/errorEntryAnswerToComment" method="post" id="form_answer_remove_${ i.count }_${ j.count }">
 										    <input name="answer.id" value="${answer.id}" type="hidden" />
