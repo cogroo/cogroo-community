@@ -93,7 +93,7 @@
 	            </form>
 	        </div>
 			<div style="display: none;" id="pwrecup">
-	            <form action="<c:url value='/sendNewPass'/>" method="post">
+	            <form action="<c:url value='/recover'/>" method="get">
 	                <p>
 	                    <label><b>e-mail: </b><input type="text" name="email" style="width: 125px; font-size: 12px;" maxlength="20" class="inputtxt"/></label> 
 	                    <input type="hidden" value="pwrecup" name="cmd/"/>
