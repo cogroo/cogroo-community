@@ -3,7 +3,9 @@ package br.usp.ime.cogroo.controller;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static org.mockito.Mockito.*;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.List;
 
@@ -23,12 +25,12 @@ import br.com.caelum.vraptor.validator.ValidationException;
 import br.usp.ime.cogroo.dao.UserDAO;
 import br.usp.ime.cogroo.exceptions.ExceptionMessages;
 import br.usp.ime.cogroo.logic.AnalyticsManager;
-import br.usp.ime.cogroo.logic.AnalyticsManagerImpl;
 import br.usp.ime.cogroo.model.ApplicationData;
-import br.usp.ime.cogroo.model.DataFeed;
 import br.usp.ime.cogroo.model.LoggedUser;
 import br.usp.ime.cogroo.model.User;
 import br.usp.ime.cogroo.util.CriptoUtils;
+
+import com.google.gdata.data.analytics.DataFeed;
 
 public class LoginControllerTest {
 	

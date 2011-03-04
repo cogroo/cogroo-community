@@ -7,30 +7,27 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import br.usp.ime.cogroo.model.DataFeed;
+import com.google.gdata.data.analytics.DataFeed;
 
-import com.google.api.client.http.HttpRequest;
-import com.google.api.client.xml.XmlNamespaceDictionary;
-
+/**
+ * 
+ * @author Michel
+ * 
+ */
 public interface AnalyticsManager {
 
 	public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat(
 			"yyyy-MM-dd");
-	public static final XmlNamespaceDictionary DICTIONARY = new XmlNamespaceDictionary();
-
-	public abstract HttpRequest setUpDataRequest(String ids,
-			List<String> metrics, List<String> dimensions, Date startDate,
-			Date endDate);
-
-	public abstract void authenticate(String username, String password);
 
 	public abstract DataFeed getData(String ids, List<String> metrics,
 			List<String> dimensions, Date startDate, Date endDate);
 
+	public abstract void authenticate(String username, String password);
+
 	/**
 	 * Export metrics from a data feed on a format readable by javascript. The
 	 * data feed must be obtained from an Analytics query containing "ga:date"
-	 * as one adimension.
+	 * as one dimension.
 	 * 
 	 * @param dataFeed
 	 *            A data feed obtained from an Analytics query.

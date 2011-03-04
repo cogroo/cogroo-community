@@ -17,6 +17,8 @@ import br.com.caelum.vraptor.ioc.Component;
 import br.usp.ime.cogroo.logic.AnalyticsManager;
 import br.usp.ime.cogroo.util.BuildUtil;
 
+import com.google.gdata.data.analytics.DataFeed;
+
 @Component
 @ApplicationScoped
 public class ApplicationData {
@@ -102,11 +104,11 @@ public class ApplicationData {
 	}
 
 	private synchronized void updateStats() {
-		Calendar yesterday = Calendar.getInstance();
-		yesterday.add(Calendar.DATE, -1);
+		Calendar twoDaysAgo = Calendar.getInstance();
+		twoDaysAgo.add(Calendar.DATE, -2);
 
 		DataFeed feed = manager.getData(IDS, METRICS, DIMENSIONS,
-				LAUNCH_DAY.getTime(), yesterday.getTime());
+				LAUNCH_DAY.getTime(), twoDaysAgo.getTime());
 
 		String metrics = manager.getDatedMetricsAsString(feed);
 
@@ -131,9 +133,9 @@ public class ApplicationData {
 		this.csvStatsFile = statsFile;
 		this.temporalData = metrics;
 		
-		setEvents(feed.aggregates.metrics.get(0).value);
-		setVisits(feed.aggregates.metrics.get(1).value);
-		setPageviews(feed.aggregates.metrics.get(2).value);
+		setEvents(feed.getAggregates().getMetrics().get(0).numericValue().intValue());
+		setVisits(feed.getAggregates().getMetrics().get(1).numericValue().intValue());
+		setPageviews(feed.getAggregates().getMetrics().get(2).numericValue().intValue());
 	}
 
 	public String getVersion() {
