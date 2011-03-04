@@ -17,10 +17,10 @@ public class HistoryEntryField {
 	private String fieldName;
 	
 	@Column(length=128)
-	private String before;
+	private String valueBefore;
 	
 	@Column(length=128)
-	private String after;
+	private String valueAfter;
 	
 	@ManyToOne
 	private HistoryEntry historyEntry;
@@ -33,8 +33,8 @@ public class HistoryEntryField {
 	public HistoryEntryField(HistoryEntry historyEntry, String fieldName, String before, String after, boolean isFormatted) {
 		this.historyEntry = historyEntry;
 		this.fieldName = fieldName;
-		this.before = before;
-		this.after = after;
+		this.valueBefore = before;
+		this.valueAfter = after;
 		this.isFormatted = isFormatted;
 	}
 
@@ -55,19 +55,19 @@ public class HistoryEntryField {
 	}
 
 	public String getBefore() {
-		return before;
+		return valueBefore;
 	}
 
 	public void setBefore(String before) {
-		this.before = before;
+		this.valueBefore = before;
 	}
 
 	public String getAfter() {
-		return after;
+		return valueAfter;
 	}
 
 	public void setAfter(String after) {
-		this.after = after;
+		this.valueAfter = after;
 	}
 
 	public HistoryEntry getHistoryEntry() {
