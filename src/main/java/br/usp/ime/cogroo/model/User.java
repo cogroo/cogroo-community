@@ -26,7 +26,7 @@ public class User {
 	private String login;
 	
 	@Column
-	private long lastLogin;
+	private Long lastLogin;
 
 	/**
 	 * password cripto
