@@ -95,7 +95,7 @@
 			<div style="display: none;" id="pwrecup">
 	            <form action="<c:url value='/recover'/>" method="get">
 	                <p>
-	                    <label><b>e-mail: </b><input type="text" name="email" style="width: 125px; font-size: 12px;" maxlength="20" class="inputtxt"/></label> 
+	                    <label><b>e-mail: </b><input type="text" name="email" style="width: 125px; font-size: 12px;" maxlength="80" class="inputtxt"/></label> 
 	                    <input type="hidden" value="pwrecup" name="cmd/"/>
 	                    <input type="submit" style="font-size: 11px;" value=" enviar nova senha &raquo; " class="button"/> | 
 	                    <a onclick="off('pwrecup'); on('logform'); return false" href="#"><b>voltar</b></a>

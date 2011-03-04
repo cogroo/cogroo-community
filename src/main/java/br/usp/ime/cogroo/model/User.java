@@ -72,14 +72,14 @@ public class User {
 
 	public Date getLastLogin() {
 		if(cachedLastLogin == null) {
-			cachedLastLogin = (lastLogin != 0) ? new Date(lastLogin) : null;
+			cachedLastLogin = (lastLogin != null && lastLogin != 0) ? new Date(lastLogin) : null;
 		}
 		return cachedLastLogin;
 	}
 	
 	public Date getPreviousLogin() {
 		if(previousLogin == null) {
-			previousLogin = (lastLogin != 0) ? new Date(lastLogin) : null;
+			previousLogin = (lastLogin != null && lastLogin != 0) ? new Date(lastLogin) : null;
 		}
 		return previousLogin;
 	}

@@ -260,6 +260,7 @@ public class ErrorReportController {
 			result.include("errorEntry", errorEntryFromDB).
 				include("hasError", hasError).
 				include("processResultList", procRes).
+				include("singleGrammarErrorList", cogrooFacade.asSingleGrammarErrorList(errorEntryFromDB.getText(), procRes)).
 				include("omissionCategoriesList", this.errorEntryLogic.getErrorCategoriesForUser());
 		}
 	}
