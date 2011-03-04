@@ -99,10 +99,4 @@ public class RegisterController {
 		//result.redirectTo(this).welcome();
 	}
 	
-	@Get
-	@Path("/sendEmail")
-	public void send() throws EmailException {
-		EmailSender.sendEmail("Algum texto", "Foi !!");
-		result.redirectTo(IndexController.class).index("Email enviado !");		
-	}
 }

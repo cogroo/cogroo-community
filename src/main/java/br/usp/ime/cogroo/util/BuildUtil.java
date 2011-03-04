@@ -22,6 +22,10 @@ public final class BuildUtil {
 	
 	public static final String ANALYTICS_USR = getString("ANALYTICS_USR");
 	public static final String ANALYTICS_PWD = getString("ANALYTICS_PWD");
+
+	
+	public static final String EMAIL_SYSTEM_USR = getString("EMAIL_SYSTEM_USR");
+	public static final String EMAIL_SYSTEM_PWD = getString("EMAIL_SYSTEM_PWD");
 	
 	private static String getString(String key) {
 		return PROPERTIES.getString(key);

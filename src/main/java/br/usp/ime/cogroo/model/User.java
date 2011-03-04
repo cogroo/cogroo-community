@@ -51,6 +51,12 @@ public class User {
 	
 	@Column(length = 10)
 	private String roleName;
+	
+	@Column
+	private Date dateRecoverCode;
+	
+	@Column(length = 32)
+	private String recoverCode;
 
 	public User() {
 	}
@@ -158,6 +164,22 @@ public class User {
 	@Transient
 	public void setRole(Role role) {
 		this.roleName = role.getRoleName();
+	}
+
+	public void setDateRecoverCode(Date dateRecoverCode) {
+		this.dateRecoverCode = dateRecoverCode;
+	}
+
+	public Date getDateRecoverCode() {
+		return dateRecoverCode;
+	}
+
+	public void setRecoverCode(String recoverCode) {
+		this.recoverCode = recoverCode;
+	}
+
+	public String getRecoverCode() {
+		return recoverCode;
 	}
 
 }

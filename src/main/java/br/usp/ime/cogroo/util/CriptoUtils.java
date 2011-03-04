@@ -22,6 +22,15 @@ public final class CriptoUtils {
 		return input;
 	}
 	
+	public static String digestMD5(String input){
+		try {
+			input = byteArrayToHexString(digest(input.getBytes(), "MD5"));
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		return input;
+	}
+	
 	public static String digestSHA1(String login, String pass)
 			throws NoSuchAlgorithmException {
 		String input = login + pass;
