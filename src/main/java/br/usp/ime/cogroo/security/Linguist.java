@@ -16,5 +16,10 @@ public class Linguist extends User {
 	public boolean getCanSetErrorReportState() {
 		return true;
 	}
+	
+	@Override
+	public boolean getCanEditErrorReport() {
+		return true;
+	}
 
 }

@@ -202,7 +202,7 @@ public class ErrorReportController {
 	}
 	
 	@Get
-	@Path("/errorEntry")
+	@Path("/errorEntry/{errorEntry.id}")
 	public void details(ErrorEntry errorEntry) {
 		if(errorEntry == null) {
 			result.redirectTo(getClass()).list();
@@ -223,6 +223,45 @@ public class ErrorReportController {
 			include("processResultList", cogrooFacade.processText(errorEntryFromDB.getText())).
 			include("priorities", Priority.values()).
 			include("states", State.values());
+	}
+	
+	@Get
+	@Path("/editErrorEntry/{errorEntry.id}")
+	public void editDetails(ErrorEntry errorEntry) {
+		if(errorEntry == null) {
+			result.redirectTo(getClass()).list();
+			return;
+		}
+		
+		ErrorEntry errorEntryFromDB =errorEntryDAO.retrieve(new Long(errorEntry.getId())); 
+		LOG.debug("Details for: " + errorEntryFromDB);
+		
+		if (errorEntryFromDB == null) {
+			validator.add(new ValidationMessage(ExceptionMessages.PAGE_NOT_FOUND,
+					ExceptionMessages.ERROR));
+			validator.onErrorUse(Results.logic()).redirectTo(ErrorReportController.class)
+					.list();
+		} else if(!loggedUser.isLogged() || !loggedUser.getUser().getRole().getCanEditErrorReport()) {
+			validator.add(new ValidationMessage(ExceptionMessages.USER_UNAUTHORIZED,
+					ExceptionMessages.ERROR));
+			validator.onErrorUse(Results.logic()).redirectTo(ErrorReportController.class)
+					.details(errorEntryFromDB);
+		} else {
+			List<ProcessResult> procRes = cogrooFacade.processText(errorEntryFromDB.getText());
+			
+			boolean hasError = false;
+			for (ProcessResult processResult : procRes) {
+				if(processResult.getMistakes().size() > 0) {
+					hasError = true;
+					break;
+				}
+			}
+			
+			result.include("errorEntry", errorEntryFromDB).
+				include("hasError", hasError).
+				include("processResultList", procRes).
+				include("omissionCategoriesList", this.errorEntryLogic.getErrorCategoriesForUser());
+		}
 	}
 	
 	@Post

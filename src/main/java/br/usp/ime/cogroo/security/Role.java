@@ -16,7 +16,7 @@ public abstract class Role {
 		return false;
 	}
 	
-	public boolean canDeleteOtherUserErrorReport() {
+	public boolean getCanDeleteOtherUserErrorReport() {
 		return false;
 	}
 	
@@ -28,10 +28,14 @@ public abstract class Role {
 		return false;
 	}
 	
+	public boolean getCanEditErrorReport() {
+		return false;
+	}
+	
 	public boolean getCanSetUserRole() {
 		return false;
 	}
-
+	
 	@Override
 	public String toString() {
 		return getRoleName();

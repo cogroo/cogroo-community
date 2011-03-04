@@ -13,7 +13,7 @@ public class Developer extends Linguist {
 	}
 	
 	@Override
-	public boolean canDeleteOtherUserErrorReport() {
+	public boolean getCanDeleteOtherUserErrorReport() {
 		return true;
 	}
 	

@@ -120,7 +120,11 @@ table.answer td {
 </style>
 
 	<h2>Entrada #${errorEntry.id}</h2>
+			<span style="FLOAT: right; POSITION: static">
+			<a href="<c:url value="/editErrorEntry/${errorEntry.id}"/>">editar</a>
+		</span>
 	<div class="report_details">
+	
 		<div class="report_details_table">
 		<table >
 			<tbody>
