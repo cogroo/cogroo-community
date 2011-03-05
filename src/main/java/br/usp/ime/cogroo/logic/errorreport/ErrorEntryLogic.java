@@ -392,6 +392,80 @@ public class ErrorEntryLogic {
 		
 	}
 	
+	public List<HistoryEntryField> generateHistory(GrammarCheckerOmission before, GrammarCheckerOmission after) {
+		
+		List<HistoryEntryField> h = new ArrayList<HistoryEntryField>();
+		
+		HistoryEntryField category = new HistoryEntryField();
+		category.setFieldName(Messages.OMISSION_CATEGORY);
+		if(before != null) {
+			category.setBefore(before.getCategory());
+		}
+		if(after != null) {
+			category.setAfter(after.getCategory());
+		}
+		
+		HistoryEntryField custom = new HistoryEntryField();
+		category.setFieldName(Messages.OMISSION_CUSTOM_CATEGORY);
+		if(before != null) {
+			category.setBefore(before.getCustomCategory());
+		}
+		if(after != null) {
+			category.setAfter(after.getCustomCategory());
+		}
+		
+		HistoryEntryField replace = new HistoryEntryField();
+		category.setFieldName(Messages.OMISSION_REPLACE_BY);
+		if(before != null) {
+			category.setBefore(before.getReplaceBy());
+		}
+		if(after != null) {
+			category.setAfter(after.getReplaceBy());
+		}
+		
+		h.add(category);
+		h.add(custom);
+		h.add(replace);
+		
+		return h;
+	}
+	
+	public void updateBadIntervention(ErrorEntry er) {
+		List<HistoryEntryField> h = new ArrayList<HistoryEntryField>();
+		
+		if(er.getOmission() != null) {
+//			h.addAll(generateHistory(er.getOmission(), null));
+			this.omissionDAO.delete(er.getOmission());
+			er.setOmission(null);
+		}
+		if(er.getBadIntervention().getId() == null) {
+//			h.addAll(generateHistory(null, er.getBadIntervention()));
+			this.badInterventionDAO.add(er.getBadIntervention());
+		} else {
+			this.badInterventionDAO.update(er.getBadIntervention());
+		}
+		
+		this.updateModified(er);
+		
+		this.errorEntryDAO.update(er);
+	}
+
+	public void updateOmission(ErrorEntry er) {
+		if(er.getBadIntervention() != null) {
+			this.badInterventionDAO.delete(er.getBadIntervention());
+			er.setBadIntervention(null);
+		}
+		if(er.getOmission().getId() == null) {
+			this.omissionDAO.add(er.getOmission());
+		} else {
+			this.omissionDAO.update(er.getOmission());
+		}
+		
+		this.updateModified(er);
+		
+		this.errorEntryDAO.update(er);
+	}
+	
 	public Long addCommentToErrorEntry(Long errorEntryID, Long userID, String comment) {
 		ErrorEntry errorEntry = errorEntryDAO.retrieve(errorEntryID);
 		User user = userDAO.retrieve(userID);

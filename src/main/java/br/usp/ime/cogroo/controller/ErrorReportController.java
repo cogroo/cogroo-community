@@ -1,11 +1,13 @@
 package br.usp.ime.cogroo.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.EnumType;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
@@ -27,11 +29,15 @@ import br.usp.ime.cogroo.logic.SecurityUtil;
 import br.usp.ime.cogroo.logic.errorreport.ErrorEntryLogic;
 import br.usp.ime.cogroo.model.LoggedUser;
 import br.usp.ime.cogroo.model.ProcessResult;
+import br.usp.ime.cogroo.model.errorreport.BadInterventionClassification;
 import br.usp.ime.cogroo.model.errorreport.Comment;
 import br.usp.ime.cogroo.model.errorreport.ErrorEntry;
+import br.usp.ime.cogroo.model.errorreport.GrammarCheckerBadIntervention;
+import br.usp.ime.cogroo.model.errorreport.GrammarCheckerOmission;
 import br.usp.ime.cogroo.model.errorreport.Priority;
 import br.usp.ime.cogroo.model.errorreport.State;
 import br.usp.ime.cogroo.util.RestUtil;
+import br.usp.pcs.lta.cogroo.errorreport.model.ErrorReport;
 
 
 @Resource
@@ -104,6 +110,120 @@ public class ErrorReportController {
 			
 			result.include("justReported", true).include("login", loggedUser.getUser().getLogin());
 			
+			result.redirectTo(getClass()).list();
+		} else {
+			validator.add(new ValidationMessage(
+					ExceptionMessages.ONLY_LOGGED_USER_CAN_DO_THIS, ExceptionMessages.ERROR));
+		}
+	}
+	
+	@Post
+	@Path("/updateErrorReport")
+	public void updateErrorReport(
+			Long reportId,
+			String type,
+			String badintIndex, 
+			String badintType,
+			List<String> badintStart,
+			List<String> badintEnd, 
+			List<String> badintRule, 
+			String omissionCategory,
+			String omissionCustom,
+			String omissionReplaceBy,
+			String omissionStart,
+			String omissionEnd) {
+		
+		if(loggedUser.isLogged()) {
+			
+			LOG.debug("reportId: " + reportId + "\n" +
+				"type: " + type + "\n" +
+				"badintIndex: " + badintIndex + "\n" +
+				"badintType: " + badintType + "\n" +
+				"badintStart: " + badintStart+ "\n" +
+				"badintEnd: " + badintEnd + "\n" +
+				"badintRule: " + badintRule + "\n" +
+				"omissionCategory: " + omissionCategory + "\n" +
+				"omissionCustom: " + omissionCustom + "\n" +
+				"omissionReplaceBy: " + omissionReplaceBy + "\n" +
+				"omissionStart: " + omissionStart + "\n" +
+				"omissionEnd: " + omissionEnd );
+			
+			ErrorEntry er = this.errorEntryDAO.retrieve(reportId);
+			
+			if(type.equals("BADINT")) {
+				GrammarCheckerBadIntervention bi = null;
+				if(er.getBadIntervention() == null) {
+					bi = new GrammarCheckerBadIntervention();
+					er.setBadIntervention(bi);
+				} else {
+					bi = er.getBadIntervention();
+				}
+				
+				bi.setClassification(Enum.valueOf(BadInterventionClassification.class, badintType));
+				bi.setErrorEntry(er);
+				bi.setRule(Integer.valueOf(badintEnd.get(Integer.valueOf(badintIndex) - 1)));
+				
+				er.setSpanStart(Integer.valueOf(badintStart.get(Integer.valueOf(badintIndex) - 1)));
+				er.setSpanEnd(Integer.valueOf(badintEnd.get(Integer.valueOf(badintIndex) - 1)));
+				
+				this.errorEntryLogic.updateBadIntervention(er);
+			} else {
+				boolean isValidSpan = true;
+				
+				int start = -1;
+				int end = -1;
+				
+				if(omissionStart != null && omissionEnd != null) {
+					start = Integer.parseInt(omissionStart);
+					end = Integer.parseInt(omissionEnd);
+				}
+				
+				GrammarCheckerOmission o = null;
+				if(er.getOmission() == null) {
+					o = new GrammarCheckerOmission();
+					er.setOmission(o);
+				} else {
+					o = er.getOmission();
+				}
+				
+				o.setCategory(omissionCategory);
+				if(omissionCategory.equals("custom")) {
+					o.setCustomCategory(omissionCustom);
+				} else {
+					o.setCustomCategory(null);
+				}
+				o.setErrorEntry(er);
+				o.setReplaceBy(omissionReplaceBy);
+				
+				er.setSpanStart(start);
+				er.setSpanEnd(end);
+				
+				if( !(end > 0 && end > start)) {
+					validator.add(new ValidationMessage(ExceptionMessages.ERROR_REPORT_OMISSION_INVALID_SELECTION,
+							ExceptionMessages.ERROR));
+				}
+				if( omissionCategory.equals("custom") && (omissionCustom == null || omissionCustom.length() == 0)) {
+					validator.add(new ValidationMessage(ExceptionMessages.ERROR_REPORT_OMISSION_MISSING_CUSTOM_CATEGORY,
+							ExceptionMessages.ERROR));
+				}
+				if( (omissionReplaceBy == null || omissionReplaceBy.length() == 0)) {
+					validator.add(new ValidationMessage(ExceptionMessages.ERROR_REPORT_OMISSION_MISSING_REPLACE,
+							ExceptionMessages.ERROR));
+				}
+				if(validator.hasErrors()) {
+					validator.onErrorUse(Results.logic()).redirectTo(ErrorReportController.class)
+						.editDetails(er);
+					return;
+				}
+				this.errorEntryLogic.updateOmission(er);
+			}
+			
+//			errorEntryLogic.addErrorEntry(loggedUser.getUser(), text, badint, comments, badintStart, badintEnd, badintRule, omissionClassification,
+//					customOmissionText,
+//					omissionComment, omissionReplaceBy, omissionStart, omissionEnd);
+//			
+//			result.include("justReported", true).include("login", loggedUser.getUser().getLogin());
+//			
 			result.redirectTo(getClass()).list();
 		} else {
 			validator.add(new ValidationMessage(
