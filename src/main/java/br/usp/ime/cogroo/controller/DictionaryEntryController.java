@@ -17,6 +17,7 @@ import br.com.caelum.vraptor.view.Results;
 import br.usp.ime.cogroo.exceptions.ExceptionMessages;
 import br.usp.ime.cogroo.logic.DictionaryManager;
 import br.usp.ime.cogroo.logic.EditPosTagLogic;
+import br.usp.ime.cogroo.logic.TextSanitizer;
 import br.usp.ime.cogroo.model.ApplicationData;
 import br.usp.ime.cogroo.model.DictionaryEntry;
 import br.usp.ime.cogroo.model.LoggedUser;
@@ -35,18 +36,21 @@ public class DictionaryEntryController {
 	private Validator validator;
 	private LoggedUser loggedUser;
 	private ApplicationData appData;
+	private TextSanitizer sanitizer;
 	private static final Logger LOG = Logger
 			.getLogger(DictionaryEntryController.class);
 
 	public DictionaryEntryController(DictionaryManager dictionaryManager,
 			Result result, Validator validator, LoggedUser loggedUser,
-			EditPosTagLogic editPosTagLogic, ApplicationData appData) {
-		this.dictionaryManager = dictionaryManager;
+			EditPosTagLogic editPosTagLogic, ApplicationData appData,
+			TextSanitizer sanitizer) {
+	this.dictionaryManager = dictionaryManager;
 		this.editPosTagLogic = editPosTagLogic;
 		this.result = result;
 		this.validator = validator;
 		this.loggedUser = loggedUser;
 		this.appData = appData;
+		this.sanitizer = sanitizer;
 	}
 
 	@Get
@@ -76,6 +80,10 @@ public class DictionaryEntryController {
 	@Path("/dictionaryEntry")
 	public void add(DictionaryEntry dictionaryEntry, List<String> fieldList,
 			String tagClass) {
+		Word word = dictionaryEntry.getWord();
+		Word lemma = dictionaryEntry.getLemma();
+		word.setWord(sanitizer.sanitize(word.getWord(), false));
+		lemma.setWord(sanitizer.sanitize(lemma.getWord(), false));
 
 		if (!dictionaryEntry.isValid()) {
 			validator.add(new ValidationMessage(ExceptionMessages.INVALID_ENTRY,
@@ -124,6 +132,7 @@ public class DictionaryEntryController {
 	@Post
 	@Path("/dictionaryEntrySearch")
 	public void search(String word) {
+		word = sanitizer.sanitize(word, false);
 		if (word != null && word.length() > 0) {
 			List<NicePrintDictionaryEntry> dictionaryEntry = dictionaryManager
 					.searchWordAndLemma(word);

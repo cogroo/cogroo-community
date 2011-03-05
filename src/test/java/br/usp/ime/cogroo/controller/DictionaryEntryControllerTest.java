@@ -21,6 +21,7 @@ import br.usp.ime.cogroo.dao.WordDAO;
 import br.usp.ime.cogroo.exceptions.ExceptionMessages;
 import br.usp.ime.cogroo.logic.DictionaryManager;
 import br.usp.ime.cogroo.logic.EditPosTagLogic;
+import br.usp.ime.cogroo.logic.TextSanitizer;
 import br.usp.ime.cogroo.model.DictionaryEntry;
 import br.usp.ime.cogroo.model.LoggedUser;
 import br.usp.ime.cogroo.model.PosTag;
@@ -51,7 +52,7 @@ public class DictionaryEntryControllerTest {
 		Validator validator = new MockValidator();
 		EditPosTagLogic logic2 = new EditPosTagLogic();
 		dictionaryEntryController = new DictionaryEntryController(logic,
-				result, validator, loggedUser, logic2, null);
+				result, validator, loggedUser, logic2, null, new TextSanitizer());
 
 	}
 

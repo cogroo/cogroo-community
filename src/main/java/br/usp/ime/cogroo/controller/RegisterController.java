@@ -13,6 +13,7 @@ import br.com.caelum.vraptor.validator.ValidationMessage;
 import br.com.caelum.vraptor.view.Results;
 import br.usp.ime.cogroo.dao.UserDAO;
 import br.usp.ime.cogroo.exceptions.ExceptionMessages;
+import br.usp.ime.cogroo.logic.TextSanitizer;
 import br.usp.ime.cogroo.model.ApplicationData;
 import br.usp.ime.cogroo.model.User;
 import br.usp.ime.cogroo.util.CriptoUtils;
@@ -25,15 +26,18 @@ public class RegisterController {
 	private UserDAO userDAO;
 	private Validator validator;
 	private ApplicationData appData;
+	private TextSanitizer sanitizer;
 	private static final Logger LOG = Logger
 			.getLogger(RegisterController.class);
 
 	public RegisterController(Result result, UserDAO userDAO,
-			Validator validator, ApplicationData appData) {
+			Validator validator, ApplicationData appData,
+			TextSanitizer sanitizer) {
 		this.result = result;
 		this.userDAO = userDAO;
 		this.validator = validator;
 		this.appData = appData;
+		this.sanitizer = sanitizer;
 	}
 
 	@Get
@@ -56,6 +60,9 @@ public class RegisterController {
 	@Path("/register")
 	public void register(String login, String password, String passwordRepeat,
 			String email, String name, boolean iAgree) {
+		login = sanitizer.sanitize(login, false);
+		email = sanitizer.sanitize(email, false);
+		name = sanitizer.sanitize(name, false);
 
 		// TODO Fazer e refatorar as Validações.
 		if (password.trim().isEmpty() || email.trim().isEmpty()

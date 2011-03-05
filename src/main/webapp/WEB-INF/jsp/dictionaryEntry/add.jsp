@@ -70,7 +70,7 @@ label.typeField {
 	<fieldset>
 		<legend>Inserir um novo verbete:</legend>
 		
-		   	Escolha o lema do verbete:      <input type="text" name="dictionaryEntry.lemma.word" value="${dictionaryEntry.lemma.word}  maxlength="128""/><br/>
+		   	Escolha o lema do verbete:      <input type="text" name="dictionaryEntry.lemma.word" value="${dictionaryEntry.lemma.word}" maxlength="128"/><br/>
 		  	Palavra:      <input type="text" name="dictionaryEntry.word.word" value="${dictionaryEntry.word.word}" maxlength="128"/><br/>
 		  	Etiqueta morfológica:  <br />
 		  	

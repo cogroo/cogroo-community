@@ -26,6 +26,7 @@ import br.usp.ime.cogroo.exceptions.CommunityException;
 import br.usp.ime.cogroo.exceptions.ExceptionMessages;
 import br.usp.ime.cogroo.logic.AnalyticsManager;
 import br.usp.ime.cogroo.logic.SecurityUtil;
+import br.usp.ime.cogroo.logic.TextSanitizer;
 import br.usp.ime.cogroo.logic.errorreport.ErrorEntryLogic;
 import br.usp.ime.cogroo.model.LoggedUser;
 import br.usp.ime.cogroo.model.ProcessResult;
@@ -59,6 +60,7 @@ public class ErrorReportController {
 	
 	private AnalyticsManager manager;
 	private HttpServletRequest request;
+	private TextSanitizer sanitizer;
 
 	public ErrorReportController(
 			LoggedUser loggedUser, 
@@ -69,7 +71,8 @@ public class ErrorReportController {
 			SecurityUtil securityUtil,
 			CogrooFacade cogrooFacade,
 			AnalyticsManager manager,
-			HttpServletRequest request) {
+			HttpServletRequest request,
+			TextSanitizer sanitizer) {
 		this.loggedUser = loggedUser;
 		this.errorEntryLogic = errorEntryLogic;
 		this.result = result;
@@ -79,6 +82,7 @@ public class ErrorReportController {
 		this.cogrooFacade = cogrooFacade;
 		this.manager = manager;
 		this.request = request;
+		this.sanitizer = sanitizer;
 	}
 	
 	@Get
@@ -104,6 +108,10 @@ public class ErrorReportController {
 			List<String> omissionEnd) {
 		
 		if(loggedUser.isLogged()) {
+			comments = sanitizer.sanitize(comments, true);
+			customOmissionText = sanitizer.sanitize(customOmissionText, false);
+			omissionComment = sanitizer.sanitize(omissionComment, true);
+			omissionReplaceBy = sanitizer.sanitize(omissionReplaceBy, false);
 			errorEntryLogic.addErrorEntry(loggedUser.getUser(), text, badint, comments, badintStart, badintEnd, badintRule, omissionClassification,
 					customOmissionText,
 					omissionComment, omissionReplaceBy, omissionStart, omissionEnd);
@@ -234,6 +242,7 @@ public class ErrorReportController {
 	@Post
 	@Path("/reportNewErrorAddText")
 	public void reportNewErrorAddText(String text) {
+		text = sanitizer.sanitize(text, false);
 		try {
 			if(text != null && text.length() >= 0) {
 				if( text.length() > 255 ) {
@@ -272,6 +281,8 @@ public class ErrorReportController {
 	@Path("/submitErrorReport")
 	public void submitErrorEntry(String username, String token, String error) {
 		error = securityUtil.decodeURLSafeString(error);
+		// TODO Sanitize input in the plugin. Should check also for XML markup.
+		//error = sanitizer.sanitize(error, false);
 		
 		LOG.debug("Got new error report from: " + username +
 				" encrypted token: " + token +
@@ -388,6 +399,7 @@ public class ErrorReportController {
 	@Post
 	@Path("/errorEntryAddComment")
 	public void addComment(ErrorEntry errorEntry, String newComment) {
+		newComment = sanitizer.sanitize(newComment, true);
 		ErrorEntry errorEntryFromDB = errorEntryDAO.retrieve(new Long(errorEntry.getId()));
 		
 		LOG.debug("errorEntry: " + errorEntryFromDB);
@@ -412,6 +424,7 @@ public class ErrorReportController {
 	@Post
 	@Path("/errorEntryAddAnswerToComment")
 	public void addAnswerToComment(ErrorEntry errorEntry, Comment comment, String answer) {
+		answer = sanitizer.sanitize(answer, true);
 		errorEntryLogic.addAnswerToComment(comment.getId(), loggedUser.getUser().getId(), answer);
 		result.redirectTo(ErrorReportController.class).details(errorEntry);
 	}
