@@ -48,6 +48,9 @@ import br.usp.pcs.lta.cogroo.tools.checker.rules.util.RulesContainerHelper;
 public class ErrorEntryLogic {
 
 	private static final Logger LOG = Logger.getLogger(ErrorEntryLogic.class);
+	
+	public static final String CUSTOM = "custom";
+	
 	private ErrorEntryDAO errorEntryDAO;
 	private UserDAO userDAO;
 	private CommentDAO commentDAO;
@@ -324,7 +327,7 @@ public class ErrorEntryLogic {
 					String classification = null;
 					String customClass = null;
 					
-					if(omissionClassification.get(i).equals("custom")) {
+					if(omissionClassification.get(i).equals(CUSTOM)) {
 						classification = null;
 						customClass = customOmissionText.get(i);
 					} else {
@@ -396,61 +399,225 @@ public class ErrorEntryLogic {
 		
 		List<HistoryEntryField> h = new ArrayList<HistoryEntryField>();
 		
-		HistoryEntryField category = new HistoryEntryField();
-		category.setFieldName(Messages.OMISSION_CATEGORY);
-		if(before != null) {
-			category.setBefore(before.getCategory());
-		}
-		if(after != null) {
-			category.setAfter(after.getCategory());
-		}
+		if(before == null && after == null) {
+			return h;
+		} else if(before != null && after == null) {
+			if( before.getCategory() != null ) {
+				HistoryEntryField category = new HistoryEntryField();
+				category.setFieldName(Messages.OMISSION_CATEGORY);
+				category.setBefore(before.getCategory());
+				h.add(category);
+			}
+			
+			if( before.getCustomCategory() != null ) {
+				HistoryEntryField custom = new HistoryEntryField();
+				custom.setFieldName(Messages.OMISSION_CUSTOM_CATEGORY);
+				custom.setBefore(before.getCustomCategory());
+				h.add(custom);
+			}
+			
+			if( before.getReplaceBy() != null ) {
+				HistoryEntryField replace = new HistoryEntryField();
+				replace.setFieldName(Messages.OMISSION_REPLACE_BY);
+				replace.setBefore(before.getReplaceBy());
+				h.add(replace);
+			}
+		} else if(before == null && after != null) {
+			if( after.getCategory() != null ) {
+				HistoryEntryField category = new HistoryEntryField();
+				category.setFieldName(Messages.OMISSION_CATEGORY);
+				category.setAfter(after.getCategory());
+				h.add(category);
+			}
+			
+			if( after.getCustomCategory() != null ) {
+				HistoryEntryField custom = new HistoryEntryField();
+				custom.setFieldName(Messages.OMISSION_CUSTOM_CATEGORY);
+				custom.setAfter(after.getCustomCategory());
+				h.add(custom);
+			}
+			
+			if( after.getReplaceBy() != null ) {
+				HistoryEntryField replace = new HistoryEntryField();
+				replace.setFieldName(Messages.OMISSION_REPLACE_BY);
+				replace.setAfter(after.getReplaceBy());
+				h.add(replace);
+			}
+		} else {
 		
-		HistoryEntryField custom = new HistoryEntryField();
-		category.setFieldName(Messages.OMISSION_CUSTOM_CATEGORY);
-		if(before != null) {
-			category.setBefore(before.getCustomCategory());
-		}
-		if(after != null) {
-			category.setAfter(after.getCustomCategory());
-		}
+			if( isDifferentAndNotNull(before.getCategory(), after.getCategory()) ) {
+				HistoryEntryField category = new HistoryEntryField();
+				category.setFieldName(Messages.OMISSION_CATEGORY);
+				if(before != null) {
+					category.setBefore(before.getCategory());
+				}
+				if(after != null) {
+					category.setAfter(after.getCategory());
+				}
+				
+				h.add(category);
+			}
+			
+			if( isDifferentAndNotNull(before.getCustomCategory(), after.getCustomCategory()) ) {
+				HistoryEntryField custom = new HistoryEntryField();
+				custom.setFieldName(Messages.OMISSION_CUSTOM_CATEGORY);
+				if(before != null) {
+					custom.setBefore(before.getCustomCategory());
+				}
+				if(after != null) {
+					custom.setAfter(after.getCustomCategory());
+				}
+				
+				h.add(custom);
+			}
+			
+			if( isDifferentAndNotNull(before.getReplaceBy(), after.getReplaceBy()) ) {
+				HistoryEntryField replace = new HistoryEntryField();
+				replace.setFieldName(Messages.OMISSION_REPLACE_BY);
+				if(before != null) {
+					replace.setBefore(before.getReplaceBy());
+				}
+				if(after != null) {
+					replace.setAfter(after.getReplaceBy());
+				}
+				h.add(replace);
+			}
 		
-		HistoryEntryField replace = new HistoryEntryField();
-		category.setFieldName(Messages.OMISSION_REPLACE_BY);
-		if(before != null) {
-			category.setBefore(before.getReplaceBy());
 		}
-		if(after != null) {
-			category.setAfter(after.getReplaceBy());
-		}
-		
-		h.add(category);
-		h.add(custom);
-		h.add(replace);
 		
 		return h;
 	}
 	
-	public void updateBadIntervention(ErrorEntry er) {
+	public List<HistoryEntryField> generateHistory(GrammarCheckerBadIntervention before, GrammarCheckerBadIntervention after) {
+
 		List<HistoryEntryField> h = new ArrayList<HistoryEntryField>();
 		
+		if(before == null && after == null) {
+			return h;
+		} else if(before != null && after == null) {
+				
+			HistoryEntryField rule = new HistoryEntryField();
+			rule.setFieldName(Messages.BADINT_RULE);
+			rule.setBefore(""+before.getRule());
+			h.add(rule);
+			
+			if( before.getClassification() != null ) {
+				
+				HistoryEntryField classification = new HistoryEntryField();
+				classification.setFieldName(Messages.BADINT_CLASSIFICATION);
+				classification.setFormatted(true);
+				
+				classification.setBefore(""+before.getClassification());
+				
+				h.add(classification);
+			}
+		} else if(before == null && after != null) {
+			
+			HistoryEntryField rule = new HistoryEntryField();
+			rule.setFieldName(Messages.BADINT_RULE);
+			rule.setAfter(""+after.getRule());
+			h.add(rule);
+			
+			if( after.getClassification() != null ) {
+				
+				HistoryEntryField classification = new HistoryEntryField();
+				classification.setFieldName(Messages.BADINT_CLASSIFICATION);
+				classification.setFormatted(true);
+				
+				classification.setAfter(""+after.getClassification());
+				
+				h.add(classification);
+			}
+		} else {
+			if( isDifferentAndNotNull(before.getRule(), after.getRule()) ) {
+				
+				HistoryEntryField rule = new HistoryEntryField();
+				rule.setFieldName(Messages.BADINT_RULE);
+				if(before != null) {
+					rule.setBefore(""+before.getRule());
+				}
+				if(after != null) {
+					rule.setAfter(""+after.getRule());
+				}
+				h.add(rule);
+			}
+			
+			if( isDifferentAndNotNull(before.getClassification(), after.getClassification()) ) {
+				
+				HistoryEntryField classification = new HistoryEntryField();
+				classification.setFieldName(Messages.BADINT_CLASSIFICATION);
+				classification.setFormatted(true);
+				
+				if(before != null) {
+					classification.setBefore(""+before.getClassification());
+				}
+				if(after != null) {
+					classification.setAfter(""+after.getClassification());
+				}
+				
+				h.add(classification);
+			}
+		}
+		
+		return h;
+	}
+	
+	private boolean isDifferentAndNotNull(Object a, Object b) {
+		if(	a != null && !a.equals(b) || b != null && !b.equals(a)) {
+			return true;
+		}
+		return false;
+	}
+	
+	public List<HistoryEntryField> generateHistory(ErrorEntry before, ErrorEntry after) {
+		List<HistoryEntryField> h = new ArrayList<HistoryEntryField>();
+		
+		String beforeMarkedText = before.getMarkedText();
+		String afterMarkedText = after.getMarkedText();
+		if(isDifferentAndNotNull(beforeMarkedText, afterMarkedText)) {
+			
+			HistoryEntryField markedText = new HistoryEntryField();
+			markedText.setFormatted(false);
+			
+			markedText.setFieldName(Messages.ERRORENTRY_SELECTEDTEXT);
+			
+			if(beforeMarkedText != null) {
+				markedText.setBefore(beforeMarkedText);
+			}
+			if(afterMarkedText != null) {
+				markedText.setAfter(afterMarkedText);
+			}
+			
+			h.add(markedText);
+		}
+		
+		h.addAll(generateHistory(before.getBadIntervention(), after.getBadIntervention()));
+		h.addAll(generateHistory(before.getOmission(), after.getOmission()));
+		
+		return h;
+	}
+	
+	public void updateBadIntervention(ErrorEntry er, ErrorEntry original) {
+		
 		if(er.getOmission() != null) {
-//			h.addAll(generateHistory(er.getOmission(), null));
 			this.omissionDAO.delete(er.getOmission());
 			er.setOmission(null);
 		}
 		if(er.getBadIntervention().getId() == null) {
-//			h.addAll(generateHistory(null, er.getBadIntervention()));
 			this.badInterventionDAO.add(er.getBadIntervention());
 		} else {
 			this.badInterventionDAO.update(er.getBadIntervention());
 		}
 		
 		this.updateModified(er);
-		
+		List<HistoryEntryField> h = generateHistory(original, er);
+		this.addHistory(er, h);
+
 		this.errorEntryDAO.update(er);
 	}
 
-	public void updateOmission(ErrorEntry er) {
+	public void updateOmission(ErrorEntry er, ErrorEntry original) {
+		
 		if(er.getBadIntervention() != null) {
 			this.badInterventionDAO.delete(er.getBadIntervention());
 			er.setBadIntervention(null);
@@ -462,7 +629,8 @@ public class ErrorEntryLogic {
 		}
 		
 		this.updateModified(er);
-		
+		List<HistoryEntryField> h = generateHistory(original, er);
+		this.addHistory(er, h);
 		this.errorEntryDAO.update(er);
 	}
 	
@@ -545,8 +713,44 @@ public class ErrorEntryLogic {
 		errorEntry.setModified(new Date());
 	}
 	
+	private void addHistory(ErrorEntry errorEntry, List<HistoryEntryField> hefList) {
+		
+		HistoryEntry he = new HistoryEntry(this.user, new Date(), hefList, errorEntry);
+		
+		if(hefList.size() == 0) {
+			LOG.info("No history to log.");
+			return;
+		}
+		
+		for (HistoryEntryField historyEntryField : hefList) {
+			historyEntryField.setHistoryEntry(he);
+			this.historyEntryFieldDAO.add(historyEntryField);
+		}
+		
+		this.historyEntryDAO.add(he);
+		
+		List<HistoryEntry> heList = errorEntry.getHistoryEntries();
+		if(heList == null) {
+			heList = new ArrayList<HistoryEntry>();
+			errorEntry.setHistoryEntries(heList);
+		}
+		
+		errorEntry.getHistoryEntries().add(he);
+		this.errorEntryDAO.update(errorEntry);
+		
+		if(LOG.isDebugEnabled()) {
+			LOG.debug("Added history entry...");
+			LOG.debug(he);
+		}
+	}
+	
 	private void addHistory(ErrorEntry errorEntry,
 			List<String> fieldList, List<String> beforeList, List<String> afterList, boolean isFormatted) {
+		
+		if(fieldList.size() == 0) {
+			LOG.info("No history to log.");
+			return;
+		}
 		
 		List<HistoryEntryField> hefList = new ArrayList<HistoryEntryField>();
 

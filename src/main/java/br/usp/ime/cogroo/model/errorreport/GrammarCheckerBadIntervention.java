@@ -6,7 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 @Entity
-public class GrammarCheckerBadIntervention {
+public class GrammarCheckerBadIntervention implements Cloneable {
 	
 	@Id
 	@GeneratedValue
@@ -69,5 +69,10 @@ public class GrammarCheckerBadIntervention {
 		sb.append("classification: " + classification + "\n");
 		sb.append("rule: " + rule + "\n");
 		return sb.toString();
+	}
+	
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		return super.clone();
 	}
 }

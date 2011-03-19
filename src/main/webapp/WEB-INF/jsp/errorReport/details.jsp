@@ -299,10 +299,10 @@ table.answer td {
 				<c:forEach items="${historyEntry.historyEntryField}" var="historyEntryField">
 					<c:choose>
 						<c:when test="${historyEntryField.isFormatted}">
-				    		<li><b><fmt:message key="${historyEntryField.fieldName}" /></b> alterado de <i><fmt:message key="${historyEntryField.before}" /></i> para <i><fmt:message key="${historyEntryField.after}" /></i></li>
+				    		<li><b><fmt:message key="${historyEntryField.fieldName}" /></b>: [<i><del><fmt:message key="${historyEntryField.before}" /></del></i>] &rarr; [<i><fmt:message key="${historyEntryField.after}" /></i>]</li>
 				  		</c:when>
 				  		<c:otherwise>
-				    		<li><b><fmt:message key="${historyEntryField.fieldName}" /></b> alterado de <i>${historyEntryField.before}</i> para <i>${historyEntryField.after}</i></li>
+				    		<li><b><fmt:message key="${historyEntryField.fieldName}" /></b>: [<i><del>${historyEntryField.before}</i></del>] &rarr; [<i>${historyEntryField.after}</i>]</li>
 				  		</c:otherwise>
 					</c:choose>
 					

@@ -1,13 +1,11 @@
 package br.usp.ime.cogroo.controller;
 
 import java.io.UnsupportedEncodingException;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.EnumType;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
@@ -38,7 +36,6 @@ import br.usp.ime.cogroo.model.errorreport.GrammarCheckerOmission;
 import br.usp.ime.cogroo.model.errorreport.Priority;
 import br.usp.ime.cogroo.model.errorreport.State;
 import br.usp.ime.cogroo.util.RestUtil;
-import br.usp.pcs.lta.cogroo.errorreport.model.ErrorReport;
 
 
 @Resource
@@ -156,28 +153,33 @@ public class ErrorReportController {
 				"omissionStart: " + omissionStart + "\n" +
 				"omissionEnd: " + omissionEnd );
 			
-			ErrorEntry er = this.errorEntryDAO.retrieve(reportId);
+			ErrorEntry errorEntryFromDB = this.errorEntryDAO.retrieve(reportId);
+			ErrorEntry originalErrorEntry = null;
+			try {
+				originalErrorEntry = (ErrorEntry) errorEntryFromDB.clone();
+				
+			} catch (CloneNotSupportedException e) {
+				LOG.error("Error cloning ErrorEntry object: ", e);
+			}
 			
 			if(type.equals("BADINT")) {
-				GrammarCheckerBadIntervention bi = null;
-				if(er.getBadIntervention() == null) {
-					bi = new GrammarCheckerBadIntervention();
-					er.setBadIntervention(bi);
+				GrammarCheckerBadIntervention newBadIntervention = null;
+				if(errorEntryFromDB.getBadIntervention() == null) {
+					newBadIntervention = new GrammarCheckerBadIntervention();
+					errorEntryFromDB.setBadIntervention(newBadIntervention);
 				} else {
-					bi = er.getBadIntervention();
+					newBadIntervention = errorEntryFromDB.getBadIntervention();
 				}
 				
-				bi.setClassification(Enum.valueOf(BadInterventionClassification.class, badintType));
-				bi.setErrorEntry(er);
-				bi.setRule(Integer.valueOf(badintEnd.get(Integer.valueOf(badintIndex) - 1)));
+				newBadIntervention.setClassification(Enum.valueOf(BadInterventionClassification.class, badintType));
+				newBadIntervention.setErrorEntry(errorEntryFromDB);
+				newBadIntervention.setRule(Integer.valueOf(badintEnd.get(Integer.valueOf(badintIndex) - 1)));
 				
-				er.setSpanStart(Integer.valueOf(badintStart.get(Integer.valueOf(badintIndex) - 1)));
-				er.setSpanEnd(Integer.valueOf(badintEnd.get(Integer.valueOf(badintIndex) - 1)));
+				errorEntryFromDB.setSpanStart(Integer.valueOf(badintStart.get(Integer.valueOf(badintIndex) - 1)));
+				errorEntryFromDB.setSpanEnd(Integer.valueOf(badintEnd.get(Integer.valueOf(badintIndex) - 1)));
 				
-				this.errorEntryLogic.updateBadIntervention(er);
+				this.errorEntryLogic.updateBadIntervention(errorEntryFromDB, originalErrorEntry);
 			} else {
-				boolean isValidSpan = true;
-				
 				int start = -1;
 				int end = -1;
 				
@@ -187,24 +189,24 @@ public class ErrorReportController {
 				}
 				
 				GrammarCheckerOmission o = null;
-				if(er.getOmission() == null) {
+				if(errorEntryFromDB.getOmission() == null) {
 					o = new GrammarCheckerOmission();
-					er.setOmission(o);
+					errorEntryFromDB.setOmission(o);
 				} else {
-					o = er.getOmission();
+					o = errorEntryFromDB.getOmission();
 				}
 				
 				o.setCategory(omissionCategory);
-				if(omissionCategory.equals("custom")) {
-					o.setCustomCategory(omissionCustom);
+				if(omissionCategory.equals(ErrorEntryLogic.CUSTOM)) {
+					o.setCustomCategory(sanitizer.sanitize(omissionCustom, false));
 				} else {
 					o.setCustomCategory(null);
 				}
-				o.setErrorEntry(er);
-				o.setReplaceBy(omissionReplaceBy);
+				o.setErrorEntry(errorEntryFromDB);
+				o.setReplaceBy(sanitizer.sanitize(omissionReplaceBy,false));
 				
-				er.setSpanStart(start);
-				er.setSpanEnd(end);
+				errorEntryFromDB.setSpanStart(start);
+				errorEntryFromDB.setSpanEnd(end);
 				
 				if( !(end > 0 && end > start)) {
 					validator.add(new ValidationMessage(ExceptionMessages.ERROR_REPORT_OMISSION_INVALID_SELECTION,
@@ -220,19 +222,13 @@ public class ErrorReportController {
 				}
 				if(validator.hasErrors()) {
 					validator.onErrorUse(Results.logic()).redirectTo(ErrorReportController.class)
-						.editDetails(er);
+						.editDetails(errorEntryFromDB);
 					return;
 				}
-				this.errorEntryLogic.updateOmission(er);
+				this.errorEntryLogic.updateOmission(errorEntryFromDB, originalErrorEntry);
 			}
 			
-//			errorEntryLogic.addErrorEntry(loggedUser.getUser(), text, badint, comments, badintStart, badintEnd, badintRule, omissionClassification,
-//					customOmissionText,
-//					omissionComment, omissionReplaceBy, omissionStart, omissionEnd);
-//			
-//			result.include("justReported", true).include("login", loggedUser.getUser().getLogin());
-//			
-			result.redirectTo(getClass()).list();
+			result.redirectTo(getClass()).details(errorEntryFromDB);
 		} else {
 			validator.add(new ValidationMessage(
 					ExceptionMessages.ONLY_LOGGED_USER_CAN_DO_THIS, ExceptionMessages.ERROR));

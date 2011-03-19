@@ -10,6 +10,39 @@
 
 <script type="text/javascript" charset="utf-8">
 
+$(document).ready(function() {
+	
+    // Webkit bug: can't use select if textarea is readonly
+  	if ($.browser.webkit) {
+  		$("#selector").removeAttr( "readonly" )
+	 };
+	 
+	 // set select text handler for omission
+	 $('#addNewOmission').click(function() {
+		 omissionChanged();
+	 });
+	 
+	// Type: omission or badint
+	 $('#typeSelection').change(function() {
+		 typeChanged();
+	 });
+	 typeChanged();
+	 
+	 // Custom Omission
+    $('#customOmissionText').hide();
+    $('#omissionCategory').change(function() {
+    	
+        if( $(this).val() == 'custom' )   $('#customOmissionText').show();
+        else $('#customOmissionText').hide();
+    });
+
+    
+    // BadInt
+    $('#badintSelec').change(function() {
+    	badintChanged();
+	 });
+});
+
 function typeChanged() {
 	
 	if (document.getElementById("typeSelection").value == 'OMISSION') {
@@ -83,47 +116,7 @@ function omissionChanged() {
      }
 };
 
-$(document).ready(function() {
-	typeChanged();
-	
-    // Webkit bug: can't use select if textarea is readonly
-  	if ($.browser.webkit) {
-  		$("#selector").removeAttr( "readonly" )
-	 };
-	 
-	 $('#addNewOmission').click(function() {
-		 omissionChanged();
-	 });
-});
-
 </script>
-
-<style type="text/css">
-table.answer {
-	border-width: 0px;
-	border-spacing: 0px;
-	border-style: hidden;
-	border-color: gray;
-	border-collapse: collapse;
-	background-color: white;
-}
-table.answer th {
-	border-width: 1px;
-	padding: 1px;
-	border-style: dotted;
-	border-color: gray;
-	background-color: white;
-	-moz-border-radius: 0px 0px 0px 0px;
-}
-table.answer td {
-	border-width: 1px;
-	padding: 1px;
-	border-style: dotted;
-	border-color: gray;
-	background-color: white;
-	-moz-border-radius: 0px 0px 0px 0px;
-}
-</style>
 
 	<h2>Editar entrada #${errorEntry.id}</h2>
 	<form id="updateError" action="<c:url value="/updateErrorReport"/>" method="post" >
@@ -133,7 +126,7 @@ table.answer td {
 				<tbody>
 					<tr>
 					    <th>Tipo:</th>
-						   <td><select id="typeSelection" onchange="typeChanged(); return false;" name="type" style="width: 300px;" <c:if test="${not hasError}">disabled="disabled"</c:if>>
+						   <td><select id="typeSelection" name="type" style="width: 300px;" <c:if test="${not hasError}">disabled="disabled"</c:if>>
 								<option value="OMISSION" <c:if test="${not empty errorEntry.omission}">selected="selected"</c:if>>Omissão</option>
 								<option value="BADINT" <c:if test="${not empty errorEntry.badIntervention}">selected="selected"</c:if>>Intervenção Indevida</option>
 							</select></td>
@@ -142,7 +135,7 @@ table.answer td {
 					<tr class="badint">
 						<th>Regra:</th>
 						<c:if test="${not empty singleGrammarErrorList}">
-						<td><select id="badintSelec" name="badintIndex" style="width: 300px;" onchange="badintChanged(); return false;">
+						<td><select id="badintSelec" name="badintIndex" style="width: 300px;">
 							<c:forEach items="${singleGrammarErrorList}" var="singleGrammarError" varStatus="i">
 								<option value="${ i.count }"
 								<c:if test="${singleGrammarError.mistake.ruleIdentifier eq errorEntry.badIntervention.rule and
@@ -161,9 +154,7 @@ table.answer td {
 						</select></td>
 					</tr>
 		    		<tr class="omission"><th>Categoria:</th>
-						<td><select name="omissionCategory" style="width: 300px;"
-							onchange="if( 'custom' == this.options[this.selectedIndex].value ) {on('customOmissionText');} else {off('customOmissionText');} ;"
-						>
+						<td><select id="omissionCategory" name="omissionCategory" style="width: 300px;">
 							<c:forEach items="${omissionCategoriesList}" var="omissionCategories">
 								<option value="${omissionCategories}" <c:if test="${errorEntry.omission.category eq omissionCategories}">selected="selected"</c:if>>${omissionCategories}</option>
 							</c:forEach>

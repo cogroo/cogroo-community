@@ -80,5 +80,17 @@ public class HistoryEntry {
 		this.user = user;
 	}
 	
-	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("User " + getUser() + "\n");
+		sb.append("Creation " + getCreation() + "\n");
+		sb.append("ErrorEntryID " + getErrorEntry().getId() + "\n");
+		
+		for (HistoryEntryField entry : getHistoryEntryField()) {
+			sb.append("\t - " + entry + "\n");
+		}
+		return sb.toString();
+	}
 }

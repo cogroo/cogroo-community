@@ -86,5 +86,8 @@ public class HistoryEntryField {
 		this.isFormatted = isFormatted;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return "Field : [ " + getFieldName() + "] before: [" + getBefore() + "] after: [" + getAfter() + "] formatted: " + getIsFormatted();
+	}
 }

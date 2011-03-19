@@ -18,7 +18,7 @@ import br.usp.ime.cogroo.model.GrammarCheckerVersion;
 import br.usp.ime.cogroo.model.User;
 
 @Entity
-public class ErrorEntry {
+public class ErrorEntry implements Cloneable {
 	
 	private static final Logger LOG = Logger.getLogger(ErrorEntry.class);
 
@@ -262,7 +262,24 @@ public class ErrorEntry {
 				sb.append("   " + comment + "\n");
 			}
 		}
+		sb.append("history: " + "\n");
+		if(getHistoryEntries() != null) {
+			for (HistoryEntry he : getHistoryEntries()) {
+				sb.append("   " + he + "\n");
+			}
+		}
 		return sb.toString();
 	}
-
+	
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		ErrorEntry clone = (ErrorEntry)super.clone();
+		if(getBadIntervention() != null) {
+			clone.setBadIntervention((GrammarCheckerBadIntervention) getBadIntervention().clone());
+		}
+		if(getOmission() != null) {
+			clone.setOmission((GrammarCheckerOmission) getOmission().clone());
+		}
+		return clone;
+	}
 }

@@ -1,12 +1,14 @@
 package br.usp.ime.cogroo.model.errorreport;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 @Entity
-public class GrammarCheckerOmission {
+public class GrammarCheckerOmission implements Cloneable{
 	
 	@Id
 	@GeneratedValue
@@ -77,5 +79,10 @@ public class GrammarCheckerOmission {
 		sb.append("custom category: " + customCategory + "\n");
 		sb.append("replaceBy: " + replaceBy + "\n");
 		return sb.toString();
+	}
+	
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		return super.clone();
 	}
 }

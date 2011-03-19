@@ -6,6 +6,7 @@ import java.util.Random;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.mail.EmailException;
+import org.apache.log4j.Logger;
 
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
@@ -23,6 +24,8 @@ import br.usp.ime.cogroo.util.EmailSender;
 
 @Resource
 public class RecoverPasswordController {
+	
+	private static final Logger LOG = Logger.getLogger(RecoverPasswordController.class);
 
 	private final Result result;
 	private UserDAO userDAO;
@@ -137,8 +140,7 @@ public class RecoverPasswordController {
 		try {
 			EmailSender.sendEmail(body, subject, userFromDB.getEmail().trim());
 		} catch (EmailException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOG.fatal("Error recovering password.", e);
 		}
 
 	}
