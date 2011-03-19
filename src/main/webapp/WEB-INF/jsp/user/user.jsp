@@ -29,7 +29,7 @@
 	</table>
 </div>
 
-<c:if test="${(loggedUser.user.roleName == 'admin') || (loggedUser.user.login == 'admin') }">
+<c:if test="${(loggedUser.user.role.canSetUserRole) || (loggedUser.user.login == 'admin') }">
 	<form id="setUserRole"  action="<c:url value="/userRole"/>" method="post" >
 		Escolha um novo papel para o usuário: 
 		<select name="role">

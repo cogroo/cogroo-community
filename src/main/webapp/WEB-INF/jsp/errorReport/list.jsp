@@ -40,7 +40,7 @@
 		var iIndex = oTable.fnGetPosition( nTr );
 		var aData = oTable.fnSettings().aoData[iIndex]._aData;
 		
-		return '<div class="reportlist_details">'+aData[8]+'</div>';
+		return '<div class="reportlist_details">'+aData[10]+'</div>';
 	};
 	
 	$(document).ready(function() {
@@ -156,7 +156,7 @@
 					<td>${errorEntry.version.version}</td>
 					<td>${errorEntry.submitter.login}</td>
 	  			  	<td>
-  					<c:if test="${(errorEntry.submitter.login == loggedUser.user.login) || (loggedUser.user.login == 'admin') }"> 
+  					<c:if test="${(errorEntry.submitter.login == loggedUser.user.login) || loggedUser.user.role.canDeleteOtherUserErrorReport }"> 
 						<a onclick="remove_error('_${ i.count }'); return false;" id="_${ i.count }" href="about:blank" class="remove_error">excluir</a>
 						<form action="/errorEntryDelete" method="post" id="form_remove_error_${ i.count }">
 						    <input name="errorEntry.id" value="${errorEntry.id}" type="hidden" />
