@@ -21,6 +21,9 @@ public 	class ThreadedMailSender extends Thread {
 		}
 		for (User user : users) {
 			try {
+				if(LOG.isDebugEnabled()) {
+					LOG.debug("Enviando e-mail para " + user.getEmail() + " assunto: " + subject);
+				}
 				EmailSender.sendEmail(body, subject, user.getEmail());
 			} catch (EmailException e) {
 				LOG.error("Error sending email to user " + user + " with email " + user.getEmail());

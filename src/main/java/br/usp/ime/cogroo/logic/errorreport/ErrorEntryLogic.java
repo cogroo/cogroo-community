@@ -895,6 +895,9 @@ public class ErrorEntryLogic {
 				userList.add(a.getUser());
 			}
 		}
+		if(LOG.isDebugEnabled()) {
+			LOG.debug("Will send email for #" + userList + " users.");
+		}
 		// generate the subject
 		String subject = "Problema Reportado #" + errorEntry.getId() + " - Alterado.";
 		// generate the body
