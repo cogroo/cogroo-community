@@ -61,7 +61,7 @@
 				"sInfoFiltered": "(filtrados de um total de _MAX_ entradas)"
 			},
 			"aLengthMenu": [20,50,100,200],
-			"aaSorting": [[ 4, 'desc' ]],
+			"aaSorting": [[ 6, 'desc' ]],
 			"iDisplayLength": 20,
 			"aoColumns": [
 				{ "bSortable": false }, 	//0
