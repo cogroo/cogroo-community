@@ -135,10 +135,15 @@ public class RecoverPasswordController {
 
 		String url = request.getRequestURL().toString() + "/"
 				+ userFromDB.getEmail() + "/" + codeRecover;
-		String body = "Clicar no link " + url;
-		String subject = "Recuperação de senha do CoGrOO Comunidade.";
+		StringBuilder body = new StringBuilder();
+		body.append("Olá, " + userFromDB.getName() + "!\n\n");
+		body.append("De acordo com sua solicitação no portal CoGrOO Comunidade, enviamos um link para redefinir sua senha:\n");
+		body.append(url + "\n\n");
+		body.append("Lembrando que seu login é \"" + userFromDB.getLogin() + "\".\n");
+		
+		String subject = "Redefinição de senha";
 		try {
-			EmailSender.sendEmail(body, subject, userFromDB.getEmail().trim());
+			EmailSender.sendEmail(body.toString(), subject, userFromDB.getEmail().trim());
 		} catch (EmailException e) {
 			LOG.fatal("Error recovering password.", e);
 		}

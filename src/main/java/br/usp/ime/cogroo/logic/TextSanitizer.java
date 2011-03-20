@@ -3,6 +3,7 @@ package br.usp.ime.cogroo.logic;
 import java.net.URL;
 import java.util.List;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
 import org.owasp.validator.html.AntiSamy;
 import org.owasp.validator.html.CleanResults;
@@ -55,11 +56,12 @@ public class TextSanitizer {
 	 *            <t>true</t>
 	 * @return Input without HTML tags.
 	 */
-	public String sanitize(String text, boolean allowTextFormattingTags) {
+	public String sanitize(String text, boolean allowTextFormattingTags, boolean unescapeHtml) {
 		if (text != null) {
 			Policy policy = allowTextFormattingTags ? relaxedPolicy
 					: strictPolicy;
 			CleanResults cr = null;
+
 			try {
 				cr = as.scan(text, policy);
 				LOG.info("Antisamy errors found: " + cr.getNumberOfErrors());
@@ -69,15 +71,30 @@ public class TextSanitizer {
 			} catch (PolicyException e) {
 				LOG.error("A problem was found reading the policy file.", e);
 			}
+			if(cr == null) {
+				return null;
+			} 
+			String cleanHTML = cr.getCleanHTML();
 
-			return cr == null ? null : cr.getCleanHTML();
+			return unescapeHtml ? StringEscapeUtils.unescapeHtml(cleanHTML) : cleanHTML;
 		}
 		return null;
 	}
 	
-	public List<String> sanitize(List<String> text, boolean allowTextFormattingTags) {
+	public String sanitize(String text, boolean allowTextFormattingTags) {
+		return sanitize(text, allowTextFormattingTags, false);
+	}
+	
+	public List<String> sanitize(List<String> text, boolean allowTextFormattingTags, boolean unescapeHtml) {
+		if(text == null) {
+			return null;
+		}
 		for (int i = 0; i < text.size(); i++)
-			text.set(i, sanitize(text.get(i), allowTextFormattingTags));
+			text.set(i, sanitize(text.get(i), allowTextFormattingTags, unescapeHtml));
 		return text;
+	}
+	
+	public List<String> sanitize(List<String> text, boolean allowTextFormattingTags) {
+		return sanitize(text, allowTextFormattingTags, false);
 	}
 }

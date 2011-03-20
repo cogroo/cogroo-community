@@ -221,6 +221,17 @@ public class ErrorEntry implements Cloneable {
 		return sb.toString();
 	}
 	
+	public String getMarkedTextNoHTML() {
+		StringBuilder sb = new StringBuilder(this.getText());
+		try {
+			sb.insert(this.getSpanEnd(), "]");
+			sb.insert(this.getSpanStart(), "[");
+		} catch(StringIndexOutOfBoundsException e) {
+			LOG.error("Wrong index: text[" + this.getText() + "]" + " start[" + this.getSpanStart() + "] end[" + this.getSpanEnd() + "]");
+		}
+		return sb.toString();
+	}
+	
 	public int getCommentCount() {
 		int count = 0;
 		for (Comment comment : getComments()) {
@@ -250,22 +261,32 @@ public class ErrorEntry implements Cloneable {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("id: " + id + "\n");
-		sb.append("submitter: " + submitter + "\n");
-		sb.append("text: " + text + "\n");
-		sb.append("version: " + version + "\n");
-		sb.append("creation: " + creation + "\n");
-		sb.append("modified: " + modified + "\n");
-		sb.append("comments: " + "\n");
+		sb.append("\nErrorRentry #" + id + "\n");
+		sb.append("-submitter: " + submitter + "\n");
+		sb.append("-text: " + text + "\n");
+		sb.append("-span: [" + this.spanStart + ".." + this.spanEnd + "]\n");
+		sb.append("-version: " + version + "\n");
+		sb.append("-creation: " + creation + "\n");
+		sb.append("-modified: " + modified + "\n");
+		
+		if(this.getBadIntervention() != null) {
+			sb.append("* BadInt * \n");
+			sb.append(this.getBadIntervention());
+		}
+		if(this.getOmission() != null) {
+			sb.append("* Omission * \n");
+			sb.append(this.getOmission());
+		}
+		sb.append("-comments: " + "\n");
 		if(comments != null) {
 			for (Comment comment : comments) {
-				sb.append("   " + comment + "\n");
+				sb.append("\t" + comment + "\n");
 			}
 		}
-		sb.append("history: " + "\n");
+		sb.append("-history: " + "\n");
 		if(getHistoryEntries() != null) {
 			for (HistoryEntry he : getHistoryEntries()) {
-				sb.append("   " + he + "\n");
+				sb.append("\t" + he + "\n");
 			}
 		}
 		return sb.toString();

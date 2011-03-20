@@ -38,7 +38,7 @@ public class GrammarController {
 	@Post
 	@Path("/grammar")
 	public void grammar(String text) {
-		text = sanitizer.sanitize(text, false);
+		text = sanitizer.sanitize(text, false, true);
 		if (text != null && text.length() > 0) {
 			if(text.length() > 255) {
 				text = text.substring(0, 255);

@@ -100,6 +100,9 @@ public class CogrooFacade {
 	 * @return list of errors
 	 */
 	public List<String> getMistakes(String text) {
+		if(LOG.isDebugEnabled()) {
+			LOG.debug("Will check text: [" + text + "]");
+		}
 		List<String> mistakes = new ArrayList<String>();
 		
 		try {
@@ -112,6 +115,10 @@ public class CogrooFacade {
 				mistakes.add(str.toString());
 			}
 			
+			
+			if(LOG.isDebugEnabled()) {
+				LOG.debug("Found errors: \n" + errors);
+			}
 		} catch (Exception e) {
 			LOG.error("Failed to process text: " + text, e);
 		}
@@ -127,6 +134,10 @@ public class CogrooFacade {
 	 * @return the structure of the text.
 	 */
 	public List<ProcessResult> processText(String text) {
+		if(LOG.isDebugEnabled()) {
+			LOG.debug("Will check text: [" + text + "]");
+		}
+		
 		List<ProcessResult> processResults = new ArrayList<ProcessResult>();
 		
 		try {
@@ -145,6 +156,10 @@ public class CogrooFacade {
 				pr.setSentence(sentence);
 				pr.setMistakes(filterMistakes(sentence, filteredMistakes));
 				processResults.add(pr);
+			}
+			
+			if(LOG.isDebugEnabled()) {
+				LOG.debug("Finished.");
 			}
 		} catch (Exception e) {
 			LOG.error("Failed to process text: " + text, e);

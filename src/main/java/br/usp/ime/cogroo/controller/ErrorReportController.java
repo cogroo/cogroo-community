@@ -105,10 +105,17 @@ public class ErrorReportController {
 			List<String> omissionEnd) {
 		
 		if(loggedUser.isLogged()) {
+			
+			text = sanitizer.sanitize(text, false, true);
+			
 			comments = sanitizer.sanitize(comments, true);
+		
 			customOmissionText = sanitizer.sanitize(customOmissionText, false);
+		
 			omissionComment = sanitizer.sanitize(omissionComment, true);
+		
 			omissionReplaceBy = sanitizer.sanitize(omissionReplaceBy, false);
+			
 			errorEntryLogic.addErrorEntry(loggedUser.getUser(), text, badint, comments, badintStart, badintEnd, badintRule, omissionClassification,
 					customOmissionText,
 					omissionComment, omissionReplaceBy, omissionStart, omissionEnd);
@@ -238,7 +245,7 @@ public class ErrorReportController {
 	@Post
 	@Path("/reportNewErrorAddText")
 	public void reportNewErrorAddText(String text) {
-		text = sanitizer.sanitize(text, false);
+		text = sanitizer.sanitize(text, false, true);
 		try {
 			if(text != null && text.length() >= 0) {
 				if( text.length() > 255 ) {

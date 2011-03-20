@@ -4,10 +4,13 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
 
 import br.com.caelum.vraptor.ioc.Component;
@@ -37,6 +40,7 @@ import br.usp.ime.cogroo.model.errorreport.HistoryEntryField;
 import br.usp.ime.cogroo.model.errorreport.Priority;
 import br.usp.ime.cogroo.model.errorreport.State;
 import br.usp.ime.cogroo.util.BuildUtil;
+import br.usp.ime.cogroo.util.EmailSender;
 import br.usp.pcs.lta.cogroo.errorreport.model.BadIntervention;
 import br.usp.pcs.lta.cogroo.errorreport.model.ErrorReport;
 import br.usp.pcs.lta.cogroo.errorreport.model.Omission;
@@ -345,8 +349,9 @@ public class ErrorEntryLogic {
 					
 					errorEntryDAO.add(errorEntry);
 					appData.incReportedErrors();
-
-					LOG.debug("Added errorEntry:" + errorEntry);
+					if(LOG.isDebugEnabled()) {
+						LOG.debug("Added errorEntry:" + errorEntry);
+					}
 				}
 		}
 		
@@ -387,7 +392,9 @@ public class ErrorEntryLogic {
 					
 					errorEntryDAO.add(errorEntry);
 					appData.incReportedErrors();
-					LOG.debug("Added errorEntry:" + errorEntry);
+					if(LOG.isDebugEnabled()) {
+						LOG.debug("Added errorEntry:" + errorEntry);
+					}
 				}
 			}
 		}
@@ -611,9 +618,11 @@ public class ErrorEntryLogic {
 		
 		this.updateModified(er);
 		List<HistoryEntryField> h = generateHistory(original, er);
-		this.addHistory(er, h);
+		HistoryEntry he = this.addHistory(er, h);
 
 		this.errorEntryDAO.update(er);
+		
+		sendEmailForChange(er, he);
 	}
 
 	public void updateOmission(ErrorEntry er, ErrorEntry original) {
@@ -630,8 +639,9 @@ public class ErrorEntryLogic {
 		
 		this.updateModified(er);
 		List<HistoryEntryField> h = generateHistory(original, er);
-		this.addHistory(er, h);
+		HistoryEntry he = this.addHistory(er, h);
 		this.errorEntryDAO.update(er);
+		sendEmailForChange(er, he);
 	}
 	
 	public Long addCommentToErrorEntry(Long errorEntryID, Long userID, String comment) {
@@ -642,6 +652,7 @@ public class ErrorEntryLogic {
 		errorEntry.getComments().add(c);
 		updateModified(errorEntry);
 		errorEntryDAO.update(errorEntry);
+		sendEmailForNewComment(errorEntry, c);
 		return c.getId();
 	}
 	
@@ -656,6 +667,7 @@ public class ErrorEntryLogic {
 		commentDAO.update(c);
 		updateModified(c.getErrorEntry());
 		errorEntryDAO.update(c.getErrorEntry());
+		sendEmailForNewComment(c.getErrorEntry(), answer);
 	}
 
 	public void removeAnswer(Comment answer, Comment comment) {
@@ -674,7 +686,8 @@ public class ErrorEntryLogic {
 
 	public void remove(ErrorEntry errorEntry) {
 		errorEntry = errorEntryDAO.retrieve(errorEntry.getId());
-		LOG.debug("Will delete: " + errorEntry);
+		
+		LOG.info("Will delete: " + errorEntry);
 		if(errorEntry.getBadIntervention() != null) {
 			badInterventionDAO.delete(errorEntry.getBadIntervention());
 		}
@@ -692,9 +705,11 @@ public class ErrorEntryLogic {
 		}
 		String before = errorEntry.getPriority().name();
 		errorEntry.setPriority(priority);
-		addHistory(errorEntry, Messages.ERROR_ENTRY_FIELD_PRIORITY, before, priority.name(), true);
+		HistoryEntry he = addHistory(errorEntry, Messages.ERROR_ENTRY_FIELD_PRIORITY, before, priority.name(), true);
 		updateModified(errorEntry);
 		errorEntryDAO.update(errorEntry);
+		
+		sendEmailForChange(errorEntry, he);
 	}
 
 	public void setState(ErrorEntry errorEntry, State state) {
@@ -704,22 +719,24 @@ public class ErrorEntryLogic {
 		}
 		String before = errorEntry.getState().name();
 		errorEntry.setState(state);
-		addHistory(errorEntry, Messages.ERROR_ENTRY_FIELD_STATE, before, state.name(), true);
+		HistoryEntry he = addHistory(errorEntry, Messages.ERROR_ENTRY_FIELD_STATE, before, state.name(), true);
 		updateModified(errorEntry);
 		errorEntryDAO.update(errorEntry);
+		
+		sendEmailForChange(errorEntry, he);
 	}
 	
 	public void updateModified(ErrorEntry errorEntry) {
 		errorEntry.setModified(new Date());
 	}
 	
-	private void addHistory(ErrorEntry errorEntry, List<HistoryEntryField> hefList) {
+	private HistoryEntry addHistory(ErrorEntry errorEntry, List<HistoryEntryField> hefList) {
 		
 		HistoryEntry he = new HistoryEntry(this.user, new Date(), hefList, errorEntry);
 		
 		if(hefList.size() == 0) {
 			LOG.info("No history to log.");
-			return;
+			return null;
 		}
 		
 		for (HistoryEntryField historyEntryField : hefList) {
@@ -742,14 +759,16 @@ public class ErrorEntryLogic {
 			LOG.debug("Added history entry...");
 			LOG.debug(he);
 		}
+		
+		return he;
 	}
 	
-	private void addHistory(ErrorEntry errorEntry,
+	private HistoryEntry addHistory(ErrorEntry errorEntry,
 			List<String> fieldList, List<String> beforeList, List<String> afterList, boolean isFormatted) {
 		
 		if(fieldList.size() == 0) {
 			LOG.info("No history to log.");
-			return;
+			return null;
 		}
 		
 		List<HistoryEntryField> hefList = new ArrayList<HistoryEntryField>();
@@ -779,9 +798,10 @@ public class ErrorEntryLogic {
 		errorEntry.getHistoryEntries().add(he);
 		this.errorEntryDAO.update(errorEntry);
 		
+		return he;
 	}
 	
-	private void addHistory(ErrorEntry errorEntry,
+	private HistoryEntry addHistory(ErrorEntry errorEntry,
 			String field, String before, String after, boolean isFormatted) {
 		
 		List<String> fields = new ArrayList<String>(1);
@@ -792,7 +812,104 @@ public class ErrorEntryLogic {
 		befores.add(before);
 		afters.add(after);
 		
-		addHistory(errorEntry, fields, befores, afters, isFormatted);
+		return addHistory(errorEntry, fields, befores, afters, isFormatted);
+	}
+	
+	private void appendErrorDetails(StringBuilder body, ErrorEntry errorEntry) {
+		body.append("Texto: \n");
+		body.append(errorEntry.getMarkedTextNoHTML() + "\n\n");
+		body.append("Detalhes: \n");
+		body.append("Problema Reportado #" + errorEntry.getId() + "\n");
+		
+		body.append("-------------------------------------------------\n");
+		String format = "%1$-10s %2$-25s %3$-10s %4$-25s\n";
+		
+		if(errorEntry.getBadIntervention() != null) {
+			// BadInt
+			GrammarCheckerBadIntervention bi = errorEntry.getBadIntervention();
+			body.append(String.format(format, 
+					"Tipo:", "Intervenção indevida",
+					"Enviada por:", errorEntry.getSubmitter().getName()));
+			body.append(String.format(format, 
+					"Regra:", bi.getRule(),
+					"Erro:", bi.getClassification()));
+		} else {
+			GrammarCheckerOmission o = errorEntry.getOmission();
+			body.append(String.format(format, 
+					"Tipo:", "Omissão",
+					"Enviada por:", errorEntry.getSubmitter().getName()));
+			
+			String categoria = null;
+			if(o.getCategory().equals(CUSTOM)) {
+				categoria = o.getCustomCategory();
+			} else {
+				categoria = o.getCategory();
+			}
+			
+			body.append(String.format(format, 
+					"Categoria:", categoria,
+					"Substituir por:", o.getReplaceBy()));
+		}
+		body.append("-------------------------------------------------\n");
+		body.append( "Veja mais em http://ccsl.ime.usp.br/cogroo/comunidade/errorEntry/" + errorEntry.getId() +  "\n\n");
+	}
+	
+	private void sendEmailForNewComment(ErrorEntry errorEntry, Comment comment) {
+		// get the users
+		Set<User> userList = new HashSet<User>();
+		userList.add(errorEntry.getSubmitter());
+		for (HistoryEntry h : errorEntry.getHistoryEntries()) {
+			userList.add(h.getUser());
+		}
+		for (Comment c : errorEntry.getComments()) {
+			userList.add(c.getUser());
+			for (Comment a : c.getAnswers()) {
+				userList.add(a.getUser());
+			}
+		}
+		// generate the subject
+		String subject = "Problema Reportado #" + errorEntry.getId() + " - Novo comentário.";
+		// generate the body
+		StringBuilder body = new StringBuilder();
+
+		appendErrorDetails(body, errorEntry);
+		
+		body.append("Novo comentário, por: " + comment.getUser().getName() + "\n\n");
+		body.append(comment.getComment());
+		
+		// send it!
+		EmailSender.sendEmail(StringEscapeUtils.unescapeHtml(body.toString()), subject, userList);
 	}
 
+	
+	private void sendEmailForChange(ErrorEntry errorEntry, HistoryEntry historyEntry) {
+		// get the users
+		Set<User> userList = new HashSet<User>();
+		userList.add(errorEntry.getSubmitter());
+		for (HistoryEntry h : errorEntry.getHistoryEntries()) {
+			userList.add(h.getUser());
+		}
+		for (Comment c : errorEntry.getComments()) {
+			userList.add(c.getUser());
+			for (Comment a : c.getAnswers()) {
+				userList.add(a.getUser());
+			}
+		}
+		// generate the subject
+		String subject = "Problema Reportado #" + errorEntry.getId() + " - Alterado.";
+		// generate the body
+		StringBuilder body = new StringBuilder();
+
+		appendErrorDetails(body, errorEntry);
+		
+		body.append("Alterado por: " + historyEntry.getUser().getName() + "\n");
+		for (HistoryEntryField f : historyEntry.getHistoryEntryField()) {
+			body.append("Campo " + f.getFieldName() + "-\n");
+			body.append("\t era [" + f.getBefore() + "]\n");
+			body.append("\t novo valor [" + f.getAfter() + "]\n\n");
+		}
+		
+		// send it!
+		EmailSender.sendEmail(StringEscapeUtils.unescapeHtml(body.toString()), subject, userList);
+	}
 }
