@@ -105,7 +105,7 @@
 	<br />
 </c:if>
 
-<h2>Problemas reportados <span class="help"><a onclick="onOff('helpErrorList'); return false" href="#"><img src="<c:url value='/images/help.gif' />" /></a></span></h2>
+<h2>Problemas reportados <span class="help"><a onclick="onOff('helpErrorList'); return false" href="#"><img src="<c:url value='/images/help.png' />" /></a></span></h2>
 	<div id="helpErrorList" style="display: none;" class="help">
 		<p>Exibe todos os problemas reportados através da página e do plug-in CoGrOO para BrOffice.</p>
 		<p>Clique no número do problema reportado para detalhes.</p>

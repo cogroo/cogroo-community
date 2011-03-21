@@ -29,7 +29,7 @@
 </script>
 
 <div>
-	<h2>Consultar palavra <span class="help"><a onclick="onOff('helpRuleList'); return false" href="#"><img src="<c:url value='/images/help.gif' />" /></a></span></h2>
+	<h2>Consultar palavra <span class="help"><a onclick="onOff('helpRuleList'); return false" href="#"><img src="<c:url value='/images/help.png' />" /></a></span></h2>
 		<div id="helpRuleList" style="display: none;" class="help">
 			<p>Busca uma palavra no dicionário léxico do corretor CoGrOO.</p>
 			<p>Para cada entrada encontrada, é exibido o radical e a etiqueta gramatical correspondente.</p>

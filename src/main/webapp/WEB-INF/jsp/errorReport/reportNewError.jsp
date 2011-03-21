@@ -79,7 +79,7 @@ $(document).ready(function() {
 
 	<div class="white_box">
 	
-		<h2>Reportar problema <span class="help"><a onclick="onOff('helpNewError'); return false" href="#"><img src="<c:url value='/images/help.gif' />" /></a></span></h2>
+		<h2>Reportar problema <span class="help"><a onclick="onOff('helpNewError'); return false" href="#"><img src="<c:url value='/images/help.png' />" /></a></span></h2>
 		
 		<div id="helpNewError" style="display: none;" class="help">
 			<p>Reporta um problema no corretor gramatical CoGrOO para a equipe, de modo com que a ferramenta possa ser aprimorada.</p>
@@ -112,7 +112,7 @@ $(document).ready(function() {
 	
 	<div class="white_box">	
 		
-			<h3>Intervenções indevidas <span class="help"><a onclick="onOff('helpBadInt'); return false" href="#"><img src="<c:url value='/images/help.gif' />" /></a></span></h3>
+			<h3>Intervenções indevidas <span class="help"><a onclick="onOff('helpBadInt'); return false" href="#"><img src="<c:url value='/images/help.png' />" /></a></span></h3>
 			
 			<div id="helpBadInt" style="display: none;" class="help">
 				<p>Uma intervenção é considerada indevida quando o corretor identifica um erro onde ele não 
@@ -191,7 +191,7 @@ $(document).ready(function() {
 		</div>
 		
 		<div class="white_box">	
-			<h3>Omissões <span class="help"><a onclick="onOff('helpOmission'); return false" href="#"><img src="<c:url value='/images/help.gif' />" /></a></span></h3>
+			<h3>Omissões <span class="help"><a onclick="onOff('helpOmission'); return false" href="#"><img src="<c:url value='/images/help.png' />" /></a></span></h3>
 			
 			<div id="helpOmission" style="display: none;" class="help">
 				<p>Uma omissão ocorre quando o corretor não indica um erro que existe em seu texto.</p><br>

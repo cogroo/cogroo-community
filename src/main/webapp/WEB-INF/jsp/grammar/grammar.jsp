@@ -25,7 +25,7 @@
 	}
 </script>		
 		
-		<h2>Análise Gramatical <span class="help"><a onclick="onOff('helpRuleList'); return false" href="#"><img src="<c:url value='/images/help.gif' />" /></a></span></h2>
+		<h2>Análise Gramatical <span class="help"><a onclick="onOff('helpRuleList'); return false" href="#"><img src="<c:url value='/images/help.png' />" /></a></span></h2>
 		<div id="helpRuleList" style="display: none;" class="help">
 			<p>Analisa um texto fornecido pelo usuário em busca de erros gramaticais.</p>
 			<p>Após a análise, é possível reportar qualquer problema do corretor através do botão "Reportar problema".</p>
