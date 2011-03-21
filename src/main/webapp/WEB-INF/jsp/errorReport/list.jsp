@@ -154,7 +154,7 @@
 					<td><span title="${errorEntry.modified}"></span><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${errorEntry.modified}" /></td>
 					<td>${errorEntry.commentCount}</td>
 					<td>${errorEntry.version.version}</td>
-					<td>${errorEntry.submitter.login}</td>
+					<td><a href="<c:url value="/user/${errorEntry.submitter.id}"/>">${errorEntry.submitter.login}</a></td>
 	  			  	<td>
   					<c:if test="${(errorEntry.submitter.login == loggedUser.user.login) || loggedUser.user.role.canDeleteOtherUserErrorReport }"> 
 						<a onclick="remove_error('_${ i.count }'); return false;" id="_${ i.count }" href="about:blank" class="remove_error">excluir</a>

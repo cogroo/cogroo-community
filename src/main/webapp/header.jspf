@@ -105,7 +105,7 @@
 	        </div>
     	</c:if>
 			<c:if test="${loggedUser.logged}">
-				<p><span>${loggedUser.user.name}</span> | <a href="<c:url value="/logout"/>"><b>logout</b></a></p>
+				<p><span><a href="<c:url value="/user/${loggedUser.user.id}"/>">${loggedUser.user.name}</a></span> | <a href="<c:url value="/logout"/>"><b>logout</b></a></p>
 			</c:if>
     </div>
 	<div id="logoCogroo"><a href="<c:url value="/"/>" title="CoGrOO Comunidade" id="logoCogrooLink"></a></div>
