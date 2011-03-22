@@ -8,7 +8,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <title>CoGrOO Comunidade</title>
-  <meta name="keywords" content="cogroo, comunidade, cogroo comunidade, corretor gramatical, análise gramatical, português, openoffice, libreoffice, broffice, grammar checker, online grammar checker, corretor online" />
+  <meta name="keywords" content="cogroo, comunidade, cogroo comunidade, corretor gramatical, análise gramatical, análise morfológica, português, openoffice, libreoffice, broffice, grammar checker, online grammar checker, corretor online" />
   <meta name="description" content="O CoGrOO Comunidade é um portal colaborativo para aprimorar o CoGrOO, o corretor gramatical em português para BrOffice."/>
   <meta name="language" content="pt-br"/>
   <link rel="shortcut icon" href="<c:url value="/favicon.ico"/>" />
@@ -112,16 +112,9 @@
 	<div id="logoBROffice"></div>
 	
 		<ul id="menu" class="menu">
-			<li><span title="Acompanhe notícias e saiba mais sobre o projeto.">Comunidade</span>
-				<ul>
-					<li><a title="Notícias do projeto" href="<c:url value="/"/>">Página inicial</a></li>
-					<c:if test="${loggedUser.logged}">
-						<li><a title="Usuários do Cogroo Comunidade" href="<c:url value="/userList"/>">Usuários</a></li>
-					</c:if>
-					<li><a title="Histórico do Cogroo Comunidade" href="<c:url value="/about"/>">Sobre</a></li>
-				</ul>
-			</li>
 			<li><a title="Experimente o CoGrOO e explore os resultados: erros gramaticais, análise morfológica e de agrupamentos." href="<c:url value="/grammar"/>">Análise Gramatical</a></li>
+			<li><a title="Veja os problemas reportados pela comunidade e contribua!" href="<c:url value="/errorEntries"/>">Problemas</a></li>
+			<li><a title="Explore as regras implementadas no CoGrOO. No futuro, será possível editar e criar novas regras." href="<c:url value="/ruleList"/>">Regras</a></li>
 			<li><a title="Explore o léxico do CoGrOO. No futuro, será possível editar e criar novas entradas." href="<c:url value="/dictionaryEntrySearch"/>">Léxico</a></li>
 			<!--<li><span title="Explore o léxico do CoGrOO. No futuro, será possível editar e criar novas entradas.">Léxico</span>
 				<ul>
@@ -132,22 +125,30 @@
 					</c:if>
 				</ul>
 			</li>-->
-			<li><a title="Explore as regras implementadas no CoGrOO. No futuro, será possível editar e criar novas regras." href="<c:url value="/ruleList"/>">Regras</a></li>
 			<!-- <li><a href="#">Sugestões</a></li> -->
-			<li><span title="Veja os problemas reportados pela comunidade e contribua!">Problemas</span>
-				<ul>
-					<li><a title="Veja a lista de problemas reportados" href="<c:url value="/errorEntries"/>">Reportados</a></li>
-					<li><a title="Reporte um novo problema"  href="<c:url value="/grammar"/>">Reportar problema</a></li>
-				</ul>
-			</li>
-			<li><span title="Links relacionados ao CoGrOO.">Links</span>
+			<li><span title="Links relacionados ao CoGrOO.">Links Externos</span>
 				<ul>
 					<li><a title="Download da versão mais recente do plugin para o BrOffice.org" href="http://cogroo.sourceforge.net/download/current.html">Download CoGrOO</a></li>
 					<li><a title="Fórum de discussões sobre este portal" href="https://sourceforge.net/projects/cogroo/forums/forum/1285746">SourceForge Forum</a></li>
-					<li><a title="Portal BrOffice.org" href="http://www.broffice.org">BrOffice.org</a></li>
+					<!--<li><a title="Portal de notícias sobre o projeto CoGrOO" href="http://ccsl.ime.usp.br/cogroo/">Drupal</a></li>
+					--><li><a title="Portal BrOffice.org" href="http://www.broffice.org">BrOffice.org</a></li>
 					<li><a title="Centro de Competência em Software Livre" href="http://ccsl.ime.usp.br">CCSL</a></li>
 				</ul>
 			</li>
+			<li><span title="Veja outras informações sobre o projeto.">Mais Informações</span>
+				<ul>
+					<li><a title="Estatísticas de acessso" href="<c:url value="/stats"/>">Estatísticas</a></li>
+					<li><a title="Histórico do Cogroo Comunidade" href="<c:url value="/about"/>">Sobre</a></li>
+				</ul>
+			</li>
+			<c:if test="${loggedUser.logged}">
+				<li><span title="Acesse a área exclusiva para usuários cadastrados">Área Exclusiva</span>
+						<ul>
+							<li><a title="Reporte um novo problema"  href="<c:url value="/grammar"/>">Reportar problema</a></li>
+							<li><a title="Visualize os usuários do CoGrOO Comunidade" href="<c:url value="/userList"/>">Visualizar usuários</a></li>
+						</ul>
+				</li>
+			</c:if>
 			
 		</ul>
 	
