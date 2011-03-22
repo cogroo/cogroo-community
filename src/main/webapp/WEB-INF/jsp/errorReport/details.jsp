@@ -221,7 +221,7 @@ table.answer td {
 		<hr>
 		
 		                              
-		<p><strong>Análise gramatical</strong></p>
+		<h3><strong>Análise gramatical</strong></h3>
 		
 		
 		<c:set var="processResultList" scope="request" value="${processResultList}" />    

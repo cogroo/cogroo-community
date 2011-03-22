@@ -44,6 +44,11 @@ button, input[type="submit"], .a_button {
 	/*width:4.8em;*/
 }
 
+#sendError, #sendErrorText {
+	background-color:red;
+	outline-color:red;
+}
+
 .error_button {
 	border:1px solid #fff;
 	outline:1px solid #F00;

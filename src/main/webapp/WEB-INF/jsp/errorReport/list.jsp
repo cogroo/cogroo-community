@@ -182,6 +182,8 @@
 					    		<tr><td>Substituir por:</td><td>${errorEntry.omission.replaceBy}</td></tr>
 					  		</c:otherwise>
 						</c:choose>
+						<tr><td>Login:</td><td><td><a href="<c:url value="/user/${errorEntry.submitter.id}"/>">${errorEntry.submitter.login}</a></td></td></tr>
+						<tr><td>Versão:</td><td>${errorEntry.version.version}</td></tr>
 	  			  		
 	  			  	</table>
 					</td>

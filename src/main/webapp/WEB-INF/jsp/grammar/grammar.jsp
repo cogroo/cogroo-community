@@ -42,6 +42,6 @@
 		<c:if test="${justAnalyzed && not empty text}">
 			<form id="formSendErrorText"  action="<c:url value="/reportNewErrorAddText"/>" method="post" >
 			    <input type="hidden" name="text" value="${text}" />
-			    <input type="submit" value=" Reportar problema &raquo; " id="sendErrorText"/>
+			    <input type="submit" class=".red_button" value=" Reportar problema &raquo; " id="sendErrorText"/>
 			</form>
 		</c:if>
