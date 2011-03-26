@@ -1,6 +1,8 @@
 package br.usp.ime.cogroo.controller;
 
-import org.apache.commons.mail.EmailException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.apache.log4j.Logger;
 
 import br.com.caelum.vraptor.Get;
@@ -17,10 +19,12 @@ import br.usp.ime.cogroo.logic.TextSanitizer;
 import br.usp.ime.cogroo.model.ApplicationData;
 import br.usp.ime.cogroo.model.User;
 import br.usp.ime.cogroo.util.CriptoUtils;
-import br.usp.ime.cogroo.util.EmailSender;
 
 @Resource
 public class RegisterController {
+	
+	private static final String EMAIL_REGEX = "[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}";
+	private static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX, Pattern.CASE_INSENSITIVE);
 
 	private final Result result;
 	private UserDAO userDAO;
@@ -63,13 +67,20 @@ public class RegisterController {
 		login = sanitizer.sanitize(login, false);
 		email = sanitizer.sanitize(email, false);
 		name = sanitizer.sanitize(name, false);
+		
+		email = email.trim();
 
 		// TODO Fazer e refatorar as Validações.
-		if (password.trim().isEmpty() || email.trim().isEmpty()
+		if (password.trim().isEmpty() || email.isEmpty()
 				|| name.trim().isEmpty()) {
 			validator.add(new ValidationMessage(ExceptionMessages.USER_CANNOT_BE_EMPTY,
 					ExceptionMessages.INVALID_ENTRY));
 		}
+		
+		Matcher m = EMAIL_PATTERN.matcher(email);		
+		if (!m.matches())
+			validator.add(new ValidationMessage(ExceptionMessages.INVALID_EMAIL,
+					ExceptionMessages.INVALID_ENTRY));
 
 		if (!password.equals(passwordRepeat)) {
 			validator.add(new ValidationMessage(ExceptionMessages.USER_REPEAT_PASSWORD_WRONG,
