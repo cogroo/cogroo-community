@@ -20,7 +20,7 @@
 	<link rel="stylesheet" type="text/css" href="<c:url value="/css/style.css"/>" />
 	<link rel="stylesheet" type="text/css" href="<c:url value="/css/menu.css"/>" />
 	
-	<script src="<c:url value='/js/jquery.js' />" type="text/javascript" ></script>
+	<script src="<c:url value='/js/jquery.min.js' />" type="text/javascript" ></script>
 	<script src="<c:url value='/js/jquery.linha.nav.js' />" type="text/javascript" ></script>
 	<script src="<c:url value='/js/onoff.js' />" type="text/javascript" ></script>
 	<script src="<c:url value='/js/openclose.js' />" type="text/javascript" ></script>

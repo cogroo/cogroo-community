@@ -83,7 +83,8 @@ ul#nav li a:hover {
 }
 
 .login_roundcorner {
-	-moz-border-radius: 5px 5px 5px 5px;
+	-moz-border-radius: 5px 5px 5px 5px;	/* Firefox 3.6 */
+	border-radius: 5px 5px 5px 5px;
 	background-color: #F0F0FF;
 	margin: 2px 10px;
 	padding: 4px;

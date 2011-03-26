@@ -219,7 +219,8 @@ table.attributes td { vertical-align: top; }
 }
 
 .roundcorner {
-	-moz-border-radius:5px 5px 5px 5px;
+	-moz-border-radius:5px 5px 5px 5px;	/* Firefox 3.6 */
+	border-radius:5px 5px 5px 5px;
 	background-color:#4A4A5A;
 	margin:20px 0 10px;
 	padding:10px;
