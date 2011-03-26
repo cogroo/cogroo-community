@@ -2,6 +2,8 @@ package br.usp.ime.cogroo.exceptions;
 
 public class ExceptionMessages {
 	public final static String USER_CANNOT_BE_EMPTY = "USER_CANNOT_BE_EMPTY";
+	public final static String LOGIN_CANNOT_BE_EMPTY = "LOGIN_CANNOT_BE_EMPTY";
+	public final static String PASSWORD_CANNOT_BE_EMPTY = "PASSWORD_CANNOT_BE_EMPTY";
 	public final static String USER_UNAUTHORIZED = "USER_UNAUTHORIZED";
 	public final static String USER_DONT_EXISTS = "USER_DONT_EXISTS";
 	public static final String USER_PASSWORD_FAILED = "USER_PASSWORD_FAILED";

@@ -1,6 +1,5 @@
 package br.usp.ime.cogroo.controller;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
@@ -69,17 +68,21 @@ public class RegisterController {
 		name = sanitizer.sanitize(name, false);
 		
 		email = email.trim();
-
-		// TODO Fazer e refatorar as Validações.
-		if (password.trim().isEmpty() || email.isEmpty()
-				|| name.trim().isEmpty()) {
+		
+		if (name.trim().isEmpty())
 			validator.add(new ValidationMessage(ExceptionMessages.USER_CANNOT_BE_EMPTY,
 					ExceptionMessages.INVALID_ENTRY));
-		}
 		
-		Matcher m = EMAIL_PATTERN.matcher(email);		
-		if (!m.matches())
+		if (login.trim().isEmpty())
+			validator.add(new ValidationMessage(ExceptionMessages.LOGIN_CANNOT_BE_EMPTY,
+					ExceptionMessages.INVALID_ENTRY));
+
+		if (email.isEmpty() || !EMAIL_PATTERN.matcher(email).matches())
 			validator.add(new ValidationMessage(ExceptionMessages.INVALID_EMAIL,
+					ExceptionMessages.INVALID_ENTRY));
+		
+		if (password.trim().isEmpty())
+			validator.add(new ValidationMessage(ExceptionMessages.PASSWORD_CANNOT_BE_EMPTY,
 					ExceptionMessages.INVALID_ENTRY));
 
 		if (!password.equals(passwordRepeat)) {
