@@ -40,7 +40,7 @@
 		var iIndex = oTable.fnGetPosition( nTr );
 		var aData = oTable.fnSettings().aoData[iIndex]._aData;
 		
-		return '<div class="reportlist_details">'+aData[10]+'</div>';
+		return '<div class="reportlist_details">'+aData[7]+'</div>';
 	};
 	
 	$(document).ready(function() {
@@ -66,15 +66,12 @@
 			"aoColumns": [
 				{ "bSortable": false }, 	//0
 				{ "sType": "num-html" }, 	//1
-				null,						//2
-				null,  						//3
-				null,						//4
-				null,  						//5
-				{ "sType": "title-string" },//6
-				null,						//7
-				null,  						//8
-				null,						//9
-				{ "bVisible": false }		//10
+				null,  						//2
+				null,						//3
+				null,  						//4
+				{ "sType": "title-string" },//5
+				null,						//6
+				{ "bVisible": false }		//7
 			]
 		} );
 		
@@ -116,15 +113,12 @@
 			<tr>
 			  <th></th> 			<!-- 0 -->
 			  <th title="Número">Nº.</th>			<!-- 1 -->
-			  <th title="Tipo">Tipo</th>			<!-- 2 -->
-			  <th title="Situação">Situação</th>				<!-- 3 -->
-			  <th title="Prioridade">Prioridade</th>			<!-- 4 -->
-			  <th title="Sentença com problema">Sentença com problema</th>		<!-- 5 -->
-			  <th title="Data da última alteração">Data</th>	<!-- 6 -->
-			  <th title="Número de comentários">Comentários</th>	<!-- 7 -->
-			  <th title="Versão">Versão</th>		<!-- 8 -->
-			  <th title="Login">Login</th>		<!-- 9 -->
-			  <th>Detalhes</th>		<!-- 10 -->
+			  <th title="Situação">Situação</th>				<!-- 2 -->
+			  <th title="Prioridade">Prioridade</th>			<!-- 3 -->
+			  <th title="Sentença com problema">Sentença com problema</th>		<!-- 4 -->
+			  <th title="Data da última alteração">Data</th>	<!-- 5 -->
+			  <th title="Número de comentários">Comentários</th>	<!-- 6 -->
+			  <th>Detalhes</th>		<!-- 7 -->
 			</tr>
 		</thead>
 		<tbody>
@@ -137,25 +131,14 @@
 					<tr id="tr_errorEntry_${ i.count }">
 				</c:if>
 			
-					<td valign="middle"><img src="./images/details_open.png"></td>
-					<td><a href="<c:url value="/errorEntry/${errorEntry.id}"/>">${errorEntry.id}</a>
-					</td>
-					<c:choose>
-						<c:when test="${empty errorEntry.omission}">
-				    		<td>Intervenção indevida</td>
-				  		</c:when>
-				  		<c:otherwise>
-				    		<td>Omissão</td>
-				  		</c:otherwise>
-					</c:choose>
-					<td><fmt:message key="${errorEntry.state}" /></td>
-					<td><fmt:message key="${errorEntry.priority}" /></td>
-					<td>${errorEntry.markedText}</td>
-					<td><span title="${errorEntry.modified}"></span><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${errorEntry.modified}" /></td>
-					<td>${errorEntry.commentCount}</td>
-					<td>${errorEntry.version.version}</td>
-					<td><a href="<c:url value="/user/${errorEntry.submitter.id}"/>">${errorEntry.submitter.login}</a></td>
-	  			  	<td>
+					<td valign="middle"><img src="./images/details_open.png"></td>		<!-- 0 -->
+					<td><a href="<c:url value="/errorEntry/${errorEntry.id}"/>">${errorEntry.id}</a></td>		<!-- 1 -->
+					<td><fmt:message key="${errorEntry.state}" /></td>					<!-- 2 -->
+					<td><fmt:message key="${errorEntry.priority}" /></td>				<!-- 3 -->
+					<td>${errorEntry.markedText}</td>									<!-- 4 -->
+					<td><span title="${errorEntry.modified}"></span><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${errorEntry.modified}" /></td>		<!-- 5 -->
+					<td>${errorEntry.commentCount}</td>									<!-- 6 -->
+	  			  	<td>																<!-- 7 -->
   					<c:if test="${(errorEntry.submitter.login == loggedUser.user.login) || loggedUser.user.role.canDeleteOtherUserErrorReport }"> 
 						<a onclick="remove_error('_${ i.count }'); return false;" id="_${ i.count }" href="about:blank" class="remove_error">excluir</a>
 						<form action="/errorEntryDelete" method="post" id="form_remove_error_${ i.count }">
@@ -165,10 +148,12 @@
 	  			  	<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">
 		  			  	<c:choose>
 							<c:when test="${empty errorEntry.omission}">
-					    		<tr><td>Tipo:</td><td><fmt:message key="${errorEntry.badIntervention.classification}" /></td></tr>
+								<tr><td>Tipo:</td><td>Intervenção indevida</td></tr>
+					    		<tr><td>Classificação:</td><td><fmt:message key="${errorEntry.badIntervention.classification}" /></td></tr>
 					    		<tr><td>Regra:</td><td>${errorEntry.badIntervention.rule}</td></tr>
 					  		</c:when>
 					  		<c:otherwise>
+					    		<tr><td>Tipo:</td><td>Omissão</td></tr>
 					    		<tr>
 						    		<c:choose>
 										<c:when test="${empty errorEntry.omission.category}">
@@ -182,7 +167,7 @@
 					    		<tr><td>Substituir por:</td><td>${errorEntry.omission.replaceBy}</td></tr>
 					  		</c:otherwise>
 						</c:choose>
-						<tr><td>Login:</td><td><td><a href="<c:url value="/user/${errorEntry.submitter.id}"/>">${errorEntry.submitter.login}</a></td></td></tr>
+						<tr><td>Login:</td><td><a href="<c:url value="/user/${errorEntry.submitter.id}"/>">${errorEntry.submitter.login}</a></td></td></tr>
 						<tr><td>Versão:</td><td>${errorEntry.version.version}</td></tr>
 	  			  		
 	  			  	</table>
