@@ -25,9 +25,8 @@
 			<thead>
 				<tr>
 				  <th></th>
-				  <th>Nº.</th>
 				  <th>Sentença</th>
-				  <th>Agrupamentos</th>
+				  <th>Erros gramaticais</th>
 				  <th>Detalhes</th>
 				</tr>
 			</thead>
@@ -35,22 +34,19 @@
 				<c:forEach items="${processResultList}" var="processResult" varStatus="i">
 					<tr>
 						<td valign="middle"><img class="analysisTableDetails" src="<c:url value="/images/details_open.png"/>"></td>
-						<td>${ i.count }</td>
 						<td>${processResult.textAnnotatedWithErrors}</td>
 						<td>
-								<form id="form_${id}${ i.count }" action="/cogroo/phpsyntaxtree/?" method="post" target="externalSite">
-									<input  type="hidden" name="antialias" value="on" />
-									<input  type="hidden" name="autosub" value="on" />
-									<input  type="hidden" name="autosub" value="on" />
-									<input  type="hidden" name="closedcount" value="5" />
-									<input  type="hidden" name="color" value="on" />
-									<input  type="hidden" name="data" value="${processResult.syntaxTree}" />
-									<input  type="hidden" name="font" value="era_sans" />
-									<input  type="hidden" name="fontsize" value="8" />
-									<input  type="hidden" name="opencount" value="5" />
-									<input  type="hidden" name="triangles" value="on" />
-									<a id="_${id}${ i.count }" class="iframe" href="about:blank" title="Agrupamentos">Exibir agrupamentos</a>
-								</form>
+							<c:choose>
+								<c:when test="${fn:length(processResult.mistakes) == 0}">
+									Nenhum erro gramatical encontrado.
+								</c:when>
+								<c:when test="${fn:length(processResult.mistakes) == 1}">
+									1 erro gramatical encontrado.
+								</c:when>
+								<c:otherwise>
+									${fn:length(processResult.mistakes)} erros gramaticais encontrados.
+								</c:otherwise>
+							</c:choose>
 						</td>
 						<td>
 						<h3>Erros gramaticais</h3>
@@ -82,9 +78,10 @@
 									</table>
 								</c:when>
 								<c:otherwise>
-									<p>Nenhum erro gramatical encontrado.</p><br/>
+									<p>Nenhum erro gramatical encontrado.</p>
 								</c:otherwise>
 							</c:choose>
+							<br/>
 							<h3>Análise morfológica</h3>
 							<table cellpadding="0" cellspacing="0" border="0" class="display" id="table_morf">
 								<thead>
@@ -106,6 +103,21 @@
 									</c:forEach>
 								</tbody>
 							</table>
+							<br/>
+							<h3>Agrupamentos sintáticos</h3>
+								<form id="form_${id}${ i.count }" action="/cogroo/phpsyntaxtree/?" method="post" target="externalSite">
+									<input  type="hidden" name="antialias" value="on" />
+									<input  type="hidden" name="autosub" value="on" />
+									<input  type="hidden" name="autosub" value="on" />
+									<input  type="hidden" name="closedcount" value="5" />
+									<input  type="hidden" name="color" value="on" />
+									<input  type="hidden" name="data" value="${processResult.syntaxTree}" />
+									<input  type="hidden" name="font" value="era_sans" />
+									<input  type="hidden" name="fontsize" value="8" />
+									<input  type="hidden" name="opencount" value="5" />
+									<input  type="hidden" name="triangles" value="on" />
+									<p><a id="_${id}${ i.count }" class="iframe" href="about:blank" title="Agrupamentos">Clique aqui para exibir os agrupamentos sintáticos.</a></p>
+								</form>
 						</td>
 				    </tr>
 				</c:forEach>
