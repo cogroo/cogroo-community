@@ -102,6 +102,14 @@ public class RegisterController {
 						ExceptionMessages.USER_ALREADY_EXIST, ExceptionMessages.INVALID_ENTRY));
 			}
 		}
+		
+		if (!email.isEmpty()) {
+			User userFromDB = userDAO.retrieveByEmail(email);
+			if (userFromDB != null) {
+				validator.add(new ValidationMessage(
+						ExceptionMessages.EMAIL_ALREADY_EXIST, ExceptionMessages.INVALID_ENTRY));
+			}
+		}
 
 		validator.onErrorUse(Results.page()).of(RegisterController.class)
 				.register();
