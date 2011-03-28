@@ -61,7 +61,7 @@
 				"sInfoFiltered": "(filtrados de um total de _MAX_ entradas)"
 			},
 			"aLengthMenu": [20,50,100,200],
-			"aaSorting": [[ 6, 'desc' ]],
+			"aaSorting": [[ 5, 'desc' ]],
 			"iDisplayLength": 20,
 			"aoColumns": [
 				{ "bSortable": false }, 	//0
@@ -112,12 +112,12 @@
 		<thead>
 			<tr>
 			  <th></th> 			<!-- 0 -->
-			  <th title="Número">Nº.</th>			<!-- 1 -->
-			  <th title="Situação">Situação</th>				<!-- 2 -->
-			  <th title="Prioridade">Prioridade</th>			<!-- 3 -->
-			  <th title="Sentença com problema">Sentença com problema</th>		<!-- 4 -->
-			  <th title="Data da última alteração">Data</th>	<!-- 5 -->
-			  <th title="Número de comentários">Comentários</th>	<!-- 6 -->
+			  <th title="Exibe o número do problema reportado.">Nº.</th>			<!-- 1 -->
+			  <th title="Indica a situação (aberta, em andamento, resolvida, aguardando resposta, fechada ou rejeitada) do problema.">Situação</th>				<!-- 2 -->
+			  <th title="Indica a prioridade (baixa, normal, alta, urgente ou imediata) do problema.">Prioridade</th>			<!-- 3 -->
+			  <th title="Exibe a sentença relacionada ao problema reportado.">Sentença com problema</th>		<!-- 4 -->
+			  <th title="Exibe a data da última alteração realizada no problema.">Data</th>	<!-- 5 -->
+			  <th title="Exibe o número de comentários feitos sobre o problema.">Comentários</th>	<!-- 6 -->
 			  <th>Detalhes</th>		<!-- 7 -->
 			</tr>
 		</thead>

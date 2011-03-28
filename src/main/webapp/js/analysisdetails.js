@@ -8,7 +8,7 @@ function fnFormatDetails ( table, nTr )
 	var iIndex = table.fnGetPosition( nTr );
 	var aData = table.fnSettings().aoData[iIndex]._aData;
 	
-	return '<div class="reportlist_details">'+aData[4]+'</div>';
+	return '<div class="reportlist_details">'+aData[3]+'</div>';
 }
 
 function showTree(e) {
@@ -71,7 +71,7 @@ $(document).ready(function() {
 			"bDestroy": true,
 			"aoColumns": [
 				{ "bSortable": false },
-				{ "bSortable": false }, 
+				//{ "bSortable": false }, 
 				{ "bSortable": false },
 				{ "bSortable": false },
 				{ "bVisible": false }

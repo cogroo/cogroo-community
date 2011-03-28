@@ -81,10 +81,10 @@
 		<thead>
 			<tr>
 			  <th></th>
-			  <th>Nº.</th>
-			  <th>Tipo</th>
-			  <th>Grupo</th>
-			  <th>Mensagem</th>
+			  <th title="Exibe o número da regra utilizada pelo CoGrOO.">Nº.</th>
+			  <th title="Indica a categoria de erros gramaticais coberta pela regra.">Categoria</th>
+			  <th title="Indica o grupo interno da categoria coberto pela regra.">Grupo</th>
+			  <th title="Exibe uma mensagem curta descritiva do erro gramatical coberto pela regra.">Mensagem</th>
 			  <th>Detalhes</th>
 			</tr>
 		</thead>

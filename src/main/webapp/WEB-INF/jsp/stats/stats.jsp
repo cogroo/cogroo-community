@@ -84,35 +84,6 @@
 </table>
 <br />
 
-<h4>Usuários inativos</h4>
-<table cellpadding="0" cellspacing="0" border="0" class="display"
-	id="inactive_users">
-	<thead>
-		<tr>
-			<th>Login</th>
-			<th>Último login</th>
-		</tr>
-	</thead>
-	<tbody>
-		<c:forEach var="user" items="${appData.idleUsers}">
-			<tr>
-				<td><a href="<c:url value="/user/${user.id}"/>">${user.login}</a></td>
-				<td><c:choose>
-					<c:when test="${not empty user.lastLogin}">
-						<fmt:formatDate value="${user.lastLogin}"
-							pattern="dd/MM/yyyy HH:mm" />
-					</c:when>
-					<c:otherwise>
-					nunca
-					</c:otherwise>
-				</c:choose></td>
-			</tr>
-		</c:forEach>
-	</tbody>
-</table>
-<br />
-<br />
-
 <h4>Últimos usuários online</h4>
 <table cellpadding="0" cellspacing="0" border="0" class="display"
 	id="last_online_users">

@@ -18,7 +18,7 @@
 	<table class="attributes">
 		<tbody>
 			<tr>
-			    <th>Tipo:</th><td>${rule.type}</td>
+			    <th>Categoria:</th><td>${rule.type}</td>
 			</tr>
 			<tr>
 			    <th>Grupo:</th><td>${rule.group}</td>

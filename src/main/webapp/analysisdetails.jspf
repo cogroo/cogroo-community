@@ -25,8 +25,8 @@
 			<thead>
 				<tr>
 				  <th></th>
-				  <th>Sentença</th>
-				  <th>Erros gramaticais</th>
+				  <th title="Exibe a sentença submetida pelo usuário para análise.">Sentença</th>
+				  <th title="Exibe o número de erros gramaticais encontrados pelo CoGrOO.">Erros gramaticais</th>
 				  <th>Detalhes</th>
 				</tr>
 			</thead>

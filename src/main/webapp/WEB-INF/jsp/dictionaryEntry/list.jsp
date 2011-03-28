@@ -29,9 +29,9 @@
 		</caption>	
 		<thead>
 		<tr>
-		  <th>Palavra</th>
-		  <th>Lema</th>
-		  <th>Etiqueta</th>
+		  <th title="Exibe as ocorrências da palavra encontradas no léxico.">Palavra</th>
+		  <th title="Exibe o radical (forma primitiva) de cada palavra.">Radical</th>
+		  <th title="Exibe a etiqueta gramatical de cada palavra.">Etiqueta</th>
 		</tr>
 		</thead>
 		<tbody>
