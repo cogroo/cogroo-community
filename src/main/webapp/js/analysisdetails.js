@@ -11,6 +11,43 @@ function fnFormatDetails ( table, nTr )
 	return '<div class="reportlist_details">'+aData[4]+'</div>';
 }
 
+function showTree(e) {
+	var currentId = e.target.id;
+	
+	e.preventDefault();
+	var $this = $(this);
+	var horizontalPadding = 30;
+	var verticalPadding = 30;
+	/*$("#form" + currentId ).submit();*/
+	$('#externalSite').remove();
+
+	$('<iframe id="externalSite" src="about:blank"/>').dialog({
+		    title: 'Agrupamentos sintáticos',
+		    autoOpen: true,
+		    width: 730,
+		    height: 280,
+		    modal: true,
+		    resizable: true,
+	            autoResize: true,
+		    overlay: {
+			opacity: 0.5,
+			background: "black"
+		    }
+		}).width(730 - horizontalPadding).height(280 - verticalPadding);
+
+	$.post("/cogroo/phpsyntaxtree/cogroo.php?", $("#form" + currentId).serialize(), function(data, textStatus, XMLHttpRequest) {
+		
+    	  var d = $("#externalSite")[0].contentWindow.document; // contentWindow works in IE7 and FF
+		  d.open(); d.close(); // must open and close document object to start using it!
+
+		  // now start doing normal jQuery:
+		  $("body", d).append(data);
+
+		
+	}, 'html');
+	
+}
+
 $(document).ready(function() {
 	
 	$('table[id^="analysisTable_"]').each(function() {
@@ -58,49 +95,12 @@ $(document).ready(function() {
 				/* Open this row */
 				this.src = path + "/images/details_close.png";
 				oTables[id].fnOpen( nTr, fnFormatDetails(oTables[id], nTr), 'details' );
+				$('.iframe').click(function(e) {
+					showTree(e);
+				});
 			}
 		} );
 	} );
 	
 	$('.hidden_div').hide();
-
 } );
-
-$(function() {
-	
-	$('.iframe').click(function(e) {
-		var currentId = e.target.id;
-		
-		e.preventDefault();
-		var $this = $(this);
-		var horizontalPadding = 30;
-		var verticalPadding = 30;
-		/*$("#form" + currentId ).submit();*/
-		$('#externalSite').remove();
-
-		$('<iframe id="externalSite" src="about:blank"/>').dialog({
-			    title: 'Agrupamentos sintáticos',
-			    autoOpen: true,
-			    width: 730,
-			    height: 280,
-			    modal: true,
-			    resizable: true,
-		            autoResize: true,
-			    overlay: {
-				opacity: 0.5,
-				background: "black"
-			    }
-			}).width(730 - horizontalPadding).height(280 - verticalPadding);
-
-		$.post("/cogroo/phpsyntaxtree/cogroo.php?", $("#form" + currentId).serialize(), function(data, textStatus, XMLHttpRequest) {
-			
-	    	  var d = $("#externalSite")[0].contentWindow.document; // contentWindow works in IE7 and FF
-			  d.open(); d.close(); // must open and close document object to start using it!
-
-			  // now start doing normal jQuery:
-			  $("body", d).append(data);
-
-			
-		}, 'html');
-	});
-});
