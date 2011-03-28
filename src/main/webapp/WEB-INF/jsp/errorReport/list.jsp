@@ -106,6 +106,7 @@
 	<div id="helpErrorList" style="display: none;" class="help">
 		<p>Exibe todos os problemas reportados através da página e do plug-in CoGrOO para BrOffice.</p>
 		<p>Clique no número do problema reportado para detalhes.</p>
+		<p>Clique nas setas encontradas em cada coluna para ordenar os resultados em ordem alfabética.</p>
 	</div>
 	
 	<table cellpadding="0" cellspacing="0" border="0" class="display" id="errorList">

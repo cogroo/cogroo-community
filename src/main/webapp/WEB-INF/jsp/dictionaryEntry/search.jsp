@@ -33,6 +33,7 @@
 		<div id="helpRuleList" style="display: none;" class="help">
 			<p>Busca uma palavra no dicionário léxico do corretor CoGrOO.</p>
 			<p>Para cada entrada encontrada, é exibido o radical e a etiqueta gramatical correspondente.</p>
+			<p>Clique nas setas encontradas em cada coluna para ordenar os resultados em ordem alfabética.</p>
 		</div>
 </div>
 
@@ -45,13 +46,15 @@
 	</form>
 </div>
 
+<br/>
+
 <div class="search">
 	<c:choose>
 		<c:when	test="${empty word}">
-			<p>É necessário digitar uma palavra.</i></p>
+			<p><i>É necessário digitar uma palavra.</i></p>
 		</c:when>
 		<c:when	test="${dictionaryEntryList ne null and empty dictionaryEntryList}">
-			<p>Não foi possível encontrar a palavra <i>${word}</i>.</p>
+			<p><i>Não foi possível encontrar a palavra "${word}".</i></p>
 		</c:when>
 		<c:when test="${not empty dictionaryEntryList}">
 			<form action="<c:url value="/dictionaryEntryDelete"/>" method="post">

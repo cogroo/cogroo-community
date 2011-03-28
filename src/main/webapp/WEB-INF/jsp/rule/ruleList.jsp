@@ -75,6 +75,7 @@
 		<div id="helpRuleList" style="display: none;" class="help">
 			<p>Exibe as regras utilizadas pelo corretor gramatical CoGrOO para identificar erros.</p>
 			<p>Clique no número da regra para detalhes. Regras com identificador tachado estão desabilitadas.</p>
+			<p>Clique nas setas encontradas em cada coluna para ordenar os resultados em ordem alfabética.</p>
 		</div>
 		 
 	<table cellpadding="0" cellspacing="0" border="0" class="display" id="table_id">

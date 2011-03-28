@@ -68,9 +68,16 @@
 													<td><a href="<c:url value="/rule/${mistake.ruleIdentifier}"/>">${mistake.ruleIdentifier}</a></td>
 													<td>${mistake.shortMessage}</td>
 													<td>
-														<c:forEach items="${mistake.suggestions}" var="suggestion">
-															${suggestion} <br/>
-														</c:forEach>
+														<c:choose>
+																<c:when test="${not empty mistake.suggestions}">
+																	<c:forEach items="${mistake.suggestions}" var="suggestion">
+																		${suggestion} <br/>
+																	</c:forEach>
+																</c:when>
+																<c:otherwise>
+																	<i>Nenhuma sugestão encontrada.</i>
+																</c:otherwise>
+															</c:choose>
 													</td>
 											    </tr>
 											</c:forEach>
@@ -78,7 +85,7 @@
 									</table>
 								</c:when>
 								<c:otherwise>
-									<p>Nenhum erro gramatical encontrado.</p>
+									<p><i>Nenhum erro gramatical encontrado.</i></p>
 								</c:otherwise>
 							</c:choose>
 							<br/>
