@@ -14,4 +14,14 @@ public class Admin extends Developer {
 		return true;
 	}
 	
+	@Override
+	public boolean getCanViewSensitiveUserDetails() {
+		return true;
+	}
+	
+	@Override
+	public boolean getCanEditSensitiveUserDetails() {
+		return true;
+	}
+	
 }

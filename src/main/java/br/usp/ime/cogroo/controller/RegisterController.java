@@ -23,7 +23,7 @@ import br.usp.ime.cogroo.util.CriptoUtils;
 public class RegisterController {
 	
 	private static final String EMAIL_REGEX = "[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}";
-	private static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX, Pattern.CASE_INSENSITIVE);
+	public static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX, Pattern.CASE_INSENSITIVE);
 
 	private final Result result;
 	private UserDAO userDAO;

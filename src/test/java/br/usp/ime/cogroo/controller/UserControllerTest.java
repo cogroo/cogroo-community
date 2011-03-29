@@ -20,10 +20,10 @@ import br.com.caelum.vraptor.validator.Message;
 import br.com.caelum.vraptor.validator.ValidationException;
 import br.usp.ime.cogroo.dao.UserDAO;
 import br.usp.ime.cogroo.exceptions.ExceptionMessages;
+import br.usp.ime.cogroo.logic.TextSanitizer;
 import br.usp.ime.cogroo.model.LoggedUser;
 import br.usp.ime.cogroo.model.User;
 import br.usp.ime.cogroo.security.Admin;
-import br.usp.ime.cogroo.security.RoleProvider;
 
 public class UserControllerTest {
 	
@@ -67,15 +67,15 @@ public class UserControllerTest {
 		loggedUser1.setUser(admin);
 		
 		
-		
-		adminController = new UserController(result, userDAO, loggedUser1, validator, null);
+		TextSanitizer ts = new TextSanitizer();
+		adminController = new UserController(result, userDAO, loggedUser1, validator, null, ts);
 		
 		LoggedUser loggedUser2 = new LoggedUser(null);
 		loggedUser2.setUser(william);
-		userController = new UserController(result, userDAO, loggedUser2, validator, null);
+		userController = new UserController(result, userDAO, loggedUser2, validator, null, ts);
 		
 		LoggedUser loggedUser3 = new LoggedUser(null);
-		unknownController = new UserController(result, userDAO, loggedUser3, validator, null);
+		unknownController = new UserController(result, userDAO, loggedUser3, validator, null, ts);
 	}
 	
 	@Test

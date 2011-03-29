@@ -58,6 +58,9 @@ public class User {
 	@Column(length = 32)
 	private String recoverCode;
 
+	@Column
+	private Boolean isReceiveEmail;
+	
 	public User() {
 	}
 
@@ -201,13 +204,24 @@ public class User {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		if (name == null) {
-			if (other.name != null)
+		if (login == null) {
+			if (other.login != null)
 				return false;
-		} else if (!name.equals(other.name))
+		} else if (!login.equals(other.login))
 			return false;
 
 		return true;
+	}
+
+	public boolean getIsReceiveEmail() {
+		if(isReceiveEmail == null) {
+			isReceiveEmail = Boolean.valueOf(true);
+		}
+		return isReceiveEmail.booleanValue();
+	}
+
+	public void setIsReceiveEmail(boolean isReceiveEmail) {
+		this.isReceiveEmail = Boolean.valueOf(isReceiveEmail);		
 	}
 
 }

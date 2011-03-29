@@ -36,6 +36,14 @@ public abstract class Role {
 		return false;
 	}
 	
+	public boolean getCanViewSensitiveUserDetails() {
+		return false;
+	}
+	
+	public boolean getCanEditSensitiveUserDetails() {
+		return false;
+	}
+	
 	@Override
 	public String toString() {
 		return getRoleName();

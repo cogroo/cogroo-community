@@ -47,7 +47,7 @@
 					<tr>
 						<td><a href="<c:url value="/user/${user.id}"/>">${user.login}</a></td>
 						<td>${user.name}</td>
-						<td>${user.role}</td>
+						<td><fmt:message key="${user.role}" /></td>
 						<td><fmt:formatDate value="${user.lastLogin}"
 							pattern="dd/MM/yyyy HH:mm" /></td>
 					</tr>
