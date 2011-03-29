@@ -3,6 +3,37 @@
 	var path = '${pageContext.servletContext.contextPath}';
 </script>
 
+<script type="text/javascript" charset="utf-8">
+
+$(document).ready(function() {
+	
+	// set viewing
+	viewing();
+	
+	$('#edit').click(function(e) {
+		e.preventDefault();
+		editing();
+	 });
+	
+	$('#reset').click(function(e) {
+		// let it reset, don't prevent devault
+		viewing();
+	 });
+});
+
+function viewing() {
+	$('.viewing').show();
+	$('.editing').hide();
+};
+
+function editing() {
+	$('.viewing').hide();
+	$('.editing').show();
+};
+
+	
+</script>
+
 <h3>Detalhes do usuário <strong>${user.login}</strong>:</h3>
 <div class="rule_details">
 
@@ -14,16 +45,17 @@
 		<tbody>
 			<tr>
 			    <th>Login:</th>
-			    <td><input type="text" name="login-noedit" value="${user.login}" disabled="disabled" /></td>
+			    <td>${user.login}</td>
 			</tr>
 			<tr>
 			    <th>Nome:</th>
 			    <c:choose>
 					<c:when test="${canEdit}">
-			    		<td><input type="text" name="name" value="${user.name}" /></td>
+			    		<td class="editing"><input type="text" name="name" value="${user.name}" /></td>
+			    		<td class="viewing">${user.name}</td>
 			  		</c:when>
 			  		<c:otherwise>
-			    		<td><input type="text" name="name-noedit" value="${user.name}" disabled="disabled" /></td>
+			    		<td>${user.name}</td>
 			  		</c:otherwise>
 				</c:choose>
 				
@@ -33,10 +65,11 @@
 			    	<th>Email:</th>
 				    <c:choose>
 						<c:when test="${canEdit}">
-				    		<td><input type="text" name="email" value="${user.email}" /></td>
+				    		<td class="editing"><input type="text" name="email" value="${user.email}" /></td>
+				    		<td class="viewing">${user.email}</td>
 				  		</c:when>
 				  		<c:otherwise>
-				    		<td><input type="text" name="email-noedit" value="${user.email}" disabled="disabled" /></td>
+				    		<td>${user.email}</td>
 				  		</c:otherwise>
 					</c:choose>
 				</tr>
@@ -61,7 +94,8 @@
 				    
 				    <td><c:choose>
 						<c:when test="${canEdit}">
-				    		<input type="checkbox" name="isReceiveEmail" value="true" ${checked} />
+				    		<input class="viewing" type="checkbox" name="isReceiveEmail" value="true" ${checked}  disabled="disabled"/>
+				    		<input class="editing" type="checkbox" name="isReceiveEmail" value="true" ${checked} />
 				  		</c:when>
 				  		<c:otherwise>
 				    		<input type="checkbox" name="isReceiveEmail-noedit" value="true" disabled="disabled"/>
@@ -72,8 +106,14 @@
 		</tbody>
 	</table>
 	<c:if test="${canEdit}">
-		<input name="user.id" value="${user.id}" type="hidden" />
-		<input type="submit" value=" Atualizar &raquo; " id="updateUser"/>  
+		<div class="editing">
+			<input name="user.id" value="${user.id}" type="hidden" />
+			<input type="submit" value="Atualizar" id="updateUser"/>
+			<input type="reset" value=" &laquo; Limpar" onClick="window.location.reload()">
+		</div>
+		<div class="viewing">
+			<input type="submit" value=" Editar &raquo; " id="edit"/>
+		</div> 
 	</c:if>
 	</form>
 </div>

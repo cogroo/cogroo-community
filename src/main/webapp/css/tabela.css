@@ -28,7 +28,7 @@ azul fraco2: #add6ef
 	border-bottom: 1px solid #00C; 
 }
 
-button, input[type="submit"], .a_button {
+button, input[type="reset"], input[type="submit"], .a_button {
 	border:1px solid #fff;
 	outline:1px solid #333dff;
 	/*border-bottom:1x solid #b17676!important;*/

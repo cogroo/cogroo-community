@@ -136,6 +136,7 @@ public class UserController {
 			validator.onErrorUse(Results.page()).of(UserController.class)
 				.user(user);
 			
+			
 			boolean changed = false;
 			if(!user.getEmail().equals(email)) {
 				changed = true;
