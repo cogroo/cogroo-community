@@ -133,34 +133,34 @@ public class UserController {
 				validator.add(new ValidationMessage(ExceptionMessages.USER_CANNOT_BE_EMPTY,
 						ExceptionMessages.INVALID_ENTRY));
 			
-			validator.onErrorUse(Results.page()).of(UserController.class)
-				.user(user);
+			validator.onErrorUse(Results.logic()).redirectTo(UserController.class).user(user);
 			
-			
-			boolean changed = false;
-			if(!user.getEmail().equals(email)) {
-				changed = true;
-				user.setEmail(email);
+			if( !validator.hasErrors() ) {
+				boolean changed = false;
+				if(!user.getEmail().equals(email)) {
+					changed = true;
+					user.setEmail(email);
+				}
+				
+				if(!user.getName().equals(name)) {
+					changed = true;
+					user.setName(name);
+				}
+				
+				if(!user.getName().equals(name)) {
+					changed = true;
+					user.setName(name);
+				}
+				
+				if(isReceiveEmail != user.getIsReceiveEmail()) {
+					changed = true;
+					user.setIsReceiveEmail(isReceiveEmail);
+				}
+				
+				if(changed)
+					userDAO.update(user);
+				
 			}
-			
-			if(!user.getName().equals(name)) {
-				changed = true;
-				user.setName(name);
-			}
-			
-			if(!user.getName().equals(name)) {
-				changed = true;
-				user.setName(name);
-			}
-			
-			if(isReceiveEmail != user.getIsReceiveEmail()) {
-				changed = true;
-				user.setIsReceiveEmail(isReceiveEmail);
-			}
-			
-			if(changed)
-				userDAO.update(user);
-			
 			result.redirectTo(getClass()).user(user);
 			
 		} else {
