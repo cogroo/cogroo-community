@@ -71,7 +71,8 @@ public class ErrorEntryLogicTest {
 				new GrammarCheckerBadInterventionDAO(em),
 				new HistoryEntryDAO(em),
 				new HistoryEntryFieldDAO(em),
-				appdata);
+				appdata,
+				null);
 	}
 
 	@Test(expected=CommunityException.class)

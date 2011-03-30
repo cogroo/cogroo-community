@@ -26,6 +26,7 @@ import br.usp.ime.cogroo.dao.errorreport.GrammarCheckerBadInterventionDAO;
 import br.usp.ime.cogroo.dao.errorreport.GrammarCheckerOmissionDAO;
 import br.usp.ime.cogroo.exceptions.CommunityException;
 import br.usp.ime.cogroo.exceptions.CommunityExceptionMessages;
+import br.usp.ime.cogroo.logic.RssFeed;
 import br.usp.ime.cogroo.model.ApplicationData;
 import br.usp.ime.cogroo.model.GrammarCheckerVersion;
 import br.usp.ime.cogroo.model.LoggedUser;
@@ -66,11 +67,12 @@ public class ErrorEntryLogic {
 	private HistoryEntryDAO historyEntryDAO;
 	private HistoryEntryFieldDAO historyEntryFieldDAO;
 	private ApplicationData appData;
+	private RssFeed feed;
 
 	public ErrorEntryLogic(LoggedUser loggedUser, ErrorEntryDAO errorEntryDAO,
 			UserDAO userDAO, CommentDAO commentDAO, CogrooFacade cogrooFacade,
 			GrammarCheckerVersionDAO versionDAO, GrammarCheckerOmissionDAO omissionDAO,
-			GrammarCheckerBadInterventionDAO badInterventionDAO, HistoryEntryDAO historyEntryDAO, HistoryEntryFieldDAO historyEntryFieldDAO, ApplicationData appData) {
+			GrammarCheckerBadInterventionDAO badInterventionDAO, HistoryEntryDAO historyEntryDAO, HistoryEntryFieldDAO historyEntryFieldDAO, ApplicationData appData, RssFeed feed) {
 		this.userDAO = userDAO;
 		this.commentDAO = commentDAO;
 		this.errorEntryDAO = errorEntryDAO;
@@ -82,6 +84,7 @@ public class ErrorEntryLogic {
 		this.historyEntryDAO = historyEntryDAO;
 		this.historyEntryFieldDAO = historyEntryFieldDAO;
 		this.appData = appData;
+		this.feed = feed;
 	}
 
 	public List<ErrorEntry> getAllReports() {
@@ -652,7 +655,7 @@ public class ErrorEntryLogic {
 		errorEntry.getComments().add(c);
 		updateModified(errorEntry);
 		errorEntryDAO.update(errorEntry);
-		sendEmailForNewComment(errorEntry, c);
+		notificationForNewComment(errorEntry, c);
 		return c.getId();
 	}
 	
@@ -667,7 +670,7 @@ public class ErrorEntryLogic {
 		commentDAO.update(c);
 		updateModified(c.getErrorEntry());
 		errorEntryDAO.update(c.getErrorEntry());
-		sendEmailForNewComment(c.getErrorEntry(), answer);
+		notificationForNewComment(c.getErrorEntry(), answer);
 	}
 
 	public void removeAnswer(Comment answer, Comment comment) {
@@ -854,7 +857,7 @@ public class ErrorEntryLogic {
 		body.append( "Veja mais em http://ccsl.ime.usp.br/cogroo/comunidade/errorEntry/" + errorEntry.getId() +  "\n\n");
 	}
 	
-	private void sendEmailForNewComment(ErrorEntry errorEntry, Comment comment) {
+	private void notificationForNewComment(ErrorEntry errorEntry, Comment comment) {
 		// get the users
 		Set<User> userList = new HashSet<User>();
 		userList.add(errorEntry.getSubmitter());
@@ -879,6 +882,9 @@ public class ErrorEntryLogic {
 		
 		// send it!
 		EmailSender.sendEmail(StringEscapeUtils.unescapeHtml(body.toString()), subject, userList);
+		
+		//RSS
+		feed.addEntry(subject, "http://ccsl.ime.usp.br/cogroo/comunidade/errorEntry/" + errorEntry.getId(), body.toString());
 	}
 
 	
