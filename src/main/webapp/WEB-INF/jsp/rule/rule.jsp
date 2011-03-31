@@ -68,6 +68,10 @@
 							<br/>
 						</c:forEach> 
 					</ol>
-			
+	
+			<form id="formOwnExample"  action="<c:url value="/grammar"/>" method="post" >
+			    <input type="hidden" name="text" value="${rule.example[0].incorrect}" />
+			    <input type="submit" value=" Teste seu próprio exemplo &raquo; " id="submitOwnExample"/>
+			</form>
 	<br />
 </div>
