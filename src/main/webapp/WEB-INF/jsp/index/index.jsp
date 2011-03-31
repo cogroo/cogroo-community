@@ -1,19 +1,13 @@
 <script src="<c:url value='/js/jquery.twitter.search.js' />" type="text/javascript" ></script>
 <script src="<c:url value='/js/jquery.zrssfeed.js' />" type="text/javascript" ></script>
 
-<script type="text/javascript">
-	if (${justRegistered})
-	{
-		_gaq.push(['_trackEvent', 'Register', 'succeeded register', '${login}']);
-	}
-</script>
+<c:if test="${justRegistered}">
+	<script type="text/javascript">_gaq.push(['_trackEvent', 'Register', 'succeeded register', '${login}']);</script>
+</c:if>
 
-<script type="text/javascript">
-	if (${justLogged})
-	{
-		_gaq.push(['_trackEvent', 'Login', 'succeeded login', '${login}']);
-	}
-</script>
+<c:if test="${justLogged}">
+	<script type="text/javascript">_gaq.push(['_trackEvent', 'Login', 'succeeded login', '${login}']);</script>
+</c:if>
 
 <script type="text/javascript"><!--//--><![CDATA[//><!--
 

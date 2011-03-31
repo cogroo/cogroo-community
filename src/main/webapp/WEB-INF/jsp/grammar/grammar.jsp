@@ -18,12 +18,9 @@
 
 </script>
 
-<script type="text/javascript">
-	if (${justAnalyzed})
-	{
-		_gaq.push(['_trackEvent', 'Grammatical Analysis', 'succeeded analysis', '${login}']);
-	}
-</script>		
+<c:if test="${justAnalyzed}">
+	<script type="text/javascript">_gaq.push(['_trackEvent', 'Grammatical Analysis', 'succeeded analysis', '${login}']);</script>
+</c:if>		
 		
 		<h2>Análise Gramatical <span class="help"><a onclick="onOff('helpRuleList'); return false" href="#"><img src="<c:url value='/images/help.png' />" /></a></span></h2>
 		<div id="helpRuleList" style="display: none;" class="help">
