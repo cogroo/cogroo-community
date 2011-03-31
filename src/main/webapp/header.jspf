@@ -6,10 +6,24 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>CoGrOO Comunidade</title>
+<c:choose>
+	<c:when test="${not empty headerTitle}">	
+		<title>${headerTitle} - CoGrOO Comunidade</title>
+	</c:when>
+	<c:otherwise>
+		<title>CoGrOO Comunidade</title>
+	</c:otherwise>
+</c:choose>
+<c:choose>
+	<c:when test="${not empty headerDescription}">	
+		<meta name="description" content="${headerDescription}"/>
+	</c:when>
+	<c:otherwise>
+		<meta name="description" content="O CoGrOO Comunidade é um portal colaborativo para aprimorar o CoGrOO, o corretor gramatical em português para BrOffice."/>
+	</c:otherwise>
+</c:choose>
   <meta name="keywords" content="cogroo, comunidade, cogroo comunidade, corretor gramatical, análise gramatical, análise morfológica, português, openoffice, libreoffice, broffice, grammar checker, online grammar checker, corretor online" />
-  <meta name="description" content="O CoGrOO Comunidade é um portal colaborativo para aprimorar o CoGrOO, o corretor gramatical em português para BrOffice."/>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="language" content="pt-br"/>
   <link rel="shortcut icon" href="<c:url value="/favicon.ico"/>" />
 	
@@ -126,6 +140,19 @@
 				</ul>
 			</li>-->
 			<!-- <li><a href="#">Sugestões</a></li> -->
+			<c:choose>
+			<c:when test="${loggedUser.logged}">
+				<li><span title="Acesse a área exclusiva para usuários cadastrados.">Área Exclusiva</span>
+						<ul>
+							<li><a title="Reporte um novo problema"  href="<c:url value="/grammar"/>">Reportar problema</a></li>
+							<li><a title="Visualize os usuários do CoGrOO Comunidade" href="<c:url value="/userList"/>">Visualizar usuários</a></li>
+						</ul>
+				</li>
+			</c:when>
+			<c:otherwise>
+				<li><a title="Acesse a área exclusiva para usuários cadastrados" href="<c:url value="/register"/>">Área Exclusiva</a></li>
+			</c:otherwise>
+			</c:choose>
 			<li><span title="Links relacionados ao CoGrOO.">Links Externos</span>
 				<ul>
 					<li><a title="Download da versão mais recente do plugin para o BrOffice.org" href="http://cogroo.sourceforge.net/download/current.html">Download CoGrOO</a></li>
@@ -137,19 +164,10 @@
 			</li>
 			<li><span title="Veja outras informações sobre o projeto.">Mais Informações</span>
 				<ul>
-					<li><a title="Estatísticas de acessso" href="<c:url value="/stats"/>">Estatísticas</a></li>
-					<li><a title="Histórico do Cogroo Comunidade" href="<c:url value="/about"/>">Sobre</a></li>
+					<li><a title="Estatísticas de acessso." href="<c:url value="/stats"/>">Estatísticas</a></li>
+					<li><a title="Histórico do Cogroo Comunidade." href="<c:url value="/about"/>">Sobre</a></li>
 				</ul>
 			</li>
-			<c:if test="${loggedUser.logged}">
-				<li><span title="Acesse a área exclusiva para usuários cadastrados">Área Exclusiva</span>
-						<ul>
-							<li><a title="Reporte um novo problema"  href="<c:url value="/grammar"/>">Reportar problema</a></li>
-							<li><a title="Visualize os usuários do CoGrOO Comunidade" href="<c:url value="/userList"/>">Visualizar usuários</a></li>
-						</ul>
-				</li>
-			</c:if>
-			
 		</ul>
 	
 <!--	<c:if test="${not empty errors}">-->

@@ -61,6 +61,8 @@ public class StatsController {
 			validator.onErrorUse(Results.page()).of(IndexController.class)
 					.index();
 		}
+		result.include("headerTitle", "Estatísticas").include(
+				"headerDescription", "Exibe estatísticas de acesso ao CoGrOO Comunidade.");
 	}
 
 	@Get

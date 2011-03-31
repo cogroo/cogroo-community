@@ -38,6 +38,8 @@ public class RuleController {
 	@Path("/ruleList")
 	public void ruleList() {
 		result.include("ruleList", rulesLogic.getRuleList());
+		result.include("headerTitle", "Regras").include(
+				"headerDescription", "Exibe as regras utilizadas pelo corretor gramatical CoGrOO para identificar erros.");
 	}
 	
 	@Get
@@ -81,5 +83,11 @@ public class RuleController {
 			.include("previousRule", rulesLogic.getPreviousRuleID(rule.getId()))
 			.include("pattern", RuleUtils.getPatternAsString(rule))
 			.include("replacePattern", RuleUtils.getSuggestionsAsString(rule));
+		
+		String title = "Regra #" + rule.getId() + ": "
+				+ rule.getShortMessage();
+		String description = rule.getMessage();
+		result.include("headerTitle", title).include("headerDescription",
+				description);
 	}
 }

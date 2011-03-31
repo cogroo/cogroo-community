@@ -35,6 +35,7 @@ public class IndexController {
 	@Get
 	@Path("/about")
 	public void about() {
+		result.include("headerTitle", "Sobre");
 	}
 
 }

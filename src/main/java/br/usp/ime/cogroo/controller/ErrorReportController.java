@@ -58,6 +58,9 @@ public class ErrorReportController {
 	private AnalyticsManager manager;
 	private HttpServletRequest request;
 	private TextSanitizer sanitizer;
+	
+	private static final String HEADER_TITLE = "Problemas Reportados";
+	private static final String HEADER_DESCRIPTION = "Exibe os problemas reportados através da página e do plug-in CoGrOO para BrOffice.";
 
 	public ErrorReportController(
 			LoggedUser loggedUser, 
@@ -86,6 +89,10 @@ public class ErrorReportController {
 	@Path("/reportNewError")
 	public void reportNewError() {
 		result.include("text", "Isso são um exemplo de erro gramaticais.");
+		result.include("headerTitle", "Reportar problema")
+				.include(
+						"headerDescription",
+						"Reporta um problema no corretor gramatical CoGrOO para a equipe, de modo com que a ferramenta possa ser aprimorada.");
 	}
 	
 	@Post
@@ -333,6 +340,8 @@ public class ErrorReportController {
 			now.add(Calendar.DATE, -7);
 			result.include("oneWeekAgo", now.getTime());
 		}
+		result.include("headerTitle", HEADER_TITLE).include("headerDescription",
+				HEADER_DESCRIPTION);
 	}
 	
 	@Get
@@ -357,6 +366,17 @@ public class ErrorReportController {
 			include("processResultList", cogrooFacade.processText(errorEntryFromDB.getText())).
 			include("priorities", Priority.values()).
 			include("states", State.values());
+		
+		String title = "Problema reportado #" + errorEntryFromDB.getId() + ": "
+				+ errorEntryFromDB.getText();
+		String description = "Tipo: " + (errorEntryFromDB.getOmission() == null ? "Intervenção indevida; Erro: " + errorEntryFromDB
+				.getBadIntervention().getClassification()
+				: "Omissão; Categoria"
+						+ (errorEntryFromDB.getOmission().getCategory() == null ? " (personalizada): " + errorEntryFromDB
+						.getOmission().getCustomCategory()
+						: ": " + errorEntryFromDB.getOmission().getCategory()));
+		result.include("headerTitle", title).include("headerDescription",
+				description);
 	}
 	
 	@Get

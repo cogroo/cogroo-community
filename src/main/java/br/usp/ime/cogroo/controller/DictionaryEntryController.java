@@ -39,6 +39,9 @@ public class DictionaryEntryController {
 	private TextSanitizer sanitizer;
 	private static final Logger LOG = Logger
 			.getLogger(DictionaryEntryController.class);
+	
+	private static final String HEADER_TITLE = "Léxico";
+	private static final String HEADER_DESCRIPTION = "Busca uma palavra no dicionário léxico do corretor CoGrOO.";
 
 	public DictionaryEntryController(DictionaryManager dictionaryManager,
 			Result result, Validator validator, LoggedUser loggedUser,
@@ -127,6 +130,8 @@ public class DictionaryEntryController {
 	@Path("/dictionaryEntrySearch")
 	public void search() {
 		result.include("word", "casa");
+		result.include("headerTitle", HEADER_TITLE).include("headerDescription",
+				HEADER_DESCRIPTION);
 	}
 
 	@Post
@@ -139,6 +144,8 @@ public class DictionaryEntryController {
 			result.include("dictionaryEntryList", dictionaryEntry).include(
 					"word", word);
 		}
+		result.include("headerTitle", HEADER_TITLE).include("headerDescription",
+				HEADER_DESCRIPTION);
 	}
 
 	@Delete

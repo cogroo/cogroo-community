@@ -22,6 +22,9 @@ public class GrammarController {
 	private LoggedUser loggedUser;
 	private TextSanitizer sanitizer;
 	
+	private static final String HEADER_TITLE = "Análise Gramatical";
+	private static final String HEADER_DESCRIPTION = "Analisa um texto fornecido pelo usuário em busca de erros gramaticais.";
+	
 	public GrammarController(Result result, CogrooFacade cogroo, LoggedUser loggedUser, TextSanitizer sanitizer) {
 		this.result = result;
 		this.cogroo = cogroo;
@@ -33,6 +36,8 @@ public class GrammarController {
 	@Path("/grammar")
 	public void grammar() {
 		result.include("text", "Isso são um exemplo de erro gramaticais.");
+		result.include("headerTitle", HEADER_TITLE).include("headerDescription",
+				HEADER_DESCRIPTION);
 	}
 
 	@Post
@@ -52,6 +57,8 @@ public class GrammarController {
 			result.include("processResultList", cogroo.processText(text))
 					.include("text", text);
 		}
+		result.include("headerTitle", HEADER_TITLE).include("headerDescription",
+				HEADER_DESCRIPTION);
 	}
 
 }

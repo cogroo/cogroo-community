@@ -32,6 +32,9 @@ public class RegisterController {
 	private TextSanitizer sanitizer;
 	private static final Logger LOG = Logger
 			.getLogger(RegisterController.class);
+	
+	private static final String HEADER_TITLE = "Cadastro";
+	private static final String HEADER_DESCRIPTION = "Cadastre-se no CoGrOO Comunidade! É rápido e gratuito!";
 
 	public RegisterController(Result result, UserDAO userDAO,
 			Validator validator, ApplicationData appData,
@@ -46,6 +49,8 @@ public class RegisterController {
 	@Get
 	@Path("/register")
 	public void register() {
+		result.include("headerTitle", HEADER_TITLE).include(
+				"headerDescription", HEADER_DESCRIPTION);
 	}
 	
 	@Get

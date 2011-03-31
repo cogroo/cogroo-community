@@ -34,7 +34,7 @@ function editing() {
 	
 </script>
 
-<h3>Detalhes do usuário <strong>${user.login}</strong>:</h3>
+<h3>Usuário <strong>${user.login}</strong>:</h3>
 <div class="rule_details">
 
 	<c:set var="canEdit" value="${loggedUser.user.id == user.id || loggedUser.user.role.canEditSensitiveUserDetails}"></c:set>

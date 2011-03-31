@@ -52,6 +52,10 @@ public class UserController {
 			validator.onErrorUse(Results.logic()).redirectTo(IndexController.class)
 				.index();
 		}
+		
+		result.include("headerTitle", "Lista de usuários").include(
+				"headerDescription",
+				"Visualize os usuários do CoGrOO Comunidade");
 	}
 	
 	@Get
@@ -78,6 +82,12 @@ public class UserController {
 			validator.onErrorUse(Results.logic()).redirectTo(IndexController.class)
 				.index();
 		}
+		
+		result.include("headerTitle",
+				"Usuário #" + user.getId() + ": " + user.getName()).include(
+				"headerDescription",
+				"Login: " + user.getLogin() + "; Nome: " + user.getName()
+						+ "; Papel: " + user.getRoleName());
 	}
 	
 	@Post
