@@ -175,7 +175,13 @@ public class ErrorReportController {
 			} catch (CloneNotSupportedException e) {
 				LOG.error("Error cloning ErrorEntry object: ", e);
 			}
-			
+			if(type == null) {
+				if(errorEntryFromDB.getBadIntervention() != null) {
+					type = "BADINT";
+				} else {
+					type = "OMISSION";
+				}
+			}
 			if(type.equals("BADINT")) {
 				GrammarCheckerBadIntervention newBadIntervention = null;
 				if(errorEntryFromDB.getBadIntervention() == null) {
