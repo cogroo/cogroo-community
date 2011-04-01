@@ -15,4 +15,4 @@ Sobre o problema reportado #$problemID$:<br>
 <br>
 <div style=' border: 1px dashed #BBBBBB; padding: 5px; width: 75%;'>$text$</div><br>
 <br>
-Veja mais em <a href='$root$errorEntry/#$problemID$'>$root$errorEntry/$problemID$</a><br>
+Veja mais em <a href='$root$errorEntry/$problemID$'>$root$errorEntry/$problemID$</a><br>
