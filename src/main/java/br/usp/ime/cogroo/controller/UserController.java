@@ -26,7 +26,6 @@ public class UserController {
 	private UserDAO userDAO;
 	private LoggedUser loggedUser;
 	private Validator validator;
-	private HttpServletRequest request;
 	private TextSanitizer sanitizer;
 	private static final Logger LOG = Logger.getLogger(UserController.class);
 
@@ -37,7 +36,6 @@ public class UserController {
 		this.userDAO = userDAO;
 		this.loggedUser = loggedUser;
 		this.validator = validator;
-		this.request = request;
 		this.sanitizer = sanitizer;
 	}
 	

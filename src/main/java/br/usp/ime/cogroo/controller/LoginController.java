@@ -25,7 +25,6 @@ public class LoginController {
 	private UserDAO userDAO;
 	private LoggedUser loggedUser;
 	private Validator validator;
-	private HttpServletRequest request;
 	private static final Logger LOG = Logger.getLogger(LoginController.class);
 
 	public LoginController(Result result, UserDAO userDAO,
@@ -34,7 +33,6 @@ public class LoginController {
 		this.userDAO = userDAO;
 		this.loggedUser = loggedUser;
 		this.validator = validator;
-		this.request = request;
 	}
 
 	@Get
@@ -83,11 +81,10 @@ public class LoginController {
 		userFromDB.setLastLogin(System.currentTimeMillis());
 		userDAO.update(userFromDB);
 		loggedUser.login(userFromDB);
-		request.getSession().setAttribute("loggedUser", loggedUser);
 		
 		result.include("justLogged", true).include("login", login);
 
-		result.redirectTo(IndexController.class).index();
+		result.redirectTo(loggedUser.getLastURIVisited());		
 	}
 
 	@Get

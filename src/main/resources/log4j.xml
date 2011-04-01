@@ -4,15 +4,15 @@
 
 	<!-- (all|debug|info|warn|error|fatal|off|null) -->
 	<category name="br.usp.ime.cogroo">
-		<priority value="warn" />
+		<priority value="debug" />
 		<appender-ref ref="stdout" />
-		<appender-ref ref="R" />
+<!--		<appender-ref ref="R" />-->
 	</category>
 
 	<root>
-		<priority value="warn" />
+		<priority value="error" />
 		<appender-ref ref="stdout" />
-		<appender-ref ref="R" />
+<!--		<appender-ref ref="R" />-->
 	</root>
 
 	<appender name="stdout" class="org.apache.log4j.ConsoleAppender">

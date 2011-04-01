@@ -9,6 +9,7 @@ public class LoggedUser {
 
 	private User user = null;
 	private final ApplicationData appData;
+	private String lastURIVisited;
 	
 	public LoggedUser(ApplicationData appData) {
 		this.appData = appData;
@@ -35,6 +36,14 @@ public class LoggedUser {
 	public void logout(){
 		appData.removeLoggedUser(user);
 		user = null;
+	}
+
+	public void setLastURIVisited(String lastURLVisited) {
+		this.lastURIVisited = lastURLVisited;
+	}
+
+	public String getLastURIVisited() {
+		return lastURIVisited;
 	}
 
 }
