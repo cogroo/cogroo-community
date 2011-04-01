@@ -886,7 +886,7 @@ public class ErrorEntryLogic {
 		appendErrorDetails(body, errorEntry);
 		
 		//RSS
-		String friendlyStart = "Novo erro submetido por " + errorEntry.getSubmitter().getName() + ".<br><br>";
+		String friendlyStart = "Novo erro submetido por " + errorEntry.getSubmitter().getName();
 		feed.addEntry(friendlyStart, "http://ccsl.ime.usp.br/cogroo/comunidade/errorEntry/" + errorEntry.getId(), body.toString());
 		
 	}
@@ -921,7 +921,7 @@ public class ErrorEntryLogic {
 		EmailSender.sendEmail(StringEscapeUtils.unescapeHtml(body.toString()), subject, userList);
 		
 		//RSS
-		String friendlyStart = "Novo comentário de " + errorEntry.getSubmitter().getName() + " no problema " + errorEntry.getId() + ".<br><br>";
+		String friendlyStart = "Novo comentário de " + errorEntry.getSubmitter().getName() + " no problema " + errorEntry.getId();
 		feed.addEntry(friendlyStart, "http://ccsl.ime.usp.br/cogroo/comunidade/errorEntry/" + errorEntry.getId(), body.toString());
 	}
 
@@ -987,7 +987,7 @@ public class ErrorEntryLogic {
 		EmailSender.sendEmail(StringEscapeUtils.unescapeHtml(body.toString()), subject, userList);
 		
 		//RSS
-		String friendlyStart = "Alteração de " + errorEntry.getSubmitter().getName() + " no problema " + errorEntry.getId() + ".<br><br>";
+		String friendlyStart = "Alteração de " + errorEntry.getSubmitter().getName() + " no problema " + errorEntry.getId();
 		feed.addEntry(friendlyStart, "http://ccsl.ime.usp.br/cogroo/comunidade/errorEntry/" + errorEntry.getId(), body.toString());
 	}
 }
