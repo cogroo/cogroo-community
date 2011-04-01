@@ -94,6 +94,15 @@
   font-size: 24px;
 }
 
+#sitemap .outside_list {
+	padding-top: 10px;
+	padding-left: 0px;
+}	
+
+#sitemap li {
+  padding-left: 40px;
+}
+
 SPAN.omission
 {
 	BACKGROUND-COLOR: #ADFF2F;

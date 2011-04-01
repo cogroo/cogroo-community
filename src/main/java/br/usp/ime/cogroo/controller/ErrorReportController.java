@@ -367,7 +367,7 @@ public class ErrorReportController {
 			include("priorities", Priority.values()).
 			include("states", State.values());
 		
-		String title = "Problema reportado #" + errorEntryFromDB.getId() + ": "
+		String title = "Problema #" + errorEntryFromDB.getId() + ": "
 				+ errorEntryFromDB.getText();
 		String description = "Tipo: " + (errorEntryFromDB.getOmission() == null ? "Intervenção indevida; Erro: " + errorEntryFromDB
 				.getBadIntervention().getClassification()
