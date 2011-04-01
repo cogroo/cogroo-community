@@ -119,7 +119,7 @@ table.answer td {
 }
 </style>
 
-	<h2>Problema reportado #${errorEntry.id}</h2>
+	<h2>Problema #${errorEntry.id}</h2>
 			<span style="FLOAT: right; POSITION: static">
 			<c:if test="${loggedUser.user.role.canEditErrorReport}">
 				<a href="<c:url value="/editErrorEntry/${errorEntry.id}"/>">editar</a>
