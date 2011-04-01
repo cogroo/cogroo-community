@@ -25,6 +25,7 @@
   <meta name="keywords" content="cogroo, comunidade, cogroo comunidade, corretor gramatical, análise gramatical, análise morfológica, português, openoffice, libreoffice, broffice, grammar checker, online grammar checker, corretor online" />
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="language" content="pt-br"/>
+  <link rel="alternate" type="application/atom+xml" title="CoGrOO Comunidade RSS Feed" href="<c:url value="/rss.xml"/>" />
   <link rel="shortcut icon" href="<c:url value="/favicon.ico"/>" />
 	
 	<link rel="stylesheet" type="text/css" href="<c:url value="/css/header.css"/>" />

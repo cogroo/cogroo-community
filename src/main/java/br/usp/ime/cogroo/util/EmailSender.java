@@ -20,9 +20,9 @@ public class EmailSender {
 		.getLogger(EmailSender.class);
 	
 	public static final String FOOTER = 
-			"\n" +
-			"--\n" +
-			"CoGrOO Comunidade <http://ccsl.ime.usp.br/cogroo/comunidade/>\n" +
+			"<br>" +
+			"--<br>" +
+			"CoGrOO Comunidade &lt;<a href=\"" + BuildUtil.BASE_URL + "\">" + BuildUtil.BASE_URL + "</a>&gt;<br>" +
 			"CoGrOO é o Corretor Gramatical para o BrOffice. Você é parte dessa comunidade!";
 	
 	private final static String FROM_NAME = "CoGrOO Comunidade";
@@ -49,7 +49,6 @@ public class EmailSender {
 
 		Email email = new SimpleEmail();
 		email.setHostName("smtp.gmail.com");
-
 		email.setDebug(true);
 		email.setSSL(true);
 		email.addTo(toEmail);
@@ -57,7 +56,7 @@ public class EmailSender {
 		email.setFrom(BuildUtil.EMAIL_SYSTEM_USR, FROM_NAME);
 		email.setReplyTo(REPLYTO);
 		email.setSubject(SUBJECT_PREFFIX + subject);
-		email.setMsg(sb.toString());
+		email.setContent(sb.toString(), Email.TEXT_HTML);
 
 		if(LOG.isDebugEnabled()) {
 			LOG.debug("Will send mail:\n" + email.toString());

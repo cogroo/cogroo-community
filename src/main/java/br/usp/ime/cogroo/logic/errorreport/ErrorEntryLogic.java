@@ -6,10 +6,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import org.antlr.stringtemplate.StringTemplate;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
 
@@ -27,6 +30,7 @@ import br.usp.ime.cogroo.dao.errorreport.GrammarCheckerOmissionDAO;
 import br.usp.ime.cogroo.exceptions.CommunityException;
 import br.usp.ime.cogroo.exceptions.CommunityExceptionMessages;
 import br.usp.ime.cogroo.logic.RssFeed;
+import br.usp.ime.cogroo.logic.StringTemplateUtil;
 import br.usp.ime.cogroo.model.ApplicationData;
 import br.usp.ime.cogroo.model.GrammarCheckerVersion;
 import br.usp.ime.cogroo.model.LoggedUser;
@@ -68,11 +72,12 @@ public class ErrorEntryLogic {
 	private HistoryEntryFieldDAO historyEntryFieldDAO;
 	private ApplicationData appData;
 	private RssFeed feed;
+	private StringTemplateUtil templateUtil;
 
 	public ErrorEntryLogic(LoggedUser loggedUser, ErrorEntryDAO errorEntryDAO,
 			UserDAO userDAO, CommentDAO commentDAO, CogrooFacade cogrooFacade,
 			GrammarCheckerVersionDAO versionDAO, GrammarCheckerOmissionDAO omissionDAO,
-			GrammarCheckerBadInterventionDAO badInterventionDAO, HistoryEntryDAO historyEntryDAO, HistoryEntryFieldDAO historyEntryFieldDAO, ApplicationData appData, RssFeed feed) {
+			GrammarCheckerBadInterventionDAO badInterventionDAO, HistoryEntryDAO historyEntryDAO, HistoryEntryFieldDAO historyEntryFieldDAO, ApplicationData appData, RssFeed feed, StringTemplateUtil templateUtil) {
 		this.userDAO = userDAO;
 		this.commentDAO = commentDAO;
 		this.errorEntryDAO = errorEntryDAO;
@@ -85,6 +90,8 @@ public class ErrorEntryLogic {
 		this.historyEntryFieldDAO = historyEntryFieldDAO;
 		this.appData = appData;
 		this.feed = feed;
+		this.templateUtil = templateUtil;
+		
 	}
 
 	public List<ErrorEntry> getAllReports() {
@@ -221,6 +228,7 @@ public class ErrorEntryLogic {
 					errorEntry.setOmissions(gcOmission);
 					
 					errorEntryDAO.add(errorEntry);
+					notificationForReport(errorEntry);
 					appData.incReportedErrors();
 					list.add(errorEntry);
 				}
@@ -277,6 +285,7 @@ public class ErrorEntryLogic {
 					errorEntry.setBadIntervention(gcBadIntervention);
 					
 					errorEntryDAO.add(errorEntry);
+					notificationForReport(errorEntry);
 					appData.incReportedErrors();
 					list.add(errorEntry);
 				}
@@ -351,6 +360,7 @@ public class ErrorEntryLogic {
 					errorEntry.setOmissions(gcOmission);
 					
 					errorEntryDAO.add(errorEntry);
+					notificationForReport(errorEntry);
 					appData.incReportedErrors();
 					if(LOG.isDebugEnabled()) {
 						LOG.debug("Added errorEntry:" + errorEntry);
@@ -394,6 +404,7 @@ public class ErrorEntryLogic {
 					errorEntry.setBadIntervention(gcBadIntervention);
 					
 					errorEntryDAO.add(errorEntry);
+					notificationForReport(errorEntry);
 					appData.incReportedErrors();
 					if(LOG.isDebugEnabled()) {
 						LOG.debug("Added errorEntry:" + errorEntry);
@@ -625,7 +636,7 @@ public class ErrorEntryLogic {
 
 		this.errorEntryDAO.update(er);
 		
-		sendEmailForChange(er, he);
+		notificationForChange(er, he);
 	}
 
 	public void updateOmission(ErrorEntry er, ErrorEntry original) {
@@ -644,7 +655,7 @@ public class ErrorEntryLogic {
 		List<HistoryEntryField> h = generateHistory(original, er);
 		HistoryEntry he = this.addHistory(er, h);
 		this.errorEntryDAO.update(er);
-		sendEmailForChange(er, he);
+		notificationForChange(er, he);
 	}
 	
 	public Long addCommentToErrorEntry(Long errorEntryID, Long userID, String comment) {
@@ -712,7 +723,7 @@ public class ErrorEntryLogic {
 		updateModified(errorEntry);
 		errorEntryDAO.update(errorEntry);
 		
-		sendEmailForChange(errorEntry, he);
+		notificationForChange(errorEntry, he);
 	}
 
 	public void setState(ErrorEntry errorEntry, State state) {
@@ -726,7 +737,7 @@ public class ErrorEntryLogic {
 		updateModified(errorEntry);
 		errorEntryDAO.update(errorEntry);
 		
-		sendEmailForChange(errorEntry, he);
+		notificationForChange(errorEntry, he);
 	}
 	
 	public void updateModified(ErrorEntry errorEntry) {
@@ -819,42 +830,65 @@ public class ErrorEntryLogic {
 	}
 	
 	private void appendErrorDetails(StringBuilder body, ErrorEntry errorEntry) {
-		body.append("Texto: \n");
-		body.append(errorEntry.getMarkedTextNoHTML() + "\n\n");
-		body.append("Detalhes: \n");
-		body.append("Problema Reportado #" + errorEntry.getId() + "\n");
+		StringTemplate st = this.templateUtil.getTemplate(StringTemplateUtil.ERROR_DETAILS);
 		
-		body.append("-------------------------------------------------\n");
-		String format = "%1$-10s %2$-25s %3$-10s %4$-25s\n";
+		st.setAttribute("problemID", errorEntry.getId());
+		st.setAttribute("submitter", errorEntry.getSubmitter().getName());
+		st.setAttribute("text", errorEntry.getMarkedTextNoCSS());
+		st.setAttribute("root", BuildUtil.BASE_URL);
 		
 		if(errorEntry.getBadIntervention() != null) {
-			// BadInt
 			GrammarCheckerBadIntervention bi = errorEntry.getBadIntervention();
-			body.append(String.format(format, 
-					"Tipo:", "Intervenção indevida",
-					"Enviada por:", errorEntry.getSubmitter().getName()));
-			body.append(String.format(format, 
-					"Regra:", bi.getRule(),
-					"Erro:", bi.getClassification()));
+			
+			st.setAttribute("type", "Intervenção indevida");
+			
+			st.setAttribute("categoryOrRule", "Regra");
+			st.setAttribute("valueCategoryOrRule", bi.getRule());
+			
+			st.setAttribute("errorTypeOrReplaceBy", "Tipo");
+			st.setAttribute("valueErrorTypeOrReplaceBy", bi.getClassification());
 		} else {
 			GrammarCheckerOmission o = errorEntry.getOmission();
-			body.append(String.format(format, 
-					"Tipo:", "Omissão",
-					"Enviada por:", errorEntry.getSubmitter().getName()));
-			
-			String categoria = null;
+			String category = null;
 			if(o.getCategory().equals(CUSTOM)) {
-				categoria = o.getCustomCategory();
+				category = o.getCustomCategory();
 			} else {
-				categoria = o.getCategory();
+				category = o.getCategory();
 			}
+		
+			st.setAttribute("type", "Omissão");
 			
-			body.append(String.format(format, 
-					"Categoria:", categoria,
-					"Substituir por:", o.getReplaceBy()));
+			st.setAttribute("categoryOrRule", "Categoria");
+			st.setAttribute("valueCategoryOrRule", category);
+
+			st.setAttribute("errorTypeOrReplaceBy", "Substituir por");
+			st.setAttribute("valueErrorTypeOrReplaceBy", o.getReplaceBy());
+			
 		}
-		body.append("-------------------------------------------------\n");
-		body.append( "Veja mais em http://ccsl.ime.usp.br/cogroo/comunidade/errorEntry/" + errorEntry.getId() +  "\n\n");
+
+		body.append(st.toString());
+	}
+	
+	private void notificationForReport(ErrorEntry errorEntry) {
+		// only RSS
+		// generate the body
+		StringBuilder body = new StringBuilder();
+		
+		StringTemplate st = this.templateUtil.getTemplate(StringTemplateUtil.ERROR_NEW);
+		st.setAttribute("user", errorEntry.getSubmitter().getName());
+		if(errorEntry.getComments() != null && errorEntry.getComments().size() > 0) {
+			st.setAttribute("comment", errorEntry.getComments().get(0));
+		}
+		
+		
+		body.append(st.toString());
+		
+		appendErrorDetails(body, errorEntry);
+		
+		//RSS
+		String friendlyStart = "Novo erro submetido por " + errorEntry.getSubmitter().getName() + ".<br><br>";
+		feed.addEntry(friendlyStart, "http://ccsl.ime.usp.br/cogroo/comunidade/errorEntry/" + errorEntry.getId(), body.toString());
+		
 	}
 	
 	private void notificationForNewComment(ErrorEntry errorEntry, Comment comment) {
@@ -874,21 +908,50 @@ public class ErrorEntryLogic {
 		String subject = "Problema Reportado #" + errorEntry.getId() + " - Novo comentário.";
 		// generate the body
 		StringBuilder body = new StringBuilder();
-
-		appendErrorDetails(body, errorEntry);
 		
-		body.append("Novo comentário, por: " + comment.getUser().getName() + "\n\n");
-		body.append(comment.getComment());
+		StringTemplate st = this.templateUtil.getTemplate(StringTemplateUtil.NEW_COMMENT);
+		st.setAttribute("user", comment.getUser().getName());
+		st.setAttribute("comment", comment.getComment());
+		
+		body.append(st.toString());
+		
+		appendErrorDetails(body, errorEntry);
 		
 		// send it!
 		EmailSender.sendEmail(StringEscapeUtils.unescapeHtml(body.toString()), subject, userList);
 		
 		//RSS
-		feed.addEntry(subject, "http://ccsl.ime.usp.br/cogroo/comunidade/errorEntry/" + errorEntry.getId(), body.toString());
+		String friendlyStart = "Novo comentário de " + errorEntry.getSubmitter().getName() + " no problema " + errorEntry.getId() + ".<br><br>";
+		feed.addEntry(friendlyStart, "http://ccsl.ime.usp.br/cogroo/comunidade/errorEntry/" + errorEntry.getId(), body.toString());
 	}
 
+	private static final ResourceBundle messages =
+	      ResourceBundle.getBundle("messages", new Locale("pt_BR"));
 	
-	private void sendEmailForChange(ErrorEntry errorEntry, HistoryEntry historyEntry) {
+	private String replaceSpan(String span) {
+		span = span.replace("class=\"badint\"", "style='background-color: #ADFF2F'\"");
+		return span.replace("class=\"omission\"", "style='background-color: #FA8072'\"");
+	}
+
+	private HistoryEntryField process(HistoryEntryField field) {
+		HistoryEntryField c = new HistoryEntryField();
+		c.setFieldName(messages.getString(field.getFieldName()));
+		if(field.getIsFormatted()) {
+			if(field.getBefore() != null) {
+				c.setBefore(messages.getString(field.getBefore()));
+			}
+			if(field.getAfter() != null) {
+				c.setAfter(messages.getString(field.getAfter()));
+			}
+		} else {
+			c.setBefore(replaceSpan(field.getBefore()));
+			c.setAfter(replaceSpan(field.getAfter()));
+		}
+		
+		return c;
+	}
+	
+	private void notificationForChange(ErrorEntry errorEntry, HistoryEntry historyEntry) {
 		// get the users
 		Set<User> userList = new HashSet<User>();
 		userList.add(errorEntry.getSubmitter());
@@ -909,16 +972,22 @@ public class ErrorEntryLogic {
 		// generate the body
 		StringBuilder body = new StringBuilder();
 
-		appendErrorDetails(body, errorEntry);
+		StringTemplate st = this.templateUtil.getTemplate(StringTemplateUtil.ERROR_CHANGED);
+		st.setAttribute("user", historyEntry.getUser().getName());
 		
-		body.append("Alterado por: " + historyEntry.getUser().getName() + "\n");
 		for (HistoryEntryField f : historyEntry.getHistoryEntryField()) {
-			body.append("Campo " + f.getFieldName() + "-\n");
-			body.append("\t era [" + f.getBefore() + "]\n");
-			body.append("\t novo valor [" + f.getAfter() + "]\n\n");
+			st.setAttribute("changes", process(f));
 		}
+		
+		body.append(st.toString());
+		
+		appendErrorDetails(body, errorEntry);
 		
 		// send it!
 		EmailSender.sendEmail(StringEscapeUtils.unescapeHtml(body.toString()), subject, userList);
+		
+		//RSS
+		String friendlyStart = "Alteração de " + errorEntry.getSubmitter().getName() + " no problema " + errorEntry.getId() + ".<br><br>";
+		feed.addEntry(friendlyStart, "http://ccsl.ime.usp.br/cogroo/comunidade/errorEntry/" + errorEntry.getId(), body.toString());
 	}
 }

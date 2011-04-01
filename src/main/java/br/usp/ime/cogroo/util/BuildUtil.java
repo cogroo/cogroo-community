@@ -15,6 +15,7 @@ public final class BuildUtil {
 	private static final ResourceBundle PROPERTIES = ResourceBundle.getBundle("build");
 	
 	public static final String APP_NAME = "CoGrOO Comunidade";
+	public static final String BASE_URL = getString("BASE_URL");
 	
 	public static final String POM_VERSION = getString("POM_VERSION");
 	
@@ -22,6 +23,7 @@ public final class BuildUtil {
 	
 	public static final String ANALYTICS_USR = getString("ANALYTICS_USR");
 	public static final String ANALYTICS_PWD = getString("ANALYTICS_PWD");
+	
 
 	
 	public static final String EMAIL_SYSTEM_USR = getString("EMAIL_SYSTEM_USR");

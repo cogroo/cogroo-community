@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -28,12 +30,25 @@ public class RssFeed {
 	private static final String RSS_TITLE = "CoGrOO Comunidade";
 	private static final String RSS_LINK = "http://ccsl.ime.usp.br/cogroo/comunidade/";
 	private static final String RSS_DESCRIPTION = "O que há de novo no CoGrOO Comunidade.";
-
+	private static final int LIMIT = 10;
+	
 	private static final Logger LOG = Logger.getLogger(RssFeed.class);
 	private static final String feedType = "rss_2.0";
 	public static final String FILENAME = "feed.xml";
 
 	private SyndFeed feed;
+	
+	private void write() {
+		try {
+			// write initial version
+			Writer writer = new FileWriter(FILENAME);
+			SyndFeedOutput output = new SyndFeedOutput();
+			output.output(feed, writer);
+			writer.close();
+		} catch (Exception e) {
+			LOG.error("Could not create RSS Feed", e);
+		}
+	}
 
 	private void init() {
 
@@ -50,15 +65,7 @@ public class RssFeed {
 					feed.setLink(RSS_LINK);
 					feed.setDescription(RSS_DESCRIPTION);
 
-					try {
-						// write initial version
-						Writer writer = new FileWriter(FILENAME);
-						SyndFeedOutput output = new SyndFeedOutput();
-						output.output(feed, writer);
-						writer.close();
-					} catch (Exception e) {
-						LOG.error("Could not create RSS Feed", e);
-					}
+					write();
 				} else {
 					try {
 						this.feed = new SyndFeedInput().build(f);
@@ -71,11 +78,12 @@ public class RssFeed {
 
 	}
 
+	
+	@SuppressWarnings("unchecked")
 	public void addEntry(String title, String link, String value) {
 		init();
 		synchronized (this) {
-			@SuppressWarnings("unchecked")
-			List<SyndEntry> entries = new ArrayList<SyndEntry>((List<SyndEntry>)feed.getEntries());
+			List<SyndEntry> entries = new ArrayList<SyndEntry>();
 			
 			SyndEntry entry;
 			SyndContent description;
@@ -89,23 +97,40 @@ public class RssFeed {
 			description.setValue(value);
 			entry.setDescription(description);
 			entries.add(entry);
+			
+			entries.addAll((List<SyndEntry>)feed.getEntries());
+			
+			Collections.sort(entries, new Comparator<SyndEntry>() {
 
+				@Override
+				public int compare(SyndEntry o1, SyndEntry o2) {
+					Date d1 = o1.getPublishedDate();
+					Date d2 = o2.getPublishedDate();
+					// reverse order
+					return d2.compareTo(d1);
+				}
+			});
+			
+			while(entries.size() > LIMIT ) {
+				entries.remove(entries.size() - 1);
+			}
+			
 			feed.setEntries(entries);
 			
-			try {
-				// write initial version
-				Writer writer = new FileWriter(FILENAME);
-				SyndFeedOutput output = new SyndFeedOutput();
-				output.output(feed, writer);
-				writer.close();
-			} catch (Exception e) {
-				LOG.error("Could not add entry to feed", e);
-			}
+			write();
 		}
 	}
 
-	public static void main(String[] args) {
-		RssFeed r = new RssFeed();
-		r.addEntry("Title", "http://cogroo", "E ae");
+	public void clean() {
+		synchronized (this) {
+			File f = new File(FILENAME);
+			boolean couldDelete = f.delete();
+			if(!couldDelete) {
+				LOG.error("Couldn't delete RSS " + f.getAbsolutePath()) ;
+			} else {
+				this.feed = null;
+			}
+		}
+		init();
 	}
 }

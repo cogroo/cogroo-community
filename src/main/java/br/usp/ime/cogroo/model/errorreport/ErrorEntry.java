@@ -221,6 +221,23 @@ public class ErrorEntry implements Cloneable {
 		return sb.toString();
 	}
 	
+	public String getMarkedTextNoCSS() {
+		StringBuilder sb = new StringBuilder(this.getText());
+		try {
+			sb.insert(this.getSpanEnd(), "</span>");
+			String color;
+			if(getOmission() != null) {
+				color = "#FA8072";
+			} else {
+				color = "#ADFF2F";
+			}
+			sb.insert(this.getSpanStart(), "<span style='background-color: "+ color +"'\">");
+		} catch(StringIndexOutOfBoundsException e) {
+			LOG.error("Wrong index: text[" + this.getText() + "]" + " start[" + this.getSpanStart() + "] end[" + this.getSpanEnd() + "]");
+		}
+		return sb.toString();
+	}
+	
 	public String getMarkedTextNoHTML() {
 		StringBuilder sb = new StringBuilder(this.getText());
 		try {
