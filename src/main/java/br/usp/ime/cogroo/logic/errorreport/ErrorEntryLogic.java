@@ -887,7 +887,7 @@ public class ErrorEntryLogic {
 		
 		//RSS
 		String friendlyStart = "Novo erro submetido por " + errorEntry.getSubmitter().getName();
-		feed.addEntry(friendlyStart, "http://ccsl.ime.usp.br/cogroo/comunidade/errorEntry/" + errorEntry.getId(), body.toString());
+		feed.addEntry(friendlyStart, BuildUtil.BASE_URL + "errorEntry/" + errorEntry.getId(), body.toString());
 		
 	}
 	
@@ -922,7 +922,7 @@ public class ErrorEntryLogic {
 		
 		//RSS
 		String friendlyStart = "Novo comentário de " + errorEntry.getSubmitter().getName() + " no problema " + errorEntry.getId();
-		feed.addEntry(friendlyStart, "http://ccsl.ime.usp.br/cogroo/comunidade/errorEntry/" + errorEntry.getId(), body.toString());
+		feed.addEntry(friendlyStart, BuildUtil.BASE_URL + "errorEntry/" + errorEntry.getId(), body.toString());
 	}
 
 	private static final ResourceBundle messages =
@@ -988,6 +988,6 @@ public class ErrorEntryLogic {
 		
 		//RSS
 		String friendlyStart = "Alteração de " + errorEntry.getSubmitter().getName() + " no problema " + errorEntry.getId();
-		feed.addEntry(friendlyStart, "http://ccsl.ime.usp.br/cogroo/comunidade/errorEntry/" + errorEntry.getId(), body.toString());
+		feed.addEntry(friendlyStart, BuildUtil.BASE_URL + "errorEntry/" + errorEntry.getId(), body.toString());
 	}
 }
