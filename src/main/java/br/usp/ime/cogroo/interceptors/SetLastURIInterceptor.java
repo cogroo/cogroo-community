@@ -15,14 +15,14 @@ import br.usp.ime.cogroo.controller.LoginController;
 import br.usp.ime.cogroo.model.LoggedUser;
 
 @Intercepts
-public class AuthorizationInterceptor implements Interceptor {
+public class SetLastURIInterceptor implements Interceptor {
 
 	private final HttpServletRequest request;
 	private static final Logger LOG = Logger
-			.getLogger(AuthorizationInterceptor.class);
+			.getLogger(SetLastURIInterceptor.class);
 	private final LoggedUser loggedUser;
 
-	public AuthorizationInterceptor(HttpServletRequest request,
+	public SetLastURIInterceptor(HttpServletRequest request,
 			LoggedUser loggedUser) {
 		this.request = request;
 		this.loggedUser = loggedUser;
