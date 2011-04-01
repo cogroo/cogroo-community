@@ -877,7 +877,7 @@ public class ErrorEntryLogic {
 		StringTemplate st = this.templateUtil.getTemplate(StringTemplateUtil.ERROR_NEW);
 		st.setAttribute("user", errorEntry.getSubmitter().getName());
 		if(errorEntry.getComments() != null && errorEntry.getComments().size() > 0) {
-			st.setAttribute("comment", errorEntry.getComments().get(0));
+			st.setAttribute("comment", errorEntry.getComments().get(0).getComment());
 		}
 		
 		
