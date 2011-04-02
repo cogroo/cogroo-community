@@ -1,12 +1,16 @@
 package br.usp.ime.cogroo.model;
 
+import java.io.Serializable;
+
 import br.com.caelum.vraptor.ioc.Component;
 import br.com.caelum.vraptor.ioc.SessionScoped;
 
 @Component
 @SessionScoped
-public class LoggedUser {
+public class LoggedUser implements Serializable {
 
+	private static final long serialVersionUID = -2609145744016713400L;
+	
 	private User user = null;
 	private final ApplicationData appData;
 	private String lastURIVisited;
