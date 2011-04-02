@@ -892,7 +892,7 @@ public class ErrorEntryLogic {
 		
 		StringTemplate stTweet = this.templateUtil.getTemplate(StringTemplateUtil.ERROR_NEW_TWEET);
 		
-		stTweet.setAttribute("user", errorEntry.getSubmitter().getName());
+		stTweet.setAttribute("user", errorEntry.getSubmitter().getTwitterRefOrName());
 		stTweet.setAttribute("id", errorEntry.getId());
 		stTweet.setAttribute("type", getEntryType(errorEntry));
 		stTweet.setAttribute("text", errorEntry.getMarkedTextNoHTML());
@@ -937,8 +937,8 @@ public class ErrorEntryLogic {
 		
 		StringTemplate stTweet = this.templateUtil.getTemplate(StringTemplateUtil.NEW_COMMENT_TWEET);
 		
-		stTweet.setAttribute("user", comment.getUser().getName());
-		stTweet.setAttribute("ori", errorEntry.getSubmitter().getName());
+		stTweet.setAttribute("user", comment.getUser().getTwitterRefOrName());
+		stTweet.setAttribute("ori", errorEntry.getSubmitter().getTwitterRefOrName());
 		stTweet.setAttribute("id", errorEntry.getId());
 		stTweet.setAttribute("type", getEntryType(errorEntry));
 		stTweet.setAttribute("comment", comment.getComment());
@@ -1023,8 +1023,8 @@ public class ErrorEntryLogic {
 		//RSS
 		feed.addRssEntry(subject, url, body.toString());
 		
-		stTweet.setAttribute("ori", errorEntry.getSubmitter().getName());
-		stTweet.setAttribute("user", historyEntry.getUser().getName());
+		stTweet.setAttribute("ori", errorEntry.getSubmitter().getTwitterRefOrName());
+		stTweet.setAttribute("user", historyEntry.getUser().getTwitterRefOrName());
 		stTweet.setAttribute("id", errorEntry.getId());
 		stTweet.setAttribute("type", getEntryType(errorEntry));
 		

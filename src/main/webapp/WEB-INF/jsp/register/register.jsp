@@ -28,6 +28,11 @@
             	<label class="defaultlbl" style="width: 100px" for="pw">Repita a senha:</label>
             	<input type="password" id="pw" name="passwordRepeat" class="inputtxt" style="width: 300px;" maxlength="20" /> 
             </p>
+            <p>
+            	<label for="twitter" style="width: 100px;" class="defaultlbl">Twitter:</label>
+            	<input type="text" value="${ twitter }" maxlength="60" style="width: 300px;" class="inputtxt" name="twitter" id="twitter"> 
+            </p>
+            <b>Opcionalmente</b> você pode indicar seu usuário Twitter para que seja mencionado nas atualizações de <a target="_blank" href="http://twitter.com/#!/CoGrCom">@CoGrCom</a>. <br>
         </div>
         
         <br />

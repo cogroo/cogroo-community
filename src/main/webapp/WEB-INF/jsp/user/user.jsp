@@ -75,6 +75,19 @@ function editing() {
 				</tr>
 			</c:if>
 			<tr>
+			    <th>Twitter:</th>
+			    <c:choose>
+					<c:when test="${canEdit}">
+			    		<td class="editing"><input type="text" name="twitter" value="${user.twitter}" /></td>
+			    		<td class="viewing">${user.twitter}</td>
+			  		</c:when>
+			  		<c:otherwise>
+			    		<td><a target="_blank" href="http://twitter.com/#!/${user.twitter}">${user.twitter}</a></td>
+			  		</c:otherwise>
+				</c:choose>
+				
+			</tr>
+			<tr>
 			    <th>Último login:</th><td><fmt:formatDate type="both" dateStyle="long" value="${user.lastLogin}" /></td>
 			</tr>
 			<tr>

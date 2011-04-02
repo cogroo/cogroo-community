@@ -96,7 +96,7 @@ public class UserController {
 
 	@Post
 	@Path("/editUser")
-	public void editUser(User user, String name, String email,
+	public void editUser(User user, String name, String email, String twitter,
 			boolean isReceiveEmail) {
 
 		user = userDAO.retrieve(user.getId());
@@ -108,6 +108,7 @@ public class UserController {
 			// sanitizer
 			name = sanitizer.sanitize(name, false);
 			email = sanitizer.sanitize(email, false);
+			twitter = sanitizer.sanitize(twitter, false);
 
 			// validate email
 			if (!email.isEmpty()) {
@@ -134,6 +135,10 @@ public class UserController {
 
 			validator.onErrorUse(Results.logic()).redirectTo(
 					UserController.class).user(user);
+			
+			if(twitter != null) {
+				twitter = twitter.replace("@", "");
+			}
 
 			if (!validator.hasErrors()) {
 				boolean changed = false;
@@ -152,13 +157,25 @@ public class UserController {
 					user.setName(name);
 				}
 
+				if (user.getTwitter() != null && !user.getTwitter().equals(twitter)) {
+					changed = true;
+					user.setTwitter(twitter);
+				}  else if(twitter != null && twitter.length() > 0) {
+					user.setTwitter(twitter);
+				}
+
 				if (isReceiveEmail != user.getIsReceiveEmail()) {
 					changed = true;
 					user.setIsReceiveEmail(isReceiveEmail);
 				}
 
-				if (changed)
+				if (changed) {
 					userDAO.update(user);
+					// update logged user
+					if(loggedUser.getUser().equals(user)) {
+						loggedUser.setUser(user);
+					}
+				}
 
 			}
 			result.redirectTo(getClass()).user(user);

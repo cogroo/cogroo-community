@@ -3,6 +3,7 @@ package br.usp.ime.cogroo.model;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -21,7 +22,9 @@ import com.google.gdata.data.analytics.DataFeed;
 
 @Component
 @ApplicationScoped
-public class ApplicationData {
+public class ApplicationData implements Serializable {
+
+	private static final long serialVersionUID = -8419394419640962976L;
 
 	private boolean initialized = false;
 

@@ -67,10 +67,11 @@ public class RegisterController {
 	@Post
 	@Path("/register")
 	public void register(String login, String password, String passwordRepeat,
-			String email, String name, boolean iAgree) {
+			String email, String name, String twitter, boolean iAgree) {
 		login = sanitizer.sanitize(login, false);
 		email = sanitizer.sanitize(email, false);
 		name = sanitizer.sanitize(name, false);
+		twitter = sanitizer.sanitize(twitter, false);
 		
 		email = email.trim();
 		
@@ -115,6 +116,10 @@ public class RegisterController {
 						ExceptionMessages.EMAIL_ALREADY_EXIST, ExceptionMessages.INVALID_ENTRY));
 			}
 		}
+		
+		if(twitter != null) {
+			twitter = twitter.replace("@", "");
+		}
 
 		validator.onErrorUse(Results.page()).of(RegisterController.class)
 				.register();
@@ -123,6 +128,7 @@ public class RegisterController {
 		user.setPassword(CriptoUtils.digestMD5(login, password));
 		user.setEmail(email);
 		user.setName(name);
+		user.setTwitter(twitter);
 		userDAO.add(user);
 		appData.incRegisteredMembers();
 		

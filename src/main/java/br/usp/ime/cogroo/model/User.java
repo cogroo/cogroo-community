@@ -40,6 +40,9 @@ public class User {
 	@Column(length = 80)
 	private String name;
 	
+	@Column(length = 80)
+	private String twitter;
+	
 	@Transient
 	private Date previousLogin;
 
@@ -222,6 +225,22 @@ public class User {
 
 	public void setIsReceiveEmail(boolean isReceiveEmail) {
 		this.isReceiveEmail = Boolean.valueOf(isReceiveEmail);		
+	}
+
+	public void setTwitter(String twitter) {
+		this.twitter = twitter;
+	}
+
+	public String getTwitter() {
+		return twitter;
+	}
+	
+	public String getTwitterRefOrName() {
+		if(twitter != null && twitter.length() > 0) {
+			return "@" + twitter;
+		} else {
+			return getName();
+		}
 	}
 
 }
