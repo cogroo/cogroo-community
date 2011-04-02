@@ -360,6 +360,9 @@
 				<version>7.0.1.v20091125</version>
 				<configuration>
 					<scanIntervalSeconds>5</scanIntervalSeconds>
+					<webAppConfig>
+						<defaultsDescriptor>src/main/resources/webdefault.xml</defaultsDescriptor>
+					</webAppConfig>
 				</configuration>
 			</plugin>
 			<plugin>
