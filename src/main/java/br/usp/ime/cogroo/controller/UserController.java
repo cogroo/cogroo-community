@@ -41,6 +41,8 @@ public class UserController {
 	@Path("/userList")
 	@LoggedIn
 	public void userList() {
+		result.include("userList", userDAO.listAll());
+		
 		result.include("headerTitle", "Lista de usuários").include(
 				"headerDescription",
 				"Visualize os usuários do CoGrOO Comunidade");
