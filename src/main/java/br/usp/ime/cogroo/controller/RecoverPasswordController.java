@@ -136,10 +136,10 @@ public class RecoverPasswordController {
 		String url = request.getRequestURL().toString() + "/"
 				+ userFromDB.getEmail() + "/" + codeRecover;
 		StringBuilder body = new StringBuilder();
-		body.append("Olá, " + userFromDB.getName() + "!\n\n");
-		body.append("De acordo com sua solicitação no portal CoGrOO Comunidade, enviamos um link para redefinir sua senha:\n");
-		body.append(url + "\n\n");
-		body.append("Lembrando que seu login é \"" + userFromDB.getLogin() + "\".\n");
+		body.append("Olá, " + userFromDB.getName() + "!<br><br>");
+		body.append("De acordo com sua solicitação no portal CoGrOO Comunidade, enviamos um link para redefinir sua senha:<br>");
+		body.append(url + "<br><br>");
+		body.append("Lembrando que seu login é \"" + userFromDB.getLogin() + "\".<br>");
 		
 		String subject = "Redefinição de senha";
 		try {
