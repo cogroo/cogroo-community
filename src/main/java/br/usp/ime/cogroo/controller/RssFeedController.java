@@ -2,6 +2,8 @@ package br.usp.ime.cogroo.controller;
 
 import java.io.File;
 
+import org.apache.log4j.Logger;
+
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
@@ -10,9 +12,9 @@ import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.Validator;
 import br.com.caelum.vraptor.validator.ValidationMessage;
 import br.com.caelum.vraptor.view.Results;
-import br.usp.ime.cogroo.dao.UserDAO;
 import br.usp.ime.cogroo.exceptions.ExceptionMessages;
 import br.usp.ime.cogroo.logic.RssFeed;
+import br.usp.ime.cogroo.logic.errorreport.ErrorEntryLogic;
 import br.usp.ime.cogroo.model.LoggedUser;
 
 @Resource
@@ -21,8 +23,9 @@ public class RssFeedController {
 	private final Result result;
 	private Validator validator;
 	private RssFeed feed;
-	private UserDAO userDAO;
 	private LoggedUser loggedUser;
+	
+	private static final Logger LOG = Logger.getLogger(RssFeedController.class);
 
 	public RssFeedController(LoggedUser loggedUser, Result result, Validator validator, RssFeed feed) {
 		this.result = result;
@@ -34,7 +37,16 @@ public class RssFeedController {
 	@Get
 	@Path("/rss.xml")
 	public File rss() {
-        return new File(RssFeed.FILENAME);
+        return this.feed.getFeedFile();
+    }
+	
+	@Get
+	@Path("/twitter.xml")
+	public File twitter() {
+		if(LOG.isDebugEnabled()) {
+			LOG.debug("Requested twitter.xml");
+		}
+        return this.feed.getTwitterFile();
     }
 	
 	

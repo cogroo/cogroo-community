@@ -1,0 +1,1 @@
+$type$ #$id$ enviada por $ori$ comentada por $user$ -$comment$ 

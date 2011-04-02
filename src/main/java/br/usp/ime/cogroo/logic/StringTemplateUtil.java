@@ -18,9 +18,12 @@ public class StringTemplateUtil {
 	
 	public static final String ERROR_DETAILS = "errorDetails";
 	public static final String ERROR_CHANGED = "errorChanged";
+	public static final String ERROR_CHANGED_TWEET = "errorChangedTweet";
 	public static final String FOOTER = "footer";
 	public static final String NEW_COMMENT = "newComment";
+	public static final String NEW_COMMENT_TWEET = "newCommentTweet";
 	public static final String ERROR_NEW = "errorNew";
+	public static final String ERROR_NEW_TWEET = "errorNewTweet";
 	
 	private StringTemplateGroup group;
 	private String templatesPath;

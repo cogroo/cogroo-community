@@ -34,25 +34,25 @@ public class RssFeed {
 	
 	private static final Logger LOG = Logger.getLogger(RssFeed.class);
 	private static final String feedType = "rss_2.0";
-	public static final String FILENAME = "feed.xml";
+	public static final String FEED_FILENAME = "feed.xml";
+	public static final String TWITTER_FILENAME = "twitterFeed.xml";
 
-	private SyndFeed feed;
+	private SyndFeed feedRSS;
+	private SyndFeed feedTwitter;
 	
-	private void write() {
-		try {
-			// write initial version
-			Writer writer = new FileWriter(FILENAME);
-			SyndFeedOutput output = new SyndFeedOutput();
-			output.output(feed, writer);
-			writer.close();
-		} catch (Exception e) {
-			LOG.error("Could not create RSS Feed", e);
-		}
+	public File getFeedFile() {
+		this.feedRSS = init(FEED_FILENAME, feedRSS);
+		return getFile(FEED_FILENAME);
+	}
+	
+	public File getTwitterFile() {
+		this.feedTwitter = init(TWITTER_FILENAME, feedTwitter);
+		return getFile(TWITTER_FILENAME);
 	}
 
-	private void init() {
+	private SyndFeed init(String file, SyndFeed feed) {
 
-		File f = new File(FILENAME);
+		File f = new File(file);
 		synchronized (this) {
 			if (feed == null) {
 				LOG.info("Will create RSS Feed.");
@@ -65,23 +65,50 @@ public class RssFeed {
 					feed.setLink(RSS_LINK);
 					feed.setDescription(RSS_DESCRIPTION);
 
-					write();
+					write(file, feed);
 				} else {
 					try {
-						this.feed = new SyndFeedInput().build(f);
+						feed = new SyndFeedInput().build(f);
 					} catch (Exception e) {
 						LOG.error("Could not create RSS Feed", e);
 					}
 				}
 			}
 		}
-
+		return feed;
 	}
 
+	public void addRssEntry(String title, String link, String value) {
+		this.feedRSS = init(FEED_FILENAME, this.feedRSS);
+		addEntry(title, link, value, FEED_FILENAME, this.feedRSS);
+	}
+	
+
+	public void addTweet(String title, String link, String value) {
+		this.feedTwitter = init(TWITTER_FILENAME, this.feedTwitter);
+		addEntry(title, link, value, TWITTER_FILENAME, this.feedTwitter);
+	}
+	
+	public void clean() {
+		clean(TWITTER_FILENAME, this.feedTwitter);
+		clean(FEED_FILENAME, this.feedRSS);
+	}
+	
+	private void clean(String file, SyndFeed feed) {
+		synchronized (this) {
+			File f = new File(file);
+			boolean couldDelete = f.delete();
+			if(!couldDelete) {
+				LOG.error("Couldn't delete RSS " + f.getAbsolutePath()) ;
+			} else {
+				feed = null;
+			}
+		}
+		init(file, feed);
+	}
 	
 	@SuppressWarnings("unchecked")
-	public void addEntry(String title, String link, String value) {
-		init();
+ 	private void addEntry(String title, String link, String value, String file, SyndFeed feed) {
 		synchronized (this) {
 			List<SyndEntry> entries = new ArrayList<SyndEntry>();
 			
@@ -117,20 +144,24 @@ public class RssFeed {
 			
 			feed.setEntries(entries);
 			
-			write();
+			write(file, feed);
 		}
 	}
 
-	public void clean() {
-		synchronized (this) {
-			File f = new File(FILENAME);
-			boolean couldDelete = f.delete();
-			if(!couldDelete) {
-				LOG.error("Couldn't delete RSS " + f.getAbsolutePath()) ;
-			} else {
-				this.feed = null;
-			}
+	private void write(String file, SyndFeed feed) {
+		try {
+			// write initial version
+			Writer writer = new FileWriter(file);
+			SyndFeedOutput output = new SyndFeedOutput();
+			output.output(feed, writer);
+			writer.close();
+		} catch (Exception e) {
+			LOG.error("Could not create RSS Feed", e);
 		}
-		init();
+	}
+	
+	
+	private File getFile(String file) {
+		return new File(file);
 	}
 }

@@ -886,8 +886,18 @@ public class ErrorEntryLogic {
 		appendErrorDetails(body, errorEntry);
 		
 		//RSS
-		String friendlyStart = "Novo erro submetido por " + errorEntry.getSubmitter().getName();
-		feed.addEntry(friendlyStart, BuildUtil.BASE_URL + "errorEntry/" + errorEntry.getId(), body.toString());
+		String subject = "Problema Reportado #" + errorEntry.getId() + " - Novo.";
+		String url = BuildUtil.BASE_URL + "errorEntry/" + errorEntry.getId();
+		feed.addRssEntry(subject, url, body.toString());
+		
+		StringTemplate stTweet = this.templateUtil.getTemplate(StringTemplateUtil.ERROR_NEW_TWEET);
+		
+		stTweet.setAttribute("user", errorEntry.getSubmitter().getName());
+		stTweet.setAttribute("id", errorEntry.getId());
+		stTweet.setAttribute("type", getEntryType(errorEntry));
+		stTweet.setAttribute("text", errorEntry.getMarkedTextNoHTML());
+		
+		feed.addTweet(stTweet.toString(), url, "");
 		
 	}
 	
@@ -922,7 +932,18 @@ public class ErrorEntryLogic {
 		
 		//RSS
 		String friendlyStart = "Novo comentário de " + errorEntry.getSubmitter().getName() + " no problema " + errorEntry.getId();
-		feed.addEntry(friendlyStart, BuildUtil.BASE_URL + "errorEntry/" + errorEntry.getId(), body.toString());
+		String url =  BuildUtil.BASE_URL + "errorEntry/" + errorEntry.getId();
+		feed.addRssEntry(friendlyStart, url, body.toString());
+		
+		StringTemplate stTweet = this.templateUtil.getTemplate(StringTemplateUtil.NEW_COMMENT_TWEET);
+		
+		stTweet.setAttribute("user", comment.getUser().getName());
+		stTweet.setAttribute("ori", errorEntry.getSubmitter().getName());
+		stTweet.setAttribute("id", errorEntry.getId());
+		stTweet.setAttribute("type", getEntryType(errorEntry));
+		stTweet.setAttribute("comment", comment.getComment());
+		
+		feed.addTweet(stTweet.toString(), url, "");
 	}
 
 	private static final ResourceBundle messages =
@@ -951,6 +972,13 @@ public class ErrorEntryLogic {
 		return c;
 	}
 	
+	private String getEntryType(ErrorEntry errorEntry) {
+		if(errorEntry.getBadIntervention() != null) {
+			return "Intervenção indevida";
+		} 
+		return "Omissão";
+	}
+	
 	private void notificationForChange(ErrorEntry errorEntry, HistoryEntry historyEntry) {
 		// get the users
 		Set<User> userList = new HashSet<User>();
@@ -972,22 +1000,34 @@ public class ErrorEntryLogic {
 		// generate the body
 		StringBuilder body = new StringBuilder();
 
-		StringTemplate st = this.templateUtil.getTemplate(StringTemplateUtil.ERROR_CHANGED);
-		st.setAttribute("user", historyEntry.getUser().getName());
+		StringTemplate stFeed = this.templateUtil.getTemplate(StringTemplateUtil.ERROR_CHANGED);
+		StringTemplate stTweet = this.templateUtil.getTemplate(StringTemplateUtil.ERROR_CHANGED_TWEET);
+		
+		stFeed.setAttribute("user", historyEntry.getUser().getName());
 		
 		for (HistoryEntryField f : historyEntry.getHistoryEntryField()) {
-			st.setAttribute("changes", process(f));
+			f = process(f);
+			stFeed.setAttribute("changes", f);
+			stTweet.setAttribute("changes", f);
 		}
 		
-		body.append(st.toString());
+		body.append(stFeed.toString());
 		
 		appendErrorDetails(body, errorEntry);
 		
 		// send it!
 		EmailSender.sendEmail(StringEscapeUtils.unescapeHtml(body.toString()), subject, userList);
 		
+		String url = BuildUtil.BASE_URL + "errorEntry/" + errorEntry.getId();
+
 		//RSS
-		String friendlyStart = "Alteração de " + errorEntry.getSubmitter().getName() + " no problema " + errorEntry.getId();
-		feed.addEntry(friendlyStart, BuildUtil.BASE_URL + "errorEntry/" + errorEntry.getId(), body.toString());
+		feed.addRssEntry(subject, url, body.toString());
+		
+		stTweet.setAttribute("ori", errorEntry.getSubmitter().getName());
+		stTweet.setAttribute("user", historyEntry.getUser().getName());
+		stTweet.setAttribute("id", errorEntry.getId());
+		stTweet.setAttribute("type", getEntryType(errorEntry));
+		
+		feed.addTweet(stTweet.toString(), url, "");
 	}
 }

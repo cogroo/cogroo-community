@@ -1,0 +1,1 @@
+$type$ #$id$ enviada por $user$- $text$
