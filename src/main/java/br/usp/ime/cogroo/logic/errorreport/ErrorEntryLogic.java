@@ -844,8 +844,8 @@ public class ErrorEntryLogic {
 			st.setAttribute("categoryOrRule", "Regra");
 			st.setAttribute("valueCategoryOrRule", bi.getRule());
 			
-			st.setAttribute("errorTypeOrReplaceBy", "Tipo");
-			st.setAttribute("valueErrorTypeOrReplaceBy", bi.getClassification());
+			st.setAttribute("errorTypeOrReplaceBy", "Erro");
+			st.setAttribute("valueErrorTypeOrReplaceBy", messages.getString(bi.getClassification().toString()));
 		} else {
 			GrammarCheckerOmission o = errorEntry.getOmission();
 			String category = null;
