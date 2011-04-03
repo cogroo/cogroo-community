@@ -29,7 +29,6 @@ import br.usp.ime.cogroo.dao.errorreport.GrammarCheckerBadInterventionDAO;
 import br.usp.ime.cogroo.dao.errorreport.GrammarCheckerOmissionDAO;
 import br.usp.ime.cogroo.exceptions.CommunityException;
 import br.usp.ime.cogroo.exceptions.CommunityExceptionMessages;
-import br.usp.ime.cogroo.logic.RssFeed;
 import br.usp.ime.cogroo.logic.StringTemplateUtil;
 import br.usp.ime.cogroo.model.ApplicationData;
 import br.usp.ime.cogroo.model.GrammarCheckerVersion;
@@ -44,8 +43,8 @@ import br.usp.ime.cogroo.model.errorreport.HistoryEntry;
 import br.usp.ime.cogroo.model.errorreport.HistoryEntryField;
 import br.usp.ime.cogroo.model.errorreport.Priority;
 import br.usp.ime.cogroo.model.errorreport.State;
+import br.usp.ime.cogroo.notifiers.Notificator;
 import br.usp.ime.cogroo.util.BuildUtil;
-import br.usp.ime.cogroo.util.EmailSender;
 import br.usp.pcs.lta.cogroo.errorreport.model.BadIntervention;
 import br.usp.pcs.lta.cogroo.errorreport.model.ErrorReport;
 import br.usp.pcs.lta.cogroo.errorreport.model.Omission;
@@ -71,13 +70,13 @@ public class ErrorEntryLogic {
 	private HistoryEntryDAO historyEntryDAO;
 	private HistoryEntryFieldDAO historyEntryFieldDAO;
 	private ApplicationData appData;
-	private RssFeed feed;
 	private StringTemplateUtil templateUtil;
+	private Notificator notificator;
 
 	public ErrorEntryLogic(LoggedUser loggedUser, ErrorEntryDAO errorEntryDAO,
 			UserDAO userDAO, CommentDAO commentDAO, CogrooFacade cogrooFacade,
 			GrammarCheckerVersionDAO versionDAO, GrammarCheckerOmissionDAO omissionDAO,
-			GrammarCheckerBadInterventionDAO badInterventionDAO, HistoryEntryDAO historyEntryDAO, HistoryEntryFieldDAO historyEntryFieldDAO, ApplicationData appData, RssFeed feed, StringTemplateUtil templateUtil) {
+			GrammarCheckerBadInterventionDAO badInterventionDAO, HistoryEntryDAO historyEntryDAO, HistoryEntryFieldDAO historyEntryFieldDAO, ApplicationData appData, Notificator notificator, StringTemplateUtil templateUtil) {
 		this.userDAO = userDAO;
 		this.commentDAO = commentDAO;
 		this.errorEntryDAO = errorEntryDAO;
@@ -89,7 +88,7 @@ public class ErrorEntryLogic {
 		this.historyEntryDAO = historyEntryDAO;
 		this.historyEntryFieldDAO = historyEntryFieldDAO;
 		this.appData = appData;
-		this.feed = feed;
+		this.notificator = notificator;
 		this.templateUtil = templateUtil;
 		
 	}
@@ -888,7 +887,7 @@ public class ErrorEntryLogic {
 		//RSS
 		String subject = "Problema Reportado #" + errorEntry.getId() + " - Novo.";
 		String url = BuildUtil.BASE_URL + "errorEntry/" + errorEntry.getId();
-		feed.addRssEntry(subject, url, body.toString());
+		notificator.rssFeed(subject, url, body.toString());
 		
 		StringTemplate stTweet = this.templateUtil.getTemplate(StringTemplateUtil.ERROR_NEW_TWEET);
 		
@@ -897,7 +896,7 @@ public class ErrorEntryLogic {
 		stTweet.setAttribute("type", getEntryType(errorEntry));
 		stTweet.setAttribute("text", errorEntry.getMarkedTextNoHTML());
 		
-		feed.addTweet(stTweet.toString(), url, "");
+		notificator.tweet(stTweet.toString(), url);
 		
 	}
 	
@@ -928,12 +927,12 @@ public class ErrorEntryLogic {
 		appendErrorDetails(body, errorEntry);
 		
 		// send it!
-		EmailSender.sendEmail(StringEscapeUtils.unescapeHtml(body.toString()), subject, userList);
+		notificator.sendEmail(StringEscapeUtils.unescapeHtml(body.toString()), subject, userList);
 		
 		//RSS
 		String friendlyStart = "Novo comentário de " + errorEntry.getSubmitter().getName() + " no problema " + errorEntry.getId();
 		String url =  BuildUtil.BASE_URL + "errorEntry/" + errorEntry.getId();
-		feed.addRssEntry(friendlyStart, url, body.toString());
+		notificator.rssFeed(friendlyStart, url, body.toString());
 		
 		StringTemplate stTweet = this.templateUtil.getTemplate(StringTemplateUtil.NEW_COMMENT_TWEET);
 		
@@ -943,7 +942,7 @@ public class ErrorEntryLogic {
 		stTweet.setAttribute("type", getEntryType(errorEntry));
 		stTweet.setAttribute("comment", comment.getComment());
 		
-		feed.addTweet(stTweet.toString(), url, "");
+		notificator.tweet(stTweet.toString(), url);
 	}
 
 	private static final ResourceBundle messages =
@@ -1016,18 +1015,18 @@ public class ErrorEntryLogic {
 		appendErrorDetails(body, errorEntry);
 		
 		// send it!
-		EmailSender.sendEmail(StringEscapeUtils.unescapeHtml(body.toString()), subject, userList);
+		notificator.sendEmail(StringEscapeUtils.unescapeHtml(body.toString()), subject, userList);
 		
 		String url = BuildUtil.BASE_URL + "errorEntry/" + errorEntry.getId();
 
 		//RSS
-		feed.addRssEntry(subject, url, body.toString());
+		notificator.rssFeed(subject, url, body.toString());
 		
 		stTweet.setAttribute("ori", errorEntry.getSubmitter().getTwitterRefOrName());
 		stTweet.setAttribute("user", historyEntry.getUser().getTwitterRefOrName());
 		stTweet.setAttribute("id", errorEntry.getId());
 		stTweet.setAttribute("type", getEntryType(errorEntry));
 		
-		feed.addTweet(stTweet.toString(), url, "");
+		notificator.tweet(stTweet.toString(), url);
 	}
 }

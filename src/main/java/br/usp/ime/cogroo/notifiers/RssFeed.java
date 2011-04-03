@@ -1,4 +1,4 @@
-package br.usp.ime.cogroo.logic;
+package br.usp.ime.cogroo.notifiers;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -25,7 +25,7 @@ import com.sun.syndication.io.SyndFeedOutput;
 
 @Component
 @ApplicationScoped
-public class RssFeed {
+class RssFeed {
 	
 	private static final String RSS_TITLE = "CoGrOO Comunidade";
 	private static final String RSS_LINK = "http://ccsl.ime.usp.br/cogroo/comunidade/";
@@ -35,21 +35,14 @@ public class RssFeed {
 	private static final Logger LOG = Logger.getLogger(RssFeed.class);
 	private static final String feedType = "rss_2.0";
 	public static final String FEED_FILENAME = "feed.xml";
-	public static final String TWITTER_FILENAME = "twitterFeed.xml";
 
 	private SyndFeed feedRSS;
-	private SyndFeed feedTwitter;
 	
 	public File getFeedFile() {
 		this.feedRSS = init(FEED_FILENAME, feedRSS);
 		return getFile(FEED_FILENAME);
 	}
 	
-	public File getTwitterFile() {
-		this.feedTwitter = init(TWITTER_FILENAME, feedTwitter);
-		return getFile(TWITTER_FILENAME);
-	}
-
 	private SyndFeed init(String file, SyndFeed feed) {
 
 		File f = new File(file);
@@ -83,14 +76,7 @@ public class RssFeed {
 		addEntry(title, link, value, FEED_FILENAME, this.feedRSS);
 	}
 	
-
-	public void addTweet(String title, String link, String value) {
-		this.feedTwitter = init(TWITTER_FILENAME, this.feedTwitter);
-		addEntry(title, link, value, TWITTER_FILENAME, this.feedTwitter);
-	}
-	
 	public void clean() {
-		clean(TWITTER_FILENAME, this.feedTwitter);
 		clean(FEED_FILENAME, this.feedRSS);
 	}
 	

@@ -29,6 +29,9 @@ public final class BuildUtil {
 	public static final String EMAIL_SYSTEM_USR = getString("EMAIL_SYSTEM_USR");
 	public static final String EMAIL_SYSTEM_PWD = getString("EMAIL_SYSTEM_PWD");
 	
+	public static final String BITLY_USR = getString("BITLY_USR");
+	public static final String BITLY_APIKEY = getString("BITLY_APIKEY");
+	
 	private static String getString(String key) {
 		return PROPERTIES.getString(key);
 	}

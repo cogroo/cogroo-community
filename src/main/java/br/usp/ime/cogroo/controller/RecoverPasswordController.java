@@ -5,9 +5,6 @@ import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.mail.EmailException;
-import org.apache.log4j.Logger;
-
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
@@ -19,28 +16,26 @@ import br.com.caelum.vraptor.view.Results;
 import br.usp.ime.cogroo.dao.UserDAO;
 import br.usp.ime.cogroo.exceptions.ExceptionMessages;
 import br.usp.ime.cogroo.model.User;
+import br.usp.ime.cogroo.notifiers.Notificator;
 import br.usp.ime.cogroo.util.CriptoUtils;
-import br.usp.ime.cogroo.util.EmailSender;
 
 @Resource
 public class RecoverPasswordController {
 	
-	private static final Logger LOG = Logger.getLogger(RecoverPasswordController.class);
-
 	private final Result result;
 	private UserDAO userDAO;
 	private Validator validator;
-	// private static final Logger LOG = Logger
-	// .getLogger(RecoverPasswordController.class);
+	private Notificator notificator;
 	Random random = new Random(System.currentTimeMillis());
 	private final HttpServletRequest request;
 
 	public RecoverPasswordController(Result result, UserDAO userDAO,
-			Validator validator, HttpServletRequest request) {
+			Validator validator, Notificator notificator, HttpServletRequest request) {
 		this.result = result;
 		this.userDAO = userDAO;
 		this.validator = validator;
 		this.request = request;
+		this.notificator = notificator;
 	}
 
 	@Get
@@ -142,11 +137,7 @@ public class RecoverPasswordController {
 		body.append("Lembrando que seu login é \"" + userFromDB.getLogin() + "\".<br>");
 		
 		String subject = "Redefinição de senha";
-		try {
-			EmailSender.sendEmail(body.toString(), subject, userFromDB.getEmail().trim());
-		} catch (EmailException e) {
-			LOG.fatal("Error recovering password.", e);
-		}
+		notificator.sendEmail(body.toString(), subject, userFromDB.getEmail().trim());
 
 	}
 
