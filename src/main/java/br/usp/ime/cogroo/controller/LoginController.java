@@ -83,8 +83,13 @@ public class LoginController {
 		loggedUser.login(userFromDB);
 		
 		result.include("justLogged", true).include("login", login);
-
-		result.redirectTo(loggedUser.getLastURIVisited());		
+		
+		String lastURL = loggedUser.getLastURIVisited();
+		if(lastURL != null && lastURL.length() > 0) {
+			result.redirectTo(loggedUser.getLastURIVisited());
+		} else {
+			result.redirectTo(IndexController.class).index();
+		}
 	}
 
 	@Get

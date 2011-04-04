@@ -12,6 +12,7 @@ import br.com.caelum.vraptor.core.InterceptorStack;
 import br.com.caelum.vraptor.interceptor.Interceptor;
 import br.com.caelum.vraptor.resource.ResourceMethod;
 import br.usp.ime.cogroo.controller.LoginController;
+import br.usp.ime.cogroo.controller.RegisterController;
 import br.usp.ime.cogroo.model.LoggedUser;
 
 @Intercepts
@@ -38,17 +39,23 @@ public class SetLastURIInterceptor implements Interceptor {
 			ResourceMethod method, Object resourceInstance)
 			throws InterceptionException {
 
-		Method invokedMethod = method.getMethod();
-		if (!invokedMethod.getDeclaringClass().equals(LoginController.class)) {
-			if(!loggedUser.isLogged()) {
+		if (!loggedUser.isLogged()) {
+			Method invokedMethod = method.getMethod();
+			Class<?> clazz = invokedMethod.getDeclaringClass();
+			if (LOG.isDebugEnabled()) {
+				LOG.debug("clazz: " + clazz.getName());
+				LOG.debug("invokedMethod: " + invokedMethod.getName());
+			}
+
+			if (!clazz.equals(LoginController.class)
+					&& !(clazz.equals(RegisterController.class) && invokedMethod
+							.getName().equals("register"))) {
 				String lastURL = request.getRequestURL().toString();
-				if(!lastURL.endsWith("register")) {
-					if(LOG.isDebugEnabled()) {
-						LOG.info("Saving last visited URL:"
-								+ lastURL);
-					}
-					loggedUser.setLastURIVisited(lastURL);
+				if (LOG.isDebugEnabled()) {
+					LOG.info("Saving last visited URL:" + lastURL);
 				}
+				loggedUser.setLastURIVisited(request.getRequestURI());
+
 			}
 		}
 
