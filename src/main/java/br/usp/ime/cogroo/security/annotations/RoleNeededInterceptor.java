@@ -1,33 +1,35 @@
 package br.usp.ime.cogroo.security.annotations;
 
+import static br.com.caelum.vraptor.view.Results.logic;
+
 import java.lang.annotation.Annotation;
+import java.util.Arrays;
 
 import org.apache.log4j.Logger;
 
 import br.com.caelum.vraptor.InterceptionException;
 import br.com.caelum.vraptor.Intercepts;
-import br.com.caelum.vraptor.Validator;
+import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.core.InterceptorStack;
 import br.com.caelum.vraptor.interceptor.Interceptor;
 import br.com.caelum.vraptor.resource.ResourceMethod;
 import br.com.caelum.vraptor.validator.ValidationMessage;
-import br.com.caelum.vraptor.view.Results;
 import br.usp.ime.cogroo.controller.IndexController;
 import br.usp.ime.cogroo.exceptions.ExceptionMessages;
-import br.usp.ime.cogroo.interceptors.SetLastURIInterceptor;
+import br.usp.ime.cogroo.interceptors.SetLastURLInterceptor;
 import br.usp.ime.cogroo.model.LoggedUser;
 import br.usp.ime.cogroo.model.User;
 
-@Intercepts(before = { SetLastURIInterceptor.class })
+@Intercepts(before = { SetLastURLInterceptor.class })
 public class RoleNeededInterceptor implements Interceptor {
 
 	private static final Logger LOG = Logger
 			.getLogger(RoleNeededInterceptor.class);
 	private final LoggedUser loggedUser;
-	private final Validator validator;
+	private final Result result;
 
-	public RoleNeededInterceptor(Validator validator, LoggedUser loggedUser) {
-		this.validator = validator;
+	public RoleNeededInterceptor(Result result, LoggedUser loggedUser) {
+		this.result = result;
 		this.loggedUser = loggedUser;
 	}
 
@@ -47,21 +49,22 @@ public class RoleNeededInterceptor implements Interceptor {
 			ResourceMethod method, Object resourceInstance)
 			throws InterceptionException {
 		if (LOG.isDebugEnabled())
-			LOG.info("RolesNeeded Annotated!");
+			LOG.debug("RolesNeeded Annotated!");
 
 		if (isPermited(method)) {
 			if (LOG.isDebugEnabled())
-				LOG.info("Permitido, go to stack.next!");
+				LOG.debug("Ok, go to stack.next!");
 
 			stack.next(method, resourceInstance);
 		} else {
 			if (LOG.isDebugEnabled())
-				LOG.info("Negado, redirect to index page with error message.");
-			validator.add(new ValidationMessage(
+				LOG
+						.debug("Access Denied, redirect to index page with error message.");
+
+			result.include("errors", Arrays.asList(new ValidationMessage(
 					ExceptionMessages.ONLY_LOGGED_USER_CAN_DO_THIS,
-					ExceptionMessages.ERROR));
-			validator.onErrorUse(Results.logic()).redirectTo(
-					IndexController.class).index();
+					ExceptionMessages.ERROR)));
+			result.use(logic()).redirectTo(IndexController.class).index();
 		}
 
 	}
@@ -72,9 +75,12 @@ public class RoleNeededInterceptor implements Interceptor {
 		User user = loggedUser.getUser();
 		if (user == null)
 			return false;
-		LOG.info("Role do user..:" + user.getRole());		
+		if (LOG.isDebugEnabled())
+			LOG.info("User's Role(s)..:" + user.getRole());
+
 		for (String role : roleList.roles()) {
-			LOG.info(role);
+			if (LOG.isDebugEnabled())
+				LOG.info("                 " + role);
 			if (role.equals(user.getRole()))
 				return true;
 		}

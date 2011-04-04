@@ -16,14 +16,14 @@ import br.usp.ime.cogroo.controller.RegisterController;
 import br.usp.ime.cogroo.model.LoggedUser;
 
 @Intercepts
-public class SetLastURIInterceptor implements Interceptor {
+public class SetLastURLInterceptor implements Interceptor {
 
 	private final HttpServletRequest request;
 	private static final Logger LOG = Logger
-			.getLogger(SetLastURIInterceptor.class);
+			.getLogger(SetLastURLInterceptor.class);
 	private final LoggedUser loggedUser;
 
-	public SetLastURIInterceptor(HttpServletRequest request,
+	public SetLastURLInterceptor(HttpServletRequest request,
 			LoggedUser loggedUser) {
 		this.request = request;
 		this.loggedUser = loggedUser;
@@ -54,7 +54,7 @@ public class SetLastURIInterceptor implements Interceptor {
 				if (LOG.isDebugEnabled()) {
 					LOG.info("Saving last visited URL:" + lastURL);
 				}
-				loggedUser.setLastURIVisited(lastURL);
+				loggedUser.setLastURLVisited(lastURL);
 
 			}
 		}
