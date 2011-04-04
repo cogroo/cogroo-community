@@ -7,32 +7,39 @@
 	<p>É rápido e gratuito! Seus dados nunca serão divulgados, fique tranquilo.</p>
 	
 	<form action="<c:url value='/register'/>" method="post">
-        <div >
+        <div style="margin-top: 1em">
             <p>
-            	<label for="name" style="width: 100px;" class="defaultlbl">Nome:</label>
-            	<input type="text"  value="${ name }" maxlength="40" style="width: 300px;" class="inputtxt" name="name" id="name">
+            	<label for="name" class="loginlabel">
+            		Nome:
+            		<span class="required">*</span>
+            	</label>
+            	<input type="text" value="${ name }" maxlength="40" style="width: 300px;" class="inputtxt" name="name" id="name">
             </p>
             <p>
-            	<label for="login" style="width: 100px;" class="defaultlbl">Login:</label>
+            	<label for="login" class="loginlabel">Login:
+            	<span class="required">*</span></label>
             	<input type="text" value="${ login }" maxlength="20" style="width: 300px;" class="inputtxt" name="login" id="login">
             </p>
             <p>
-            	<label for="email" style="width: 100px;" class="defaultlbl">E-mail:</label>
+            	<label for="email" class="loginlabel">E-mail:
+            	<span class="required">*</span></label>
             	<input type="text" value="${ email }" maxlength="60" style="width: 300px;" class="inputtxt" name="email" id="email"> 
             </p>
             <p>
-            	<label class="defaultlbl" style="width: 100px" for="pw">Senha:</label>
+            	<label for="pw" class="loginlabel">Senha:
+            	<span class="required">*</span></label>
             	<input type="password"  id="pw" name="password" class="inputtxt" style="width: 300px;" maxlength="20" /> 
             </p>
             <p>
-            	<label class="defaultlbl" style="width: 100px" for="pw">Repita a senha:</label>
+            	<label for="pw" class="loginlabel">Repita a senha:
+            		<span class="required">*</span></label>
             	<input type="password" id="pw" name="passwordRepeat" class="inputtxt" style="width: 300px;" maxlength="20" /> 
             </p>
             <p>
-            	<label for="twitter" style="width: 100px;" class="defaultlbl">Twitter:</label>
+            	<label for="twitter" class="loginlabel">Twitter:</label>
             	<input type="text" value="${ twitter }" maxlength="60" style="width: 300px;" class="inputtxt" name="twitter" id="twitter"> 
             </p>
-            <b>Opcionalmente</b> você pode indicar seu usuário Twitter para que seja mencionado nas atualizações de <a target="_blank" href="http://twitter.com/#!/CoGrCom">@CoGrCom</a>. <br>
+            
         </div>
         
         <br />

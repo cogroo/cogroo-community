@@ -26,6 +26,10 @@ public class LoginController {
 	private LoggedUser loggedUser;
 	private Validator validator;
 	private static final Logger LOG = Logger.getLogger(LoginController.class);
+	
+	private static final String HEADER_TITLE = "Login";
+	private static final String HEADER_DESCRIPTION = "Efetue login no CoGrOO Comunidade! É rápido e gratuito!";
+
 
 	public LoginController(Result result, UserDAO userDAO,
 			LoggedUser loggedUser, Validator validator, HttpServletRequest request) {
@@ -38,6 +42,8 @@ public class LoginController {
 	@Get
 	@Path("/login")
 	public void login() {
+		result.include("headerTitle", HEADER_TITLE).include(
+				"headerDescription", HEADER_DESCRIPTION);
 	}
 
 	@Post

@@ -235,10 +235,34 @@ table.attributes td { vertical-align: top; }
 	padding:10px;
 }
 
+.loginframe {
+	width: 300px ;
+    background-color: #FFF8DC;
+    border: 2px solid #FDBF3B;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1em;
+    margin-top: 4em;
+    margin-bottom: 4em;
+}
+
+.loginlabel {
+	text-align: right; 
+	font-weight: bold; 
+	padding-right: 10px;
+	display: block;
+	float: left;
+	width: 110px;
+}
+
 .specialframe {
 	background:none repeat scroll 0 0 #FFF8DC;
 	border:3px solid #996666;
 	padding:20px;
+}
+
+.required {
+    color: #BB0000;
 }
 
 .socialNetworks {
