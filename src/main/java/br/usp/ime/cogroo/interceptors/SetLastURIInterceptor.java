@@ -40,9 +40,16 @@ public class SetLastURIInterceptor implements Interceptor {
 
 		Method invokedMethod = method.getMethod();
 		if (!invokedMethod.getDeclaringClass().equals(LoginController.class)) {
-			LOG.info("Registrando a ultima URL visitada..:"
-					+ request.getRequestURL().toString());
-			loggedUser.setLastURIVisited(request.getRequestURI());
+			if(!loggedUser.isLogged()) {
+				String lastURL = request.getRequestURL().toString();
+				if(!lastURL.endsWith("register")) {
+					if(LOG.isDebugEnabled()) {
+						LOG.info("Saving last visited URL:"
+								+ lastURL);
+					}
+					loggedUser.setLastURIVisited(lastURL);
+				}
+			}
 		}
 
 		stack.next(method, resourceInstance);
