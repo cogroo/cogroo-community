@@ -25,7 +25,7 @@
 		<tr>
 		    <td align="left">
 		    	<a href="<c:url value="/recover"/>">Esqueci a senha</a> <br>
-				<a href="<c:url value="/register"/>">Criar novo usuário</a>
+				<a href="<c:url value="/register"/>">Cadastre-se</a>
 		    </td>
 		    <td align="right">
 		        <input type="submit" class="button" value=" Entrar &raquo; ">
