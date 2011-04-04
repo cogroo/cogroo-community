@@ -54,7 +54,7 @@ public class SetLastURIInterceptor implements Interceptor {
 				if (LOG.isDebugEnabled()) {
 					LOG.info("Saving last visited URL:" + lastURL);
 				}
-				loggedUser.setLastURIVisited(request.getRequestURI());
+				loggedUser.setLastURIVisited(lastURL);
 
 			}
 		}
