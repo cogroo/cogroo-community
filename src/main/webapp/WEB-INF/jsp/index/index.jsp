@@ -44,7 +44,6 @@
 			
 		</div>
 		
-		<b>Acompanhe comentários: <a href="<c:url value="/rss.xml"/>"><img width="16" height="16" title="Divulgar conteúdo" alt="Divulgar conteúdo" src="./images/feed.png"/></a></b><br>
 		<h2>Sobre o projeto</h2>
 		
 		<p>O CoGrOO Comunidade é um portal colaborativo para aprimorar o CoGrOO, o corretor gramatical em português para BrOffice. <a href="<c:url value="/about"/>">Mais informações...</a></p>

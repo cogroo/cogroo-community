@@ -4,7 +4,8 @@
 </div>
 
 	<div id="footer">
-	
+
+		<div style="float: right; position: static; padding-top: 3px; padding-right: 3px"><img width="16" height="16" title="Divulgar conteúdo" alt="Divulgar conteúdo" src="./images/feed.png"/></a></b><br></div>	
 		<div id="logoCCSL"></div>
 		<div id="logoVRaptor"></div>
 		<div id="stats">
