@@ -4,13 +4,13 @@
 
 	<!-- (all|debug|info|warn|error|fatal|off|null) -->
 	<category name="br.usp.ime.cogroo">
-		<priority value="warn" />
+		<priority value="debug" />
 		<appender-ref ref="stdout" />
 		<appender-ref ref="R" />
 	</category>
 
 	<root>
-		<priority value="warn" />
+		<priority value="debug" />
 		<appender-ref ref="stdout" />
 		<appender-ref ref="R" />
 	</root>
