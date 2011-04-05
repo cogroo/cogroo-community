@@ -31,9 +31,15 @@ public final class BuildUtil {
 	
 	public static final String BITLY_USR = getString("BITLY_USR");
 	public static final String BITLY_APIKEY = getString("BITLY_APIKEY");
+
+	public static final boolean NOTIFY = getBoolean("NOTIFY");
 	
 	private static String getString(String key) {
 		return PROPERTIES.getString(key);
+	}
+	
+	private static boolean getBoolean(String key) {
+		return Boolean.parseBoolean(PROPERTIES.getString(key));
 	}
 	
 	
