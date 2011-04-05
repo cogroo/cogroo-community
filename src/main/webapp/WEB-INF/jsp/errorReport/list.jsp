@@ -20,11 +20,15 @@
 		var r=confirm("Você deseja remover este erro?");
 		if (r==true) {
 			
-			$.post("errorEntryDelete", $("#form_remove_error" + currentId).serialize(),
+			var form = $("#form_remove_error_" + currentId);
+			var url = form.attr('action');
+
+			
+			$.post(url, form.serialize(),
 		   		function(data){
 		   });
 			//location.reload();
-			var nTr = $('#tr_errorEntry' + currentId).get(0);
+			var nTr = $('#tr_errorEntry_' + currentId).get(0);
 			oTable.fnClose( nTr );
 			oTable.fnDeleteRow(nTr);
 			
@@ -130,7 +134,7 @@
 				</c:if>
 			
 					<td valign="middle"><img src="./images/details_open.png"></td>		<!-- 0 -->
-					<td><a href="<c:url value="/errorEntry/${errorEntry.id}"/>">${errorEntry.id}</a></td>		<!-- 1 -->
+					<td><a href="<c:url value="/reports/${errorEntry.id}"/>">${errorEntry.id}</a></td>		<!-- 1 -->
 					<td><fmt:message key="${errorEntry.state}" /></td>					<!-- 2 -->
 					<td><fmt:message key="${errorEntry.priority}" /></td>				<!-- 3 -->
 					<td>${errorEntry.markedText}</td>									<!-- 4 -->
@@ -138,8 +142,9 @@
 					<td>${errorEntry.commentCount}</td>									<!-- 6 -->
 	  			  	<td>																<!-- 7 -->
   					<c:if test="${(errorEntry.submitter.login == loggedUser.user.login) || loggedUser.user.role.canDeleteOtherUserErrorReport }"> 
-						<a onclick="remove_error('_${ i.count }'); return false;" id="_${ i.count }" href="about:blank" class="remove_error">excluir</a>
-						<form action="/errorEntryDelete" method="post" id="form_remove_error_${ i.count }">
+						<a onclick="remove_error('${ i.count }'); return false;" id="_${ i.count }" href="about:blank" class="remove_error">excluir</a>
+						<form action="<c:url value="/reports/${errorEntry.id}"/>" method="post" id="form_remove_error_${ i.count }">
+						    <input type="hidden" name="_method" value="DELETE"/>
 						    <input name="errorEntry.id" value="${errorEntry.id}" type="hidden" />
 						</form>
 					</c:if>

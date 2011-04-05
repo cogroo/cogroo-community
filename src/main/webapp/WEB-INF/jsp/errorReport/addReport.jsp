@@ -89,7 +89,7 @@ $(document).ready(function() {
 
 		<c:if test="${!analyzed}">
 			Digite um texto para buscar erros gramaticais com o CoGrOO:
-			<form id="formSendErrorText"  action="<c:url value="/reportNewErrorAddText"/>" method="post" >
+			<form id="formSendErrorText"  action="<c:url value="/reports/newtext"/>" method="get" >
 			    <textarea rows="4" cols="70" name="text" id="text">${text}</textarea><br/>
 			    <span id="count">255</span> <input type="submit" value=" Analisar &raquo; " id="sendErrorText"/>
 			</form>
@@ -106,7 +106,7 @@ $(document).ready(function() {
 			<c:set var="id" scope="request" value="id" />
 			<jsp:include page="/analysisdetails.jspf" />
 	</div>
-		<form id="report"  action="<c:url value="/reportNewError"/>" method="post" >
+		<form id="report"  action="<c:url value="/reports"/>" method="post" >
 		
 			<input type="hidden" id="userText" name="text" value="${cleanText}"/>
 	

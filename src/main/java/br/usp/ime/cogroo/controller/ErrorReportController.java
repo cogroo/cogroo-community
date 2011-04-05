@@ -10,15 +10,18 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 
+import br.com.caelum.vraptor.Delete;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
+import br.com.caelum.vraptor.Put;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.Validator;
 import br.com.caelum.vraptor.validator.ValidationMessage;
 import br.com.caelum.vraptor.view.Results;
 import br.usp.ime.cogroo.dao.CogrooFacade;
+import br.usp.ime.cogroo.dao.errorreport.CommentDAO;
 import br.usp.ime.cogroo.dao.errorreport.ErrorEntryDAO;
 import br.usp.ime.cogroo.exceptions.CommunityException;
 import br.usp.ime.cogroo.exceptions.ExceptionMessages;
@@ -35,6 +38,7 @@ import br.usp.ime.cogroo.model.errorreport.GrammarCheckerBadIntervention;
 import br.usp.ime.cogroo.model.errorreport.GrammarCheckerOmission;
 import br.usp.ime.cogroo.model.errorreport.Priority;
 import br.usp.ime.cogroo.model.errorreport.State;
+import br.usp.ime.cogroo.security.annotations.LoggedIn;
 import br.usp.ime.cogroo.util.RestUtil;
 
 
@@ -51,6 +55,7 @@ public class ErrorReportController {
 	private Result result;
 	private Validator validator;
 	private ErrorEntryDAO errorEntryDAO;
+	private CommentDAO commentDAO;
 	private SecurityUtil securityUtil;
 
 	private CogrooFacade cogrooFacade;
@@ -68,6 +73,7 @@ public class ErrorReportController {
 			Result result,
 			Validator validator,
 			ErrorEntryDAO errorEntryDAO,
+			CommentDAO commentDAO,
 			SecurityUtil securityUtil,
 			CogrooFacade cogrooFacade,
 			AnalyticsManager manager,
@@ -78,6 +84,7 @@ public class ErrorReportController {
 		this.result = result;
 		this.validator = validator;
 		this.errorEntryDAO = errorEntryDAO;
+		this.commentDAO = commentDAO;
 		this.securityUtil = securityUtil;
 		this.cogrooFacade = cogrooFacade;
 		this.manager = manager;
@@ -86,8 +93,27 @@ public class ErrorReportController {
 	}
 	
 	@Get
-	@Path("/reportNewError")
-	public void reportNewError() {
+	@Path("/reports")
+	public void list() {
+		List<ErrorEntry> reports = errorEntryLogic.getAllReports();
+		if(LOG.isDebugEnabled()) {
+			LOG.debug("Will list of size: "
+					+ reports.size());
+		}
+
+		result.include("errorEntryList", reports);
+		if(!loggedUser.isLogged()) {
+			Calendar now = Calendar.getInstance();
+			now.add(Calendar.DATE, -7);
+			result.include("oneWeekAgo", now.getTime());
+		}
+		result.include("headerTitle", HEADER_TITLE).include("headerDescription",
+				HEADER_DESCRIPTION);
+	}
+	
+	@Get
+	@Path("/reports/new")
+	public void addReport() {
 		result.include("text", "Isso são um exemplo de erro gramaticais.");
 		result.include("headerTitle", "Reportar problema")
 				.include(
@@ -95,169 +121,9 @@ public class ErrorReportController {
 						"Reporta um problema no corretor gramatical CoGrOO para a equipe, de modo com que a ferramenta possa ser aprimorada.");
 	}
 	
-	@Post
-	@Path("/reportNewError")
-	public void reportNewError(
-			String text,
-			List<String> badint, 
-			List<String> comments,
-			List<String> badintStart,
-			List<String> badintEnd, 
-			List<String> badintRule, 
-			List<String> omissionClassification,
-			List<String> customOmissionText,
-			List<String> omissionComment,
-			List<String> omissionReplaceBy,
-			List<String> omissionStart,
-			List<String> omissionEnd) {
-		
-		if(loggedUser.isLogged()) {
-			
-			text = sanitizer.sanitize(text, false, true);
-			
-			comments = sanitizer.sanitize(comments, true);
-		
-			customOmissionText = sanitizer.sanitize(customOmissionText, false);
-		
-			omissionComment = sanitizer.sanitize(omissionComment, true);
-		
-			omissionReplaceBy = sanitizer.sanitize(omissionReplaceBy, false);
-			
-			errorEntryLogic.addErrorEntry(loggedUser.getUser(), text, badint, comments, badintStart, badintEnd, badintRule, omissionClassification,
-					customOmissionText,
-					omissionComment, omissionReplaceBy, omissionStart, omissionEnd);
-			
-			result.include("justReported", true).include("login", loggedUser.getUser().getLogin());
-			
-			result.redirectTo(getClass()).list();
-		} else {
-			validator.add(new ValidationMessage(
-					ExceptionMessages.ONLY_LOGGED_USER_CAN_DO_THIS, ExceptionMessages.ERROR));
-		}
-	}
-	
-	@Post
-	@Path("/updateErrorReport")
-	public void updateErrorReport(
-			Long reportId,
-			String type,
-			String badintIndex, 
-			String badintType,
-			List<String> badintStart,
-			List<String> badintEnd, 
-			List<String> badintRule, 
-			String omissionCategory,
-			String omissionCustom,
-			String omissionReplaceBy,
-			String omissionStart,
-			String omissionEnd) {
-		
-		if(loggedUser.isLogged()) {
-			
-			LOG.debug("reportId: " + reportId + "\n" +
-				"type: " + type + "\n" +
-				"badintIndex: " + badintIndex + "\n" +
-				"badintType: " + badintType + "\n" +
-				"badintStart: " + badintStart+ "\n" +
-				"badintEnd: " + badintEnd + "\n" +
-				"badintRule: " + badintRule + "\n" +
-				"omissionCategory: " + omissionCategory + "\n" +
-				"omissionCustom: " + omissionCustom + "\n" +
-				"omissionReplaceBy: " + omissionReplaceBy + "\n" +
-				"omissionStart: " + omissionStart + "\n" +
-				"omissionEnd: " + omissionEnd );
-			
-			ErrorEntry errorEntryFromDB = this.errorEntryDAO.retrieve(reportId);
-			ErrorEntry originalErrorEntry = null;
-			try {
-				originalErrorEntry = (ErrorEntry) errorEntryFromDB.clone();
-				
-			} catch (CloneNotSupportedException e) {
-				LOG.error("Error cloning ErrorEntry object: ", e);
-			}
-			if(type == null) {
-				if(errorEntryFromDB.getBadIntervention() != null) {
-					type = "BADINT";
-				} else {
-					type = "OMISSION";
-				}
-			}
-			if(type.equals("BADINT")) {
-				GrammarCheckerBadIntervention newBadIntervention = null;
-				if(errorEntryFromDB.getBadIntervention() == null) {
-					newBadIntervention = new GrammarCheckerBadIntervention();
-					errorEntryFromDB.setBadIntervention(newBadIntervention);
-				} else {
-					newBadIntervention = errorEntryFromDB.getBadIntervention();
-				}
-				
-				newBadIntervention.setClassification(Enum.valueOf(BadInterventionClassification.class, badintType));
-				newBadIntervention.setErrorEntry(errorEntryFromDB);
-				newBadIntervention.setRule(Integer.valueOf(badintEnd.get(Integer.valueOf(badintIndex) - 1)));
-				
-				errorEntryFromDB.setSpanStart(Integer.valueOf(badintStart.get(Integer.valueOf(badintIndex) - 1)));
-				errorEntryFromDB.setSpanEnd(Integer.valueOf(badintEnd.get(Integer.valueOf(badintIndex) - 1)));
-				
-				this.errorEntryLogic.updateBadIntervention(errorEntryFromDB, originalErrorEntry);
-			} else {
-				int start = -1;
-				int end = -1;
-				
-				if(omissionStart != null && omissionEnd != null) {
-					start = Integer.parseInt(omissionStart);
-					end = Integer.parseInt(omissionEnd);
-				}
-				
-				GrammarCheckerOmission o = null;
-				if(errorEntryFromDB.getOmission() == null) {
-					o = new GrammarCheckerOmission();
-					errorEntryFromDB.setOmission(o);
-				} else {
-					o = errorEntryFromDB.getOmission();
-				}
-				
-				o.setCategory(omissionCategory);
-				if(omissionCategory.equals(ErrorEntryLogic.CUSTOM)) {
-					o.setCustomCategory(sanitizer.sanitize(omissionCustom, false));
-				} else {
-					o.setCustomCategory(null);
-				}
-				o.setErrorEntry(errorEntryFromDB);
-				o.setReplaceBy(sanitizer.sanitize(omissionReplaceBy,false));
-				
-				errorEntryFromDB.setSpanStart(start);
-				errorEntryFromDB.setSpanEnd(end);
-				
-				if( !(end > 0 && end > start)) {
-					validator.add(new ValidationMessage(ExceptionMessages.ERROR_REPORT_OMISSION_INVALID_SELECTION,
-							ExceptionMessages.ERROR));
-				}
-				if( omissionCategory.equals("custom") && (omissionCustom == null || omissionCustom.length() == 0)) {
-					validator.add(new ValidationMessage(ExceptionMessages.ERROR_REPORT_OMISSION_MISSING_CUSTOM_CATEGORY,
-							ExceptionMessages.ERROR));
-				}
-				if( (omissionReplaceBy == null || omissionReplaceBy.length() == 0)) {
-					validator.add(new ValidationMessage(ExceptionMessages.ERROR_REPORT_OMISSION_MISSING_REPLACE,
-							ExceptionMessages.ERROR));
-				}
-				if(validator.hasErrors()) {
-					validator.onErrorUse(Results.logic()).redirectTo(ErrorReportController.class)
-						.editDetails(errorEntryFromDB);
-					return;
-				}
-				this.errorEntryLogic.updateOmission(errorEntryFromDB, originalErrorEntry);
-			}
-			
-			result.redirectTo(getClass()).details(errorEntryFromDB);
-		} else {
-			validator.add(new ValidationMessage(
-					ExceptionMessages.ONLY_LOGGED_USER_CAN_DO_THIS, ExceptionMessages.ERROR));
-		}
-	}
-	
-	@Post
-	@Path("/reportNewErrorAddText")
-	public void reportNewErrorAddText(String text) {
+	@Get
+	@Path("/reports/newtext")
+	public void addReport(String text) {
 		text = sanitizer.sanitize(text, false, true);
 		try {
 			if(text != null && text.length() >= 0) {
@@ -272,13 +138,265 @@ public class ErrorReportController {
 					include("singleGrammarErrorList", cogrooFacade.asSingleGrammarErrorList(text, pr)).
 					include("omissionCategoriesList", this.errorEntryLogic.getErrorCategoriesForUser()).
 					include("processResultList", pr).
-					redirectTo(getClass()).reportNewError();
+					redirectTo(getClass()).addReport();
 			} else {
-				result.redirectTo(getClass()).reportNewError();
+				result.redirectTo(getClass()).addReport();
 			}
 		} catch (Exception e) {
 			LOG.error("Error processing text: " + text);
 		}
+	}
+	
+	@Post
+	@Path("/reports")
+	@LoggedIn
+	public void addReport(
+			String text,
+			List<String> badint, 
+			List<String> comments,
+			List<String> badintStart,
+			List<String> badintEnd, 
+			List<String> badintRule, 
+			List<String> omissionClassification,
+			List<String> customOmissionText,
+			List<String> omissionComment,
+			List<String> omissionReplaceBy,
+			List<String> omissionStart,
+			List<String> omissionEnd) {
+		
+			if(LOG.isDebugEnabled()) {
+				LOG.debug("Adding new report.");
+			}
+		text = sanitizer.sanitize(text, false, true);
+
+		comments = sanitizer.sanitize(comments, true);
+
+		customOmissionText = sanitizer.sanitize(customOmissionText, false);
+
+		omissionComment = sanitizer.sanitize(omissionComment, true);
+
+		omissionReplaceBy = sanitizer.sanitize(omissionReplaceBy, false);
+
+		errorEntryLogic.addErrorEntry(loggedUser.getUser(), text, badint,
+				comments, badintStart, badintEnd, badintRule,
+				omissionClassification, customOmissionText, omissionComment,
+				omissionReplaceBy, omissionStart, omissionEnd);
+
+		result.include("justReported", true).include("login",
+				loggedUser.getUser().getLogin());
+
+		if(LOG.isDebugEnabled()) {
+			LOG.debug("New report added.");
+		}
+		result.redirectTo(getClass()).list();
+	}
+	
+	@Get
+	@Path("/reports/{errorEntry.id}")
+	public void details(ErrorEntry errorEntry) {
+		if(errorEntry == null) {
+			result.redirectTo(getClass()).list();
+			return;
+		}
+		
+		ErrorEntry errorEntryFromDB =errorEntryDAO.retrieve(new Long(errorEntry.getId())); 
+		LOG.debug("Details for: " + errorEntryFromDB);
+		
+		if (errorEntryFromDB == null) {
+			validator.add(new ValidationMessage(ExceptionMessages.PAGE_NOT_FOUND,
+					ExceptionMessages.ERROR));
+			validator.onErrorUse(Results.logic()).redirectTo(ErrorReportController.class)
+					.list();
+		}
+		
+		result.include("errorEntry", errorEntryFromDB).
+			include("processResultList", cogrooFacade.processText(errorEntryFromDB.getText())).
+			include("priorities", Priority.values()).
+			include("states", State.values());
+		
+		String title = "Problema #" + errorEntryFromDB.getId() + ": "
+				+ errorEntryFromDB.getText();
+		String description = "Tipo: " + (errorEntryFromDB.getOmission() == null ? "Intervenção indevida; Erro: " + errorEntryFromDB
+				.getBadIntervention().getClassification()
+				: "Omissão; Categoria"
+						+ (errorEntryFromDB.getOmission().getCategory() == null ? " (personalizada): " + errorEntryFromDB
+						.getOmission().getCustomCategory()
+						: ": " + errorEntryFromDB.getOmission().getCategory()));
+		result.include("headerTitle", title).include("headerDescription",
+				description);
+	}
+	
+	@Get
+	@Path("/reports/{errorEntry.id}/edit")
+	public void editDetails(ErrorEntry errorEntry) {
+		if(errorEntry == null) {
+			result.redirectTo(getClass()).list();
+			return;
+		}
+		
+		ErrorEntry errorEntryFromDB =errorEntryDAO.retrieve(new Long(errorEntry.getId())); 
+		LOG.debug("Details for: " + errorEntryFromDB);
+		
+		if (errorEntryFromDB == null) {
+			validator.add(new ValidationMessage(ExceptionMessages.PAGE_NOT_FOUND,
+					ExceptionMessages.ERROR));
+			validator.onErrorUse(Results.logic()).redirectTo(ErrorReportController.class)
+					.list();
+		} else if(!loggedUser.isLogged() || !loggedUser.getUser().getRole().getCanEditErrorReport()) {
+			validator.add(new ValidationMessage(ExceptionMessages.USER_UNAUTHORIZED,
+					ExceptionMessages.ERROR));
+			validator.onErrorUse(Results.logic()).redirectTo(ErrorReportController.class)
+					.details(errorEntryFromDB);
+		} else {
+			List<ProcessResult> procRes = cogrooFacade.processText(errorEntryFromDB.getText());
+			
+			boolean hasError = false;
+			for (ProcessResult processResult : procRes) {
+				if(processResult.getMistakes().size() > 0) {
+					hasError = true;
+					break;
+				}
+			}
+			
+			result.include("errorEntry", errorEntryFromDB).
+				include("hasError", hasError).
+				include("processResultList", procRes).
+				include("singleGrammarErrorList", cogrooFacade.asSingleGrammarErrorList(errorEntryFromDB.getText(), procRes)).
+				include("omissionCategoriesList", this.errorEntryLogic.getErrorCategoriesForUser());
+		}
+	}
+	
+	@Put
+	@Path("/reports/{reportId}")
+	@LoggedIn
+	public void updateErrorReport(
+			Long reportId,
+			String type,
+			String badintIndex, 
+			String badintType,
+			List<String> badintStart,
+			List<String> badintEnd, 
+			List<String> badintRule, 
+			String omissionCategory,
+			String omissionCustom,
+			String omissionReplaceBy,
+			String omissionStart,
+			String omissionEnd) {
+		
+			
+		LOG.debug("reportId: " + reportId + "\n" +
+			"type: " + type + "\n" +
+			"badintIndex: " + badintIndex + "\n" +
+			"badintType: " + badintType + "\n" +
+			"badintStart: " + badintStart+ "\n" +
+			"badintEnd: " + badintEnd + "\n" +
+			"badintRule: " + badintRule + "\n" +
+			"omissionCategory: " + omissionCategory + "\n" +
+			"omissionCustom: " + omissionCustom + "\n" +
+			"omissionReplaceBy: " + omissionReplaceBy + "\n" +
+			"omissionStart: " + omissionStart + "\n" +
+			"omissionEnd: " + omissionEnd );
+		
+		ErrorEntry errorEntryFromDB = this.errorEntryDAO.retrieve(reportId);
+		ErrorEntry originalErrorEntry = null;
+		try {
+			originalErrorEntry = (ErrorEntry) errorEntryFromDB.clone();
+			
+		} catch (CloneNotSupportedException e) {
+			LOG.error("Error cloning ErrorEntry object: ", e);
+		}
+		if(type == null) {
+			if(errorEntryFromDB.getBadIntervention() != null) {
+				type = "BADINT";
+			} else {
+				type = "OMISSION";
+			}
+		}
+		if(type.equals("BADINT")) {
+			GrammarCheckerBadIntervention newBadIntervention = null;
+			if(errorEntryFromDB.getBadIntervention() == null) {
+				newBadIntervention = new GrammarCheckerBadIntervention();
+				errorEntryFromDB.setBadIntervention(newBadIntervention);
+			} else {
+				newBadIntervention = errorEntryFromDB.getBadIntervention();
+			}
+			
+			newBadIntervention.setClassification(Enum.valueOf(BadInterventionClassification.class, badintType));
+			newBadIntervention.setErrorEntry(errorEntryFromDB);
+			newBadIntervention.setRule(Integer.valueOf(badintEnd.get(Integer.valueOf(badintIndex) - 1)));
+			
+			errorEntryFromDB.setSpanStart(Integer.valueOf(badintStart.get(Integer.valueOf(badintIndex) - 1)));
+			errorEntryFromDB.setSpanEnd(Integer.valueOf(badintEnd.get(Integer.valueOf(badintIndex) - 1)));
+			
+			this.errorEntryLogic.updateBadIntervention(errorEntryFromDB, originalErrorEntry);
+		} else {
+			int start = -1;
+			int end = -1;
+			
+			if(omissionStart != null && omissionEnd != null) {
+				start = Integer.parseInt(omissionStart);
+				end = Integer.parseInt(omissionEnd);
+			}
+			
+			GrammarCheckerOmission o = null;
+			if(errorEntryFromDB.getOmission() == null) {
+				o = new GrammarCheckerOmission();
+				errorEntryFromDB.setOmission(o);
+			} else {
+				o = errorEntryFromDB.getOmission();
+			}
+			
+			o.setCategory(omissionCategory);
+			if(omissionCategory.equals(ErrorEntryLogic.CUSTOM)) {
+				o.setCustomCategory(sanitizer.sanitize(omissionCustom, false));
+			} else {
+				o.setCustomCategory(null);
+			}
+			o.setErrorEntry(errorEntryFromDB);
+			o.setReplaceBy(sanitizer.sanitize(omissionReplaceBy,false));
+			
+			errorEntryFromDB.setSpanStart(start);
+			errorEntryFromDB.setSpanEnd(end);
+			
+			if( !(end > 0 && end > start)) {
+				validator.add(new ValidationMessage(ExceptionMessages.ERROR_REPORT_OMISSION_INVALID_SELECTION,
+						ExceptionMessages.ERROR));
+			}
+			if( omissionCategory.equals("custom") && (omissionCustom == null || omissionCustom.length() == 0)) {
+				validator.add(new ValidationMessage(ExceptionMessages.ERROR_REPORT_OMISSION_MISSING_CUSTOM_CATEGORY,
+						ExceptionMessages.ERROR));
+			}
+			if( (omissionReplaceBy == null || omissionReplaceBy.length() == 0)) {
+				validator.add(new ValidationMessage(ExceptionMessages.ERROR_REPORT_OMISSION_MISSING_REPLACE,
+						ExceptionMessages.ERROR));
+			}
+			if(validator.hasErrors()) {
+				validator.onErrorUse(Results.logic()).redirectTo(ErrorReportController.class)
+					.editDetails(errorEntryFromDB);
+				return;
+			}
+			this.errorEntryLogic.updateOmission(errorEntryFromDB, originalErrorEntry);
+		}
+		
+		result.redirectTo(getClass()).details(errorEntryFromDB);
+
+	}
+
+	@Delete
+	@Path("/reports/{errorEntry.id}")
+	@LoggedIn
+	public void remove(ErrorEntry errorEntry) {
+		errorEntry = errorEntryDAO.retrieve(errorEntry.getId());
+		if(loggedUser.getUser().equals(errorEntry.getSubmitter())
+				|| loggedUser.getUser().getRole().getCanDeleteOtherUserErrorReport()) {
+			if(LOG.isDebugEnabled()) {
+				LOG.debug("errorEntry: " + errorEntry);
+			}
+			errorEntryLogic.remove(errorEntry);
+		} else {
+			LOG.info("Unauthorized user tried to delete errorEntry: " + loggedUser.getUser() + " : " + errorEntry);
+		}
+		
 	}
 	
 	@Get
@@ -334,99 +452,8 @@ public class ErrorReportController {
 		}
 	}
 	
-	@Get
-	@Path("/errorEntries")
-	public void list() {
-		List<ErrorEntry> reports = errorEntryLogic.getAllReports();
-		LOG.debug("Will list of size: "
-				+ reports.size());
-		result.include("errorEntryList", reports);
-		if(!loggedUser.isLogged()) {
-			Calendar now = Calendar.getInstance();
-			now.add(Calendar.DATE, -7);
-			result.include("oneWeekAgo", now.getTime());
-		}
-		result.include("headerTitle", HEADER_TITLE).include("headerDescription",
-				HEADER_DESCRIPTION);
-	}
-	
-	@Get
-	@Path("/errorEntry/{errorEntry.id}")
-	public void details(ErrorEntry errorEntry) {
-		if(errorEntry == null) {
-			result.redirectTo(getClass()).list();
-			return;
-		}
-		
-		ErrorEntry errorEntryFromDB =errorEntryDAO.retrieve(new Long(errorEntry.getId())); 
-		LOG.debug("Details for: " + errorEntryFromDB);
-		
-		if (errorEntryFromDB == null) {
-			validator.add(new ValidationMessage(ExceptionMessages.PAGE_NOT_FOUND,
-					ExceptionMessages.ERROR));
-			validator.onErrorUse(Results.logic()).redirectTo(ErrorReportController.class)
-					.list();
-		}
-		
-		result.include("errorEntry", errorEntryFromDB).
-			include("processResultList", cogrooFacade.processText(errorEntryFromDB.getText())).
-			include("priorities", Priority.values()).
-			include("states", State.values());
-		
-		String title = "Problema #" + errorEntryFromDB.getId() + ": "
-				+ errorEntryFromDB.getText();
-		String description = "Tipo: " + (errorEntryFromDB.getOmission() == null ? "Intervenção indevida; Erro: " + errorEntryFromDB
-				.getBadIntervention().getClassification()
-				: "Omissão; Categoria"
-						+ (errorEntryFromDB.getOmission().getCategory() == null ? " (personalizada): " + errorEntryFromDB
-						.getOmission().getCustomCategory()
-						: ": " + errorEntryFromDB.getOmission().getCategory()));
-		result.include("headerTitle", title).include("headerDescription",
-				description);
-	}
-	
-	@Get
-	@Path("/editErrorEntry/{errorEntry.id}")
-	public void editDetails(ErrorEntry errorEntry) {
-		if(errorEntry == null) {
-			result.redirectTo(getClass()).list();
-			return;
-		}
-		
-		ErrorEntry errorEntryFromDB =errorEntryDAO.retrieve(new Long(errorEntry.getId())); 
-		LOG.debug("Details for: " + errorEntryFromDB);
-		
-		if (errorEntryFromDB == null) {
-			validator.add(new ValidationMessage(ExceptionMessages.PAGE_NOT_FOUND,
-					ExceptionMessages.ERROR));
-			validator.onErrorUse(Results.logic()).redirectTo(ErrorReportController.class)
-					.list();
-		} else if(!loggedUser.isLogged() || !loggedUser.getUser().getRole().getCanEditErrorReport()) {
-			validator.add(new ValidationMessage(ExceptionMessages.USER_UNAUTHORIZED,
-					ExceptionMessages.ERROR));
-			validator.onErrorUse(Results.logic()).redirectTo(ErrorReportController.class)
-					.details(errorEntryFromDB);
-		} else {
-			List<ProcessResult> procRes = cogrooFacade.processText(errorEntryFromDB.getText());
-			
-			boolean hasError = false;
-			for (ProcessResult processResult : procRes) {
-				if(processResult.getMistakes().size() > 0) {
-					hasError = true;
-					break;
-				}
-			}
-			
-			result.include("errorEntry", errorEntryFromDB).
-				include("hasError", hasError).
-				include("processResultList", procRes).
-				include("singleGrammarErrorList", cogrooFacade.asSingleGrammarErrorList(errorEntryFromDB.getText(), procRes)).
-				include("omissionCategoriesList", this.errorEntryLogic.getErrorCategoriesForUser());
-		}
-	}
-	
 	@Post
-	@Path("/errorEntryAddComment")
+	@Path("/reports/{errorEntry.id}/comments")
 	public void addComment(ErrorEntry errorEntry, String newComment) {
 		newComment = sanitizer.sanitize(newComment, true);
 		ErrorEntry errorEntryFromDB = errorEntryDAO.retrieve(new Long(errorEntry.getId()));
@@ -450,45 +477,70 @@ public class ErrorReportController {
 		result.redirectTo(ErrorReportController.class).details(errorEntryFromDB);
 	}
 	
+	@Delete
+	@Path("/reports/{errorEntry.id}/comments/{comment.id}")
+	@LoggedIn
+	public void remove(Comment comment) {
+		if(LOG.isDebugEnabled()) {
+			LOG.debug("Will delete cooment." + commentDAO);
+		}
+		comment = commentDAO.retrieve(comment.getId());
+		if( (loggedUser.getUser().getRole().getCanDeleteOwnCommment() &&
+				loggedUser.getUser().equals(comment.getComment())) ||
+				loggedUser.getUser().getRole().getCanDeleteOtherUserCommment()) {
+			errorEntryLogic.removeComment(comment);
+		} else {
+			LOG.warn("Invalid user tried to delete comment " + loggedUser.getUser() + " : " + comment);
+		}
+		
+	} 
+	
 	@Post
-	@Path("/errorEntryAddAnswerToComment")
+	@Path("/reports/{errorEntry.id}/comments/{comment.id}/answers")
+	@LoggedIn
 	public void addAnswerToComment(ErrorEntry errorEntry, Comment comment, String answer) {
 		answer = sanitizer.sanitize(answer, true);
 		errorEntryLogic.addAnswerToComment(comment.getId(), loggedUser.getUser().getId(), answer);
 		result.redirectTo(ErrorReportController.class).details(errorEntry);
 	}
 	
-	@Post
-	@Path("/errorEntryDeleteAnswer")
+	@Delete
+	@Path("/reports/{errorEntry.id}/comments/{comment.id}/answers/{answer.id}")
+	@LoggedIn
 	public void remove(Comment answer, Comment comment) {
-		errorEntryLogic.removeAnswer(answer, comment);
+		comment = commentDAO.retrieve(comment.getId());
+		answer = commentDAO.retrieve(answer.getId());
+		if( (loggedUser.getUser().getRole().getCanDeleteOwnCommment() &&
+				loggedUser.getUser().equals(answer.getComment())) ||
+				loggedUser.getUser().getRole().getCanDeleteOtherUserCommment()) {
+			errorEntryLogic.removeAnswer(answer, comment);
+		} else {
+			LOG.warn("Invalid user tried to delete answer " + loggedUser.getUser() + " : " + comment);
+		}
 	}
 	
-	@Post
-	@Path("/errorEntryDeleteComment")
-	public void remove(Comment comment) {
-		errorEntryLogic.removeComment(comment);
-	}
-	
-	@Post
-	@Path("/errorEntryDelete")
-	public void remove(ErrorEntry errorEntry) {
-		LOG.debug("errorEntry: " + errorEntry);
-		errorEntryLogic.remove(errorEntry);
-	}
-	
-	@Post
-	@Path("/errorEntrySetPriority")
+	@Put
+	@Path("/reports/{errorEntry.id}/priority")
+	@LoggedIn
 	public void errorEntrySetPriority(ErrorEntry errorEntry, String priority) {
-		errorEntryLogic.setPriority(errorEntry, Enum.valueOf(Priority.class, priority));
-		result.redirectTo(ErrorReportController.class).details(errorEntry);
+		if(loggedUser.getUser().getRole().getCanSetErrorReportPriority()) {
+			errorEntryLogic.setPriority(errorEntry, Enum.valueOf(Priority.class, priority));
+			result.redirectTo(ErrorReportController.class).details(errorEntry);
+		} else {
+			LOG.info("Invalid user tried to set priority: " + loggedUser.getUser());
+		}
 	}
 	
 	
-	@Post
-	@Path("/errorEntrySetState")
+	@Put
+	@Path("/reports/{errorEntry.id}/state")
+	@LoggedIn
 	public void errorEntrySetState(ErrorEntry errorEntry, String state) {
-		errorEntryLogic.setState(errorEntry, Enum.valueOf(State.class, state));
-		result.redirectTo(ErrorReportController.class).details(errorEntry);
+		if(loggedUser.getUser().getRole().getCanSetErrorReportState()) {
+			errorEntryLogic.setState(errorEntry, Enum.valueOf(State.class, state));
+			result.redirectTo(ErrorReportController.class).details(errorEntry);
+		} else {
+			LOG.info("Invalid user tried to set priority: " + loggedUser.getUser());
+		}
 	}
 }

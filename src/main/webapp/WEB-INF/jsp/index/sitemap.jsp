@@ -2,10 +2,10 @@
 <h2>Mapa do site</h2>
 <ul>
 	<li class="outside_list"><a href="<c:url value="/grammar"/>">Análise Gramatical</a></li>
-	<li class="outside_list"><a href="<c:url value="/errorEntries"/>">Problemas Reportados</a>
+	<li class="outside_list"><a href="<c:url value="/reports"/>">Problemas Reportados</a>
 	<ul>
 		<c:forEach items="${errorEntryList}" var="errorEntry">
-			<li><a href="<c:url value="/errorEntry/${errorEntry.id}"/>">Problema #${errorEntry.id}: ${errorEntry.text}</a></li>
+			<li><a href="<c:url value="/reports/${errorEntry.id}"/>">Problema #${errorEntry.id}: ${errorEntry.text}</a></li>
 		</c:forEach>
 	</ul>
 	</li>

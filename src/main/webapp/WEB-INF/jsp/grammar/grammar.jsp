@@ -37,7 +37,7 @@
 		<c:set var="id" scope="request" value="id" />
 		<jsp:include page="/analysisdetails.jspf" />
 		<c:if test="${justAnalyzed && not empty text}">
-			<form id="formSendErrorText"  action="<c:url value="/reportNewErrorAddText"/>" method="post" >
+			<form id="formSendErrorText"  action="<c:url value="/reports/newtext"/>" method="get" >
 			    <input type="hidden" name="text" value="${text}" />
 			    <input type="submit" class=".red_button" value=" Reportar problema &raquo; " id="sendErrorText"/>
 			</form>

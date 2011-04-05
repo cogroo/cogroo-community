@@ -119,7 +119,7 @@ function omissionChanged() {
 </script>
 
 	<h2>Editar entrada #${errorEntry.id}</h2>
-	<form id="updateError" action="<c:url value="/updateErrorReport"/>" method="post" >
+	<form id="updateError" action="<c:url value="/reports/${errorEntry.id}"/>" method="POST" >
 	<div class="report_details">
 		<div class="report_details_table">
 			<table >
@@ -224,6 +224,6 @@ function omissionChanged() {
 					</c:forEach>
 				</c:if>
 	     </div>
-	   	<input type="submit" value=" Atualizar &raquo; " id="updateError"/>                 
+	    <button type="submit" name="_method" value="PUT">Enviar</button>                
 	</div>
 </form>

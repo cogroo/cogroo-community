@@ -128,7 +128,7 @@
 	
 		<ul id="menu" class="menu">
 			<li><a title="Experimente o CoGrOO e explore os resultados: erros gramaticais, análise morfológica e de agrupamentos." href="<c:url value="/grammar"/>">Análise Gramatical</a></li>
-			<li><a title="Veja os problemas reportados pela comunidade e contribua!" href="<c:url value="/errorEntries"/>">Problemas</a></li>
+			<li><a title="Veja os problemas reportados pela comunidade e contribua!" href="<c:url value="/reports"/>">Problemas</a></li>
 			<li><a title="Explore as regras implementadas no CoGrOO. No futuro, será possível editar e criar novas regras." href="<c:url value="/ruleList"/>">Regras</a></li>
 			<li><a title="Explore o léxico do CoGrOO. No futuro, será possível editar e criar novas entradas." href="<c:url value="/dictionaryEntrySearch"/>">Léxico</a></li>
 			<!--<li><span title="Explore o léxico do CoGrOO. No futuro, será possível editar e criar novas entradas.">Léxico</span>

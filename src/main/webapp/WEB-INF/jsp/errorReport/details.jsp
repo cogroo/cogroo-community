@@ -18,7 +18,7 @@
 		});
 
 		function answer_remove(e) {
-
+			e.preventDefault();
 			var r=confirm("Você deseja remover esta resposta?");
 			if (r==true) {
 				var currentId = e.target.id;
@@ -26,7 +26,10 @@
 				e.preventDefault();
 				var $this = $(this);
 				
-				$.post("errorEntryDeleteAnswer", $("#form_answer_remove" + currentId).serialize(),
+				var form = $("#form_answer_remove" + currentId);
+				var url = form.attr('action');
+				
+				$.post(url, form.serialize(),
 			   		function(data){
 			   });
 				
@@ -34,11 +37,10 @@
 				$('#tr_answer' + currentId).remove();
 
 			}
-
 		}
 		
 		function comment_remove(e) {
-
+			e.preventDefault();
 			var r=confirm("Você deseja remover este comentários e todas suas respostas?");
 			if (r==true) {
 				var currentId = e.target.id;
@@ -46,12 +48,15 @@
 				e.preventDefault();
 				var $this = $(this);
 				
-				$.post("errorEntryDeleteComment", $("#form_comment_remove" + currentId).serialize(),
+				var form = $("#form_comment_remove_" + currentId);
+				var url = form.attr('action');
+				
+				$.post(url, form.serialize(),
 			   		function(data){
 			   });
 				
 				//tr_answer_
-				$('#comment' + currentId).remove();
+				$('#comment_' + currentId).remove();
 
 			}
 
@@ -122,7 +127,7 @@ table.answer td {
 	<h2>Problema #${errorEntry.id}</h2>
 			<span style="FLOAT: right; POSITION: static">
 			<c:if test="${loggedUser.user.role.canEditErrorReport}">
-				<a href="<c:url value="/editErrorEntry/${errorEntry.id}"/>">editar</a>
+				<a href="<c:url value="/reports/${errorEntry.id}/edit"/>">editar</a>
 			</c:if>
 		</span>
 	<div class="report_details">
@@ -172,13 +177,17 @@ table.answer td {
 					<c:when test="${loggedUser.user.role.canSetErrorReportState}">
 						<th>Situação:</th><td>
 					      	<div style="display: none;" id="editstate">
-					            <form action="<c:url value='/errorEntrySetState'/>" method="post">
+					            <form action="<c:url value='/reports/${errorEntry.id}/state'/>" method="post">
 					            	<select name="state">
 										<c:forEach items="${states}" var="s">
-											<option value="${s}"><fmt:message key="${s}" /></option>
+											<option value="${s}"
+												<c:if test="${s eq errorEntry.state}">selected="selected"
+												</c:if>
+											><fmt:message key="${s}" /></option>
 										</c:forEach>
 									</select>
 									<input name="errorEntry.id" value="${errorEntry.id}" type="hidden" />
+									<input type="hidden" name="_method" value="PUT"/>
 				                    <input type="submit" style="font-size: 11px;" value=" Alterar " class="button"/> | 
 				                    <a onclick="off('editstate'); on('state'); return false" href="#"><b>voltar</b></a>
 					            </form>
@@ -189,13 +198,17 @@ table.answer td {
 			    		</td>
 			    		<th>Prioridade:</th><td>
 					      	<div style="display: none;" id="editpriority">
-					            <form action="<c:url value='/errorEntrySetPriority'/>" method="post">
+					            <form action="<c:url value='/reports/${errorEntry.id}/priority'/>" method="post">
 					            	<select name="priority">
 										<c:forEach items="${priorities}" var="p">
-											<option value="${p}"><fmt:message key="${p}" /></option>
+											<option value="${p}"
+												<c:if test="${p eq errorEntry.priority}">selected="selected"
+												</c:if>
+											><fmt:message key="${p}" /></option>
 										</c:forEach>
 									</select>
 									<input name="errorEntry.id" value="${errorEntry.id}" type="hidden" />
+									<input type="hidden" name="_method" value="PUT"/>
 				                    <input type="submit" style="font-size: 11px;" value=" Alterar " class="button"/> | 
 				                    <a onclick="off('editpriority'); on('priority'); return false" href="#"><b>voltar</b></a>
 					            </form>
@@ -235,10 +248,11 @@ table.answer td {
 			<div id="comment_${ i.count }">
 				<h4 class="undeline">Por <a href="<c:url value="/user/${comment.user.id}"/>">${comment.user.name}</a> em <fmt:formatDate type="both" dateStyle="long" value="${comment.date}" />
 				<c:if test="${((comment.user.login == loggedUser.user.login) && loggedUser.user.role.canDeleteOwnCommment) || (loggedUser.user.role.canDeleteOtherUserCommment) }"> 
-					<a id="_${ i.count }" href="about:blank" class="comment_remove">excluir</a>
+					<a id="${ i.count }" href="about:blank" class="comment_remove">excluir</a>
 				</c:if>
 				</h4>
-				<form action="/errorEntryDeleteComment" method="post" id="form_comment_remove_${ i.count }">
+				<form action="/reports/${errorEntry.id}/comments/${comment.id}" method="post" id="form_comment_remove_${ i.count }">
+				    <input type="hidden" name="_method" value="DELETE"/>
 				    <input name="comment.id" value="${comment.id}" type="hidden" />
 				</form>
 				<div>${comment.processedComment}</div>
@@ -249,13 +263,14 @@ table.answer td {
 							<c:forEach items="${comment.answers}" var="answer"  varStatus="j">
 								<tr id="tr_answer_${ i.count }_${ j.count }">
 									<td>${answer.processedComment} <i> -- <a href="<c:url value="/user/${answer.user.id}"/>">${answer.user.name}</a> em <fmt:formatDate type="both" dateStyle="long" value="${answer.date}" /></i>
-									<c:if test="${((answer.user.login == loggedUser.user.login) && loggedUser.user.role.canDeleteOwnCommment) || (loggedUser.user.role.canDeleteOtherUserCommment) }">
-										<a id="_${ i.count }_${ j.count }" href="about:blank" class="answer_remove">excluir</a>
-										<form action="/errorEntryAnswerToComment" method="post" id="form_answer_remove_${ i.count }_${ j.count }">
+										<c:if test="${((answer.user.login == loggedUser.user.login) && loggedUser.user.role.canDeleteOwnCommment) || (loggedUser.user.role.canDeleteOtherUserCommment) }">
+											<a id="_${ i.count }_${ j.count }" href="about:blank" class="answer_remove">excluir</a>
+										</c:if>
+										<form action="/reports/${errorEntry.id}/comments/${comment.id}/answers/${answer.id}" method="post" id="form_answer_remove_${ i.count }_${ j.count }">
+											<input type="hidden" name="_method" value="DELETE"/>
 										    <input name="answer.id" value="${answer.id}" type="hidden" />
 										    <input name="comment.id" value="${comment.id}" type="hidden" />
 										</form>
-									</c:if>
 									</td>
 								</tr>
 							</c:forEach>
@@ -266,7 +281,7 @@ table.answer td {
 							<a href="#" onclick="onOff('reply_${ i.count }'); return false">responder</a>
 						</div>
 						<div style="display: none;" class="disscussion_reply_form" id="reply_${ i.count }">
-							<form method="post" action="<c:url value="/errorEntryAddAnswerToComment"/>">
+							<form method="post" action="<c:url value="/reports/${errorEntry.id}/comments/${comment.id}/answers"/>">
 								<legend>Responder a esta discussão:</legend><br/>
 							    <textarea class="answerText" id="answerText${comment.id}" name="answer" cols="80" rows="4"></textarea>
 							    <input name="errorEntry.id" value="${errorEntry.id}" type="hidden" />
@@ -281,7 +296,7 @@ table.answer td {
 			</div>
 		</c:forEach>
 		<c:if test="${loggedUser.logged}">
-			<form method="post" action="<c:url value="/errorEntryAddComment"/>">
+			<form method="post" action="<c:url value="/reports/${errorEntry.id}/comments"/>">
 				<legend>Novo comentário:</legend><br/>
 			    <textarea id="newCommentText" name="newComment" cols="80" rows="4"></textarea>
 			    <input name="errorEntry.id" value="${errorEntry.id}" type="hidden" />

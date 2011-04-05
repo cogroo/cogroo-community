@@ -684,8 +684,6 @@ public class ErrorEntryLogic {
 	}
 
 	public void removeAnswer(Comment answer, Comment comment) {
-		answer = commentDAO.retrieve(answer.getId());
-		comment = commentDAO.retrieve(comment.getId());
 		
 		comment.getAnswers().remove(answer);
 		
@@ -693,12 +691,10 @@ public class ErrorEntryLogic {
 	}
 
 	public void removeComment(Comment comment) {
-		comment = commentDAO.retrieve(comment.getId());
 		commentDAO.delete(comment);
 	}
 
 	public void remove(ErrorEntry errorEntry) {
-		errorEntry = errorEntryDAO.retrieve(errorEntry.getId());
 		
 		LOG.info("Will delete: " + errorEntry);
 		if(errorEntry.getBadIntervention() != null) {
