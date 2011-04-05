@@ -40,7 +40,7 @@
 
 <div>
 	<p>Digite a palavra que deseja procurar no léxico:</p>
-	<form action="<c:url value="/dictionaryEntrySearch"/>" method="post">
+	<form action="<c:url value="/dictionary/search/${word}"/>" method="get">
 		<input type="text" id="word" value="${word}" name="word"  maxlength="128"/><br>
 		<input type="submit" value=" Procurar &raquo; " id="go" />
 	</form>

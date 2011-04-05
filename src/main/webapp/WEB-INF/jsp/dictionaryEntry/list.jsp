@@ -42,8 +42,4 @@
 		</tbody>
 	</table>
 </div>
-	
-<form action="<c:url value="/dictionaryEntry"/>"  method="get" >
-    <input type="submit" value=" Incluir &raquo; " />
-</form>
 

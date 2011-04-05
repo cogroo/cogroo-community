@@ -27,7 +27,7 @@
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>http://ccsl.ime.usp.br/cogroo/comunidade/dictionaryEntrySearch</loc>
+  <loc>http://ccsl.ime.usp.br/cogroo/comunidade/dictionary/search</loc>
   <changefreq>monthly</changefreq>
   <priority>0.80</priority>
 </url>

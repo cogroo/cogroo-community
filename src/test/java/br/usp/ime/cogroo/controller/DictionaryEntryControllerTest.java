@@ -1,24 +1,17 @@
 package br.usp.ime.cogroo.controller;
 
-import java.util.List;
-
 import javax.persistence.EntityManager;
 
-import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Test;
 
 import utils.HSQLDBEntityManagerFactory;
 import br.com.caelum.vraptor.Validator;
 import br.com.caelum.vraptor.util.test.MockResult;
 import br.com.caelum.vraptor.util.test.MockValidator;
-import br.com.caelum.vraptor.validator.Message;
-import br.com.caelum.vraptor.validator.ValidationException;
 import br.usp.ime.cogroo.dao.DictionaryEntryDAO;
 import br.usp.ime.cogroo.dao.DictionaryEntryUserDAO;
 import br.usp.ime.cogroo.dao.PosTagDAO;
 import br.usp.ime.cogroo.dao.WordDAO;
-import br.usp.ime.cogroo.exceptions.ExceptionMessages;
 import br.usp.ime.cogroo.logic.DictionaryManager;
 import br.usp.ime.cogroo.logic.EditPosTagLogic;
 import br.usp.ime.cogroo.logic.TextSanitizer;
@@ -52,50 +45,10 @@ public class DictionaryEntryControllerTest {
 		Validator validator = new MockValidator();
 		EditPosTagLogic logic2 = new EditPosTagLogic();
 		dictionaryEntryController = new DictionaryEntryController(logic,
-				result, validator, loggedUser, logic2, null, new TextSanitizer());
+				result, new TextSanitizer());
 
 	}
 
-	@Test
-	public void shouldNotInsertEmptyDictionaryEntry() {
-		DictionaryEntry dictionaryEntry = getDictionaryEntry("","","");
-		checkError(dictionaryEntry, "");
-	}
-
-	@Test
-	public void shouldNotInsertDictionaryEntryWithEmptyWord() {
-		DictionaryEntry dictionaryEntry = getDictionaryEntry("", "casa","");
-		checkError(dictionaryEntry, "PREPOSITION");
-	}
-
-	
-
-	@Test
-	public void shouldNotInsertDictionaryEntryWithEmptyLemma() {
-		DictionaryEntry dictionaryEntry = getDictionaryEntry("casa", "","");
-		checkError(dictionaryEntry, "PREPOSITION");
-	}
-
-	@Test
-	public void shouldNotInsertDictionaryEntryWithEmptyPosTag() {
-		DictionaryEntry dictionaryEntry = getDictionaryEntry("casa", "casa","");
-
-		try {
-			dictionaryEntryController.add(dictionaryEntry, null, "");
-			Assert.fail();
-		} catch (ValidationException e) {
-			List<Message> errors = e.getErrors();
-			Assert.assertEquals(1, errors.size());
-			Message message = errors.get(0);
-			Assert.assertEquals(ExceptionMessages.MISSING_CLASS_TAG, message.getMessage());
-		}
-	}
-
-	@Test
-	public void shouldNotInsertDictionaryEntryWithEmptyWordLemma() {
-		DictionaryEntry dictionaryEntry = getDictionaryEntry("", "", "");		
-		checkError(dictionaryEntry, "PREPOSITION");
-	}
 
 	private DictionaryEntry getDictionaryEntry(String w, String l, String p) {
 		Word word = new Word(w);
@@ -103,18 +56,5 @@ public class DictionaryEntryControllerTest {
 		PosTag posTag = new PosTag(p);
 		return new DictionaryEntry(word, lemma, posTag);
 
-	}
-	
-	private void checkError(DictionaryEntry dictionaryEntry, String classe) {
-		try {
-			dictionaryEntryController.add(dictionaryEntry, null, classe);
-			Assert.fail();
-		} catch (ValidationException e) {
-			List<Message> errors = e.getErrors();
-			Assert.assertTrue(errors.size() > 0);
-			Message message = errors.get(0);
-			Assert.assertEquals(ExceptionMessages.INVALID_ENTRY, message.getMessage());
-			Assert.assertEquals(ExceptionMessages.EMPTY_FIELD, message.getCategory());
-		}
 	}
 }

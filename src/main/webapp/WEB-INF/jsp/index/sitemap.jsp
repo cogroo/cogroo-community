@@ -16,7 +16,7 @@
 		</c:forEach>
 	</ul>
 	</li>
-	<li class="outside_list"><a href="<c:url value="/dictionaryEntrySearch"/>">Léxico</a></li>
+	<li class="outside_list"><a href="<c:url value="/dictionary/search"/>">Léxico</a></li>
 	<li class="outside_list"><a href="<c:url value="/register"/>">Cadastro</a></li>
 	<li class="outside_list"><a href="<c:url value="/stats"/>">Estatísticas</a></li>
 	<li class="outside_list"><a href="<c:url value="/about"/>">Sobre</a></li>
