@@ -70,7 +70,6 @@
 
 	$(document).ready(function(){
 		
-		
 		$.each($('.answerText'), function(key) {
 			
 			var id = key + 1;
@@ -81,10 +80,6 @@
 				max_chars: 700
 			});
 		});
-		
-		
-		
-
 		
 		$('#newCommentText').NobleCount('#newCommentTextCount',{
 			on_negative: 'go_red',
@@ -283,10 +278,10 @@ table.answer td {
 						<div style="display: none;" class="disscussion_reply_form" id="reply_${ i.count }">
 							<form method="post" action="<c:url value="/reports/${errorEntry.id}/comments/${comment.id}/answers"/>">
 								<legend>Responder a esta discussão:</legend><br/>
-							    <textarea class="answerText" id="answerText${comment.id}" name="answer" cols="80" rows="4"></textarea>
+							    <textarea class="answerText" id="answerText${ i.count }" name="answer" cols="80" rows="4"></textarea>
 							    <input name="errorEntry.id" value="${errorEntry.id}" type="hidden" />
 							    <input name="comment.id" value="${comment.id}" type="hidden" />
-							    <span class="count" id="count${comment.id}">700</span> caracteres restantes<br>
+							    <span class="count" id="count${ i.count }">700</span> caracteres restantes<br>
 							    <input type="submit" id="go" value=" Responder &raquo; ">
 							</form>
 						</div>

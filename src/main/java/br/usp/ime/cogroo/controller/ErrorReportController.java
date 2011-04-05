@@ -486,7 +486,7 @@ public class ErrorReportController {
 		}
 		comment = commentDAO.retrieve(comment.getId());
 		if( (loggedUser.getUser().getRole().getCanDeleteOwnCommment() &&
-				loggedUser.getUser().equals(comment.getComment())) ||
+				loggedUser.getUser().equals(comment.getUser())) ||
 				loggedUser.getUser().getRole().getCanDeleteOtherUserCommment()) {
 			errorEntryLogic.removeComment(comment);
 		} else {
@@ -511,7 +511,7 @@ public class ErrorReportController {
 		comment = commentDAO.retrieve(comment.getId());
 		answer = commentDAO.retrieve(answer.getId());
 		if( (loggedUser.getUser().getRole().getCanDeleteOwnCommment() &&
-				loggedUser.getUser().equals(answer.getComment())) ||
+				loggedUser.getUser().equals(answer.getUser())) ||
 				loggedUser.getUser().getRole().getCanDeleteOtherUserCommment()) {
 			errorEntryLogic.removeAnswer(answer, comment);
 		} else {
