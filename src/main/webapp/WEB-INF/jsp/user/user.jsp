@@ -40,7 +40,7 @@ function editing() {
 	<c:set var="canEdit" value="${loggedUser.user.id == user.id || loggedUser.user.role.canEditSensitiveUserDetails}"></c:set>
 	<c:set var="canView" value="${loggedUser.user.id == user.id || loggedUser.user.role.canViewSensitiveUserDetails}"></c:set>
 	
-	<form id="editUser" action="<c:url value="/editUser"/>" method="post" >
+	<form id="editUser" action="<c:url value="/users/${user.login}"/>" method="post" >
 	<table class="attributes">
 		<tbody>
 			<tr>
@@ -120,6 +120,7 @@ function editing() {
 	</table>
 	<c:if test="${canEdit}">
 		<div class="editing">
+			<input type="hidden" name="_method" value="PUT"/>
 			<input name="user.id" value="${user.id}" type="hidden" />
 			<input type="submit" value="Atualizar" id="updateUser"/>
 			<input type="reset" value=" &laquo; Limpar" onClick="window.location.reload()">
@@ -132,7 +133,7 @@ function editing() {
 </div>
 
 <c:if test="${(loggedUser.user.role.canSetUserRole) || (loggedUser.user.login == 'admin') }">
-	<form id="setUserRole"  action="<c:url value="/userRole"/>" method="post" >
+	<form id="setUserRole"  action="<c:url value="/users/${user.login}/role"/>" method="post" >
 		Escolha um novo papel para o usuário: 
 		<select name="role">
 			<c:forEach items="${roleList}" var="role">
@@ -140,6 +141,7 @@ function editing() {
 			</c:forEach>
 		</select>
 		<input name="user.id" value="${user.id}" type="hidden" />
+		<input type="hidden" name="_method" value="PUT"/>
 	    <input type="submit" value=" Alterar &raquo; " id="setUserRole"/>
 	</form>
 </c:if>

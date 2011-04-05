@@ -68,7 +68,7 @@
 	<tbody>
 		<c:forEach var="user" items="${appData.loggedUsers}">
 			<tr>
-				<td><a href="<c:url value="/user/${user.id}"/>">${user.login}</a></td>
+				<td><a href="<c:url value="/users/${user.login}"/>">${user.login}</a></td>
 				<td><c:choose>
 					<c:when test="${not empty user.lastLogin}">
 						<fmt:formatDate value="${user.lastLogin}"
@@ -96,7 +96,7 @@
 	<tbody>
 		<c:forEach var="user" items="${appData.topUsers}">
 			<tr>
-				<td><a href="<c:url value="/user/${user.id}"/>">${user.login}</a></td>
+				<td><a href="<c:url value="/users/${user.login}"/>">${user.login}</a></td>
 				<td><c:choose>
 					<c:when test="${not empty user.lastLogin}">
 						<fmt:formatDate value="${user.lastLogin}"

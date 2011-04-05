@@ -45,7 +45,7 @@
 				<%!int i = 0;%>
 				<c:forEach items="${userList}" var="user">
 					<tr>
-						<td><a href="<c:url value="/user/${user.id}"/>">${user.login}</a></td>
+						<td><a href="<c:url value="/users/${user.login}"/>">${user.login}</a></td>
 						<td>${user.name}</td>
 						<td><fmt:message key="${user.role}" /></td>
 						<td><fmt:formatDate value="${user.lastLogin}"

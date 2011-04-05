@@ -170,7 +170,7 @@
 					    		<tr><td>Substituir por:</td><td>${errorEntry.omission.replaceBy}</td></tr>
 					  		</c:otherwise>
 						</c:choose>
-						<tr><td>Enviado por:</td><td><a href="<c:url value="/user/${errorEntry.submitter.id}"/>">${errorEntry.submitter.name}</a></td></td></tr>
+						<tr><td>Enviado por:</td><td><a href="<c:url value="/users/${errorEntry.submitter.login}"/>">${errorEntry.submitter.name}</a></td></td></tr>
 						<tr><td>Versão:</td><td>${errorEntry.version.version}</td></tr>
 	  			  		
 	  			  	</table>

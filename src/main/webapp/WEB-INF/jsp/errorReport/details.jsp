@@ -136,7 +136,7 @@ table.answer td {
 		<table >
 			<tbody>
 			<tr>
-			    <th>Enviado por:</th><td><a href="<c:url value="/user/${errorEntry.submitter.id}"/>">${errorEntry.submitter.name}</a></td>
+			    <th>Enviado por:</th><td><a href="<c:url value="/users/${errorEntry.submitter.login}"/>">${errorEntry.submitter.name}</a></td>
 			</tr>
 			<tr>
 			    <th>Versão:</th><td>${errorEntry.version.version}</td>
@@ -246,7 +246,7 @@ table.answer td {
 		<h2>Discussão</h2>
 		<c:forEach items="${errorEntry.errorEntryComments}" var="comment" varStatus="i">
 			<div id="comment_${ i.count }">
-				<h4 class="undeline">Por <a href="<c:url value="/user/${comment.user.id}"/>">${comment.user.name}</a> em <fmt:formatDate type="both" dateStyle="long" value="${comment.date}" />
+				<h4 class="undeline">Por <a href="<c:url value="/users/${comment.user.login}"/>">${comment.user.name}</a> em <fmt:formatDate type="both" dateStyle="long" value="${comment.date}" />
 				<c:if test="${((comment.user.login == loggedUser.user.login) && loggedUser.user.role.canDeleteOwnCommment) || (loggedUser.user.role.canDeleteOtherUserCommment) }"> 
 					<a id="${ i.count }" href="about:blank" class="comment_remove">excluir</a>
 				</c:if>
@@ -262,7 +262,7 @@ table.answer td {
 						<table class="answer">
 							<c:forEach items="${comment.answers}" var="answer"  varStatus="j">
 								<tr id="tr_answer_${ i.count }_${ j.count }">
-									<td>${answer.processedComment} <i> -- <a href="<c:url value="/user/${answer.user.id}"/>">${answer.user.name}</a> em <fmt:formatDate type="both" dateStyle="long" value="${answer.date}" /></i>
+									<td>${answer.processedComment} <i> -- <a href="<c:url value="/users/${answer.user.login}"/>">${answer.user.name}</a> em <fmt:formatDate type="both" dateStyle="long" value="${answer.date}" /></i>
 										<c:if test="${((answer.user.login == loggedUser.user.login) && loggedUser.user.role.canDeleteOwnCommment) || (loggedUser.user.role.canDeleteOtherUserCommment) }">
 											<a id="_${ i.count }_${ j.count }" href="about:blank" class="answer_remove">excluir</a>
 										</c:if>
@@ -309,7 +309,7 @@ table.answer td {
 	<div class="report_disscussion">
 		<h2>Histórico</h2>
 		<c:forEach items="${errorEntry.historyEntries}" var="historyEntry">
-			<h4 class="undeline">Por <a href="<c:url value="/user/${historyEntry.user.id}"/>">${historyEntry.user.name}</a> em <fmt:formatDate type="both" dateStyle="long" value="${historyEntry.creation}" /></h4>
+			<h4 class="undeline">Por <a href="<c:url value="/users/${historyEntry.user.login}"/>">${historyEntry.user.name}</a> em <fmt:formatDate type="both" dateStyle="long" value="${historyEntry.creation}" /></h4>
 			<ul>
 				<c:forEach items="${historyEntry.historyEntryField}" var="historyEntryField">
 					<c:choose>

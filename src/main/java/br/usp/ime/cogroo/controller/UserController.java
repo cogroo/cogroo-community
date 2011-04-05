@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
+import br.com.caelum.vraptor.Put;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.Validator;
@@ -38,7 +39,7 @@ public class UserController {
 	}
 
 	@Get
-	@Path("/userList")
+	@Path("/users")
 	@LoggedIn
 	public void userList() {
 		result.include("userList", userDAO.listAll());
@@ -49,14 +50,14 @@ public class UserController {
 	}
 
 	@Get
-	@Path(value = "/user/{user.id}")
+	@Path(value = "/users/{user.login}")
 	@LoggedIn
 	public void user(User user) {
 		if (user == null) {
 			result.redirectTo(getClass()).userList();
 			return;
 		}
-		user = userDAO.retrieve(user.getId());
+		user = userDAO.retrieveByLogin(user.getLogin());
 		if (user == null) {
 			validator.add(new ValidationMessage(
 					ExceptionMessages.PAGE_NOT_FOUND, ExceptionMessages.ERROR));
@@ -74,8 +75,8 @@ public class UserController {
 						+ "; Papel: " + user.getRoleName());
 	}
 
-	@Post
-	@Path("/userRole")
+	@Put
+	@Path("/users/{user.login}/role")
 	@LoggedIn
 	public void userRole(User user, String role) {
 		if (loggedUser.getUser().getRole().getCanSetUserRole() || loggedUser
@@ -94,8 +95,9 @@ public class UserController {
 		}
 	}
 
-	@Post
-	@Path("/editUser")
+	@Put
+	@Path("/users/{user.login}")
+	@LoggedIn
 	public void editUser(User user, String name, String email, String twitter,
 			boolean isReceiveEmail) {
 

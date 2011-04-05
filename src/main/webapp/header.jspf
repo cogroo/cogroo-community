@@ -120,7 +120,7 @@
 	        </div>
     	</c:if>
 			<c:if test="${loggedUser.logged}">
-				<p><span><a href="<c:url value="/user/${loggedUser.user.id}"/>">${loggedUser.user.name}</a></span> | <a href="<c:url value="/logout"/>"><b>logout</b></a></p>
+				<p><span><a href="<c:url value="/users/${loggedUser.user.login}"/>">${loggedUser.user.name}</a></span> | <a href="<c:url value="/logout"/>"><b>logout</b></a></p>
 			</c:if>
     </div>
 	<div id="logoCogroo"><a href="<c:url value="/"/>" title="CoGrOO Comunidade" id="logoCogrooLink"></a></div>
@@ -146,7 +146,7 @@
 				<li><span title="Acesse a área exclusiva para usuários cadastrados.">Área Exclusiva</span>
 						<ul>
 							<li><a title="Reporte um novo problema"  href="<c:url value="/grammar"/>">Reportar problema</a></li>
-							<li><a title="Visualize os usuários do CoGrOO Comunidade" href="<c:url value="/userList"/>">Visualizar usuários</a></li>
+							<li><a title="Visualize os usuários do CoGrOO Comunidade" href="<c:url value="/users"/>">Visualizar usuários</a></li>
 						</ul>
 				</li>
 			</c:when>
