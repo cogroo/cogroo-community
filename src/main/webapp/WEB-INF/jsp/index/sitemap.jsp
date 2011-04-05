@@ -9,10 +9,10 @@
 		</c:forEach>
 	</ul>
 	</li>
-	<li class="outside_list"><a href="<c:url value="/ruleList"/>">Regras</a>
+	<li class="outside_list"><a href="<c:url value="/rules"/>">Regras</a>
 	<ul>
 		<c:forEach items="${ruleList}" var="rule">
-			<li><a href="<c:url value="/rule/${rule.id}"/>">Regra #${rule.id}: ${rule.shortMessage}</a></li>
+			<li><a href="<c:url value="/rules/${rule.id}"/>">Regra #${rule.id}: ${rule.shortMessage}</a></li>
 		</c:forEach>
 	</ul>
 	</li>

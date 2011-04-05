@@ -101,7 +101,7 @@
 					    <td style="text-decoration: line-through;">
 					  </c:otherwise> 
 					</c:choose> 
-						<a href="<c:url value="/rule/${rule.id}"/>">${rule.id}</a>
+						<a href="<c:url value="/rules/${rule.id}"/>">${rule.id}</a>
 					</td>
 					<td>${rule.type}</td>
 					<td>${rule.group}</td>

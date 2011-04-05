@@ -6,10 +6,10 @@
 
 <span style="FLOAT: right; POSITION: static">
 <c:if test="${previousRule != NULL}">
-[<a href="<c:url value="/rule/${previousRule}"/>">anterior</a>]
+[<a href="<c:url value="/rules/${previousRule}"/>">anterior</a>]
 </c:if>
 <c:if test="${nextRule != NULL}">
-[<a href="<c:url value="/rule/${nextRule}"/>">próxima</a>]
+[<a href="<c:url value="/rules/${nextRule}"/>">próxima</a>]
 </c:if>
 </span>
 
