@@ -35,7 +35,7 @@ public class RuleController {
 	}
 
 	@Get
-	@Path("/rules")
+	@Path("/rulez")
 	public void ruleList() {
 		result.include("ruleList", rulesLogic.getRuleList());
 		result.include("headerTitle", "Regras").include(
@@ -43,7 +43,7 @@ public class RuleController {
 	}
 	
 	@Get
-	@Path(value = "/rules/{rule.id}")
+	@Path(value = "/rulez/{rule.id}")
 	public void rule(Rule rule) {
 		if(rule == null) {
 			result.redirectTo(getClass()).ruleList();
