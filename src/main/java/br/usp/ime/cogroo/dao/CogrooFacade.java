@@ -34,7 +34,7 @@ public class CogrooFacade {
 	/** The Cogroo instance */
 	private CogrooI theCogroo = null;
 //	private LexicalDictionary lexicalDictionary;
-	private String resources = getClass().getResource("/").getPath();
+	private String resources = getClass().getResource("/gc/").getPath();
 
 	private ErrorReportAccess errorReportAccess; 
 	

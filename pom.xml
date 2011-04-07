@@ -340,7 +340,7 @@
 									<version>3.1.1-SNAPSHOT</version>
 									<classifier>bin</classifier>
 									<type>zip</type>
-									<outputDirectory>target/cogroo</outputDirectory>
+									<outputDirectory>target/cogroo/gc</outputDirectory>
 									<excludes>*.jar,LICENSE*,bin</excludes>
 								</artifactItem>
 							</artifactItems>
@@ -360,7 +360,6 @@
 							<excludes>
 								<exclude>*.jar</exclude>
 							</excludes>
-
 						</resource>
 					</webResources>
 				</configuration>
