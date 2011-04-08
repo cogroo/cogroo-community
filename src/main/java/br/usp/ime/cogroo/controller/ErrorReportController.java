@@ -1,6 +1,8 @@
 package br.usp.ime.cogroo.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
@@ -118,10 +120,16 @@ public class ErrorReportController {
 	public void addReport() {
 		String text = (String)request.getSession().getAttribute(LAST_TEXT);
 		if(text != null && loggedUser.isLogged()) {
-			LOG.info("..... Will load last text: " + text);
-			request.getSession().removeAttribute(LAST_TEXT);
-			result.redirectTo(ErrorReportController.class).addReport(text);
-			return;
+			try {
+				URLDecoder.decode(text, request.getCharacterEncoding());
+				LOG.info("..... Will load last text: " + text);
+				request.getSession().removeAttribute(LAST_TEXT);
+				result.redirectTo(ErrorReportController.class).addReport(text);
+				return;
+			} catch (UnsupportedEncodingException e) {
+				LOG.error("Couldn't decode user text: " + text, e);
+			}
+
 		}
 		result.include("text", "Isso são um exemplo de erro gramaticais.");
 		result.include("headerTitle", "Reportar problema")
@@ -141,9 +149,9 @@ public class ErrorReportController {
 				}
 				
 				if(!loggedUser.isLogged()) {
-					request.setCharacterEncoding("UTF-8");
 					LOG.info("Will save user text.");
 					// if not logged we save the text.
+					URLEncoder.encode(text, request.getCharacterEncoding());
 					request.getSession().setAttribute(LAST_TEXT, text);
 					LOG.info("Text saved.");
 				}
