@@ -122,7 +122,10 @@ public class ErrorReportController {
 		if(text != null && loggedUser.isLogged()) {
 			try {
 				text = URLDecoder.decode(text, request.getCharacterEncoding());
-				LOG.info("..... Will load last text: " + text);
+				if(LOG.isDebugEnabled()) {
+					LOG.debug("Will load user text: " + text);
+					LOG.debug("... encode: " + request.getCharacterEncoding());
+				}
 				request.getSession().removeAttribute(LAST_TEXT);
 				result.redirectTo(ErrorReportController.class).addReport(text);
 				return;
@@ -149,11 +152,13 @@ public class ErrorReportController {
 				}
 				
 				if(!loggedUser.isLogged()) {
-					LOG.info("Will save user text.");
 					// if not logged we save the text.
 					text = URLEncoder.encode(text, request.getCharacterEncoding());
+					if(LOG.isDebugEnabled()) {
+						LOG.debug("Will save user text: " + text);
+						LOG.debug("... encode: " + request.getCharacterEncoding());
+					}
 					request.getSession().setAttribute(LAST_TEXT, text);
-					LOG.info("Text saved.");
 				}
 				
 				if(LOG.isDebugEnabled()) {
