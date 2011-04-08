@@ -122,7 +122,7 @@ public class ErrorReportController {
 				LOG.debug("Got text saved in session: " + text);
 			}
 			request.getSession().removeAttribute(LAST_TEXT);
-			result.redirectTo(ErrorReportController.class).addReport(text);
+			addReport(text); // execute as a post
 			return;
 
 		}
@@ -133,7 +133,7 @@ public class ErrorReportController {
 						"Reporta um problema no corretor gramatical CoGrOO para a equipe, de modo com que a ferramenta possa ser aprimorada.");
 	}
 	
-	@Get
+	@Post
 	@Path("/reports/newtext")
 	public void addReport(String text) {
 		text = sanitizer.sanitize(text, false, true);
