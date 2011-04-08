@@ -849,7 +849,7 @@ public class ErrorEntryLogic {
 		} else {
 			GrammarCheckerOmission o = errorEntry.getOmission();
 			String category = null;
-			if(o.getCategory().equals(CUSTOM)) {
+			if(o.getCategory() == null || o.getCategory().equals(CUSTOM)) {
 				category = o.getCustomCategory();
 			} else {
 				category = o.getCategory();
@@ -951,6 +951,9 @@ public class ErrorEntryLogic {
 	      ResourceBundle.getBundle("messages", new Locale("pt_BR"));
 	
 	private String replaceSpan(String span) {
+		if(span == null) {
+			return null;
+		}
 		span = span.replace("class=\"badint\"", "style='background-color: #ADFF2F'\"");
 		return span.replace("class=\"omission\"", "style='background-color: #FA8072'\"");
 	}
