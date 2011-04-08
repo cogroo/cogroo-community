@@ -141,6 +141,7 @@ public class ErrorReportController {
 				}
 				
 				if(!loggedUser.isLogged()) {
+					request.setCharacterEncoding("UTF-8");
 					LOG.info("Will save user text.");
 					// if not logged we save the text.
 					request.getSession().setAttribute(LAST_TEXT, text);
