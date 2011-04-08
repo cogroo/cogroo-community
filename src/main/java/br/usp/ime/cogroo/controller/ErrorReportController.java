@@ -121,7 +121,7 @@ public class ErrorReportController {
 		String text = (String)request.getSession().getAttribute(LAST_TEXT);
 		if(text != null && loggedUser.isLogged()) {
 			try {
-				URLDecoder.decode(text, request.getCharacterEncoding());
+				text = URLDecoder.decode(text, request.getCharacterEncoding());
 				LOG.info("..... Will load last text: " + text);
 				request.getSession().removeAttribute(LAST_TEXT);
 				result.redirectTo(ErrorReportController.class).addReport(text);
@@ -151,7 +151,7 @@ public class ErrorReportController {
 				if(!loggedUser.isLogged()) {
 					LOG.info("Will save user text.");
 					// if not logged we save the text.
-					URLEncoder.encode(text, request.getCharacterEncoding());
+					text = URLEncoder.encode(text, request.getCharacterEncoding());
 					request.getSession().setAttribute(LAST_TEXT, text);
 					LOG.info("Text saved.");
 				}
