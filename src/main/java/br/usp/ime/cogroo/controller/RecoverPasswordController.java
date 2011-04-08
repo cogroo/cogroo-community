@@ -1,9 +1,13 @@
 package br.usp.ime.cogroo.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.log4j.Logger;
 
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
@@ -21,6 +25,9 @@ import br.usp.ime.cogroo.util.CriptoUtils;
 
 @Resource
 public class RecoverPasswordController {
+	
+	private static final Logger LOG = Logger
+			.getLogger(RecoverPasswordController.class);
 	
 	private final Result result;
 	private UserDAO userDAO;
@@ -62,6 +69,7 @@ public class RecoverPasswordController {
 	@Path("/recover/{email}/{codeRecover}")
 	public void changePassword(String password, String passwordRepeat,
 			String email, String codeRecover) {
+		
 		User userFromDB = getUserIfValidate(email, codeRecover);
 
 		if (email.trim().isEmpty() || email.trim().isEmpty()) {
@@ -129,7 +137,7 @@ public class RecoverPasswordController {
 		// TODO: Refatorar !!
 
 		String url = request.getRequestURL().toString() + "/"
-				+ userFromDB.getEmail() + "/" + codeRecover;
+				+ encode(userFromDB.getEmail()) + "/" + codeRecover;
 		StringBuilder body = new StringBuilder();
 		body.append("Olá, " + userFromDB.getName() + "!<br><br>");
 		body.append("De acordo com sua solicitação no portal CoGrOO Comunidade, enviamos um link para redefinir sua senha:<br>");
@@ -139,6 +147,15 @@ public class RecoverPasswordController {
 		String subject = "Redefinição de senha";
 		notificator.sendEmail(body.toString(), subject, userFromDB.getEmail().trim());
 
+	}
+	
+	private String encode(String email) {
+		try {
+			return URLEncoder.encode(email, "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			LOG.error("Should never happen with UTF-8",e);
+		}
+		return null;
 	}
 
 	private String getRandomField(User userFromDB) {
@@ -176,6 +193,7 @@ public class RecoverPasswordController {
 					 */
 				}
 			} else {
+				LOG.info("Wrong recovery email: " + email);
 				validator.add(new ValidationMessage(
 						ExceptionMessages.INVALID_EMAIL,
 						ExceptionMessages.ERROR));
