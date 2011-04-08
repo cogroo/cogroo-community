@@ -67,7 +67,7 @@ public class ErrorReportController {
 	private static final String HEADER_TITLE = "Problemas Reportados";
 	private static final String HEADER_DESCRIPTION = "Exibe os problemas reportados através da página e do plug-in CoGrOO para BrOffice.";
 
-	private static final String LAST_TEXT = null;
+	private static final String LAST_TEXT = "LAST_NOTLOGGED_TEXT";
 
 	public ErrorReportController(
 			LoggedUser loggedUser, 
@@ -119,7 +119,7 @@ public class ErrorReportController {
 		String text = (String)request.getSession().getAttribute(LAST_TEXT);
 		if(text != null && loggedUser.isLogged()) {
 			LOG.info("..... Will load last text: " + text);
-			request.getSession().setAttribute(LAST_TEXT, null);
+			request.getSession().removeAttribute(LAST_TEXT);
 			result.redirectTo(ErrorReportController.class).addReport(text);
 			return;
 		}
