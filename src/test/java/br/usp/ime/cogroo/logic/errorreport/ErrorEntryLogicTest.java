@@ -57,7 +57,7 @@ public class ErrorEntryLogicTest {
 		lu.setUser(william);
 		
 		CogrooFacade facade = new CogrooFacade(new DummyBaseDictionary());
-		facade.setResources("target/cogroo");
+		facade.setResources("target/cogroo/gc");
 		
 		ApplicationData appdata = mock(ApplicationData.class);
 		

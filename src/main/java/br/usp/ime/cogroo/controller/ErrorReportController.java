@@ -67,6 +67,8 @@ public class ErrorReportController {
 	private static final String HEADER_TITLE = "Problemas Reportados";
 	private static final String HEADER_DESCRIPTION = "Exibe os problemas reportados através da página e do plug-in CoGrOO para BrOffice.";
 
+	private static final String LAST_TEXT = null;
+
 	public ErrorReportController(
 			LoggedUser loggedUser, 
 			ErrorEntryLogic errorEntryLogic,
@@ -114,6 +116,13 @@ public class ErrorReportController {
 	@Get
 	@Path("/reports/new")
 	public void addReport() {
+		String text = (String)request.getSession().getAttribute(LAST_TEXT);
+		if(text != null && loggedUser.isLogged()) {
+			LOG.info("..... Will load last text: " + text);
+			request.getSession().setAttribute(LAST_TEXT, null);
+			result.redirectTo(ErrorReportController.class).addReport(text);
+			return;
+		}
 		result.include("text", "Isso são um exemplo de erro gramaticais.");
 		result.include("headerTitle", "Reportar problema")
 				.include(
@@ -131,7 +140,23 @@ public class ErrorReportController {
 					text = text.substring(0,255);
 				}
 				
+				if(!loggedUser.isLogged()) {
+					LOG.info("Will save user text.");
+					// if not logged we save the text.
+					request.getSession().setAttribute(LAST_TEXT, text);
+					LOG.info("Text saved.");
+				}
+				
+				if(LOG.isDebugEnabled()) {
+					LOG.debug("Error text: " + text);
+				}
 				List<ProcessResult> pr = cogrooFacade.processText(text);
+				if(LOG.isDebugEnabled()) {
+					LOG.debug("Text processed. Results:");
+					for (ProcessResult processResult : pr) {
+						LOG.debug("... " + processResult.getTextAnnotatedWithErrors());
+					}
+				}
 				result.include("analyzed", true).
 					include("cleanText", text).
 					include("annotatedText", cogrooFacade.getAnnotatedText(text, pr)).

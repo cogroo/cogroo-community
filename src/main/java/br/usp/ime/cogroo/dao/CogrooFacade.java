@@ -1,6 +1,7 @@
 package br.usp.ime.cogroo.dao;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -20,6 +21,9 @@ import br.usp.pcs.lta.cogroo.errorreport.ErrorReportAccess;
 import br.usp.pcs.lta.cogroo.grammarchecker.CheckerResult;
 import br.usp.pcs.lta.cogroo.grammarchecker.Cogroo;
 import br.usp.pcs.lta.cogroo.grammarchecker.CogrooI;
+import br.usp.pcs.lta.cogroo.tools.checker.rules.applier.RulesProvider;
+import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Rule;
+import br.usp.pcs.lta.cogroo.tools.checker.rules.util.RulesContainerHelper;
 import br.usp.pcs.lta.cogroo.tools.dictionary.LexicalDictionary;
 
 /**
@@ -27,36 +31,34 @@ import br.usp.pcs.lta.cogroo.tools.dictionary.LexicalDictionary;
  * have one.
  */
 @Component
-@ApplicationScoped // don't work if using DB
+@ApplicationScoped
 public class CogrooFacade {
+	
 	private static final Logger LOG = Logger.getLogger(CogrooFacade.class);
+	public static final String GC_PATH = "/gc/";
 	
 	/** The Cogroo instance */
 	private CogrooI theCogroo = null;
-//	private LexicalDictionary lexicalDictionary;
-	private String resources = getClass().getResource("/gc/").getPath();
+	private String resources = getClass().getResource(GC_PATH).getPath();
 
 	private ErrorReportAccess errorReportAccess; 
 	
 	private void start(){
-		// For now we use the built in dictionary (to avoid SQL traffic)
-//		CachedConfigurationFactory configFactory = new CachedConfigurationFactory(resources);
-//		this.theCogroo = new Cogroo(configFactory.getNewRuntimeConfiguration(lexicalDictionary));
 		this.theCogroo = new Cogroo(new LegacyRuntimeConfiguration(resources));
 		this.errorReportAccess = new ErrorReportAccess();
 	}
 	
 	private CogrooI getCogroo(){
-		if(theCogroo == null) 
+		if(theCogroo == null) {
 			start();
-		
+		}
 		return theCogroo;
 	}
 	
 	public ErrorReportAccess getErrorReportAccess() {
-		if(theCogroo == null) 
+		if(theCogroo == null) {
 			start();
-		
+		}
 		return this.errorReportAccess;
 	}
 	
@@ -69,20 +71,8 @@ public class CogrooFacade {
 	 * @param lexicalDictionary that {@link CogrooI} will use.
 	 */
 	public CogrooFacade(LexicalDictionary lexicalDictionary) {
-		LOG.debug("Creating CoGrOO from: " + resources);
-//		this.lexicalDictionary = lexicalDictionary;
+		LOG.info("Loading CoGrOO from: " + resources);
 	}
-	
-//	/**
-//	 * Creates a new {@link CogrooFacade}. The instance of {@link CogrooI} will 
-//	 * use the dictionary of the user.
-//	 * @param lexicalDictionary that {@link CogrooI} will use.
-//	 */
-//	public CogrooFacade(LexicalDictionary lexicalDictionary, String aResources) {
-//		LOG.debug("Creating CoGrOO from: " + aResources);
-//		this.setResources(aResources);
-//		this.lexicalDictionary = lexicalDictionary;
-//	}
 	
 	/**
 	 * Set CoGrOO instance. For testing purpose.
@@ -169,6 +159,9 @@ public class CogrooFacade {
 	}
 	
 	public String getAnnotatedText(String text, List<ProcessResult> processResult) {
+		if(LOG.isDebugEnabled()) {
+			LOG.debug("Will annotate text.");
+		}
 		SortedMap<Span, Mistake> sortedMistakes = new TreeMap<Span, Mistake>();
 		
 		for (ProcessResult pr : processResult) {
@@ -183,10 +176,16 @@ public class CogrooFacade {
 			sb.insert(spans[i].getEnd(), "</span>");
 			sb.insert(spans[i].getStart(), "<span class=\"grammarerror\" title=\"" + sortedMistakes.get(spans[i]).getShortMessage() + "\">");
 		}
+		if(LOG.isDebugEnabled()) {
+			LOG.debug("Finished annotating text.");
+		}
 		return sb.toString();
 	}
 	
 	public List<SingleGrammarError> asSingleGrammarErrorList(String text, List<ProcessResult> processResult) {
+		if(LOG.isDebugEnabled()) {
+			LOG.debug("Will prepare as single grammar error.");
+		}
 		List<SingleGrammarError> singleGEList = new ArrayList<SingleGrammarError>();
 		
 		SortedMap<Span, Mistake> sortedMistakes = new TreeMap<Span, Mistake>();
@@ -206,7 +205,9 @@ public class CogrooFacade {
 			
 			singleGEList.add(new SingleGrammarError(sb.toString(), sortedMistakes.get(spans[i])));
 		}
-		
+		if(LOG.isDebugEnabled()) {
+			LOG.debug("Finished preparing as single grammar error.");
+		}
 		return singleGEList;
 	}
 	
@@ -238,9 +239,30 @@ public class CogrooFacade {
 		}
 		return filterdMistakes;
 	}
+	
+	private List<Rule> rules;
+	
+	public List<Rule> getRules() {
+		if (rules != null) {
+			return rules;
+		}
+		synchronized (this) {
+			if (rules == null) {
+				String path = getClass().getResource(CogrooFacade.GC_PATH).getPath();
+				LOG.info("Will load rule list from path: " + path);
+				rules = Collections
+						.unmodifiableList(new RulesContainerHelper(path)
+								.getContainerForXMLAccess()
+								.getComponent(RulesProvider.class).getRules()
+								.getRule());
+
+				LOG.info("Rule list loaded. #" + rules.size());
+			}
+		}
+		return rules;
+	}
 
 	public void setResources(String resources) {
 		this.resources = resources;
 	}
-
 }

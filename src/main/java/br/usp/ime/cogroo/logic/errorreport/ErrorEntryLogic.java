@@ -48,9 +48,7 @@ import br.usp.ime.cogroo.util.BuildUtil;
 import br.usp.pcs.lta.cogroo.errorreport.model.BadIntervention;
 import br.usp.pcs.lta.cogroo.errorreport.model.ErrorReport;
 import br.usp.pcs.lta.cogroo.errorreport.model.Omission;
-import br.usp.pcs.lta.cogroo.tools.checker.rules.applier.RulesProvider;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Rule;
-import br.usp.pcs.lta.cogroo.tools.checker.rules.util.RulesContainerHelper;
 
 @Component
 public class ErrorEntryLogic {
@@ -155,15 +153,21 @@ public class ErrorEntryLogic {
 	}
 	
 	public SortedSet<String> getErrorCategoriesForUser() {
-		 SortedSet<String> uniqueRules = new TreeSet<String>();
-		
-		 List<Rule> rules = new
-		 RulesContainerHelper(getClass().getResource("/").getPath()).getContainerForXMLAccess().getComponent(RulesProvider.class).getRules().getRule();
-		 for (Rule rule : rules) {
-		 uniqueRules.add(rule.getType());
-		 }
-		
-		 return uniqueRules;
+		if (LOG.isDebugEnabled()) {
+			LOG.debug("Will get error categories for user.");
+		}
+
+		SortedSet<String> uniqueRules = new TreeSet<String>();
+
+		List<Rule> rules = cogrooFacade.getRules();
+		for (Rule rule : rules) {
+			uniqueRules.add(rule.getType());
+		}
+
+		if (LOG.isDebugEnabled()) {
+			LOG.debug("Finished getting error categories for user.");
+		}
+		return uniqueRules;
 	}
 
 	public List<ErrorEntry> addErrorEntry(String username, String error)
@@ -868,7 +872,9 @@ public class ErrorEntryLogic {
 		// only RSS
 		// generate the body
 		StringBuilder body = new StringBuilder();
-		
+		if(LOG.isDebugEnabled()) {
+			LOG.debug("Will create templates report: " + errorEntry);
+		}
 		StringTemplate st = this.templateUtil.getTemplate(StringTemplateUtil.ERROR_NEW);
 		st.setAttribute("user", errorEntry.getSubmitter().getName());
 		if(errorEntry.getComments() != null && errorEntry.getComments().size() > 0) {

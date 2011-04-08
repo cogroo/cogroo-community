@@ -7,21 +7,23 @@ import java.util.TreeMap;
 
 import br.com.caelum.vraptor.ioc.ApplicationScoped;
 import br.com.caelum.vraptor.ioc.Component;
-import br.usp.pcs.lta.cogroo.tools.checker.rules.applier.RulesProvider;
+import br.usp.ime.cogroo.dao.CogrooFacade;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Rule;
-import br.usp.pcs.lta.cogroo.tools.checker.rules.util.RulesContainerHelper;
 
 @Component
 @ApplicationScoped
 public class RulesLogic {
 	
 	private SortedMap<Long, Rule> ruleMap;
+	private CogrooFacade cogrooFacade;
+	
+	public RulesLogic(CogrooFacade cogrooFacade) {
+		this.cogrooFacade = cogrooFacade;
+	}
 	
 	private void init() {
 		if(ruleMap == null) {
-			List<Rule> rules = new RulesContainerHelper(getClass().getResource("/gc/")
-					.getPath()).getContainerForXMLAccess()
-					.getComponent(RulesProvider.class).getRules().getRule();
+			List<Rule> rules = cogrooFacade.getRules();
 			ruleMap = new TreeMap<Long, Rule>();
 			for (Rule rule : rules) {
 				ruleMap.put(new Long(rule.getId()), rule);

@@ -9,7 +9,6 @@ import br.usp.pcs.lta.cogroo.entity.Sentence;
 import br.usp.pcs.lta.cogroo.entity.impl.runtime.ChunkTag;
 import br.usp.pcs.lta.cogroo.entity.impl.runtime.MorphologicalTag;
 import br.usp.pcs.lta.cogroo.entity.impl.runtime.SyntacticTag;
-import br.usp.pcs.lta.cogroo.tools.checker.rules.applier.RulesProvider;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Composition;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Element;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Mask;
@@ -23,7 +22,6 @@ import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Suggestion.Replace;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Suggestion.ReplaceMapping;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Suggestion.Swap;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.model.TagMask;
-import br.usp.pcs.lta.cogroo.tools.checker.rules.util.RulesContainerHelper;
 
 /**
  * Set of utility methods, mostly to convert a rule element to a human readable string.
@@ -377,21 +375,4 @@ int pos = refPos + (int)ref.getIndex();
 	private static String openSpan(String clazz, String title) {
 		return "<span class=\"" + clazz + "\" title=\"" + title + "\">";
 	}
-
-	public static void main(String[] args) {
-		List<Rule> rules = new RulesContainerHelper(RuleUtils.class.getResource("/")
-				.getPath()).getContainerForXMLAccess()
-				.getComponent(RulesProvider.class).getRules().getRule();
-		// Rule rule = RulesService.getInstance().getRule(69, true);
-		// System.out.println(patternAsString(rule.getPattern()));
-//		Rules rules = new RulesContainerHelper().getContainerForXMLAccess().getComponent(RulesProvider.class).getRules();
-		
-		for (Rule rule : rules) {
-			System.out.println(rule.getId() + "\t" +
-			 getPatternAsString(rule));
-			System.out.println(rule.getId() + "\t"
-					+ getSuggestionsAsString(rule));
-		}
-	}
-
 }

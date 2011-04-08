@@ -72,8 +72,9 @@ $(document).ready(function() {
 </script>
 
 <c:if test="${not loggedUser.logged}">
-	<p>Por favor, conecte-se no canto superior direito para enviar novo erro.</p>
+	<p>Por favor, faça login para enviar novo erro.</p>
 	<p>Não é cadastrado? <a href="<c:url value="/register"/>">Clique aqui</a> e cadastre-se! É rápido e gratuito!</p>
+	<jsp:include page="/login.jspf" />
 </c:if>
 <c:if test="${loggedUser.logged}">
 
