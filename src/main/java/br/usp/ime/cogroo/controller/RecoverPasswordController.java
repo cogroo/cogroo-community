@@ -62,7 +62,7 @@ public class RecoverPasswordController {
 		 * If all is ok, then... redirect to form to create new password.
 		 */
 		result.include("codeRecover", codeRecover);
-		result.include("email", email);
+		result.include("email", encode(email));
 	}
 
 	@Post
