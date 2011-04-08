@@ -1,8 +1,6 @@
 package br.usp.ime.cogroo.controller;
 
 import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
@@ -120,20 +118,12 @@ public class ErrorReportController {
 	public void addReport() {
 		String text = (String)request.getSession().getAttribute(LAST_TEXT);
 		if(text != null && loggedUser.isLogged()) {
-			try {
-				if(LOG.isDebugEnabled()) {
-					LOG.debug("Text before decoding: " + text);
-				}
-				text = URLDecoder.decode(text, "UTF-8");
-				if(LOG.isDebugEnabled()) {
-					LOG.debug("... Will load user text: " + text);
-				}
-				request.getSession().removeAttribute(LAST_TEXT);
-				result.redirectTo(ErrorReportController.class).addReport(text);
-				return;
-			} catch (UnsupportedEncodingException e) {
-				LOG.error("Couldn't decode user text: " + text, e);
+			if(LOG.isDebugEnabled()) {
+				LOG.debug("Got text saved in session: " + text);
 			}
+			request.getSession().removeAttribute(LAST_TEXT);
+			result.redirectTo(ErrorReportController.class).addReport(text);
+			return;
 
 		}
 		result.include("text", "Isso são um exemplo de erro gramaticais.");
@@ -156,11 +146,7 @@ public class ErrorReportController {
 				if(!loggedUser.isLogged()) {
 					// if not logged we save the text.
 					if(LOG.isDebugEnabled()) {
-						LOG.debug("Text before encode: " + text);
-					}
-					text = URLEncoder.encode(text, "UTF-8");
-					if(LOG.isDebugEnabled()) {
-						LOG.debug("... Will save encoded user text: " + text);
+						LOG.debug("Saving error report text before login: " + text);
 					}
 					request.getSession().setAttribute(LAST_TEXT, text);
 				}
