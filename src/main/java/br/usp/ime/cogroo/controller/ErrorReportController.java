@@ -168,7 +168,7 @@ public class ErrorReportController {
 				result.redirectTo(getClass()).addReport();
 			}
 		} catch (Exception e) {
-			LOG.error("Error processing text: " + text);
+			LOG.error("Error processing text: " + text, e);
 		}
 	}
 	
