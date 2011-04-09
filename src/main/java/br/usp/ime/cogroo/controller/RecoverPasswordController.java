@@ -53,7 +53,7 @@ public class RecoverPasswordController {
 	@Get
 	@Path("/recover/{email}/{codeRecover}")
 	public void verifyCodeRecover(String email, String codeRecover) {
-		email = email.replaceAll("\\s", "+");
+		email = decode(email);
 		if(LOG.isDebugEnabled()) {
 			LOG.debug("verifyCodeRecover >>>: " + email);
 		}
@@ -77,6 +77,7 @@ public class RecoverPasswordController {
 	@Path("/recover/{email}/{codeRecover}")
 	public void changePassword(String password, String passwordRepeat,
 			String email, String codeRecover) {
+		email = decode(email);
 		User userFromDB = getUserIfValidate(email, codeRecover);
 
 		if (email.trim().isEmpty() || email.trim().isEmpty()) {
@@ -154,6 +155,12 @@ public class RecoverPasswordController {
 		String subject = "Redefinição de senha";
 		notificator.sendEmail(body.toString(), subject, userFromDB.getEmail().trim());
 
+	}
+	
+	private String decode(String email) {
+		// looks like it is decoded automatically
+		// at Tomcat it is missing the '+1
+		return email.replaceAll("\\s", "+");
 	}
 	
 	private String encode(String email) {
