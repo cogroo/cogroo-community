@@ -53,6 +53,9 @@ public class RecoverPasswordController {
 	@Get
 	@Path("/recover/{email}/{codeRecover}")
 	public void verifyCodeRecover(String email, String codeRecover) {
+		if(LOG.isDebugEnabled()) {
+			LOG.debug("User revering password with email: " + email);
+		}
 		getUserIfValidate(email, codeRecover);
 
 		validator.onErrorUse(Results.page())
@@ -69,7 +72,6 @@ public class RecoverPasswordController {
 	@Path("/recover/{email}/{codeRecover}")
 	public void changePassword(String password, String passwordRepeat,
 			String email, String codeRecover) {
-		
 		User userFromDB = getUserIfValidate(email, codeRecover);
 
 		if (email.trim().isEmpty() || email.trim().isEmpty()) {
@@ -177,12 +179,14 @@ public class RecoverPasswordController {
 		 * Validators
 		 */
 		if (email.trim().isEmpty() || codeRecover.trim().isEmpty()) {
+			LOG.warn("Password recovering with empty email.");
 			validator.add(new ValidationMessage(ExceptionMessages.EMPTY_FIELD,
 					ExceptionMessages.ERROR));
 		} else {
 			userFromDB = userDAO.retrieveByEmail(email);
 			if (userFromDB != null) {
 				if (!userFromDB.getRecoverCode().equals(codeRecover)) {
+					LOG.warn("Bad recovery code for email: " + email);
 					validator.add(new ValidationMessage(
 							"Codigo não confere, link inexistente !",
 							ExceptionMessages.ERROR));
