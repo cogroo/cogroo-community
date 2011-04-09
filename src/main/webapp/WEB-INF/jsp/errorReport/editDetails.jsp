@@ -29,11 +29,9 @@ $(document).ready(function() {
 	 typeChanged();
 	 
 	 // Custom Omission
-    $('#customOmissionText').hide();
+    customChanged();
     $('#omissionCategory').change(function() {
-    	
-        if( $(this).val() == 'custom' )   $('#customOmissionText').show();
-        else $('#customOmissionText').hide();
+    	customChanged();
     });
 
     
@@ -42,6 +40,11 @@ $(document).ready(function() {
     	badintChanged();
 	 });
 });
+
+function customChanged() {
+    if( $('#omissionCategory').val() == 'custom' )   $('#customOmissionText').show();
+    else $('#customOmissionText').hide();
+}
 
 function typeChanged() {
 	
@@ -158,7 +161,7 @@ function omissionChanged() {
 							<c:forEach items="${omissionCategoriesList}" var="omissionCategories">
 								<option value="${omissionCategories}" <c:if test="${errorEntry.omission.category eq omissionCategories}">selected="selected"</c:if>>${omissionCategories}</option>
 							</c:forEach>
-							<option value="custom" <c:if test="${empty errorEntry.omission.category}">selected="selected"</c:if>>Personalizada</option>
+							<option value="custom" <c:if test="${empty errorEntry.omission.category or not empty errorEntry.omission.customCategory}">selected="selected"</c:if>>Personalizada</option>
 						</select></td>
 		    		</tr>
 		    		<tr class="omission" id="customOmissionText" style="display: none;">
