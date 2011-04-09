@@ -1,6 +1,7 @@
 package br.usp.ime.cogroo.notifiers;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -68,14 +69,14 @@ public class Notificator {
 			Set<User> userList) {
 		if(BuildUtil.NOTIFY) {
 			if(LOG.isDebugEnabled()) {
-				this.email.sendEmail(unescapeHtml, subject, userList);
+				Log.debug("Will send email to " + Arrays.toString(userList.toArray()));
 			}
 			this.email.sendEmail(unescapeHtml, subject, userList);
 		} else {
 			LOG.info("Notifications are desabled.");
 			LOG.info("... Would email: " + unescapeHtml);
 			LOG.info("... with subject: " + subject);
-			LOG.info("... to # emails: " + userList.size());
+			LOG.info("... to users: " + Arrays.toString(userList.toArray()));
 		}
 		
 	}
