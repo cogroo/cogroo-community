@@ -53,8 +53,9 @@ public class RecoverPasswordController {
 	@Get
 	@Path("/recover/{email}/{codeRecover}")
 	public void verifyCodeRecover(String email, String codeRecover) {
+		email = email.replaceAll("\\s", "+");
 		if(LOG.isDebugEnabled()) {
-			LOG.debug("User revering password with email: " + email);
+			LOG.debug("verifyCodeRecover >>>: " + email);
 		}
 		getUserIfValidate(email, codeRecover);
 
@@ -66,6 +67,10 @@ public class RecoverPasswordController {
 		 */
 		result.include("codeRecover", codeRecover);
 		result.include("email", encode(email));
+		
+		if(LOG.isDebugEnabled()) {
+			LOG.debug("<<< verifyCodeRecover");
+		}
 	}
 
 	@Post
@@ -175,9 +180,8 @@ public class RecoverPasswordController {
 
 	private User getUserIfValidate(String email, String codeRecover) {
 		User userFromDB = new User();
-		/*
-		 * Validators
-		 */
+
+		// Validators
 		if (email.trim().isEmpty() || codeRecover.trim().isEmpty()) {
 			LOG.warn("Password recovering with empty email.");
 			validator.add(new ValidationMessage(ExceptionMessages.EMPTY_FIELD,
