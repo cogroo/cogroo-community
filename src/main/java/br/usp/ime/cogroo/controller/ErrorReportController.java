@@ -352,7 +352,7 @@ public class ErrorReportController {
 			
 			newBadIntervention.setClassification(Enum.valueOf(BadInterventionClassification.class, badintType));
 			newBadIntervention.setErrorEntry(errorEntryFromDB);
-			newBadIntervention.setRule(Integer.valueOf(badintEnd.get(Integer.valueOf(badintIndex) - 1)));
+			newBadIntervention.setRule(Integer.valueOf(badintRule.get(Integer.valueOf(badintIndex) - 1)));
 			
 			errorEntryFromDB.setSpanStart(Integer.valueOf(badintStart.get(Integer.valueOf(badintIndex) - 1)));
 			errorEntryFromDB.setSpanEnd(Integer.valueOf(badintEnd.get(Integer.valueOf(badintIndex) - 1)));

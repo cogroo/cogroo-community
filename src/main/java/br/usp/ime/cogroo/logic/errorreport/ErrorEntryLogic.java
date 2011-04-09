@@ -975,6 +975,14 @@ public class ErrorEntryLogic {
 	}
 	
 	private void notificationForChange(ErrorEntry errorEntry, HistoryEntry historyEntry) {
+		if(LOG.isDebugEnabled()) {
+			LOG.debug("Sending notification for " + historyEntry);
+		}
+		if(historyEntry == null || historyEntry.getHistoryEntryField() == null || historyEntry.getHistoryEntryField().size() == 0) {
+			// no changes
+			return;
+		}
+		
 		// get the users
 		Set<User> userList = createToList(errorEntry);
 		if(LOG.isDebugEnabled()) {
