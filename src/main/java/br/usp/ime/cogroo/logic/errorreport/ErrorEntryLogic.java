@@ -2,6 +2,7 @@ package br.usp.ime.cogroo.logic.errorreport;
 
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
@@ -1029,20 +1030,16 @@ public class ErrorEntryLogic {
 				addUserIfIsReceveMail(a.getUser(), userList);
 			}
 		}
+		if(LOG.isDebugEnabled()) {
+			LOG.debug("Added " + userList.size() + " to TO list.");
+			LOG.debug("The users are: " + Arrays.toString(userList.toArray()));
+		}
 		return userList;
 	}
 	
 	private void addUserIfIsReceveMail(User user, Set<User> userList){
 		if(user.getIsReceiveEmail()) {
-			if(userList.add(user)) {
-				if(LOG.isDebugEnabled()) {
-					LOG.debug("Added uset to TO list: " + user);
-				}
-			}
-		} else {
-			if(LOG.isDebugEnabled()) {
-				LOG.debug("User don't want emails: " + user);
-			}
+			userList.add(user);
 		}
 	}
 }
