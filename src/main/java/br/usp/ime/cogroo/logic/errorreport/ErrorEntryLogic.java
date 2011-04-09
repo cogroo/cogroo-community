@@ -904,17 +904,7 @@ public class ErrorEntryLogic {
 	
 	private void notificationForNewComment(ErrorEntry errorEntry, Comment comment) {
 		// get the users
-		Set<User> userList = new HashSet<User>();
-		userList.add(errorEntry.getSubmitter());
-		for (HistoryEntry h : errorEntry.getHistoryEntries()) {
-			userList.add(h.getUser());
-		}
-		for (Comment c : errorEntry.getComments()) {
-			userList.add(c.getUser());
-			for (Comment a : c.getAnswers()) {
-				userList.add(a.getUser());
-			}
-		}
+		Set<User> userList = createToList(errorEntry);
 		// generate the subject
 		String subject = "Problema Reportado #" + errorEntry.getId() + " - Novo comentário.";
 		// generate the body
@@ -985,17 +975,7 @@ public class ErrorEntryLogic {
 	
 	private void notificationForChange(ErrorEntry errorEntry, HistoryEntry historyEntry) {
 		// get the users
-		Set<User> userList = new HashSet<User>();
-		userList.add(errorEntry.getSubmitter());
-		for (HistoryEntry h : errorEntry.getHistoryEntries()) {
-			userList.add(h.getUser());
-		}
-		for (Comment c : errorEntry.getComments()) {
-			userList.add(c.getUser());
-			for (Comment a : c.getAnswers()) {
-				userList.add(a.getUser());
-			}
-		}
+		Set<User> userList = createToList(errorEntry);
 		if(LOG.isDebugEnabled()) {
 			LOG.debug("Will send email for #" + userList + " users.");
 		}
@@ -1033,5 +1013,36 @@ public class ErrorEntryLogic {
 		stTweet.setAttribute("type", getEntryType(errorEntry));
 		
 		notificator.tweet(stTweet.toString(), url);
+	}
+	
+	private Set<User> createToList(ErrorEntry errorEntry) {
+		Set<User> userList = new HashSet<User>();
+		if(errorEntry.getSubmitter().getIsReceiveEmail()) {
+			addUserIfIsReceveMail(errorEntry.getSubmitter(), userList);
+		}
+		for (HistoryEntry h : errorEntry.getHistoryEntries()) {
+			addUserIfIsReceveMail(h.getUser(), userList);
+		}
+		for (Comment c : errorEntry.getComments()) {
+			addUserIfIsReceveMail(c.getUser(), userList);
+			for (Comment a : c.getAnswers()) {
+				addUserIfIsReceveMail(a.getUser(), userList);
+			}
+		}
+		return userList;
+	}
+	
+	private void addUserIfIsReceveMail(User user, Set<User> userList){
+		if(user.getIsReceiveEmail()) {
+			if(userList.add(user)) {
+				if(LOG.isDebugEnabled()) {
+					LOG.debug("Added uset to TO list: " + user);
+				}
+			}
+		} else {
+			if(LOG.isDebugEnabled()) {
+				LOG.debug("User don't want emails: " + user);
+			}
+		}
 	}
 }
