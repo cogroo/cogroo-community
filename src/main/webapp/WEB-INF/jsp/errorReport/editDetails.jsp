@@ -29,7 +29,10 @@ $(document).ready(function() {
 	 typeChanged();
 	 
 	 // Custom Omission
-    customChanged();
+	 if($('#typeSelection').val() == 'BADINT') {
+		 $('#customOmissionText').hide();
+	 }
+	 
     $('#omissionCategory').change(function() {
     	customChanged();
     });
