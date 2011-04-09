@@ -52,7 +52,7 @@ public class SetLastURLInterceptor implements Interceptor {
 							.getName().equals("register"))) {
 				String lastURL = request.getRequestURL().toString();
 				if (LOG.isDebugEnabled()) {
-					LOG.info("Saving last visited URL:" + lastURL);
+					LOG.debug("Saving last visited URL: " + lastURL);
 				}
 				loggedUser.setLastURLVisited(lastURL);
 
