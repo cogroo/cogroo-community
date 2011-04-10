@@ -246,7 +246,7 @@ table.answer td {
 					<a id="${ i.count }" href="about:blank" class="comment_remove">excluir</a>
 				</c:if>
 				</h4>
-				<form action="/reports/${errorEntry.id}/comments/${comment.id}" method="post" id="form_comment_remove_${ i.count }">
+				<form action="<c:url value="/reports/${errorEntry.id}/comments/${comment.id}"/>" method="post" id="form_comment_remove_${ i.count }">
 				    <input type="hidden" name="_method" value="DELETE"/>
 				    <input name="comment.id" value="${comment.id}" type="hidden" />
 				</form>
@@ -261,7 +261,7 @@ table.answer td {
 										<c:if test="${((answer.user.login == loggedUser.user.login) && loggedUser.user.role.canDeleteOwnCommment) || (loggedUser.user.role.canDeleteOtherUserCommment) }">
 											<a id="_${ i.count }_${ j.count }" href="about:blank" class="answer_remove">excluir</a>
 										</c:if>
-										<form action="/reports/${errorEntry.id}/comments/${comment.id}/answers/${answer.id}" method="post" id="form_answer_remove_${ i.count }_${ j.count }">
+										<form action="<c:url value="/reports/${errorEntry.id}/comments/${comment.id}/answers/${answer.id}"/>" method="post" id="form_answer_remove_${ i.count }_${ j.count }">
 											<input type="hidden" name="_method" value="DELETE"/>
 										    <input name="answer.id" value="${answer.id}" type="hidden" />
 										    <input name="comment.id" value="${comment.id}" type="hidden" />
