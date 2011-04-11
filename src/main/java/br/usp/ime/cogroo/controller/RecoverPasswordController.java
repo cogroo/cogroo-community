@@ -1,7 +1,5 @@
 package br.usp.ime.cogroo.controller;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.Date;
 import java.util.Random;
 
@@ -51,13 +49,12 @@ public class RecoverPasswordController {
 	}
 
 	@Get
-	@Path("/recover/{email}/{codeRecover}")
-	public void verifyCodeRecover(String email, String codeRecover) {
-		email = decode(email);
+	@Path("/recover/{user.id}/{codeRecover}")
+	public void verifyCodeRecover(User user, String codeRecover) {
 		if(LOG.isDebugEnabled()) {
-			LOG.debug("verifyCodeRecover >>>: " + email);
+			LOG.debug("verifyCodeRecover for user.id>>>: " + user.getId());
 		}
-		getUserIfValidate(email, codeRecover);
+		User userFromDB = getUserIfValidate(user, codeRecover);
 
 		validator.onErrorUse(Results.page())
 				.of(RecoverPasswordController.class).recover();
@@ -66,7 +63,7 @@ public class RecoverPasswordController {
 		 * If all is ok, then... redirect to form to create new password.
 		 */
 		result.include("codeRecover", codeRecover);
-		result.include("email", encode(email));
+		result.include("user", userFromDB);
 		
 		if(LOG.isDebugEnabled()) {
 			LOG.debug("<<< verifyCodeRecover");
@@ -74,16 +71,10 @@ public class RecoverPasswordController {
 	}
 
 	@Post
-	@Path("/recover/{email}/{codeRecover}")
+	@Path("/recover/{user.id}/{codeRecover}")
 	public void changePassword(String password, String passwordRepeat,
-			String email, String codeRecover) {
-		email = decode(email);
-		User userFromDB = getUserIfValidate(email, codeRecover);
-
-		if (email.trim().isEmpty() || email.trim().isEmpty()) {
-			validator.add(new ValidationMessage(ExceptionMessages.EMPTY_FIELD,
-					ExceptionMessages.ERROR));
-		}
+			User user, String codeRecover) {
+		User userFromDB = getUserIfValidate(user, codeRecover);
 		if (!password.equals(passwordRepeat)) {
 			validator.add(new ValidationMessage(
 					ExceptionMessages.USER_REPEAT_PASSWORD_WRONG,
@@ -91,7 +82,7 @@ public class RecoverPasswordController {
 		}
 
 		validator.onErrorUse(Results.page())
-				.of(RecoverPasswordController.class).verifyCodeRecover(email,
+				.of(RecoverPasswordController.class).verifyCodeRecover(user,
 						codeRecover);
 
 		/*
@@ -145,7 +136,7 @@ public class RecoverPasswordController {
 		// TODO: Refatorar !!
 
 		String url = request.getRequestURL().toString() + "/"
-				+ encode(userFromDB.getEmail()) + "/" + codeRecover;
+				+ userFromDB.getId() + "/" + codeRecover;
 		StringBuilder body = new StringBuilder();
 		body.append("Olá, " + userFromDB.getName() + "!<br><br>");
 		body.append("De acordo com sua solicitação no portal CoGrOO Comunidade, enviamos um link para redefinir sua senha:<br>");
@@ -155,21 +146,6 @@ public class RecoverPasswordController {
 		String subject = "Redefinição de senha";
 		notificator.sendEmail(body.toString(), subject, userFromDB.getEmail().trim());
 
-	}
-	
-	private String decode(String email) {
-		// looks like it is decoded automatically
-		// at Tomcat it is missing the '+1
-		return email.replaceAll("\\s", "+");
-	}
-	
-	private String encode(String email) {
-		try {
-			return URLEncoder.encode(email, "UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			LOG.error("Should never happen with UTF-8",e);
-		}
-		return null;
 	}
 
 	private String getRandomField(User userFromDB) {
@@ -185,21 +161,21 @@ public class RecoverPasswordController {
 		return value;
 	}
 
-	private User getUserIfValidate(String email, String codeRecover) {
+	private User getUserIfValidate(User user, String codeRecover) {
 		User userFromDB = new User();
 
 		// Validators
-		if (email.trim().isEmpty() || codeRecover.trim().isEmpty()) {
+		if (user.getId() <= 0 || codeRecover.trim().isEmpty()) {
 			LOG.warn("Password recovering with empty email.");
 			validator.add(new ValidationMessage(ExceptionMessages.EMPTY_FIELD,
 					ExceptionMessages.ERROR));
 		} else {
-			userFromDB = userDAO.retrieveByEmail(email);
+			userFromDB = userDAO.retrieve(user.getId());
 			if (userFromDB != null) {
 				if (!userFromDB.getRecoverCode().equals(codeRecover)) {
-					LOG.warn("Bad recovery code for email: " + email);
+					LOG.warn("Bad recovery code for user: " + user.toString());
 					validator.add(new ValidationMessage(
-							"Codigo não confere, link inexistente !",
+							ExceptionMessages.BAD_RECOVERY_CODE, 
 							ExceptionMessages.ERROR));
 				} else {
 					/*
@@ -208,9 +184,9 @@ public class RecoverPasswordController {
 					 */
 				}
 			} else {
-				LOG.info("Wrong recovery email: " + email);
+				LOG.info("Wrong recovery to user.id: " + user.getId());
 				validator.add(new ValidationMessage(
-						ExceptionMessages.INVALID_EMAIL,
+						ExceptionMessages.USER_DONT_EXISTS,
 						ExceptionMessages.ERROR));
 			}
 		}

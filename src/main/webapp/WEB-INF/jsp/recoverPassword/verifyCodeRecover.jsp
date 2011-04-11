@@ -6,7 +6,7 @@
 	
 	<p>Favor, informe seu email de cadastro no CoGrOO Comunidade.</p>
 	
-	<form action="<c:url value='/recover/${ email }/${ codeRecover }'/>" method="post">
+	<form action="<c:url value='/recover/${ user.id }/${ codeRecover }'/>" method="post">
         <div >
             <p>
             	<label class="defaultlbl" style="width: 100px" for="pw">Senha:</label>
