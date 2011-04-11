@@ -151,7 +151,7 @@
 				</li>
 			</c:when>
 			<c:otherwise>
-				<li><a title="Acesse a área exclusiva para usuários cadastrados" href="<c:url value="/register"/>">Área Exclusiva</a></li>
+				<li><a title="Acesse a área exclusiva para usuários cadastrados" href="<c:url value="/login"/>">Área Exclusiva</a></li>
 			</c:otherwise>
 			</c:choose>
 			<li><span title="Links relacionados ao CoGrOO.">Links Externos</span>

@@ -32,6 +32,11 @@
   <priority>0.80</priority>
 </url>
 <url>
+  <loc>http://ccsl.ime.usp.br/cogroo/comunidade/login</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.80</priority>
+</url>
+<url>
   <loc>http://ccsl.ime.usp.br/cogroo/comunidade/register</loc>
   <changefreq>monthly</changefreq>
   <priority>0.80</priority>
@@ -1578,6 +1583,96 @@
 </url>
 <url>
   <loc>http://ccsl.ime.usp.br/cogroo/comunidade/reports/195</loc>
+  <changefreq>weekly</changefreq>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>http://ccsl.ime.usp.br/cogroo/comunidade/reports/196</loc>
+  <changefreq>weekly</changefreq>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>http://ccsl.ime.usp.br/cogroo/comunidade/reports/197</loc>
+  <changefreq>weekly</changefreq>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>http://ccsl.ime.usp.br/cogroo/comunidade/reports/198</loc>
+  <changefreq>weekly</changefreq>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>http://ccsl.ime.usp.br/cogroo/comunidade/reports/199</loc>
+  <changefreq>weekly</changefreq>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>http://ccsl.ime.usp.br/cogroo/comunidade/reports/200</loc>
+  <changefreq>weekly</changefreq>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>http://ccsl.ime.usp.br/cogroo/comunidade/reports/201</loc>
+  <changefreq>weekly</changefreq>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>http://ccsl.ime.usp.br/cogroo/comunidade/reports/202</loc>
+  <changefreq>weekly</changefreq>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>http://ccsl.ime.usp.br/cogroo/comunidade/reports/203</loc>
+  <changefreq>weekly</changefreq>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>http://ccsl.ime.usp.br/cogroo/comunidade/reports/204</loc>
+  <changefreq>weekly</changefreq>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>http://ccsl.ime.usp.br/cogroo/comunidade/reports/205</loc>
+  <changefreq>weekly</changefreq>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>http://ccsl.ime.usp.br/cogroo/comunidade/reports/206</loc>
+  <changefreq>weekly</changefreq>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>http://ccsl.ime.usp.br/cogroo/comunidade/reports/207</loc>
+  <changefreq>weekly</changefreq>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>http://ccsl.ime.usp.br/cogroo/comunidade/reports/208</loc>
+  <changefreq>weekly</changefreq>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>http://ccsl.ime.usp.br/cogroo/comunidade/reports/209</loc>
+  <changefreq>weekly</changefreq>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>http://ccsl.ime.usp.br/cogroo/comunidade/reports/210</loc>
+  <changefreq>weekly</changefreq>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>http://ccsl.ime.usp.br/cogroo/comunidade/reports/211</loc>
+  <changefreq>weekly</changefreq>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>http://ccsl.ime.usp.br/cogroo/comunidade/reports/212</loc>
+  <changefreq>weekly</changefreq>
+  <priority>0.64</priority>
+</url>
+<url>
+  <loc>http://ccsl.ime.usp.br/cogroo/comunidade/reports/213</loc>
   <changefreq>weekly</changefreq>
   <priority>0.64</priority>
 </url>
