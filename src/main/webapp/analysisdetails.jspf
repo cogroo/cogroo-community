@@ -65,7 +65,7 @@
 											<c:forEach items="${processResult.mistakes}" var="mistake" varStatus="l">
 												<tr>
 													<td>${ l.count }</td>
-													<td><a href="<c:url value="/rule/${mistake.ruleIdentifier}"/>">${mistake.ruleIdentifier}</a></td>
+													<td><a href="<c:url value="/rules/${mistake.ruleIdentifier}"/>">${mistake.ruleIdentifier}</a></td>
 													<td>${mistake.shortMessage}</td>
 													<td>
 														<c:choose>

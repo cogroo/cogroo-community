@@ -58,6 +58,8 @@ public class ErrorEntryLogic {
 	
 	public static final String CUSTOM = "custom";
 	
+	private static final String REPORTS = "reports/";
+	
 	private ErrorEntryDAO errorEntryDAO;
 	private UserDAO userDAO;
 	private CommentDAO commentDAO;
@@ -889,7 +891,7 @@ public class ErrorEntryLogic {
 		
 		//RSS
 		String subject = "Problema Reportado #" + errorEntry.getId() + " - Novo.";
-		String url = BuildUtil.BASE_URL + "errorEntry/" + errorEntry.getId();
+		String url = BuildUtil.BASE_URL + "reports/" + errorEntry.getId();
 		notificator.rssFeed(subject, url, body.toString());
 		
 		StringTemplate stTweet = this.templateUtil.getTemplate(StringTemplateUtil.ERROR_NEW_TWEET);
@@ -924,7 +926,7 @@ public class ErrorEntryLogic {
 		
 		//RSS
 		String friendlyStart = "Novo comentário de " + errorEntry.getSubmitter().getName() + " no problema " + errorEntry.getId();
-		String url =  BuildUtil.BASE_URL + "errorEntry/" + errorEntry.getId();
+		String url =  BuildUtil.BASE_URL + REPORTS + errorEntry.getId();
 		notificator.rssFeed(friendlyStart, url, body.toString());
 		
 		StringTemplate stTweet = this.templateUtil.getTemplate(StringTemplateUtil.NEW_COMMENT_TWEET);
@@ -1011,7 +1013,7 @@ public class ErrorEntryLogic {
 		// send it!
 		notificator.sendEmail(StringEscapeUtils.unescapeHtml(body.toString()), subject, userList);
 		
-		String url = BuildUtil.BASE_URL + "errorEntry/" + errorEntry.getId();
+		String url = BuildUtil.BASE_URL + REPORTS + errorEntry.getId();
 
 		//RSS
 		notificator.rssFeed(subject, url, body.toString());
