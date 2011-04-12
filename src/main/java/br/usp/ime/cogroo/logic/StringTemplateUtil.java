@@ -1,6 +1,6 @@
 package br.usp.ime.cogroo.logic;
 
-import java.io.File;
+import javax.servlet.ServletContext;
 
 import org.antlr.stringtemplate.StringTemplate;
 import org.antlr.stringtemplate.StringTemplateGroup;
@@ -28,11 +28,8 @@ public class StringTemplateUtil {
 	private StringTemplateGroup group;
 	private String templatesPath;
 	
-	public StringTemplateUtil() {
-		this.templatesPath = getClass().getResource("/").getPath() + "/stringtemplates";
-		if(!new File(this.templatesPath).exists()) {
-			this.templatesPath = "src/main/webapp/stringtemplates/";
-		}
+	public StringTemplateUtil(ServletContext context) {
+        this.templatesPath = context.getRealPath("/stringtemplates");
 		this.group =  new StringTemplateGroup("myGroup", 
 				this.templatesPath, DefaultTemplateLexer.class);
 	}
