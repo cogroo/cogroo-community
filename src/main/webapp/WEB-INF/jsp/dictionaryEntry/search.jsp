@@ -8,6 +8,16 @@
 	
 	$(document).ready(function() {
 		
+		$('#searchbtm').click(function(e){
+			
+			e.preventDefault();
+			var form = $("#searchform");
+			var url = form.attr('action') + $("#word").val();
+			
+			window.location.assign(url); 
+			
+		});
+		
 		$('#table_id').dataTable({
 			"oLanguage": {
 				"sLengthMenu": "Exibir _MENU_ entradas por página",
@@ -40,9 +50,9 @@
 
 <div>
 	<p>Digite a palavra que deseja procurar no léxico:</p>
-	<form action="<c:url value="/dictionary/search/${word}"/>" method="get">
+	<form action="<c:url value="/dictionary/search/"/>" method="get" id="searchform">
 		<input type="text" id="word" value="${word}" name="word"  maxlength="128"/><br>
-		<input type="submit" value=" Procurar &raquo; " id="go" />
+		<input type="submit" value=" Procurar &raquo; " id="searchbtm" />
 	</form>
 </div>
 
