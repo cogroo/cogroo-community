@@ -140,7 +140,7 @@
 		var s = '<div class="twitterSearchTweet">';
 		if (opts.avatar)
 			s += '<img class="twitterSearchProfileImg" src="' + json.profile_image_url + '" />';
-		s += '<div><span class="twitterSearchUser"><a href="http://www.twitter.com/'+ json.from_user+'/status/'+ json.id +'">' 
+		s += '<div><span class="twitterSearchUser"><a href="http://www.twitter.com/'+ json.from_user + '">' // was '/statuses/'+ json.id +
 		  + json.from_user + '</a></span>';
 		var d = prettyDate(json.created_at);
 		if (opts.time && d)
