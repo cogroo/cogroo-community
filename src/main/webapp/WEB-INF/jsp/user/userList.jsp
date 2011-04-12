@@ -3,6 +3,7 @@
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/dataTables_table.css"/>" />
 
 <script src="<c:url value='/js/jquery.dataTables.min.js' />" type="text/javascript" ></script>
+<script src="<c:url value='/js/jquery.dataTables.sort.js' />" type="text/javascript" ></script>
 
 <script type="text/javascript" charset="utf-8">
 	
@@ -22,7 +23,13 @@
 			"sInfoFiltered": "(filtrados de um total de _MAX_ entradas)"
 			},
 			"aLengthMenu": [20,50,100,200],
-			"iDisplayLength": 20
+			"iDisplayLength": 20,
+			"aoColumns": [
+				null, 	//login
+				null, 	//name
+				null,  	//role
+				{ "sType": "title-string" },	//last login
+			]
 		} );
 		
 	} );
@@ -48,8 +55,9 @@
 						<td><a href="<c:url value="/users/${user.login}"/>">${user.login}</a></td>
 						<td>${user.name}</td>
 						<td><fmt:message key="${user.role}" /></td>
-						<td><fmt:formatDate value="${user.lastLogin}"
-							pattern="dd/MM/yyyy HH:mm" /></td>
+						<td>
+							<span title="${user.lastLogin}"></span><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${user.lastLogin}" />
+						</td>
 					</tr>
 				</c:forEach>
 			</table>
