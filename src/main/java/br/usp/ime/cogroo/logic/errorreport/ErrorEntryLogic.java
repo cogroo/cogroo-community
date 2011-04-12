@@ -925,9 +925,9 @@ public class ErrorEntryLogic {
 		notificator.sendEmail(StringEscapeUtils.unescapeHtml(body.toString()), subject, userList);
 		
 		//RSS
-		String friendlyStart = "Novo comentário de " + errorEntry.getSubmitter().getName() + " no problema " + errorEntry.getId();
+//		String friendlyStart = "Novo comentário de " + comment.getUser().getName() + " no problema " + errorEntry.getId();
 		String url =  BuildUtil.BASE_URL + REPORTS + errorEntry.getId();
-		notificator.rssFeed(friendlyStart, url, body.toString());
+		notificator.rssFeed(subject, url, body.toString());
 		
 		StringTemplate stTweet = this.templateUtil.getTemplate(StringTemplateUtil.NEW_COMMENT_TWEET);
 		
