@@ -1,6 +1,7 @@
 <div id="sitemap">
 <h2>Mapa do site</h2>
 <ul>
+	<li class="outside_list"><a href="<c:url value="/"/>">Página Inicial</a></li>
 	<li class="outside_list"><a href="<c:url value="/grammar"/>">Análise Gramatical</a></li>
 	<li class="outside_list"><a href="<c:url value="/reports"/>">Problemas Reportados</a>
 	<ul>
