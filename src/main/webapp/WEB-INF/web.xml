@@ -75,6 +75,11 @@
         <url-pattern>*.jspf</url-pattern>
     </servlet-mapping>
     
+    <error-page>
+		<error-code>404</error-code>
+		<location>/error.jsp</location>
+	</error-page>
+    
     <listener>
 		<listener-class>br.usp.ime.cogroo.interceptors.SessionListener</listener-class>
 	</listener>
