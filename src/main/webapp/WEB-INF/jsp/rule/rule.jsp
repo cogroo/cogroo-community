@@ -14,7 +14,7 @@
 </span>
 
 <div class="rule_details">
-	<h3>Detalhes da regra número ${rule.id}</h3>
+	<h3>Regra Nº. ${rule.id}</h3>
 	<table class="attributes">
 		<tbody>
 			<tr>
