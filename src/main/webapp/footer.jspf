@@ -6,7 +6,7 @@
 	<div id="footer">
 		<div style="float: right; position: static; padding-top: 3px; padding-right: 3px">
 			<a type="application/rss+xml" rel="alternate" href="<c:url value="/rss.xml"/>">
-				<img width="16" height="16" title="Divulgar conteúdo" alt="Divulgar conteúdo" src="<c:url value="/images/feed.png"/>"/></a><br>
+				<img width="16" height="16" title="Divulgar conteúdo" alt="Divulgar conteúdo" src="<c:url value="/images/feed.png"/>"/></a><br/>
 		</div>
 					
 		<div id="logoCCSL"></div>
