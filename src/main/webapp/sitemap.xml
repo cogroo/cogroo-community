@@ -42,6 +42,11 @@
   <priority>0.80</priority>
 </url>
 <url>
+  <loc>http://ccsl.ime.usp.br/cogroo/comunidade/recover</loc>
+  <changefreq>monthly</changefreq>
+  <priority>0.80</priority>
+</url>
+<url>
   <loc>http://ccsl.ime.usp.br/cogroo/comunidade/stats</loc>
   <changefreq>weekly</changefreq>
   <priority>0.80</priority>
