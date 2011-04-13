@@ -56,7 +56,7 @@
 						<td>${user.name}</td>
 						<td><fmt:message key="${user.role}" /></td>
 						<td>
-							<span title="${user.lastLogin}"></span><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${user.lastLogin}" />
+							<span title="<fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss" value="${user.lastLogin}" />"></span><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${user.lastLogin}" />
 						</td>
 					</tr>
 				</c:forEach>
