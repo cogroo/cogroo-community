@@ -46,6 +46,9 @@ public class RecoverPasswordController {
 	@Get
 	@Path("/recover")
 	public void recover() {
+		result.include("headerTitle", "Recuperação de senha")
+				.include("headerDescription",
+						"Recupere o acesso ao CoGrOO Comunidade através da criação de uma nova senha.");
 	}
 
 	@Get

@@ -50,6 +50,9 @@ public class IndexController {
 	public void sitemap() {
 		result.include("errorEntryList", errorEntryLogic.getAllReports());
 		result.include("ruleList", rulesLogic.getRuleList());
+		
+		result.include("headerTitle", "Mapa do site").include("headerDescription",
+						"Acesse o mapa do site para encontrar rapidamente a página que você procura.");
 	}
 
 }

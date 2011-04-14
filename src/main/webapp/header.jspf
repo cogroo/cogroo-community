@@ -110,7 +110,7 @@
 			<div style="display: none;" id="pwrecup">
 	            <form action="<c:url value='/recover'/>" method="get">
 	                <p>                     
-	                    <input type="submit" style="font-size: 11px;" value=" enviar nova senha &raquo; " class="button"/> | 
+	                    <input type="submit" style="font-size: 11px;" value=" recuperar a senha &raquo; " class="button"/> | 
 	                    <a onclick="off('pwrecup'); on('logform'); return false" href="#"><b>voltar</b></a>
 	                </p>
 	            </form>
