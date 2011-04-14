@@ -890,7 +890,7 @@ public class ErrorEntryLogic {
 		appendErrorDetails(body, errorEntry);
 		
 		//RSS
-		String subject = "Problema Reportado #" + errorEntry.getId() + " - Novo.";
+		String subject = "Problema Reportado #" + errorEntry.getId() + " - Novo";
 		String url = BuildUtil.BASE_URL + "reports/" + errorEntry.getId();
 		notificator.rssFeed(subject, url, body.toString());
 		
@@ -909,7 +909,7 @@ public class ErrorEntryLogic {
 		// get the users
 		Set<User> userList = createToList(errorEntry);
 		// generate the subject
-		String subject = "Problema Reportado #" + errorEntry.getId() + " - Novo comentário.";
+		String subject = "Problema Reportado #" + errorEntry.getId() + " - Novo comentário";
 		// generate the body
 		StringBuilder body = new StringBuilder();
 		
@@ -991,7 +991,7 @@ public class ErrorEntryLogic {
 			LOG.debug("Will send email for #" + userList + " users.");
 		}
 		// generate the subject
-		String subject = "Problema Reportado #" + errorEntry.getId() + " - Alterado.";
+		String subject = "Problema Reportado #" + errorEntry.getId() + " - Alterado";
 		// generate the body
 		StringBuilder body = new StringBuilder();
 

@@ -30,7 +30,7 @@ class EmailSender {
 			"CoGrOO Comunidade &lt;<a href=\"" + BuildUtil.BASE_URL + "\">" + BuildUtil.BASE_URL + "</a>&gt;<br>" +
 			"CoGrOO é o Corretor Gramatical para o BrOffice. Você é parte dessa comunidade!<br>" +
 			"Curta o CoGrOO no <a href='http://www.facebook.com/pages/CoGrOO/191205774239878'>Facebook</a>, " +
-			"acompanhe a movimentação da Comunidade <br>no <a href='http://twitter.com/cogrcom'>@CoGrCom</a>," +
+			"acompanhe a movimentação da Comunidade <br>no <a href='http://twitter.com/cogrcom'>@CoGrCom</a> " +
 			"e siga o <a href='http://twitter.com/cogroo'>@CoGrOO</a> para novidades do projeto!";
 	
 	private final static String FROM_NAME = "CoGrOO Comunidade";
