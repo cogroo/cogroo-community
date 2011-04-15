@@ -65,6 +65,10 @@ class EmailSender {
 			email.setReplyTo(REPLYTO);
 			email.setSubject(SUBJECT_PREFFIX + subject);
 			email.setContent(sb.toString(), Email.TEXT_HTML);
+			if (toEmail.endsWith("hotmail.co,"))
+				email.setCharset(Email.ISO_8859_1);
+			else
+				email.setCharset("UTF-8");
 
 			if(LOG.isDebugEnabled()) {
 				LOG.debug("Will send mail:\n" + email.toString());
