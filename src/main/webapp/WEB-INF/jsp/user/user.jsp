@@ -122,8 +122,8 @@ function editing() {
 		<div class="editing">
 			<input type="hidden" name="_method" value="PUT"/>
 			<input name="user.id" value="${user.id}" type="hidden" />
-			<input type="submit" value="Atualizar" id="updateUser"/>
-			<input type="reset" value=" &laquo; Limpar" onClick="window.location.reload()">
+			<input type="reset" value=" &laquo; Limpar " onClick="window.location.reload()">
+			<input type="submit" value=" Atualizar &raquo; " id="updateUser"/>
 		</div>
 		<div class="viewing">
 			<input type="submit" value=" Editar &raquo; " id="edit"/>
