@@ -4,7 +4,7 @@
 	<groupId>br.usp.ime.cogroo</groupId>
 	<artifactId>comunidade</artifactId>
 	<packaging>war</packaging>
-	<version>1.2.3-SNAPSHOT</version>
+	<version>1.2.3</version>
 	<name>comunidade</name>
 	<dependencies>
 		<dependency>
