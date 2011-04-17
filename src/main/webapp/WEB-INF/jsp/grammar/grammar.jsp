@@ -37,6 +37,11 @@
 		<c:set var="id" scope="request" value="id" />
 		<jsp:include page="/analysisdetails.jspf" />
 		<c:if test="${justAnalyzed && not empty text}">
+			<c:if test="${empty processResultList}">
+				<div class="report_disscussion" style="margin: 1em auto;">
+					<b><font color=red>O CoGrOO falhou ao processar o texto. Geralmente você pode tentar novamente em alguns segundos. Se persistir, por favor reporte o problema.</font></b>
+				</div>
+			</c:if>
 			<form id="formSendErrorText"  action="<c:url value="/reports/newtext"/>" method="post" >
 			    <input type="hidden" name="text" value="${text}" />
 			    <input type="submit" class=".red_button" value=" Reportar problema &raquo; " id="sendErrorText"/>
