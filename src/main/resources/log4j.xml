@@ -8,6 +8,13 @@
 		<appender-ref ref="stdout" />
 		<appender-ref ref="R" />
 	</category>
+	
+	<!-- (all|debug|info|warn|error|fatal|off|null) -->
+	<category name="sentences">
+		<priority value="info" />
+		<appender-ref ref="stdout" />
+		<appender-ref ref="SENT" />
+	</category>
 
 	<root>
 		<priority value="warn" />
@@ -31,6 +38,17 @@
 			<param name="ConversionPattern" value="%d{dd MMM yyyy HH:mm:ss,SSS} %5p [%-20c{1}] %m%n" />
 		</layout>
 	</appender> 
+	
+	<appender name="SENT" class="org.apache.log4j.RollingFileAppender">
+		<param name="file" value="${catalina.home}/logs/cogroo-comunidade-sentences.log" />
+		<param name="MaxFileSize" value="10MB" />
+
+		<!-- Keep one backup file -->
+		<param name="MaxBackupIndex" value="1" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d{dd MMM yyyy HH:mm:ss,SSS} %m%n" />
+		</layout>
+	</appender> 	
 
 <!--	<appender name="Chainsaw" class="org.apache.log4j.net.SocketAppender">-->
 <!--		<param name="RemoteHost" value="localhost" />-->

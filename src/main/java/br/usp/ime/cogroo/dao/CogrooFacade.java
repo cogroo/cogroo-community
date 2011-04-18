@@ -35,6 +35,7 @@ import br.usp.pcs.lta.cogroo.tools.dictionary.LexicalDictionary;
 public class CogrooFacade {
 	
 	private static final Logger LOG = Logger.getLogger(CogrooFacade.class);
+	private static final Logger LOG_SENT = Logger.getLogger("sentences");
 	public static final String GC_PATH = "/gc/";
 	
 	/** The Cogroo instance */
@@ -105,6 +106,9 @@ public class CogrooFacade {
 		if(LOG.isDebugEnabled()) {
 			LOG.debug("Will check text: [" + text + "]");
 		}
+		if(LOG_SENT.isInfoEnabled()) {
+			LOG_SENT.info("[" + text + "]");
+		}
 		List<String> mistakes = new ArrayList<String>();
 		
 		try {
@@ -141,6 +145,9 @@ public class CogrooFacade {
 		if(LOG.isDebugEnabled()) {
 			LOG.debug("Will check text: [" + text + "]");
 		}
+		if(LOG_SENT.isInfoEnabled()) {
+			LOG_SENT.info("[" + text + "]");
+		}
 		
 		List<ProcessResult> processResults = new ArrayList<ProcessResult>();
 		
@@ -168,6 +175,7 @@ public class CogrooFacade {
 			}
 		} catch (Exception e) {
 			LOG.error("Failed to process text: " + text, e);
+			LOG_SENT.error("Failed to process text: " + text, e);
 			LOG.error("Will restart grammar checker. (TODO: DON'T DO IT!)!");
 			restart();
 		}
