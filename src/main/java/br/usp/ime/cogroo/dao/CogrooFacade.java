@@ -49,9 +49,11 @@ public class CogrooFacade {
 			synchronized (this) {
 				if(theCogroo == null) {
 					LOG.warn("Will start grammar checker!");
+					LOG_SENT.warn("Will start grammar checker!");
 					this.theCogroo = new Cogroo(new LegacyRuntimeConfiguration(resources));
 					this.errorReportAccess = new ErrorReportAccess();
 					LOG.warn("Grammar checker started!");
+					LOG_SENT.warn("Grammar checker started!");
 				}
 			}
 		}
@@ -60,6 +62,7 @@ public class CogrooFacade {
 	private void restart() {
 		synchronized (this) {
 			LOG.warn("Restarting grammar checker!");
+			LOG_SENT.warn("Restarting grammar checker!");
 			theCogroo = null;
 			start();
 		}
@@ -127,7 +130,9 @@ public class CogrooFacade {
 			}
 		} catch (Exception e) {
 			LOG.error("Failed to process text: " + text, e);
+			LOG_SENT.error("Failed to process text: " + text, e);
 			LOG.error("Will restart grammar checker. (TODO: DON'T DO IT!)!");
+			LOG_SENT.error("Will restart grammar checker. (TODO: DON'T DO IT!)!");
 			restart();
 		}
 
@@ -169,7 +174,6 @@ public class CogrooFacade {
 				processResults.add(pr);
 			}
 			
-			
 			if(LOG.isDebugEnabled()) {
 				LOG.debug("Finished.");
 			}
@@ -177,6 +181,7 @@ public class CogrooFacade {
 			LOG.error("Failed to process text: " + text, e);
 			LOG_SENT.error("Failed to process text: " + text, e);
 			LOG.error("Will restart grammar checker. (TODO: DON'T DO IT!)!");
+			LOG_SENT.error("Will restart grammar checker. (TODO: DON'T DO IT!)!");
 			restart();
 		}
 		
