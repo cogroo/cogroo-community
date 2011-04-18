@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import opennlp.tools.util.Span;
 
@@ -41,6 +42,9 @@ public class CogrooFacade {
 	/** The Cogroo instance */
 	private CogrooI theCogroo = null;
 	private String resources = getClass().getResource(GC_PATH).getPath();
+	
+	private AtomicInteger procSentCounter = new AtomicInteger();
+	private AtomicInteger exceptionsCounter = new AtomicInteger();
 
 	private ErrorReportAccess errorReportAccess; 
 	
@@ -106,11 +110,13 @@ public class CogrooFacade {
 	 * @return list of errors
 	 */
 	public List<String> getMistakes(String text) {
+		
+		int count = procSentCounter.incrementAndGet();
 		if(LOG.isDebugEnabled()) {
 			LOG.debug("Will check text: [" + text + "]");
 		}
 		if(LOG_SENT.isInfoEnabled()) {
-			LOG_SENT.info("[" + text + "]");
+			LOG_SENT.info(count + " [" + text + "]");
 		}
 		List<String> mistakes = new ArrayList<String>();
 		
@@ -129,8 +135,9 @@ public class CogrooFacade {
 				LOG.debug("Found errors: \n" + errors);
 			}
 		} catch (Exception e) {
-			LOG.error("Failed to process text: " + text, e);
-			LOG_SENT.error("Failed to process text: " + text, e);
+			int eCount = exceptionsCounter.incrementAndGet();
+			LOG.error(eCount + " > Failed to process text: " + text, e);
+			LOG_SENT.error(eCount + " > Failed to process text: " + text, e);
 			LOG.error("Will restart grammar checker. (TODO: DON'T DO IT!)!");
 			LOG_SENT.error("Will restart grammar checker. (TODO: DON'T DO IT!)!");
 			restart();
@@ -147,11 +154,12 @@ public class CogrooFacade {
 	 * @return the structure of the text.
 	 */
 	public List<ProcessResult> processText(String text) {
+		int count = procSentCounter.incrementAndGet();
 		if(LOG.isDebugEnabled()) {
 			LOG.debug("Will check text: [" + text + "]");
 		}
 		if(LOG_SENT.isInfoEnabled()) {
-			LOG_SENT.info("[" + text + "]");
+			LOG_SENT.info(count + " [" + text + "]");
 		}
 		
 		List<ProcessResult> processResults = new ArrayList<ProcessResult>();
@@ -178,8 +186,9 @@ public class CogrooFacade {
 				LOG.debug("Finished.");
 			}
 		} catch (Exception e) {
-			LOG.error("Failed to process text: " + text, e);
-			LOG_SENT.error("Failed to process text: " + text, e);
+			int eCount = exceptionsCounter.incrementAndGet();
+			LOG.error(eCount + " > Failed to process text: " + text, e);
+			LOG_SENT.error(eCount + " > Failed to process text: " + text, e);
 			LOG.error("Will restart grammar checker. (TODO: DON'T DO IT!)!");
 			LOG_SENT.error("Will restart grammar checker. (TODO: DON'T DO IT!)!");
 			restart();
