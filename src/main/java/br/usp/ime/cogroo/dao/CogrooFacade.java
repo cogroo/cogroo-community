@@ -159,7 +159,7 @@ public class CogrooFacade {
 			LOG.debug("Will check text: [" + text + "]");
 		}
 		if(LOG_SENT.isInfoEnabled()) {
-			LOG_SENT.info(count + " [" + text + "]");
+			LOG_SENT.info("{" + count + "} " + memory() + "\n  [" + text + "]");
 		}
 		
 		List<ProcessResult> processResults = new ArrayList<ProcessResult>();
@@ -197,6 +197,15 @@ public class CogrooFacade {
 		return processResults;
 	}
 	
+	private static String memory() {
+		double free =  Runtime.getRuntime().freeMemory() / 1024d / 1024d;
+		double max =  Runtime.getRuntime().maxMemory() / 1024d / 1024d;
+		double total =  Runtime.getRuntime().totalMemory() / 1024d / 1024d;
+
+		return String.format("Free: %.2f; Max: %.2f; Total: %.2f", free, max, total);
+
+	}
+
 	public String getAnnotatedText(String text, List<ProcessResult> processResult) {
 		if(LOG.isDebugEnabled()) {
 			LOG.debug("Will annotate text.");
