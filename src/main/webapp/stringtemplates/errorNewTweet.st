@@ -1,1 +1,1 @@
-$type$ #$id$ enviada por $user$- $text$
+$type$ #$id$ enviada por $user$ - $text$

@@ -1,1 +1,1 @@
-$type$ #$id$ enviada por $ori$ alterada por $user$ -$changes:{s|$s.fieldName$: $s.after$}; separator=", "$ 
+$type$ #$id$ enviada por $ori$ alterada por $user$ - $changes:{s|$s.fieldName$: $s.after$}; separator=", "$ 
