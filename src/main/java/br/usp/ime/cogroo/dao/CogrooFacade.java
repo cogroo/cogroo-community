@@ -70,10 +70,15 @@ public class CogrooFacade {
 		}
 	}
 	
-	private static final String hardcoded = "Graças à vós, tudo se resolveu a tempo.";
+	private static final String[] hardcoded = {
+		"Graças à vós, tudo se resolveu a tempo.",
+		"Graças a vós, tudo se resolveu a tempo."};
 	private void initCache() {
 		if(!cache.containsKey(hardcoded)) {
-			cache.put("Graças à vós, tudo se resolveu a tempo.", new ArrayList<ProcessResult>());
+			for (String k : hardcoded) {
+				cache.put(k, new ArrayList<ProcessResult>());
+			}
+			
 		}
 	}
 
