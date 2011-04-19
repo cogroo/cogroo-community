@@ -30,7 +30,7 @@ class RssFeed {
 	private static final String RSS_TITLE = "CoGrOO Comunidade";
 	private static final String RSS_LINK = "http://ccsl.ime.usp.br/cogroo/comunidade/";
 	private static final String RSS_DESCRIPTION = "O que há de novo no CoGrOO Comunidade.";
-	private static final int LIMIT = 10;
+	private static final int LIMIT = 50;
 	
 	private static final Logger LOG = Logger.getLogger(RssFeed.class);
 	private static final String feedType = "rss_2.0";
