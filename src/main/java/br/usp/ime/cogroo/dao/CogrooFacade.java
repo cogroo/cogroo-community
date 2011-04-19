@@ -7,6 +7,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import opennlp.tools.util.Cache;
 import opennlp.tools.util.Span;
 
 import org.apache.log4j.Logger;
@@ -48,14 +49,20 @@ public class CogrooFacade {
 
 	private ErrorReportAccess errorReportAccess; 
 	
+	
+	private Cache cache = new Cache(500);
+	
 	private void start(){
 		if(theCogroo == null) {
 			synchronized (this) {
 				if(theCogroo == null) {
 					LOG.warn("Will start grammar checker!");
 					LOG_SENT.warn("Will start grammar checker!");
+					
 					this.theCogroo = new Cogroo(new LegacyRuntimeConfiguration(resources));
 					this.errorReportAccess = new ErrorReportAccess();
+					initCache();
+					
 					LOG.warn("Grammar checker started!");
 					LOG_SENT.warn("Grammar checker started!");
 				}
@@ -63,6 +70,13 @@ public class CogrooFacade {
 		}
 	}
 	
+	private static final String hardcoded = "Graças à vós, tudo se resolveu a tempo.";
+	private void initCache() {
+		if(!cache.containsKey(hardcoded)) {
+			cache.put("Graças à vós, tudo se resolveu a tempo.", new ArrayList<ProcessResult>());
+		}
+	}
+
 	private void restart() {
 		synchronized (this) {
 			LOG.warn("Restarting grammar checker!");
@@ -145,6 +159,15 @@ public class CogrooFacade {
 
 		return mistakes;
 
+	}
+	
+	public List<ProcessResult> cachedProcessText(String text) {
+		if(cache.containsKey(text)) {
+			return (List<ProcessResult>) cache.get(text);
+		}
+		List<ProcessResult> r = processText(text);
+		cache.put(text, r);
+		return r;
 	}
 	
 	//TODO: if we return detailed information we can handle it in JSP and add colors

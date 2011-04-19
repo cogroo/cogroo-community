@@ -267,7 +267,7 @@ public class ErrorReportController {
 		}
 		
 		result.include("errorEntry", errorEntryFromDB).
-			include("processResultList", cogrooFacade.processText(errorEntryFromDB.getText())).
+			include("processResultList", cogrooFacade.cachedProcessText(errorEntryFromDB.getText())).
 			include("priorities", Priority.values()).
 			include("states", State.values());
 		

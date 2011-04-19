@@ -76,8 +76,8 @@ public class RuleController {
 		
 		for (Example example : rule.getExample()) {
 			
-			List<ProcessResult> incorrect = cogroo.processText(example.getIncorrect());
-			List<ProcessResult> correct = cogroo.processText(example.getCorrect());
+			List<ProcessResult> incorrect = cogroo.cachedProcessText(example.getIncorrect());
+			List<ProcessResult> correct = cogroo.cachedProcessText(example.getCorrect());
 			
 			String incorrectStr = cogroo.getAnnotatedText(example.getIncorrect(), incorrect);
 			String correctStr = cogroo.getAnnotatedText(example.getCorrect(), correct);
