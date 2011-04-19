@@ -94,6 +94,13 @@ public class ErrorReportController {
 		this.sanitizer = sanitizer;
 	}
 	
+	@Deprecated
+	@Get
+	@Path(value = "/errorEntries")
+	public void deprecatedList() {
+		result.use(Results.status()).movedPermanentlyTo(ErrorReportController.class).list();
+	}
+	
 	@Get
 	@Path("/reports")
 	public void list() {
@@ -111,6 +118,13 @@ public class ErrorReportController {
 		}
 		result.include("headerTitle", HEADER_TITLE).include("headerDescription",
 				HEADER_DESCRIPTION);
+	}
+	
+	@Deprecated
+	@Get
+	@Path(value = "/reportNewError")
+	public void deprecatedAddReport() {
+		result.use(Results.status()).movedPermanentlyTo(ErrorReportController.class).addReport();
 	}
 	
 	@Get
@@ -218,6 +232,20 @@ public class ErrorReportController {
 			LOG.debug("New report added.");
 		}
 		result.redirectTo(getClass()).list();
+	}
+	
+	@Deprecated
+	@Get
+	@Path("/errorEntry")
+	public void veryDeprecatedDetails(ErrorEntry errorEntry) {
+		result.use(Results.status()).movedPermanentlyTo(ErrorReportController.class).details(errorEntry);
+	}
+	
+	@Deprecated
+	@Get
+	@Path(value = "/errorEntry/{errorEntry.id}")
+	public void deprecatedDetails(ErrorEntry errorEntry) {
+		result.use(Results.status()).movedPermanentlyTo(ErrorReportController.class).details(errorEntry);
 	}
 	
 	@Get

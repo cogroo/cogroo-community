@@ -33,6 +33,13 @@ public class RuleController {
 		this.cogroo = cogroo;
 		this.rulesLogic = rulesLogic;
 	}
+	
+	@Deprecated
+	@Get
+	@Path(value = "/ruleList")
+	public void deprecatedRuleList() {
+		result.use(Results.status()).movedPermanentlyTo(RuleController.class).ruleList();
+	}
 
 	@Get
 	@Path("/rules")
@@ -40,6 +47,13 @@ public class RuleController {
 		result.include("ruleList", rulesLogic.getRuleList());
 		result.include("headerTitle", "Regras").include(
 				"headerDescription", "Exibe as regras utilizadas pelo corretor gramatical CoGrOO para identificar erros.");
+	}
+	
+	@Deprecated
+	@Get
+	@Path(value = "/rule/{rule.id}")
+	public void deprecatedRule(Rule rule) {
+		result.use(Results.status()).movedPermanentlyTo(RuleController.class).rule(rule);
 	}
 	
 	@Get
