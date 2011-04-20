@@ -171,7 +171,7 @@ public class CogrooFacade {
 			return (List<ProcessResult>) cache.get(text);
 		}
 		List<ProcessResult> r = processText(text);
-		cache.put(text, r);
+//		cache.put(text, r); // will not use cache for now...
 		return r;
 	}
 	
