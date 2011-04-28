@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 import opennlp.tools.util.Cache;
 import opennlp.tools.util.Span;
@@ -44,7 +45,7 @@ public class CogrooFacade {
 	private CogrooI theCogroo = null;
 	private String resources = getClass().getResource(GC_PATH).getPath();
 	
-	private AtomicInteger procSentCounter = new AtomicInteger();
+	private AtomicLong procSentCounter = new AtomicLong();
 	private AtomicInteger exceptionsCounter = new AtomicInteger();
 
 	private ErrorReportAccess errorReportAccess; 
@@ -130,7 +131,7 @@ public class CogrooFacade {
 	 */
 	public List<String> getMistakes(String text) {
 		
-		int count = procSentCounter.incrementAndGet();
+		long count = procSentCounter.incrementAndGet();
 		if(LOG.isDebugEnabled()) {
 			LOG.debug("Will check text: [" + text + "]");
 		}
@@ -167,11 +168,19 @@ public class CogrooFacade {
 	}
 	
 	public List<ProcessResult> cachedProcessText(String text) {
-		if(cache.containsKey(text)) {
-			return (List<ProcessResult>) cache.get(text);
+		
+		synchronized (cache) {
+			if(cache.containsKey(text)) {
+				return (List<ProcessResult>) cache.get(text);
+			}
 		}
+
 		List<ProcessResult> r = processText(text);
-//		cache.put(text, r); // will not use cache for now...
+		
+		synchronized (cache) {
+			cache.put(text, r); // will not use cache for now...
+		}
+		
 		return r;
 	}
 	
@@ -182,7 +191,7 @@ public class CogrooFacade {
 	 * @return the structure of the text.
 	 */
 	public List<ProcessResult> processText(String text) {
-		int count = procSentCounter.incrementAndGet();
+		long count = procSentCounter.incrementAndGet();
 		if(LOG.isDebugEnabled()) {
 			LOG.debug("Will check text: [" + text + "]");
 		}
@@ -215,6 +224,7 @@ public class CogrooFacade {
 			}
 		} catch (Exception e) {
 			int eCount = exceptionsCounter.incrementAndGet();
+			procSentCounter.set(0);
 			LOG.error(eCount + " > Failed to process text: " + text, e);
 			LOG_SENT.error(eCount + " > Failed to process text: " + text, e);
 			LOG.error("Will restart grammar checker. (TODO: DON'T DO IT!)!");
