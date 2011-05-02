@@ -1,13 +1,17 @@
 package br.usp.ime.cogroo.controller;
 
 import java.io.UnsupportedEncodingException;
+import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
 
 import br.com.caelum.vraptor.Delete;
@@ -248,6 +252,9 @@ public class ErrorReportController {
 		result.use(Results.status()).movedPermanentlyTo(ErrorReportController.class).details(errorEntry);
 	}
 	
+	private static final ResourceBundle messages =
+	      ResourceBundle.getBundle("messages", new Locale("pt_BR"));
+	
 	@Get
 	@Path("/reports/{errorEntry.id}")
 	public void details(ErrorEntry errorEntry) {
@@ -271,16 +278,41 @@ public class ErrorReportController {
 			include("priorities", Priority.values()).
 			include("states", State.values());
 		
-		String title = "Problema #" + errorEntryFromDB.getId() + ": "
+		String title = "Problema Nº. " + errorEntryFromDB.getId() + ": "
 				+ errorEntryFromDB.getText();
-		String description = "Tipo: " + (errorEntryFromDB.getOmission() == null ? "Intervenção indevida; Erro: " + errorEntryFromDB
-				.getBadIntervention().getClassification()
-				: "Omissão; Categoria"
-						+ (errorEntryFromDB.getOmission().getCategory() == null ? " (personalizada): " + errorEntryFromDB
-						.getOmission().getCustomCategory()
-						: ": " + errorEntryFromDB.getOmission().getCategory()));
-		result.include("headerTitle", title).include("headerDescription",
-				description);
+
+		String sender = "Enviado por: "
+				+ errorEntryFromDB.getSubmitter().getName();
+		String version = "Versão: " + errorEntryFromDB.getVersion().getVersion();
+		String creationDate = "Criado em: " + DateFormat.getDateInstance(DateFormat.LONG).format(errorEntryFromDB.getCreation());
+		String changeDate = "Modificado em: " + DateFormat.getDateInstance(DateFormat.LONG).format(errorEntryFromDB.getModified());
+		String type = "Tipo: ";
+		String details = null;
+		if (errorEntryFromDB.getOmission() == null) {
+			type += "Intervenção indevida";
+			String classification = "Erro: "
+					+ messages.getString(errorEntryFromDB.getBadIntervention()
+							.getClassification().toString());
+			details = classification;
+		} else {
+			type += "Omissão";
+			String category = "Categoria"
+					+ (errorEntryFromDB.getOmission().getCategory() == null ? " (personalizada): "
+							+ errorEntryFromDB.getOmission()
+									.getCustomCategory()
+							: ": "
+									+ errorEntryFromDB.getOmission()
+											.getCategory());
+			String replaceBy = "Substituir por: "
+					+ errorEntryFromDB.getOmission().getReplaceBy();
+			details = category + "; " + replaceBy;
+		}
+		String description = sender + "; " + version + "; " + type + "; "
+				+ details + "; " + creationDate + "; " + changeDate;
+
+		result.include("headerTitle", StringEscapeUtils.escapeHtml(title))
+				.include("headerDescription",
+						StringEscapeUtils.escapeHtml(description));
 	}
 	
 	@Get

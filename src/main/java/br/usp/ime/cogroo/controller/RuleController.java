@@ -3,6 +3,8 @@ package br.usp.ime.cogroo.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringEscapeUtils;
+
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Resource;
@@ -98,10 +100,11 @@ public class RuleController {
 			.include("pattern", RuleUtils.getPatternAsString(rule))
 			.include("replacePattern", RuleUtils.getSuggestionsAsString(rule));
 		
-		String title = "Regra #" + rule.getId() + ": "
+		String title = "Regra Nº. " + rule.getId() + ": "
 				+ rule.getShortMessage();
 		String description = rule.getMessage();
-		result.include("headerTitle", title).include("headerDescription",
-				description);
+		result.include("headerTitle", StringEscapeUtils.escapeHtml(title))
+				.include("headerDescription",
+						StringEscapeUtils.escapeHtml(description));
 	}
 }

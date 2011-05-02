@@ -146,7 +146,7 @@ table.answer td {
 				    		<td>Omissão</td>
 				  		</c:otherwise>
 					</c:choose>
-			    <th>Modificada em:</th><td><fmt:formatDate type="both" dateStyle="long" value="${errorEntry.modified}" /></td>
+			    <th>Modificado em:</th><td><fmt:formatDate type="both" dateStyle="long" value="${errorEntry.modified}" /></td>
 			</tr>
 			<tr>
 				<c:choose>
