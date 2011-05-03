@@ -1,5 +1,8 @@
 package br.usp.ime.cogroo.controller;
 
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Post;
@@ -22,8 +25,8 @@ public class GrammarController {
 	private LoggedUser loggedUser;
 	private TextSanitizer sanitizer;
 	
-	private static final String HEADER_TITLE = "Análise Gramatical";
-	private static final String HEADER_DESCRIPTION = "Analisa um texto fornecido pelo usuário em busca de erros gramaticais.";
+	private static final ResourceBundle messages =
+	      ResourceBundle.getBundle("messages", new Locale("pt_BR"));
 	
 	public GrammarController(Result result, CogrooFacade cogroo, LoggedUser loggedUser, TextSanitizer sanitizer) {
 		this.result = result;
@@ -35,9 +38,21 @@ public class GrammarController {
 	@Get
 	@Path("/grammar")
 	public void grammar() {
-		result.include("text", "Isso são um exemplo de erro gramaticais.");
-		result.include("headerTitle", HEADER_TITLE).include("headerDescription",
-				HEADER_DESCRIPTION);
+		if (!result.included().containsKey("text"))
+			result.include("text", "Isso são um exemplo de erro gramaticais.");
+		result.include("headerTitle", messages.getString("GRAMMAR_HEADER"))
+				.include("headerDescription",
+						messages.getString("GRAMMAR_DESCRIPTION"));
+	}
+	
+	@Get
+	@Path("/grammar/{text}")
+	public void grammarGET(String text) {
+		if (text != null) {
+			grammar(text);
+			result.redirectTo(getClass()).grammar();
+			return;
+		}
 	}
 
 	@Post
@@ -57,8 +72,9 @@ public class GrammarController {
 			result.include("processResultList", cogroo.processText(text))
 					.include("text", text);
 		}
-		result.include("headerTitle", HEADER_TITLE).include("headerDescription",
-				HEADER_DESCRIPTION);
+		result.include("headerTitle", messages.getString("GRAMMAR_HEADER"))
+				.include("headerDescription",
+						messages.getString("GRAMMAR_DESCRIPTION"));
 	}
 
 }

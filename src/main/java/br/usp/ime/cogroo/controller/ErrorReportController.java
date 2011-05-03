@@ -67,11 +67,11 @@ public class ErrorReportController {
 	private AnalyticsManager manager;
 	private HttpServletRequest request;
 	private TextSanitizer sanitizer;
-	
-	private static final String HEADER_TITLE = "Problemas Reportados";
-	private static final String HEADER_DESCRIPTION = "Exibe os problemas reportados através da página e do plug-in CoGrOO para BrOffice.";
 
 	private static final String LAST_TEXT = "LAST_NOTLOGGED_TEXT";
+	
+	private static final ResourceBundle messages =
+	      ResourceBundle.getBundle("messages", new Locale("pt_BR"));
 
 	public ErrorReportController(
 			LoggedUser loggedUser, 
@@ -120,8 +120,10 @@ public class ErrorReportController {
 			now.add(Calendar.DATE, -7);
 			result.include("oneWeekAgo", now.getTime());
 		}
-		result.include("headerTitle", HEADER_TITLE).include("headerDescription",
-				HEADER_DESCRIPTION);
+		result.include("headerTitle",
+				messages.getString("LIST_ERROR_REPORT_HEADER")).include(
+				"headerDescription",
+				messages.getString("LIST_ERROR_REPORT_DESCRIPTION"));
 	}
 	
 	@Deprecated
@@ -129,6 +131,15 @@ public class ErrorReportController {
 	@Path(value = "/reportNewError")
 	public void deprecatedAddReport() {
 		result.use(Results.status()).movedPermanentlyTo(ErrorReportController.class).addReport();
+	}
+	
+	@Get
+	@Path("/reports/new/{text}")
+	public void addReportGET(String text) {
+		if (text != null) {
+			addReport(text);
+			return;
+		}
 	}
 	
 	@Get
@@ -145,10 +156,10 @@ public class ErrorReportController {
 
 		}
 		result.include("text", "Isso são um exemplo de erro gramaticais.");
-		result.include("headerTitle", "Reportar problema")
-				.include(
-						"headerDescription",
-						"Reporta um problema no corretor gramatical CoGrOO para a equipe, de modo com que a ferramenta possa ser aprimorada.");
+		result.include("headerTitle",
+				messages.getString("NEW_ERROR_REPORT_HEADER")).include(
+				"headerDescription",
+				messages.getString("NEW_ERROR_REPORT_DESCRIPTION"));
 	}
 	
 	@Post
@@ -251,9 +262,6 @@ public class ErrorReportController {
 	public void deprecatedDetails(ErrorEntry errorEntry) {
 		result.use(Results.status()).movedPermanentlyTo(ErrorReportController.class).details(errorEntry);
 	}
-	
-	private static final ResourceBundle messages =
-	      ResourceBundle.getBundle("messages", new Locale("pt_BR"));
 	
 	@Get
 	@Path("/reports/{errorEntry.id}")
