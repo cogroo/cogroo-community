@@ -113,7 +113,7 @@ function editing() {
 				  		<c:otherwise>
 				    		<input type="checkbox" name="isReceiveEmail-noedit" value="true" disabled="disabled"/>
 				  		</c:otherwise>
-					</c:choose>Enviar e-mail quando houver alterações ou novos comentários em algum problema reportado que eu tenha iteragido.</td>
+					</c:choose>Enviar e-mail quando houver alterações ou novos comentários em algum problema que eu tenha interagido.</td>
 				</tr>
 			</c:if>
 		</tbody>
