@@ -275,10 +275,8 @@ public class ErrorReportController {
 		LOG.debug("Details for: " + errorEntryFromDB);
 		
 		if (errorEntryFromDB == null) {
-			validator.add(new ValidationMessage(ExceptionMessages.PAGE_NOT_FOUND,
-					ExceptionMessages.ERROR));
-			validator.onErrorUse(Results.logic()).redirectTo(ErrorReportController.class)
-					.list();
+			result.notFound();
+			return;
 		}
 		
 		result.include("errorEntry", errorEntryFromDB).

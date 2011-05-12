@@ -67,10 +67,8 @@ public class RuleController {
 		}
 		rule = rulesLogic.getRule(rule.getId());
 		if (rule == null) {
-			validator.add(new ValidationMessage(ExceptionMessages.PAGE_NOT_FOUND,
-					ExceptionMessages.ERROR));
-			validator.onErrorUse(Results.logic())
-					.redirectTo(RuleController.class).ruleList();
+			result.notFound();
+			return;
 		}
 		
 		List<Pair<Pair<String,List<ProcessResult>>,Pair<String,List<ProcessResult>>>> exampleList =
