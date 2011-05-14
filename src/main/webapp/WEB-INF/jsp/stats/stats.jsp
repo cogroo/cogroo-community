@@ -61,14 +61,14 @@
 	id="online_members">
 	<thead>
 		<tr>
-			<th>Login</th>
+			<th>Nome</th>
 			<th>Último login</th>
 		</tr>
 	</thead>
 	<tbody>
 		<c:forEach var="user" items="${appData.loggedUsers}">
 			<tr>
-				<td><a href="<c:url value="/users/${user.login}"/>">${user.login}</a></td>
+				<td><a href="<c:url value="/users/${user.service}/${user.login}"/>">${user.name}</a></td>
 				<td><c:choose>
 					<c:when test="${not empty user.lastLogin}">
 						<fmt:formatDate value="${user.lastLogin}"
@@ -89,14 +89,14 @@
 	id="last_online_users">
 	<thead>
 		<tr>
-			<th>Login</th>
+			<th>Nome</th>
 			<th>Último login</th>
 		</tr>
 	</thead>
 	<tbody>
 		<c:forEach var="user" items="${appData.topUsers}">
 			<tr>
-				<td><a href="<c:url value="/users/${user.login}"/>">${user.login}</a></td>
+				<td><a href="<c:url value="/users/${user.service}/${user.login}"/>">${user.name}</a></td>
 				<td><c:choose>
 					<c:when test="${not empty user.lastLogin}">
 						<fmt:formatDate value="${user.lastLogin}"

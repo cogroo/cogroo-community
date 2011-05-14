@@ -25,6 +25,7 @@
 			"aLengthMenu": [20,50,100,200],
 			"iDisplayLength": 20,
 			"aoColumns": [
+				null,	//service
 				null, 	//login
 				null, 	//name
 				null,  	//role
@@ -43,6 +44,7 @@
 			<table cellpadding="0" cellspacing="0" border="0" class="display" id="table_id">
 				<thead>
 					<tr>
+						<th>Serviço</th>
 						<th>Login</th>
 						<th>Nome</th>
 						<th>Papel</th>
@@ -52,12 +54,18 @@
 				<%!int i = 0;%>
 				<c:forEach items="${userList}" var="user">
 					<tr>
-						<td><a href="<c:url value="/users/${user.login}"/>">${user.login}</a></td>
+						<td>${user.service}</td>
+						<td><a href="<c:url value="/users/${user.service}/${user.login}"/>">${user.login}</a></td>
 						<td>${user.name}</td>
 						<td><fmt:message key="${user.role}" /></td>
-						<td>
-							<span title="<fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss" value="${user.lastLogin}" />"></span><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${user.lastLogin}" />
-						</td>
+						<td><c:choose>
+							<c:when test="${not empty user.lastLogin}">
+								<span title="<fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss" value="${user.lastLogin}" />"></span><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${user.lastLogin}" />
+							</c:when>
+							<c:otherwise>
+							nunca
+							</c:otherwise>
+						</c:choose></td>
 					</tr>
 				</c:forEach>
 			</table>

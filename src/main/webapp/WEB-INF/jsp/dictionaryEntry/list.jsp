@@ -3,7 +3,10 @@
 <%@ page contentType="text/html; charset=UTF-8" %>  
 
 <c:if test="${justAddedDictionaryEntry}">
-	<script type="text/javascript">_gaq.push(['_trackEvent', 'Dictionary', 'add entry', '${login}']);</script>
+	<script type="text/javascript">
+	_gaq.push(['_trackEvent', 'Dictionary', 'add entry', '${login}']);
+	_gaq.push(['_trackEvent', 'Dictionary', 'service used', '${service}']);
+	</script>
 </c:if>
 
 <script type="text/javascript">

@@ -81,7 +81,12 @@ public class DictionaryEntryController {
 			result.include("dictionaryEntryList", dictionaryEntry).include(
 					"word", word);
 		}
-		result.include("headerTitle", HEADER_TITLE).include("headerDescription",
-				HEADER_DESCRIPTION);
+		
+		String headerTitle = "Palavra " + word;
+		String headerDescription = "Exibe o radical e a etiqueta gramatical de cada entrada da palavra "
+				+ word + " presente no léxico.";
+
+		result.include("headerTitle", headerTitle).include("headerDescription",
+				headerDescription);
 	}
 }

@@ -109,7 +109,8 @@ public class ErrorEntryLogic {
 			} else if(this.user != null && this.user.getPreviousLogin().before(errorEntry.getModified())) {
 				// if comments is empty, check only the submitter
 				if(errorEntry.getComments().size() == 0) {
-					if(!errorEntry.getSubmitter().getLogin().equals(this.user.getLogin())) {
+					if(!errorEntry.getSubmitter().getLogin().equals(this.user.getLogin()) || 
+							!errorEntry.getSubmitter().getService().equals(this.user.getService())) {
 						errorEntry.setIsNew(true);
 					}
 				}
@@ -123,7 +124,8 @@ public class ErrorEntryLogic {
 						for(Comment answer : comment.getAnswers()) {
 							if(answer.getDate().after(newest)) {
 								newest = answer.getDate();
-								if(!answer.getUser().getLogin().equals(this.user.getLogin())) {
+								if(!answer.getUser().getLogin().equals(this.user.getLogin()) ||
+										!answer.getUser().getService().equals(this.user.getService())) {
 									isNew = true;
 								} else {
 									isNew = false;
@@ -132,7 +134,8 @@ public class ErrorEntryLogic {
 						}
 						if(comment.getDate().after(newest)) {
 							newest = comment.getDate();
-							if(!comment.getUser().getLogin().equals(this.user.getLogin())) {
+							if(!comment.getUser().getLogin().equals(this.user.getLogin()) ||
+									!comment.getUser().getService().equals(this.user.getService())) {
 								isNew = true;
 							} else {
 								isNew = false;
@@ -172,15 +175,29 @@ public class ErrorEntryLogic {
 		}
 		return uniqueRules;
 	}
-
+	
+	@Deprecated
 	public List<ErrorEntry> addErrorEntry(String username, String error)
+			throws CommunityException {
+		return addErrorEntry("cogroo", username, error);
+	}
+
+	/**
+	 * Add a new error entry via OpenOffice plugin.
+	 * @param service
+	 * @param username
+	 * @param error
+	 * @return
+	 * @throws CommunityException
+	 */
+	public List<ErrorEntry> addErrorEntry(String service, String username, String error)
 			throws CommunityException {
 		List<ErrorEntry> list = new ArrayList<ErrorEntry>();
 
 		// try to get user, or create it
 		User cogrooUser;
-		if (userDAO.exist(username)) {
-			cogrooUser = userDAO.retrieveByLogin(username);
+		if (userDAO.exist("cogroo", username)) {
+			cogrooUser = userDAO.retrieveByLogin(service, username);
 		} else {
 			LOG.error("Invalid user in addErrorEntry:" + username);
 			throw new CommunityException(
@@ -1048,7 +1065,7 @@ public class ErrorEntryLogic {
 	}
 	
 	private void addUserIfIsReceveMail(User user, Set<User> userList){
-		if(user.getIsReceiveEmail()) {
+		if(user.getIsReceiveEmail() && user.getEmail() != null) {
 			userList.add(user);
 		}
 	}

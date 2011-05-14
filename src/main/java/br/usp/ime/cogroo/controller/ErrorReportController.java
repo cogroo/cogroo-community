@@ -240,8 +240,10 @@ public class ErrorReportController {
 				omissionClassification, customOmissionText, omissionComment,
 				omissionReplaceBy, omissionStart, omissionEnd);
 
-		result.include("justReported", true).include("login",
-				loggedUser.getUser().getLogin());
+		result.include("okMessage", "Problema reportado com sucesso!");		
+		result.include("justReported", true)
+				.include("service", loggedUser.getUser().getService())
+				.include("login", loggedUser.getUser().getLogin());
 
 		if(LOG.isDebugEnabled()) {
 			LOG.debug("New report added.");
@@ -323,6 +325,7 @@ public class ErrorReportController {
 	
 	@Get
 	@Path("/reports/{errorEntry.id}/edit")
+	@LoggedIn
 	public void editDetails(ErrorEntry errorEntry) {
 		if(errorEntry == null) {
 			result.redirectTo(getClass()).list();
@@ -494,6 +497,9 @@ public class ErrorReportController {
 		
 	}
 	
+	/**
+	 * Used by the plugin.
+	 */
 	@Get
 	@Path("/submitErrorReport")
 	public void submitAnalytics() {
@@ -506,6 +512,12 @@ public class ErrorReportController {
 		}
 	}
 	
+	/**
+	 * Submit an error report via OpenOffice plugin. Only CoGrOO users are allowed.
+	 * @param username
+	 * @param token
+	 * @param error
+	 */
 	@Post
 	@Path("/submitErrorReport")
 	public void submitErrorEntry(String username, String token, String error) {
@@ -517,7 +529,7 @@ public class ErrorReportController {
 				" encrypted token: " + token +
 				" error: " + error );
 		try {
-			errorEntryLogic.addErrorEntry(username, error);
+			errorEntryLogic.addErrorEntry("cogroo", username, error);
 			LOG.debug("Error handled, will set response");
 			result.include("result", RestUtil.prepareResponse("result","OK"));
 		} catch (CommunityException e) {

@@ -75,19 +75,49 @@ public class UserDAO {
 						"from " + USER_ENTITY + " where lastLogin < ? order by lastLogin")
 				.setParameter(1, lastLogin).setMaxResults(n).getResultList();
 	}
+	
+	@Deprecated
+	public boolean exist(String login) {
+	return (retrieveByLogin("cogroo", login) != null);
+}
 
-	public boolean exist(String toBeFound) {
-		return (retrieveByLogin(toBeFound) != null);
+	public boolean exist(String service, String login) {
+		return (retrieveByLogin(service, login) != null);
+	}
+	
+	@Deprecated
+	public User retrieveByLogin(String login) {
+		return retrieve("cogroo", "service", login, "login");
 	}
 
-	public User retrieveByLogin(String toBeFound) {
-		return retrieve(toBeFound, "login");
+	public User retrieveByLogin(String service, String login) {
+		return retrieve(service, "service", login, "login");
+	}
+	
+	@Deprecated
+	public User retrieveByEmail(String email) {
+		return retrieve("cogroo", "service", email, "email");
 	}
 
-	public User retrieveByEmail(String toBeFound) {
-		return retrieve(toBeFound, "email");
+	public User retrieveByEmail(String service, String email) {
+		return retrieve(service, "service", email, "email");
 	}
 
+	private User retrieve(String value1, String field1, String value2, String field2) {
+		User user = null;
+		try {
+			user = (User) em.createQuery(
+					"from " + USER_ENTITY + " w where w." + field1 + "=?1 and w." + field2 + "=?2")
+					.setParameter(1, value1).setParameter(2, value2).getSingleResult();
+		} catch (NoResultException e) {
+			user = null;
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+			// TODO: HANDLE ERROR
+		}
+		return user;
+	}
+	
 	private User retrieve(String value, String field) {
 		User user = null;
 		try {

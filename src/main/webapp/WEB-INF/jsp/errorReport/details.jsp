@@ -131,7 +131,7 @@ table.answer td {
 		<table >
 			<tbody>
 			<tr>
-			    <th>Enviado por:</th><td><a href="<c:url value="/users/${errorEntry.submitter.login}"/>">${errorEntry.submitter.name}</a></td>
+			    <th>Enviado por:</th><td><a href="<c:url value="/users/${errorEntry.submitter.service}/${errorEntry.submitter.login}"/>">${errorEntry.submitter.name}</a></td>
 			</tr>
 			<tr>
 			    <th>Versão:</th><td>${errorEntry.version.version}</td>
@@ -241,8 +241,8 @@ table.answer td {
 		<h2>Discussão</h2>
 		<c:forEach items="${errorEntry.errorEntryComments}" var="comment" varStatus="i">
 			<div id="comment_${ i.count }">
-				<h4 class="undeline">Por <a href="<c:url value="/users/${comment.user.login}"/>">${comment.user.name}</a> em <fmt:formatDate type="both" dateStyle="long" value="${comment.date}" />
-				<c:if test="${((comment.user.login == loggedUser.user.login) && loggedUser.user.role.canDeleteOwnCommment) || (loggedUser.user.role.canDeleteOtherUserCommment) }"> 
+				<h4 class="undeline">Por <a href="<c:url value="/users/${comment.user.service}/${comment.user.login}"/>">${comment.user.name}</a> em <fmt:formatDate type="both" dateStyle="long" value="${comment.date}" />
+				<c:if test="${((comment.user.login == loggedUser.user.login) && (comment.user.service == loggedUser.user.service) && loggedUser.user.role.canDeleteOwnCommment) || (loggedUser.user.role.canDeleteOtherUserCommment) }"> 
 					<a id="${ i.count }" href="about:blank" class="comment_remove">excluir</a>
 				</c:if>
 				</h4>
@@ -257,8 +257,8 @@ table.answer td {
 						<table class="answer">
 							<c:forEach items="${comment.answers}" var="answer"  varStatus="j">
 								<tr id="tr_answer_${ i.count }_${ j.count }">
-									<td>${answer.processedComment} <i> -- <a href="<c:url value="/users/${answer.user.login}"/>">${answer.user.name}</a> em <fmt:formatDate type="both" dateStyle="long" value="${answer.date}" /></i>
-										<c:if test="${((answer.user.login == loggedUser.user.login) && loggedUser.user.role.canDeleteOwnCommment) || (loggedUser.user.role.canDeleteOtherUserCommment) }">
+									<td>${answer.processedComment} <i> -- <a href="<c:url value="/users/${answer.user.service}/${answer.user.login}"/>">${answer.user.name}</a> em <fmt:formatDate type="both" dateStyle="long" value="${answer.date}" /></i>
+										<c:if test="${((answer.user.login == loggedUser.user.login) && (answer.user.service == loggedUser.user.service) && loggedUser.user.role.canDeleteOwnCommment) || (loggedUser.user.role.canDeleteOtherUserCommment) }">
 											<a id="_${ i.count }_${ j.count }" href="about:blank" class="answer_remove">excluir</a>
 										</c:if>
 										<form action="<c:url value="/reports/${errorEntry.id}/comments/${comment.id}/answers/${answer.id}"/>" method="post" id="form_answer_remove_${ i.count }_${ j.count }">
@@ -304,7 +304,7 @@ table.answer td {
 	<div class="report_disscussion">
 		<h2>Histórico</h2>
 		<c:forEach items="${errorEntry.historyEntries}" var="historyEntry">
-			<h4 class="undeline">Por <a href="<c:url value="/users/${historyEntry.user.login}"/>">${historyEntry.user.name}</a> em <fmt:formatDate type="both" dateStyle="long" value="${historyEntry.creation}" /></h4>
+			<h4 class="undeline">Por <a href="<c:url value="/users/${historyEntry.user.service}/${historyEntry.user.login}"/>">${historyEntry.user.name}</a> em <fmt:formatDate type="both" dateStyle="long" value="${historyEntry.creation}" /></h4>
 			<ul>
 				<c:forEach items="${historyEntry.historyEntryField}" var="historyEntryField">
 					<c:choose>

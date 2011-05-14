@@ -236,6 +236,18 @@ table.attributes td { vertical-align: top; }
 }
 
 .loginframe {
+	margin:0 auto;
+	width:75%;
+}
+
+.loginframe hr {
+	border-top: 2px dotted #FDBF3B;
+	border-right: none;
+	border-bottom: none;
+	border-left: none;
+}
+
+.loginright {
 	width: 300px ;
     background-color: #FFF8DC;
     border: 2px solid #FDBF3B;
@@ -244,6 +256,29 @@ table.attributes td { vertical-align: top; }
     padding: 1em;
     margin-top: 4em;
     margin-bottom: 4em;
+    float:right;
+}
+
+.loginleft {
+	width: 300px ;
+    background-color: #FFF8DC;
+    border: 2px solid #FDBF3B;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 1em;
+    margin-top: 4em;
+    margin-bottom: 4em;
+    float:left;
+}
+
+.logintitle {
+	font-weight: bold;
+	text-align: center;
+}
+
+.socialicon {
+	margin-top: 4%;
+	margin-left: 4%;
 }
 
 .loginlabel {

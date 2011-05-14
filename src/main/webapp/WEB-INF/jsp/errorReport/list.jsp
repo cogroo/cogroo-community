@@ -9,7 +9,10 @@
 <script src="<c:url value='/js/jquery.dataTables.sort.js' />" type="text/javascript" ></script>
 
 <c:if test="${justReported}">
-	<script type="text/javascript">_gaq.push(['_trackEvent', 'Problems', 'succeeded report', '${login}']);</script>
+	<script type="text/javascript">
+	_gaq.push(['_trackEvent', 'Problems', 'succeeded report', '${login}']);
+	_gaq.push(['_trackEvent', 'Problems', 'service used', '${service}']);
+	</script>
 </c:if>
 
 <script type="text/javascript" charset="utf-8">
@@ -98,11 +101,6 @@
 	} );
 </script>
 
-<c:if test="${justReported}">
-	<h3>Erro reportado com sucesso!</h3>
-	<br />
-</c:if>
-
 <h2>Problemas reportados <span class="help"><a onclick="onOff('helpErrorList'); return false" href="#"><img src="<c:url value='/images/help.png' />" /></a></span></h2>
 	<div id="helpErrorList" style="display: none;" class="help">
 		<p>Exibe todos os problemas reportados através da página e do plug-in CoGrOO para BrOffice.</p>
@@ -141,7 +139,7 @@
 					<td><span title="${errorEntry.modified}"></span><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${errorEntry.modified}" /></td>		<!-- 5 -->
 					<td>${errorEntry.commentCount}</td>									<!-- 6 -->
 	  			  	<td>																<!-- 7 -->
-  					<c:if test="${(errorEntry.submitter.login == loggedUser.user.login) || loggedUser.user.role.canDeleteOtherUserErrorReport }"> 
+  					<c:if test="${(errorEntry.submitter.login == loggedUser.user.login) && (errorEntry.submitter.service == loggedUser.user.service) || loggedUser.user.role.canDeleteOtherUserErrorReport }"> 
 						<a onclick="remove_error('${ i.count }'); return false;" id="_${ i.count }" href="about:blank" class="remove_error">excluir</a>
 						<form action="<c:url value="/reports/${errorEntry.id}"/>" method="post" id="form_remove_error_${ i.count }">
 						    <input type="hidden" name="_method" value="DELETE"/>
@@ -170,7 +168,7 @@
 					    		<tr><td>Substituir por:</td><td>${errorEntry.omission.replaceBy}</td></tr>
 					  		</c:otherwise>
 						</c:choose>
-						<tr><td>Enviado por:</td><td><a href="<c:url value="/users/${errorEntry.submitter.login}"/>">${errorEntry.submitter.name}</a></td></td></tr>
+						<tr><td>Enviado por:</td><td><a href="<c:url value="/users/${errorEntry.submitter.service}/${errorEntry.submitter.login}"/>">${errorEntry.submitter.name}</a></td></td></tr>
 						<tr><td>Versão:</td><td>${errorEntry.version.version}</td></tr>
 	  			  		
 	  			  	</table>

@@ -79,12 +79,13 @@
 <c:if test="${justRegistered}">
 	<script type="text/javascript">
 	_gaq.push(['_trackEvent', 'Register', 'succeeded register', '${login}']);
+	_gaq.push(['_trackEvent', 'Register', 'service used', '${service}']);
 	</script>
 </c:if>
-
 <c:if test="${justLogged}">
 	<script type="text/javascript">
 	_gaq.push(['_trackEvent', 'Login', 'succeeded login', '${login}']);
+	_gaq.push(['_trackEvent', 'Login', 'service used', '${service}']);
 	</script>
 </c:if>
 
@@ -97,7 +98,7 @@
 <!--				<p><a href="<c:url value="/login"/>">Efetuar login</a></p>-->
 <!--			</c:if>-->
 <!--			<c:if test="${loggedUser.logged}">-->
-<!--				<p>Bem-vindo, <span>${loggedUser.user.login}</span>, ao CoGrOO Comunidade.<a href="<c:url value="/logout"/>">(logout)</logout></a></p>-->
+<!--				<p>Bem-vindo, <span>${loggedUser.user.name}</span>, ao CoGrOO Comunidade.<a href="<c:url value="/logout"/>">(logout)</logout></a></p>-->
 <!--			</c:if>-->
 <!--		</div>-->
 
@@ -114,26 +115,36 @@
 	                    <input type="hidden" value="connx" name="cmd"/>
 	                    <input type="submit" style="font-size: 11px;" value=" entrar &raquo; " class="button"/> | 
 	                    <a href="<c:url value="/register"/>"><b>criar um usuário</b></a> | 
-	                    <a onclick="off('logform'); on('pwrecup'); return false;" href="#"><b>esqueci a senha</b></a> | 
+	                    <a href="<c:url value="/recover"/>"><b>esqueci a senha</b></a> | 
 	                    <a onclick="off('logform'); on('loginlink'); return false" href="#"><b>voltar</b></a>
 	                    
 	                </p>
 	            </form>
 	        </div>
-			<div style="display: none;" id="pwrecup">
-	            <form action="<c:url value='/recover'/>" method="get">
-	                <p>                     
-	                    <input type="submit" style="font-size: 11px;" value=" recuperar a senha &raquo; " class="button"/> | 
-	                    <a onclick="off('pwrecup'); on('logform'); return false" href="#"><b>voltar</b></a>
-	                </p>
-	            </form>
-	        </div>
+<!--			<div style="display: none;" id="pwrecup">-->
+<!--	            <form action="<c:url value='/recover'/>" method="get">-->
+<!--	                <p>                     -->
+<!--	                    <input type="submit" style="font-size: 11px;" value=" recuperar a senha &raquo; " class="button"/> | -->
+<!--	                    <a onclick="off('pwrecup'); on('logform'); return false" href="#"><b>voltar</b></a>-->
+<!--	                </p>-->
+<!--	            </form>-->
+<!--	        </div>-->
 	        <div id="loginlink">
-	            <p><a onclick="on('logform'); off('loginlink'); return false" href="#"><b>conectar-se</b></a></p>
+	            <p>
+		            <a onclick="on('logform'); off('loginlink'); return false" href="#"><b>conectar-se</b></a> | 
+		            <a href="<c:url value="/login/oauth/facebook"/>"><img style="vertical-align:top" title="Facebook" alt="Facebook" src="<c:url value="/images/social/facebook-small.png"/>"/></a>
+		            <a href="<c:url value="/login/oauth/google"/>"><img style="vertical-align:top" width=16 title="Google" alt="Google" src="<c:url value="/images/social/google-small.png"/>"/></a>
+		            <a href="<c:url value="/login/oauth/hotmail"/>"><img style="vertical-align:top" title="Hotmail" alt="Hotmail" src="<c:url value="/images/social/hotmail-small.png"/>"/></a>
+		            <a href="<c:url value="/login/oauth/linkedin"/>"><img style="vertical-align:top" title="LinkedIn" alt="LinkedIn" src="<c:url value="/images/social/linkedin-small.png"/>"/></a>
+		            <a href="<c:url value="/login/oauth/twitter"/>"><img style="vertical-align:top" title="Twitter" alt="Twitter" src="<c:url value="/images/social/twitter-small.png"/>"/></a>
+					<a href="<c:url value="/login/oauth/yahoo"/>"><img style="vertical-align:top" title="Yahoo!" alt="Yahoo!" src="<c:url value="/images/social/yahoo-small.png"/>"/></a>
+					
+					
+	            </p>
 	        </div>
     	</c:if>
 			<c:if test="${loggedUser.logged}">
-				<p><span><a href="<c:url value="/users/${loggedUser.user.login}"/>">${loggedUser.user.name}</a></span> | <a href="<c:url value="/logout"/>"><b>logout</b></a></p>
+				<p><span><a href="<c:url value="/users/${loggedUser.user.service}/${loggedUser.user.login}"/>">${loggedUser.user.name}</a></span> | <a href="<c:url value="/logout"/>"><b>logout</b></a></p>
 			</c:if>
     </div>
 	<div id="logoCogroo"><a href="<c:url value="/"/>" title="CoGrOO Comunidade" id="logoCogrooLink"></a></div>
@@ -185,6 +196,13 @@
 				</ul>
 			</li>
 		</ul>
+		
+		<c:if test="${not empty okMessage}">
+			<div id="message_ok">
+				<p>Mensagem de sucesso</p>
+				<span style="color: white"><i>${okMessage}</i></span><br />
+			</div>
+		</c:if>
 	
 <!--	<c:if test="${not empty errors}">-->
 		<div id="message_error">

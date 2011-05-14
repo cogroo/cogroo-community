@@ -63,10 +63,14 @@ public class GrammarController {
 			if(text.length() > 255) {
 				text = text.substring(0, 255);
 			}
-			result.include("justAnalyzed", true).include(
-					"login",
-					loggedUser.isLogged() ? loggedUser.getUser().getLogin()
-							: "anonymous");
+			if (loggedUser.isLogged())
+				result.include("justAnalyzed", true)
+						.include("service", loggedUser.getUser().getService())
+						.include("login", loggedUser.getUser().getLogin());
+			else
+				result.include("justAnalyzed", true)
+						.include("service", "no service")
+						.include("login", "anonymous");
 			
 			
 			result.include("processResultList", cogroo.processText(text))

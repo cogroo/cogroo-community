@@ -53,11 +53,6 @@ public class RegisterController {
 				"headerDescription", HEADER_DESCRIPTION);
 	}
 	
-	@Get
-	@Path("/welcome")
-	public void welcome() {
-	}
-	
 	@Post
 	@Path("/sendNewPass")
 	public void register(String email){
@@ -102,15 +97,20 @@ public class RegisterController {
 		}
 
 		if (!login.trim().isEmpty()) {
-			User userFromDB = userDAO.retrieveByLogin(login);
+			if (login.trim().startsWith("oauth")) {
+				validator.add(new ValidationMessage(ExceptionMessages.FORBIDDEN_LOGIN,
+						ExceptionMessages.INVALID_ENTRY));
+			}
+			User userFromDB = userDAO.retrieveByLogin("cogroo", login);
 			if (userFromDB != null) {
 				validator.add(new ValidationMessage(
-						ExceptionMessages.USER_ALREADY_EXIST, ExceptionMessages.INVALID_ENTRY));
+						ExceptionMessages.USER_ALREADY_EXIST,
+						ExceptionMessages.INVALID_ENTRY));
 			}
 		}
 		
 		if (!email.isEmpty()) {
-			User userFromDB = userDAO.retrieveByEmail(email);
+			User userFromDB = userDAO.retrieveByEmail("cogroo", email);
 			if (userFromDB != null) {
 				validator.add(new ValidationMessage(
 						ExceptionMessages.EMAIL_ALREADY_EXIST, ExceptionMessages.INVALID_ENTRY));
@@ -124,7 +124,7 @@ public class RegisterController {
 		validator.onErrorUse(Results.page()).of(RegisterController.class)
 				.register();
 
-		User user = new User(login);
+		User user = new User("cogroo", login);
 		user.setPassword(CriptoUtils.digestMD5(login, password));
 		user.setEmail(email);
 		user.setName(name);
@@ -132,7 +132,8 @@ public class RegisterController {
 		userDAO.add(user);
 		appData.incRegisteredMembers();
 		
-		result.include("justRegistered", true).include("login", login);
+		result.include("okMessage", "Cadastro realizado com sucesso!");
+		result.include("justRegistered", true).include("service", "cogroo").include("login", login);
 		
 		result.forwardTo(LoginController.class).login(login, password);
 		

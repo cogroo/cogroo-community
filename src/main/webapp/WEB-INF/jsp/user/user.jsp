@@ -34,15 +34,19 @@ function editing() {
 	
 </script>
 
-<h3>Usuário <strong>${user.login}</strong>:</h3>
+<h3>Usuário <strong>${user.name}</strong></h3>
 <div class="rule_details">
 
 	<c:set var="canEdit" value="${loggedUser.user.id == user.id || loggedUser.user.role.canEditSensitiveUserDetails}"></c:set>
 	<c:set var="canView" value="${loggedUser.user.id == user.id || loggedUser.user.role.canViewSensitiveUserDetails}"></c:set>
 	
-	<form id="editUser" action="<c:url value="/users/${user.login}"/>" method="post" >
+	<form id="editUser" action="<c:url value="/users/${user.service}/${user.login}"/>" method="post" >
 	<table class="attributes">
 		<tbody>
+			<tr>
+			    <th>Serviço:</th>
+			    <td>${user.service}</td>
+			</tr>
 			<tr>
 			    <th>Login:</th>
 			    <td>${user.login}</td>
@@ -62,7 +66,7 @@ function editing() {
 			</tr>
 			<c:if test="${canView}"> 
 				<tr>
-			    	<th>Email:</th>
+			    	<th>E-mail:</th>
 				    <c:choose>
 						<c:when test="${canEdit}">
 				    		<td class="editing"><input type="text" name="email" value="${user.email}" /></td>
@@ -132,8 +136,8 @@ function editing() {
 	</form>
 </div>
 
-<c:if test="${(loggedUser.user.role.canSetUserRole) || (loggedUser.user.login == 'admin') }">
-	<form id="setUserRole"  action="<c:url value="/users/${user.login}/role"/>" method="post" >
+<c:if test="${(loggedUser.user.role.canSetUserRole) || (loggedUser.user.login == 'admin' && loggedUser.user.service == 'cogroo') }">
+	<form id="setUserRole"  action="<c:url value="/users/${user.service}/${user.login}/role"/>" method="post" >
 		Escolha um novo papel para o usuário: 
 		<select name="role">
 			<c:forEach items="${roleList}" var="role">

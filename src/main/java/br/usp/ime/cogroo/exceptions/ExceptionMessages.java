@@ -3,6 +3,7 @@ package br.usp.ime.cogroo.exceptions;
 public class ExceptionMessages {
 	public final static String USER_CANNOT_BE_EMPTY = "USER_CANNOT_BE_EMPTY";
 	public final static String LOGIN_CANNOT_BE_EMPTY = "LOGIN_CANNOT_BE_EMPTY";
+	public final static String FORBIDDEN_LOGIN = "FORBIDDEN_LOGIN";
 	public final static String PASSWORD_CANNOT_BE_EMPTY = "PASSWORD_CANNOT_BE_EMPTY";
 	public final static String USER_UNAUTHORIZED = "USER_UNAUTHORIZED";
 	public final static String USER_DONT_EXISTS = "USER_DONT_EXISTS";
@@ -21,6 +22,10 @@ public class ExceptionMessages {
 	public static final String COMMENT_SHOULD_NOT_EXCEED_CHAR = "COMMENT_SHOULD_NOT_EXCEED_CHAR";
 	public static final String PAGE_NOT_FOUND = "PAGE_NOT_FOUND";
 	public static final String ERROR_LOADING_STATS = "ERROR_LOADING_STATS";
+	
+	public static final String OAUTH_INVALID_SERVICE = "OAUTH_INVALID_SERVICE";
+	public static final String OAUTH_AUTHENTICATION_ERROR = "OAUTH_AUTHENTICATION_ERROR";
+	public static final String OAUTH_VERIFY_USER_ERROR = "OAUTH_VERIFY_USER_ERROR";
 	
 	public static final String ERROR_REPORT_OMISSION_INVALID_SELECTION = "ERROR_REPORT_OMISSION_INVALID_SELECTION";
 	public static final String ERROR_REPORT_OMISSION_MISSING_CUSTOM_CATEGORY = "ERROR_REPORT_OMISSION_MISSING_CUSTOM_CATEGORY";

@@ -41,6 +41,9 @@ public class User {
 	private String name;
 	
 	@Column(length = 80)
+	private String service;
+	
+	@Column(length = 80)
 	private String twitter;
 	
 	@Transient
@@ -66,12 +69,27 @@ public class User {
 	
 	public User() {
 	}
-
+	
+	@Deprecated
 	public User(String login) {
+		this.service = "cogroo";
 		this.login = login;
 	}
 
+	public User(String service, String login) {
+		this.service = service;
+		this.login = login;
+	}
+	
+	@Deprecated
 	public User(String login, long id) {
+		this.service = "cogroo";
+		this.login = login;
+		this.id = id;
+	}
+
+	public User(String service, String login, long id) {
+		this.service = service;
 		this.login = login;
 		this.id = id;
 	}
@@ -212,6 +230,11 @@ public class User {
 				return false;
 		} else if (!login.equals(other.login))
 			return false;
+		if (this.getService() == null) {
+			if (other.getService() != null)
+				return false;
+		} else if (!this.getService().equals(other.getService()))
+			return false;
 
 		return true;
 	}
@@ -225,6 +248,16 @@ public class User {
 
 	public void setIsReceiveEmail(boolean isReceiveEmail) {
 		this.isReceiveEmail = Boolean.valueOf(isReceiveEmail);		
+	}
+	
+	public void setService(String service) {
+		this.service = service;
+	}
+
+	public String getService() {
+		if (service == null)
+			this.service = "cogroo";
+		return service;
 	}
 
 	public void setTwitter(String twitter) {

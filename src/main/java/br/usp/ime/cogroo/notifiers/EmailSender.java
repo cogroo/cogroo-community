@@ -51,6 +51,8 @@ class EmailSender {
 	}
 
 	public void sendEmail(String body, String subject, String toEmail) {
+		if (toEmail == null)
+			return;
 		try {
 			StringBuffer sb = new StringBuffer("");
 			sb.append(body + FOOTER);

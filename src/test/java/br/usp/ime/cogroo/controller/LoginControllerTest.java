@@ -48,10 +48,11 @@ public class LoginControllerTest {
 		mockContext.getRealPath("");
 		AnalyticsManager am = mock(AnalyticsManager.class);
 		when(am.getDatedMetricsAsString(any(DataFeed.class))).thenReturn("2010-11-17,0,8,21;2010-11-18,12,20,81;2010-11-19,9,16,65");
-		loggedUser = new LoggedUser(new ApplicationData(am, mockContext));
+		ApplicationData mockAppData = new ApplicationData(am, mockContext);
+		loggedUser = new LoggedUser(mockAppData);
 		Validator mockValidator = new MockValidator();
 		HttpServletRequest mockRequest = new MockHttpServletRequest();
-		loginController = new LoginController(mockResult, mockUserDAO, loggedUser, mockValidator, mockRequest);
+		loginController = new LoginController(mockResult, mockUserDAO, loggedUser, mockValidator, mockRequest, mockAppData);
 
 	}
 	

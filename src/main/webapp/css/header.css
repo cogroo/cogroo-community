@@ -92,6 +92,19 @@ ul#nav li a:hover {
 	z-index: 3;
 }
 
+#message_ok {
+	background-color: #00A800;
+	border: 1px solid #000000;
+	margin: 0 0 0px;
+	padding: 12px 25px;
+}
+
+#message_ok p {
+	color: #FFFFFF;
+	font: bold 16px "Trebuchet MS", "Liberation Sans", sans-serif;
+	text-align: center;
+}
+
 #message_error {
 	background-color: #FF5555;
 	border: 1px solid #AA0000;

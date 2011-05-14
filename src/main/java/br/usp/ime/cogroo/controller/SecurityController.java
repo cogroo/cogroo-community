@@ -11,6 +11,11 @@ import br.usp.ime.cogroo.dao.UserDAO;
 import br.usp.ime.cogroo.logic.SecurityUtil;
 import br.usp.ime.cogroo.util.RestUtil;
 
+/**
+ * Provides security interface for OpenOffice plugin.
+ * @author William Colen
+ *
+ */
 @Resource
 public class SecurityController {
 
@@ -39,8 +44,8 @@ public class SecurityController {
 	public void saveClientSecurityKey(String user, String pubKey) {
 		LOG.debug("Saving pubkey for user: " + user + ". Will prepare a secret key for user send the password.");
 		try {
-			if(this.userDAO.exist(user)) {
-				String key = this.securityUtil.genSecretKeyForUser(this.userDAO.retrieveByLogin(user), this.securityUtil.decodeURLSafe(pubKey));
+			if(this.userDAO.exist("cogroo", user)) {
+				String key = this.securityUtil.genSecretKeyForUser(this.userDAO.retrieveByLogin("cogroo", user), this.securityUtil.decodeURLSafe(pubKey));
 				result.include("encryptedSecretKey", RestUtil.prepareResponse("encryptedSecretKey", key));
 			} else {
 				LOG.error("Unknown user trying to save security key");
@@ -63,9 +68,9 @@ public class SecurityController {
 	@Path("/generateAuthenticationForUser")
 	public void generateAuthenticationForUser(String username, String encryptedPassword) {
 		try {
-			if(this.userDAO.exist(username)) {
+			if(this.userDAO.exist("cogroo", username)) {
 				LOG.debug("Will generate token for " + username);
-				String token = this.securityUtil.generateAuthenticationTokenForUser(this.userDAO.retrieveByLogin(username), securityUtil.decodeURLSafe(encryptedPassword));
+				String token = this.securityUtil.generateAuthenticationTokenForUser(this.userDAO.retrieveByLogin("cogroo", username), securityUtil.decodeURLSafe(encryptedPassword));
 				if(token != null) {
 					result.include("token", RestUtil.prepareResponse("token",token));
 				} else {

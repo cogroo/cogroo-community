@@ -4,7 +4,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
-import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Put;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
@@ -50,14 +49,14 @@ public class UserController {
 	}
 
 	@Get
-	@Path(value = "/users/{user.login}")
+	@Path(value = "/users/{user.service}/{user.login}")
 	@LoggedIn
 	public void user(User user) {
 		if (user == null) {
 			result.redirectTo(getClass()).userList();
 			return;
 		}
-		user = userDAO.retrieveByLogin(user.getLogin());
+		user = userDAO.retrieveByLogin(user.getService(), user.getLogin());
 		if (user == null) {
 			validator.add(new ValidationMessage(
 					ExceptionMessages.PAGE_NOT_FOUND, ExceptionMessages.ERROR));
@@ -68,19 +67,22 @@ public class UserController {
 		result.include("user", user);
 		result.include("roleList", RoleProvider.getInstance().getRoles());
 
-		result.include("headerTitle",
-				"Usuário #" + user.getId() + ": " + user.getName()).include(
-				"headerDescription",
-				"Login: " + user.getLogin() + "; Nome: " + user.getName()
-						+ "; Papel: " + user.getRoleName());
+		String headerTitle = "Usuário " + user.getName();
+		String headerDescription = "Serviço: " + user.getService()
+				+ "; Login: " + user.getLogin() + "; Nome: " + user.getName()
+				+ "; Papel: " + user.getRoleName();
+
+		result.include("headerTitle", headerTitle).include("headerDescription",
+				headerDescription);
 	}
 
 	@Put
-	@Path("/users/{user.login}/role")
+	@Path("/users/{user.service}/{user.login}/role")
 	@LoggedIn
 	public void userRole(User user, String role) {
-		if (loggedUser.getUser().getRole().getCanSetUserRole() || loggedUser
-						.getUser().getLogin().equals("admin")) {
+		if (loggedUser.getUser().getRole().getCanSetUserRole()
+				|| (loggedUser.getUser().getService().equals("cogroo") && loggedUser
+						.getUser().getLogin().equals("admin"))) {
 			user = userDAO.retrieve(user.getId());
 			user.setRole(RoleProvider.getInstance().getRoleForName(role));
 
@@ -96,7 +98,7 @@ public class UserController {
 	}
 
 	@Put
-	@Path("/users/{user.login}")
+	@Path("/users/{user.service}/{user.login}")
 	@LoggedIn
 	public void editUser(User user, String name, String email, String twitter,
 			boolean isReceiveEmail) {
@@ -114,8 +116,8 @@ public class UserController {
 
 			// validate email
 			if (!email.isEmpty()) {
-				User userFromDB = userDAO.retrieveByEmail(email);
-				if (userFromDB != null && !userFromDB.getEmail().equals(email)) {
+				User userFromDB = userDAO.retrieveByEmail(user.getService(), email);	//FIXME testar!!
+				if (userFromDB != null && !email.equals(userFromDB.getEmail())) {
 					validator.add(new ValidationMessage(
 							ExceptionMessages.EMAIL_ALREADY_EXIST,
 							ExceptionMessages.INVALID_ENTRY));
@@ -144,7 +146,7 @@ public class UserController {
 
 			if (!validator.hasErrors()) {
 				boolean changed = false;
-				if (!user.getEmail().equals(email)) {
+				if (!email.equals(user.getEmail())) {
 					changed = true;
 					user.setEmail(email);
 				}

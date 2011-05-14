@@ -19,7 +19,10 @@
 </script>
 
 <c:if test="${justAnalyzed}">
-	<script type="text/javascript">_gaq.push(['_trackEvent', 'Grammatical Analysis', 'succeeded analysis', '${login}']);</script>
+	<script type="text/javascript">
+	_gaq.push(['_trackEvent', 'Grammatical Analysis', 'succeeded analysis', '${login}']);
+	_gaq.push(['_trackEvent', 'Grammatical Analysis', 'service used', '${service}']);
+	</script>
 </c:if>		
 		
 		<h2>Análise Gramatical <span class="help"><a onclick="onOff('helpRuleList'); return false" href="#"><img src="<c:url value='/images/help.png' />" /></a></span></h2>
