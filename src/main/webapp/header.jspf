@@ -76,6 +76,18 @@
 
 </script>
 
+<c:if test="${justRegistered}">
+	<script type="text/javascript">
+	_gaq.push(['_trackEvent', 'Register', 'succeeded register', '${login}']);
+	</script>
+</c:if>
+
+<c:if test="${justLogged}">
+	<script type="text/javascript">
+	_gaq.push(['_trackEvent', 'Login', 'succeeded login', '${login}']);
+	</script>
+</c:if>
+
 </head>
 <body>
 <div id="wrap">
