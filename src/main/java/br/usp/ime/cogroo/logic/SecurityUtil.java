@@ -9,13 +9,16 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
+import java.security.KeyFactory;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.security.spec.InvalidKeySpecException;
 import java.security.spec.RSAKeyGenParameterSpec;
+import java.security.spec.X509EncodedKeySpec;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -32,13 +35,12 @@ import javax.crypto.spec.SecretKeySpec;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
 
-import sun.security.rsa.RSAPublicKeyImpl;
 import br.com.caelum.vraptor.ioc.ApplicationScoped;
 import br.com.caelum.vraptor.ioc.Component;
 import br.usp.ime.cogroo.model.User;
 import br.usp.ime.cogroo.util.CriptoUtils;
 
-@SuppressWarnings("restriction")
+
 @Component
 @ApplicationScoped
 public class SecurityUtil {
@@ -253,8 +255,19 @@ public class SecurityUtil {
 	}
 	
 	public PublicKey encodedStringToPublicKey(byte[] encKey) throws InvalidKeyException {
+		X509EncodedKeySpec es= new X509EncodedKeySpec(encKey);
 		PublicKey key = null;
-		key = new RSAPublicKeyImpl(encKey);
+		try {
+			KeyFactory fact = KeyFactory.getInstance("RSA");
+			fact.generatePublic(es);
+		} catch (NoSuchAlgorithmException e) {
+			// should not happen!
+			LOG.fatal("NO RSA factory", e);
+		} catch (InvalidKeySpecException e) {
+			LOG.fatal("InvalidKeySpecException", e);
+		}
+		
+//		key = new RSAPublicKeyImpl(encKey);
 		return key;
 	}
 	
