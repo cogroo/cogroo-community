@@ -409,3 +409,26 @@ DIV.white_box {
 	font-weight: bold;
 }
 /*___________________________________ .rule_details <<< _____________________________________*/
+
+/*___________________________________ >>> .about _____________________________________*/
+
+#about {
+ 
+}
+
+#about h1              { font-size: 2em;}
+#about h2              { font-size: 1.5em;}
+#about h3              { font-size: 1.17em;}
+
+#about p              { line-height:150%;}
+
+.yellow_box {
+	border: 1px solid #D7D7D7;
+	padding: 10px 10px 10px 15px;
+	BACKGROUND-COLOR: #FAFAD2;
+	margin-bottom:15px;
+}
+
+/* white_box */
+/* dashed_white*/
+/*___________________________________ .about <<< _____________________________________*/
