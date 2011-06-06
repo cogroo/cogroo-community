@@ -1,5 +1,11 @@
 <%@ page contentType="text/html; charset=UTF-8" %>  
 
+<c:if test="${justRecovered}">
+	<script type="text/javascript">
+	_gaq.push(['_trackEvent', 'Password Recover', 'succeeded recover', '${login}']);
+	</script>
+</c:if>	
+
 <h2>Recuperação de Senha</h2>
 <br/>
 <p>Parabéns, você alterou sua senha! Se precisar, você já pode efetuar o login com a nova senha.</p>
