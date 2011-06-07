@@ -46,7 +46,7 @@ public class GrammarController {
 	}
 	
 	@Get
-	@Path("/grammar/{text}")
+	@Path("/grammar/{text*}")
 	public void grammarGET(String text) {
 		if (text != null) {
 			grammar(text);

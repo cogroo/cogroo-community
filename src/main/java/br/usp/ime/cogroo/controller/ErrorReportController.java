@@ -134,7 +134,7 @@ public class ErrorReportController {
 	}
 	
 	@Get
-	@Path("/reports/new/{text}")
+	@Path("/reports/new/{text*}")
 	public void addReportGET(String text) {
 		if (text != null) {
 			addReport(text);

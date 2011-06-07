@@ -66,13 +66,13 @@ public class DictionaryEntryController {
 	
 	@Deprecated
 	@Get
-	@Path(value = "/dictionaryEntrySearch/{word}")
+	@Path(value = "/dictionaryEntrySearch/{word*}")
 	public void deprecatedSearch(String word) {
 		result.use(Results.status()).movedPermanentlyTo(DictionaryEntryController.class).search(word);
 	}
 
 	@Get
-	@Path("/dictionary/search/{word}")
+	@Path("/dictionary/search/{word*}")
 	public void search(String word) {
 		word = sanitizer.sanitize(word, false);
 		if (word != null && word.length() > 0) {
