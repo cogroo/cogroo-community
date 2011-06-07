@@ -133,7 +133,7 @@ public class RegisterController {
 		appData.incRegisteredMembers();
 		
 		result.include("okMessage", "Cadastro realizado com sucesso!");
-		result.include("justRegistered", true).include("service", "cogroo").include("login", login);
+		result.include("gaEventUserRegistered", true).include("provider", "cogroo");
 		
 		result.forwardTo(LoginController.class).login(login, password);
 		

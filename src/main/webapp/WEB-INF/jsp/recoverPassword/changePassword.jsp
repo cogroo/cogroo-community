@@ -1,8 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8" %>  
 
-<c:if test="${justRecovered}">
+<c:if test="${gaEventPasswordRecovered}">
 	<script type="text/javascript">
-	_gaq.push(['_trackEvent', 'Password Recover', 'succeeded recover', '${login}']);
+	_gaq.push(['_trackEvent', 'Password Recover', 'succeeded recover', '${provider}']);
 	</script>
 </c:if>	
 

@@ -2,10 +2,9 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" %>  
 
-<c:if test="${justAddedDictionaryEntry}">
+<c:if test="${gaEventDictionaryAdded}">
 	<script type="text/javascript">
-	_gaq.push(['_trackEvent', 'Dictionary', 'add entry', '${login}']);
-	_gaq.push(['_trackEvent', 'Dictionary', 'service used', '${service}']);
+	_gaq.push(['_trackEvent', 'Dictionary', 'added entry', '${provider}']);
 	</script>
 </c:if>
 

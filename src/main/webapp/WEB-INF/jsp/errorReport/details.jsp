@@ -119,6 +119,12 @@ table.answer td {
 }
 </style>
 
+<c:if test="${gaEventErrorCommented}">
+	<script type="text/javascript">
+	_gaq.push(['_trackEvent', 'Problems', 'added comment', '${provider}']);
+	</script>
+</c:if>
+
 	<h2>Problema Nº. ${errorEntry.id}</h2>
 			<span style="FLOAT: right; POSITION: static">
 			<c:if test="${loggedUser.user.role.canEditErrorReport}">

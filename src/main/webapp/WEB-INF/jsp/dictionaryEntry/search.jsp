@@ -38,6 +38,12 @@
 	} );
 </script>
 
+<c:if test="${gaEventDictionarySearch}">
+	<script type="text/javascript">
+	_gaq.push(['_trackEvent', 'Dictionary', 'search', '${provider}']);
+	</script>
+</c:if>	
+
 <div>
 	<h2>Consultar Palavra <span class="help"><a onclick="onOff('helpRuleList'); return false" href="#"><img src="<c:url value='/images/help.png' />" /></a></span></h2>
 		<div id="helpRuleList" style="display: none;" class="help">

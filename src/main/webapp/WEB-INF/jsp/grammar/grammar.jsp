@@ -18,10 +18,9 @@
 
 </script>
 
-<c:if test="${justAnalyzed}">
+<c:if test="${gaEventGrammarAnalyzed}">
 	<script type="text/javascript">
-	_gaq.push(['_trackEvent', 'Grammatical Analysis', 'succeeded analysis', '${login}']);
-	_gaq.push(['_trackEvent', 'Grammatical Analysis', 'service used', '${service}']);
+	_gaq.push(['_trackEvent', 'Grammatical Analysis', 'succeeded analysis', '${provider}']);
 	</script>
 </c:if>		
 		

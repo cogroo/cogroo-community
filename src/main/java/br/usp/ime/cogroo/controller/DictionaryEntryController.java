@@ -11,6 +11,7 @@ import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.view.Results;
 import br.usp.ime.cogroo.logic.DictionaryManager;
 import br.usp.ime.cogroo.logic.TextSanitizer;
+import br.usp.ime.cogroo.model.LoggedUser;
 import br.usp.ime.cogroo.model.NicePrintDictionaryEntry;
 
 @Resource
@@ -18,6 +19,7 @@ public class DictionaryEntryController {
 
 	private DictionaryManager dictionaryManager;
 	private Result result;
+	private LoggedUser loggedUser;
 	private TextSanitizer sanitizer;
 	private static final Logger LOG = Logger
 			.getLogger(DictionaryEntryController.class);
@@ -26,10 +28,11 @@ public class DictionaryEntryController {
 	private static final String HEADER_DESCRIPTION = "Busca uma palavra no dicionário léxico do corretor CoGrOO.";
 
 	public DictionaryEntryController(DictionaryManager dictionaryManager,
-			Result result,
+			Result result, LoggedUser loggedUser,
 			TextSanitizer sanitizer) {
 	this.dictionaryManager = dictionaryManager;
 		this.result = result;
+		this.loggedUser = loggedUser;
 		this.sanitizer = sanitizer;
 	}
 	
@@ -85,6 +88,13 @@ public class DictionaryEntryController {
 		String headerTitle = "Palavra " + word;
 		String headerDescription = "Exibe o radical e a etiqueta gramatical de cada entrada da palavra "
 				+ word + " presente no léxico.";
+		
+		if (loggedUser.isLogged())
+			result.include("gaEventDictionarySearch", true)
+					.include("provider", loggedUser.getUser().getService());
+		else
+			result.include("gaEventDictionarySearch", true)
+					.include("provider", "anonymous");
 
 		result.include("headerTitle", headerTitle).include("headerDescription",
 				headerDescription);

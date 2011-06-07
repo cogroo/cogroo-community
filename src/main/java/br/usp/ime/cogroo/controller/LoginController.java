@@ -99,7 +99,7 @@ public class LoginController {
 		userDAO.update(userFromDB);
 		loggedUser.login(userFromDB);
 		
-		result.include("justLogged", true).include("service", "cogroo").include("login", login);
+		result.include("gaEventUserLogged", true).include("provider", "cogroo");
 		
 		String lastURL = loggedUser.getLastURLVisited();
 		if(lastURL != null && lastURL.length() > 0) {
@@ -203,8 +203,7 @@ public class LoginController {
 			userDAO.add(user);
 			appData.incRegisteredMembers();
 
-			result.include("justRegistered", true).include("service", service)
-					.include("login", login);
+			result.include("gaEventUserRegistered", true).include("provider", service);
 
 			userFromDB = user;
 		}
@@ -220,8 +219,7 @@ public class LoginController {
 		userDAO.update(userFromDB);
 		loggedUser.login(userFromDB);
 
-		result.include("justLogged", true).include("service", service)
-				.include("login", login);
+		result.include("gaEventUserLogged", true).include("provider", service);
 
 
 		String lastURL = loggedUser.getLastURLVisited();

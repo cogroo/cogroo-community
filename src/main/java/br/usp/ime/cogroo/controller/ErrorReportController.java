@@ -241,9 +241,8 @@ public class ErrorReportController {
 				omissionReplaceBy, omissionStart, omissionEnd);
 
 		result.include("okMessage", "Problema reportado com sucesso!");		
-		result.include("justReported", true)
-				.include("service", loggedUser.getUser().getService())
-				.include("login", loggedUser.getUser().getLogin());
+		result.include("gaEventErrorReported", true)
+				.include("provider", loggedUser.getUser().getService());
 
 		if(LOG.isDebugEnabled()) {
 			LOG.debug("New report added.");
@@ -581,6 +580,9 @@ public class ErrorReportController {
 			errorEntryLogic.addCommentToErrorEntry(errorEntryFromDB.getId(), loggedUser.getUser().getId(), newComment);
 			
 		}
+		
+		result.include("gaEventErrorCommented", true).include("provider", loggedUser.getUser().getService());
+		
 		result.redirectTo(ErrorReportController.class).details(errorEntryFromDB);
 	}
 	
@@ -608,6 +610,7 @@ public class ErrorReportController {
 	public void addAnswerToComment(ErrorEntry errorEntry, Comment comment, String answer) {
 		answer = sanitizer.sanitize(answer, true);
 		errorEntryLogic.addAnswerToComment(comment.getId(), loggedUser.getUser().getId(), answer);
+		result.include("gaEventErrorCommented", true).include("provider", loggedUser.getUser().getService());
 		result.redirectTo(ErrorReportController.class).details(errorEntry);
 	}
 	

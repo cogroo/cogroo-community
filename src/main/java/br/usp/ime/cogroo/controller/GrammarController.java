@@ -38,8 +38,11 @@ public class GrammarController {
 	@Get
 	@Path("/grammar")
 	public void grammar() {
-		if (!result.included().containsKey("text"))
-			result.include("text", "Isso são um exemplo de erro gramaticais.");
+		if (!result.included().containsKey("text")) {
+			String exampleText = "Isso são um exemplo de erro gramaticais.";
+			result.include("text", exampleText);
+			grammar(exampleText);
+		}
 		result.include("headerTitle", messages.getString("GRAMMAR_HEADER"))
 				.include("headerDescription",
 						messages.getString("GRAMMAR_DESCRIPTION"));
@@ -63,14 +66,13 @@ public class GrammarController {
 			if(text.length() > 255) {
 				text = text.substring(0, 255);
 			}
+			result.include("justAnalyzed", true);
 			if (loggedUser.isLogged())
-				result.include("justAnalyzed", true)
-						.include("service", loggedUser.getUser().getService())
-						.include("login", loggedUser.getUser().getLogin());
+				result.include("gaEventGrammarAnalyzed", true)
+						.include("provider", loggedUser.getUser().getService());
 			else
-				result.include("justAnalyzed", true)
-						.include("service", "no service")
-						.include("login", "anonymous");
+				result.include("gaEventGrammarAnalyzed", true)
+						.include("provider", "anonymous");
 			
 			
 			result.include("processResultList", cogroo.processText(text))

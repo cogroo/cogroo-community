@@ -8,10 +8,9 @@
 <script src="<c:url value='/js/jquery.dataTables.min.js' />" type="text/javascript" ></script>
 <script src="<c:url value='/js/jquery.dataTables.sort.js' />" type="text/javascript" ></script>
 
-<c:if test="${justReported}">
+<c:if test="${gaEventErrorReported}">
 	<script type="text/javascript">
-	_gaq.push(['_trackEvent', 'Problems', 'succeeded report', '${login}']);
-	_gaq.push(['_trackEvent', 'Problems', 'service used', '${service}']);
+	_gaq.push(['_trackEvent', 'Problems', 'succeeded report', '${provider}']);
 	</script>
 </c:if>
 

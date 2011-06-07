@@ -95,7 +95,7 @@ public class RecoverPasswordController {
 				password));
 		userDAO.update(userFromDB);
 		
-		result.include("justRecovered", true).include("login", userFromDB.getLogin());
+		result.include("gaEventPasswordRecovered", true).include("provider", userFromDB.getService());
 
 	}
 
