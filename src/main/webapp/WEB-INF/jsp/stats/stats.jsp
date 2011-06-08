@@ -9,8 +9,11 @@
       var data = new google.visualization.DataTable();
       data.addColumn('date', 'Date');
       data.addColumn('number', 'Eventos');
+      data.addColumn('string', 'title1');
       data.addColumn('number', 'Visitas');
+      data.addColumn('string', 'title2');
       data.addColumn('number', 'Impressões');
+      data.addColumn('string', 'title3');
       
       var str = "${appData.temporalData}";
       var entries = str.split(";")
@@ -20,13 +23,27 @@
     	  var metrics = entries[i].split(",");
     	  var date = metrics[0].split("-");
     	  data.setValue(i, 0, new Date(date[0], date[1] - 1, date[2]));
-    	  for (j=1;j<metrics.length;j++)
-    		  data.setValue(i, j, Number(metrics[j]));
+    	  for (j=1,k=1;j<metrics.length;j++,k+=2)
+    		  data.setValue(i, k, Number(metrics[j]));
       }
+      
+ 	  // 26/11/10
+      data.setValue(16, 6, 'Lançamento da versão 1.1.0');
+      // 30/11/10
+      data.setValue(20, 6, 'Notícia no <a href="http://br-linux.org/2010/broffice-nova-versao-do-corretor-gramatical-cogroo/">BR-Linux.org</a>');
+      // 12/04/11
+      data.setValue(153, 6, 'Lançamento da versão 1.2.0');
+      // 26/04/11
+      data.setValue(167, 4, 'Post no Twitter @<a href="http://twitter.com/vendenafarmacia/status/62998635268407296">vendenafarmacia</a>');
+      // 05/06/11
+      data.setValue(206, 2, 'Véspera deadline <a href="http://www.textolivre.pro.br/blog/?p=1107">UEADSL</a>');
       
       var annotatedtimeline = new google.visualization.AnnotatedTimeLine(
           document.getElementById('visualization'));
-      annotatedtimeline.draw(data, {'displayAnnotations': false});
+      annotatedtimeline.draw(data, {'displayAnnotations': true,
+    	  							'annotationsWidth': 15,
+    	  							'allowHtml': true,
+    	  							'dateFormat': "dd 'de' MMMM 'de' yyyy"});
     }
     
     google.setOnLoadCallback(drawVisualization);
@@ -51,7 +68,7 @@
 
 <h3>Temporais</h3>
 <div id="visualization" style="width: 964px; height: 400px;"></div>	
-<p class="right"><a href="<c:url value="/stats/EstatisticasCogrooComunidade.csv"/>" ><b>download</b></a></p>
+<p class="left"><a href="<c:url value="/stats/EstatisticasCogrooComunidade.csv"/>" onclick="_gaq.push(['_trackEvent', 'Link', 'clicked link', '<c:url value="/stats/EstatisticasCogrooComunidade.csv"/>']);"><b>download</b></a></p>
 <br />
 
 <h3>Relatórios</h3>
