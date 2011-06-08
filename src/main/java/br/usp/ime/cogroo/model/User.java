@@ -41,7 +41,7 @@ public class User {
 	private String name;
 	
 	@Column(length = 80)
-	private String service;
+	private String provider;
 	
 	@Column(length = 80)
 	private String twitter;
@@ -72,24 +72,24 @@ public class User {
 	
 	@Deprecated
 	public User(String login) {
-		this.service = "cogroo";
+		this.provider = "cogroo";
 		this.login = login;
 	}
 
 	public User(String service, String login) {
-		this.service = service;
+		this.provider = service;
 		this.login = login;
 	}
 	
 	@Deprecated
 	public User(String login, long id) {
-		this.service = "cogroo";
+		this.provider = "cogroo";
 		this.login = login;
 		this.id = id;
 	}
 
 	public User(String service, String login, long id) {
-		this.service = service;
+		this.provider = service;
 		this.login = login;
 		this.id = id;
 	}
@@ -250,14 +250,14 @@ public class User {
 		this.isReceiveEmail = Boolean.valueOf(isReceiveEmail);		
 	}
 	
-	public void setService(String service) {
-		this.service = service;
+	public void setService(String provider) {
+		this.provider = provider;
 	}
 
 	public String getService() {
-		if (service == null)
-			this.service = "cogroo";
-		return service;
+		if (provider == null)
+			this.provider = "cogroo";
+		return provider;
 	}
 
 	public void setTwitter(String twitter) {
