@@ -52,7 +52,7 @@ public class LoginControllerTest {
 		loggedUser = new LoggedUser(mockAppData);
 		Validator mockValidator = new MockValidator();
 		HttpServletRequest mockRequest = new MockHttpServletRequest();
-		loginController = new LoginController(mockResult, mockUserDAO, loggedUser, mockValidator, mockRequest, mockAppData);
+		loginController = new LoginController(mockResult, mockUserDAO, loggedUser, mockValidator, mockRequest, mockAppData, null);
 
 	}
 	

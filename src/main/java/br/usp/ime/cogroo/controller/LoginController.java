@@ -18,6 +18,7 @@ import br.com.caelum.vraptor.view.Results;
 import br.usp.ime.cogroo.Services;
 import br.usp.ime.cogroo.dao.UserDAO;
 import br.usp.ime.cogroo.exceptions.ExceptionMessages;
+import br.usp.ime.cogroo.logic.TextSanitizer;
 import br.usp.ime.cogroo.model.ApplicationData;
 import br.usp.ime.cogroo.model.LoggedUser;
 import br.usp.ime.cogroo.model.User;
@@ -35,19 +36,23 @@ public class LoginController {
 	
 	private HttpServletRequest request;
 	private ApplicationData appData;
+	private TextSanitizer sanitizer;
 	
 	private static final String HEADER_TITLE = "Login";
 	private static final String HEADER_DESCRIPTION = "Efetue login no CoGrOO Comunidade! É rápido e gratuito!";
 
 
 	public LoginController(Result result, UserDAO userDAO,
-			LoggedUser loggedUser, Validator validator, HttpServletRequest request, ApplicationData appData) {
+			LoggedUser loggedUser, Validator validator,
+			HttpServletRequest request, ApplicationData appData,
+			TextSanitizer sanitizer) {
 		this.result = result;
 		this.userDAO = userDAO;
 		this.loggedUser = loggedUser;
 		this.validator = validator;
 		this.request = request;
 		this.appData = appData;
+		this.sanitizer = sanitizer;
 	}
 
 	@Get
@@ -111,11 +116,11 @@ public class LoginController {
 
 	@Get
 	@Path("/login/oauth/{service}")
-	public void socialLogin(String service) {
+	public void oauthLogin(String service) {
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Trying to login with OAuth on service " + service);
 		}
-		
+
 		if (!Services.contains(service)) {
 			LOG.info("Trying to login with OAuth on invalid service " + service);
 			validator.add(new ValidationMessage(
@@ -147,32 +152,35 @@ public class LoginController {
 
 	@Get
 	@Path("/login/oauth")
-	public void socialLogin() {
+	public void oauthLogin() {
 		String service = (String) request.getSession().getAttribute("service");
 		AuthProvider provider = (AuthProvider) request.getSession()
 				.getAttribute("SocialAuth");
-		if (service == null || provider == null)
+		if (service == null || provider == null) {
+			result.redirectTo(LoginController.class).login();
 			return;
-
-		Profile p = null;
-		try {
-			p = provider.verifyResponse(request);
-		} catch (Exception e) {
-			LOG.error("Could not verify user using OAuth on " + service,
-					e);
-			validator.add(new ValidationMessage(
-					ExceptionMessages.OAUTH_VERIFY_USER_ERROR,
-					ExceptionMessages.ERROR));
-			validator.onErrorUse(Results.page()).of(LoginController.class).login();
 		}
-		if (p == null) {
-			LOG.error("Could not verify user using OAuth on " + service);
-			validator.add(new ValidationMessage(
-					ExceptionMessages.OAUTH_VERIFY_USER_ERROR,
-					ExceptionMessages.ERROR));
-			validator.onErrorUse(Results.page()).of(LoginController.class).login();
-		}		
+
+		Profile p = (Profile) provider.getUserProfile();
 		
+		if (p == null) {
+			try {
+				p = provider.verifyResponse(request);
+				//request.getSession().setAttribute("profile", p);
+			} catch (Exception e) {
+				LOG.error("Could not verify user using OAuth on " + service, e);
+				validator.add(new ValidationMessage(
+						ExceptionMessages.OAUTH_VERIFY_USER_ERROR,
+						ExceptionMessages.ERROR));
+				validator.onErrorUse(Results.page()).of(LoginController.class)
+						.login();
+			}
+		}
+
+		if (LOG.isDebugEnabled()) {
+			LOG.debug("OAuth profile for service " + service);
+			LOG.debug(p);
+		}
 
 		// Try to get a valid name in the following order of priority:
 		// 1. fullName
@@ -182,17 +190,16 @@ public class LoginController {
 				.getFirstName() != null || p.getLastName() != null ? p
 				.getFirstName() + " " + p.getLastName() : p.getDisplayName());
 
-		// FIXME replace / and other characters (???)
-		String login = "oauth-" + p.getValidatedId(); 
+		// TODO replace / and other special characters, if necessary.
+		String login = "oauth-" + p.getValidatedId();
 
-		User userFromDB = userDAO.retrieveByLogin(service, login);
-
-		if (userFromDB == null) {
+		if (!userDAO.exist(service, login)) {
 			// Register
 			if (LOG.isDebugEnabled()) {
-				LOG.debug("Registering new OAuth user " + login + " with service " + service);
+				LOG.debug("Trying to register OAuth user " + login
+						+ " with service " + service);
 			}
-			
+
 			User user = new User(service, login);
 			if (p.getEmail() != null)
 				user.setEmail(p.getEmail());
@@ -200,27 +207,114 @@ public class LoginController {
 				user.setName(name);
 			if (service.equals("twitter"))
 				user.setTwitter(p.getDisplayName());
-			userDAO.add(user);
-			appData.incRegisteredMembers();
+			result.include(user);
 
-			result.include("gaEventUserRegistered", true).include("provider", service);
-
-			userFromDB = user;
+			return;
 		}
-		
-		// Login
+
+		oauthLogin(service, login);
+	}
+
+	@Post
+	@Path("/register/oauth")
+	public void oauthRegister(String provider, String login, String email,
+			String name, String twitter, boolean iAgree) {
+		if (LOG.isDebugEnabled()) {
+			LOG.debug("Registering new OAuth user " + login + " with service "
+					+ provider);
+		}
+
+		// TODO move to logic
+		provider = sanitizer.sanitize(provider, false);
+		login = sanitizer.sanitize(login, false);
+		email = sanitizer.sanitize(email, false);
+		name = sanitizer.sanitize(name, false);
+		twitter = sanitizer.sanitize(twitter, false);
+
+		email = email.trim();
+
+		if (provider.trim().isEmpty())
+			validator.add(new ValidationMessage(ExceptionMessages.EMPTY_FIELD,
+					ExceptionMessages.INVALID_ENTRY));
+
+		if (name.trim().isEmpty())
+			validator.add(new ValidationMessage(
+					ExceptionMessages.USER_CANNOT_BE_EMPTY,
+					ExceptionMessages.INVALID_ENTRY));
+
+		if (login.trim().isEmpty())
+			validator.add(new ValidationMessage(
+					ExceptionMessages.LOGIN_CANNOT_BE_EMPTY,
+					ExceptionMessages.INVALID_ENTRY));
+
+		if (email.isEmpty()
+				|| !RegisterController.EMAIL_PATTERN.matcher(email).matches())
+			validator.add(new ValidationMessage(
+					ExceptionMessages.INVALID_EMAIL,
+					ExceptionMessages.INVALID_ENTRY));
+
+		if (!iAgree) {
+			validator.add(new ValidationMessage(
+					ExceptionMessages.USER_MUST_BE_AGREE_TERMS,
+					ExceptionMessages.INVALID_ENTRY));
+		}
+
+		if (!login.trim().isEmpty()) {
+			if (!login.trim().startsWith("oauth")) {
+				validator.add(new ValidationMessage(
+						ExceptionMessages.FORBIDDEN_LOGIN,
+						ExceptionMessages.INVALID_ENTRY));
+			}
+			if (userDAO.exist(provider, login)) {
+				validator.add(new ValidationMessage(
+						ExceptionMessages.USER_ALREADY_EXIST,
+						ExceptionMessages.INVALID_ENTRY));
+			}
+		}
+
+		if (!email.isEmpty()) {
+			User userFromDB = userDAO.retrieveByEmail(provider, email);
+			if (userFromDB != null) {
+				validator.add(new ValidationMessage(
+						ExceptionMessages.EMAIL_ALREADY_EXIST,
+						ExceptionMessages.INVALID_ENTRY));
+			}
+		}
+
+		if (twitter != null) {
+			twitter = twitter.replace("@", "");
+		}
+
+		validator.onErrorUse(Results.logic()).redirectTo(LoginController.class)
+				.oauthLogin();
+
+		User user = new User(provider, login);
+		user.setEmail(email);
+		user.setName(name);
+		user.setTwitter(twitter);
+		userDAO.add(user);
+		appData.incRegisteredMembers();
+
+		result.include("okMessage", "Cadastro realizado com sucesso!");
+		result.include("gaEventUserRegistered", true).include("provider",
+				provider);
+
+		oauthLogin(provider, login);
+	}
+
+	// TODO move to logic?
+	private void oauthLogin(String service, String login) {
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Loging OAuth user " + login + " with service " + service);
-			LOG.debug("Profile:");
-			LOG.debug(p);
 		}
+
+		User userFromDB = userDAO.retrieveByLogin(service, login);
 
 		userFromDB.setLastLogin(System.currentTimeMillis());
 		userDAO.update(userFromDB);
 		loggedUser.login(userFromDB);
 
 		result.include("gaEventUserLogged", true).include("provider", service);
-
 
 		String lastURL = loggedUser.getLastURLVisited();
 		if (lastURL != null && lastURL.length() > 0) {
