@@ -241,8 +241,7 @@ public class ErrorReportController {
 				omissionReplaceBy, omissionStart, omissionEnd);
 
 		result.include("okMessage", "Problema reportado com sucesso!");		
-		result.include("gaEventErrorReported", true)
-				.include("provider", loggedUser.getUser().getService());
+		result.include("gaEventErrorReported", true);
 
 		if(LOG.isDebugEnabled()) {
 			LOG.debug("New report added.");
@@ -475,6 +474,7 @@ public class ErrorReportController {
 			this.errorEntryLogic.updateOmission(errorEntryFromDB, originalErrorEntry);
 		}
 		
+		result.include("gaEventErrorChanged", true);
 		result.redirectTo(getClass()).details(errorEntryFromDB);
 
 	}
@@ -581,7 +581,7 @@ public class ErrorReportController {
 			
 		}
 		
-		result.include("gaEventErrorCommented", true).include("provider", loggedUser.getUser().getService());
+		result.include("gaEventCommentAdded", true);
 		
 		result.redirectTo(ErrorReportController.class).details(errorEntryFromDB);
 	}
@@ -610,7 +610,7 @@ public class ErrorReportController {
 	public void addAnswerToComment(ErrorEntry errorEntry, Comment comment, String answer) {
 		answer = sanitizer.sanitize(answer, true);
 		errorEntryLogic.addAnswerToComment(comment.getId(), loggedUser.getUser().getId(), answer);
-		result.include("gaEventErrorCommented", true).include("provider", loggedUser.getUser().getService());
+		result.include("gaEventCommentAdded", true);
 		result.redirectTo(ErrorReportController.class).details(errorEntry);
 	}
 	
@@ -635,6 +635,7 @@ public class ErrorReportController {
 	public void errorEntrySetPriority(ErrorEntry errorEntry, String priority) {
 		if(loggedUser.getUser().getRole().getCanSetErrorReportPriority()) {
 			errorEntryLogic.setPriority(errorEntry, Enum.valueOf(Priority.class, priority));
+			result.include("gaEventPriorityChanged", true);
 			result.redirectTo(ErrorReportController.class).details(errorEntry);
 		} else {
 			LOG.info("Invalid user tried to set priority: " + loggedUser.getUser());
@@ -648,6 +649,7 @@ public class ErrorReportController {
 	public void errorEntrySetState(ErrorEntry errorEntry, String state) {
 		if(loggedUser.getUser().getRole().getCanSetErrorReportState()) {
 			errorEntryLogic.setState(errorEntry, Enum.valueOf(State.class, state));
+			result.include("gaEventStateChanged", true);
 			result.redirectTo(ErrorReportController.class).details(errorEntry);
 		} else {
 			LOG.info("Invalid user tried to set priority: " + loggedUser.getUser());

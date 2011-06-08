@@ -81,26 +81,26 @@ public class UserDAO {
 	return (retrieveByLogin("cogroo", login) != null);
 }
 
-	public boolean exist(String service, String login) {
-		return (retrieveByLogin(service, login) != null);
+	public boolean exist(String provider, String login) {
+		return (retrieveByLogin(provider, login) != null);
 	}
 	
 	@Deprecated
 	public User retrieveByLogin(String login) {
-		return retrieve("cogroo", "service", login, "login");
+		return retrieve("cogroo", "provider", login, "login");
 	}
 
-	public User retrieveByLogin(String service, String login) {
-		return retrieve(service, "service", login, "login");
+	public User retrieveByLogin(String provider, String login) {
+		return retrieve(provider, "provider", login, "login");
 	}
 	
 	@Deprecated
 	public User retrieveByEmail(String email) {
-		return retrieve("cogroo", "service", email, "email");
+		return retrieve("cogroo", "provider", email, "email");
 	}
 
-	public User retrieveByEmail(String service, String email) {
-		return retrieve(service, "service", email, "email");
+	public User retrieveByEmail(String provider, String email) {
+		return retrieve(provider, "provider", email, "email");
 	}
 
 	private User retrieve(String value1, String field1, String value2, String field2) {

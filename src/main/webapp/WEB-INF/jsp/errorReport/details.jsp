@@ -33,6 +33,7 @@
 			   		function(data){
 			   });
 				
+				_gaq.push(['_trackEvent', 'Problems', 'removed comment', '${loggedUser.user.service}']);
 				//tr_answer_
 				$('#tr_answer' + currentId).remove();
 
@@ -55,6 +56,7 @@
 			   		function(data){
 			   });
 				
+				_gaq.push(['_trackEvent', 'Problems', 'removed comment', '${loggedUser.user.service}']);
 				//tr_answer_
 				$('#comment_' + currentId).remove();
 
@@ -119,9 +121,24 @@ table.answer td {
 }
 </style>
 
-<c:if test="${gaEventErrorCommented}">
+<c:if test="${gaEventErrorChanged}">
 	<script type="text/javascript">
-	_gaq.push(['_trackEvent', 'Problems', 'added comment', '${provider}']);
+	_gaq.push(['_trackEvent', 'Problems', 'changed report', '${loggedUser.user.service}']);
+	</script>
+</c:if>
+<c:if test="${gaEventCommentAdded}">
+	<script type="text/javascript">
+	_gaq.push(['_trackEvent', 'Problems', 'added comment', '${loggedUser.user.service}']);
+	</script>
+</c:if>
+<c:if test="${gaEventPriorityChanged}">
+	<script type="text/javascript">
+	_gaq.push(['_trackEvent', 'Problems', 'changed priority', '${loggedUser.user.service}']);
+	</script>
+</c:if>
+<c:if test="${gaEventStateChanged}">
+	<script type="text/javascript">
+	_gaq.push(['_trackEvent', 'Problems', 'changed state', '${loggedUser.user.service}']);
 	</script>
 </c:if>
 

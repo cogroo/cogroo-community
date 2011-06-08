@@ -10,7 +10,7 @@
 
 <c:if test="${gaEventErrorReported}">
 	<script type="text/javascript">
-	_gaq.push(['_trackEvent', 'Problems', 'succeeded report', '${provider}']);
+	_gaq.push(['_trackEvent', 'Problems', 'succeeded report', '${loggedUser.user.service}']);
 	</script>
 </c:if>
 
@@ -30,6 +30,7 @@
 		   		function(data){
 		   });
 			//location.reload();
+			_gaq.push(['_trackEvent', 'Problems', 'removed report', '${loggedUser.user.service}']);
 			var nTr = $('#tr_errorEntry_' + currentId).get(0);
 			oTable.fnClose( nTr );
 			oTable.fnDeleteRow(nTr);

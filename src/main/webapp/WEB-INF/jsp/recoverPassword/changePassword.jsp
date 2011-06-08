@@ -2,7 +2,7 @@
 
 <c:if test="${gaEventPasswordRecovered}">
 	<script type="text/javascript">
-	_gaq.push(['_trackEvent', 'Password Recover', 'succeeded recover', '${provider}']);
+	_gaq.push(['_trackEvent', 'User', 'recovered password', '${provider}']);
 	</script>
 </c:if>	
 
