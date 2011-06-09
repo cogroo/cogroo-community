@@ -62,6 +62,7 @@ public class UserController {
 			validator.onErrorUse(Results.logic()).redirectTo(
 					UserController.class).userList();
 		}
+		user = userDAO.retrieveByLogin(user.getService(), user.getLogin());
 
 		result.include("user", user);
 		result.include("roleList", RoleProvider.getInstance().getRoles());
