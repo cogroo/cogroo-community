@@ -20,6 +20,12 @@
             	<span class="required">*</span></label>
             	<input type="text" value="${ user.email }" maxlength="60" style="width: 300px;" class="inputtxt" name="email" id="email"> 
             </p>
+            <br/>
+            <p>Se quiser ser notificado sobre alterações no site, informe seu Twitter:</p>
+            <p>
+            	<label for="twitter" class="loginlabel">Twitter:</label>
+            	<input type="text" value="${ user.twitter }" maxlength="60" style="width: 300px;" class="inputtxt" name="twitter" id="twitter"> (opcional) 
+            </p>
            
         </div>
         

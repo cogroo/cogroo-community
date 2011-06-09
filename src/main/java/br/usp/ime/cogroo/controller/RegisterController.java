@@ -22,6 +22,8 @@ import br.usp.ime.cogroo.util.CriptoUtils;
 @Resource
 public class RegisterController {
 	
+	private static final String LOGIN_REGEX = "[A-Z0-9.@_%+-]+";
+	public static final Pattern LOGIN_PATTERN = Pattern.compile(LOGIN_REGEX, Pattern.CASE_INSENSITIVE);
 	private static final String EMAIL_REGEX = "[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}";
 	public static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX, Pattern.CASE_INSENSITIVE);
 
@@ -74,8 +76,8 @@ public class RegisterController {
 			validator.add(new ValidationMessage(ExceptionMessages.USER_CANNOT_BE_EMPTY,
 					ExceptionMessages.INVALID_ENTRY));
 		
-		if (login.trim().isEmpty())
-			validator.add(new ValidationMessage(ExceptionMessages.LOGIN_CANNOT_BE_EMPTY,
+		if (login.trim().isEmpty() || !LOGIN_PATTERN.matcher(login).matches())
+			validator.add(new ValidationMessage(ExceptionMessages.FORBIDDEN_LOGIN,
 					ExceptionMessages.INVALID_ENTRY));
 
 		if (email.isEmpty() || !EMAIL_PATTERN.matcher(email).matches())

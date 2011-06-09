@@ -35,9 +35,11 @@
             		<span class="required">*</span></label>
             	<input type="password" id="pw" name="passwordRepeat" class="inputtxt" style="width: 300px;" maxlength="20" /> 
             </p>
+            <br/>
+            <p>Se quiser ser notificado sobre alterações no site, informe seu Twitter:</p>
             <p>
             	<label for="twitter" class="loginlabel">Twitter:</label>
-            	<input type="text" value="${ twitter }" maxlength="60" style="width: 300px;" class="inputtxt" name="twitter" id="twitter"> 
+            	<input type="text" value="${ twitter }" maxlength="60" style="width: 300px;" class="inputtxt" name="twitter" id="twitter"> (opcional) 
             </p>
             
         </div>
