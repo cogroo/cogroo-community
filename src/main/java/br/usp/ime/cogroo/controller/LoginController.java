@@ -85,15 +85,15 @@ public class LoginController {
 						.login();
 			}
 		}
-
-		User userFromDB = userDAO.retrieveByLogin("cogroo", login);
-		if (userFromDB == null) {
+		
+		if (!userDAO.existLogin("cogroo", login)) {
 			LOG.info("User unknown[" + login
 					+ "]. Redirecting to register page.");
 			validator.add(new ValidationMessage(ExceptionMessages.USER_DONT_EXISTS,
 					ExceptionMessages.ERROR));
 			validator.onErrorUse(Results.page()).of(LoginController.class).login();
 		}
+		User userFromDB = userDAO.retrieveByLogin("cogroo", login);
 
 		String passCripto = CriptoUtils.digestMD5(login, password);
 		String passFromDB = userFromDB.getPassword();
@@ -203,7 +203,7 @@ public class LoginController {
 		// TODO replace / and other special characters, if necessary.
 		String login = "oauth-" + p.getValidatedId();
 
-		if (!userDAO.exist(service, login)) {
+		if (!userDAO.existLogin(service, login)) {
 			// Register
 			if (LOG.isDebugEnabled()) {
 				LOG.debug("Trying to register OAuth user " + login
@@ -275,7 +275,7 @@ public class LoginController {
 						ExceptionMessages.FORBIDDEN_LOGIN,
 						ExceptionMessages.INVALID_ENTRY));
 			}
-			if (userDAO.exist(provider, login)) {
+			if (userDAO.existLogin(provider, login)) {
 				validator.add(new ValidationMessage(
 						ExceptionMessages.USER_ALREADY_EXIST,
 						ExceptionMessages.INVALID_ENTRY));
@@ -283,8 +283,7 @@ public class LoginController {
 		}
 
 		if (!email.isEmpty()) {
-			User userFromDB = userDAO.retrieveByEmail(provider, email);
-			if (userFromDB != null) {
+			if (userDAO.existEmail(provider, email)) {
 				validator.add(new ValidationMessage(
 						ExceptionMessages.EMAIL_ALREADY_EXIST,
 						ExceptionMessages.INVALID_ENTRY));

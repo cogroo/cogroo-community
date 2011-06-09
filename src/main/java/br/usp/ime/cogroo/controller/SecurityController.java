@@ -44,7 +44,7 @@ public class SecurityController {
 	public void saveClientSecurityKey(String user, String pubKey) {
 		LOG.debug("Saving pubkey for user: " + user + ". Will prepare a secret key for user send the password.");
 		try {
-			if(this.userDAO.exist("cogroo", user)) {
+			if(this.userDAO.existLogin("cogroo", user)) {
 				String key = this.securityUtil.genSecretKeyForUser(this.userDAO.retrieveByLogin("cogroo", user), this.securityUtil.decodeURLSafe(pubKey));
 				result.include("encryptedSecretKey", RestUtil.prepareResponse("encryptedSecretKey", key));
 			} else {
@@ -68,7 +68,7 @@ public class SecurityController {
 	@Path("/generateAuthenticationForUser")
 	public void generateAuthenticationForUser(String username, String encryptedPassword) {
 		try {
-			if(this.userDAO.exist("cogroo", username)) {
+			if(this.userDAO.existLogin("cogroo", username)) {
 				LOG.debug("Will generate token for " + username);
 				String token = this.securityUtil.generateAuthenticationTokenForUser(this.userDAO.retrieveByLogin("cogroo", username), securityUtil.decodeURLSafe(encryptedPassword));
 				if(token != null) {

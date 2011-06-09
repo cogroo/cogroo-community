@@ -110,8 +110,7 @@ public class RecoverPasswordController {
 			validator.add(new ValidationMessage(ExceptionMessages.EMPTY_FIELD,
 					ExceptionMessages.ERROR));
 		} else {
-			userFromDB = userDAO.retrieveByEmail("cogroo", email);
-			if (userFromDB == null) {
+			if (!userDAO.existEmail("cogroo", email)) {
 				validator.add(new ValidationMessage(
 						ExceptionMessages.INVALID_EMAIL,
 						ExceptionMessages.ERROR));

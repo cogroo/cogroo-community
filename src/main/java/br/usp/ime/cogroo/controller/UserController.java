@@ -56,8 +56,7 @@ public class UserController {
 			result.redirectTo(getClass()).userList();
 			return;
 		}
-		user = userDAO.retrieveByLogin(user.getService(), user.getLogin());
-		if (user == null) {
+		if (!userDAO.existLogin(user.getService(), user.getLogin())) {
 			validator.add(new ValidationMessage(
 					ExceptionMessages.PAGE_NOT_FOUND, ExceptionMessages.ERROR));
 			validator.onErrorUse(Results.logic()).redirectTo(
@@ -116,8 +115,8 @@ public class UserController {
 
 			// validate email
 			if (!email.isEmpty()) {
-				User userFromDB = userDAO.retrieveByEmail(user.getService(), email);	//FIXME testar!!
-				if (userFromDB != null && !email.equals(userFromDB.getEmail())) {
+				User userFromDB = userDAO.retrieveByEmail(user.getService(), email);
+				if (userDAO.existEmail(user.getService(), email) && user.getId() != userFromDB.getId()) {
 					validator.add(new ValidationMessage(
 							ExceptionMessages.EMAIL_ALREADY_EXIST,
 							ExceptionMessages.INVALID_ENTRY));

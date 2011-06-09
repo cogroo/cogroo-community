@@ -81,29 +81,33 @@ public class UserDAO {
 	return (retrieveByLogin("cogroo", login) != null);
 }
 
-	public boolean exist(String provider, String login) {
-		return (retrieveByLogin(provider, login) != null);
+	public boolean existLogin(String provider, String login) {
+		return (retrieveAll(provider, "provider", login, "login").size() > 0);
+	}
+	
+	public boolean existEmail(String provider, String email) {
+		return (retrieveAll(provider, "provider", email, "email").size() > 0);
 	}
 	
 	@Deprecated
 	public User retrieveByLogin(String login) {
-		return retrieve("cogroo", "provider", login, "login");
+		return retrieveSingle("cogroo", "provider", login, "login");
 	}
 
 	public User retrieveByLogin(String provider, String login) {
-		return retrieve(provider, "provider", login, "login");
+		return retrieveSingle(provider, "provider", login, "login");
 	}
 	
 	@Deprecated
 	public User retrieveByEmail(String email) {
-		return retrieve("cogroo", "provider", email, "email");
+		return retrieveSingle("cogroo", "provider", email, "email");
 	}
 
 	public User retrieveByEmail(String provider, String email) {
-		return retrieve(provider, "provider", email, "email");
+		return retrieveSingle(provider, "provider", email, "email");
 	}
 
-	private User retrieve(String value1, String field1, String value2, String field2) {
+	private User retrieveSingle(String value1, String field1, String value2, String field2) {
 		User user = null;
 		try {
 			user = (User) em.createQuery(
@@ -118,7 +122,21 @@ public class UserDAO {
 		return user;
 	}
 	
-	private User retrieve(String value, String field) {
+	@SuppressWarnings("unchecked")
+	private List<User> retrieveAll(String value1, String field1, String value2, String field2) {
+		List<User> users = null;
+		try {
+			users = (List<User>) em.createQuery(
+					"from " + USER_ENTITY + " w where w." + field1 + "=?1 and w." + field2 + "=?2")
+					.setParameter(1, value1).setParameter(2, value2).getResultList();
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+			// TODO: HANDLE ERROR
+		}
+		return users;
+	}
+	
+	private User retrieveSingle(String value, String field) {
 		User user = null;
 		try {
 			user = (User) em.createQuery(

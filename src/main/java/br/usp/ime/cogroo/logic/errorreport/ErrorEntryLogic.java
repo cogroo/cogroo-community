@@ -196,7 +196,7 @@ public class ErrorEntryLogic {
 
 		// try to get user, or create it
 		User cogrooUser;
-		if (userDAO.exist("cogroo", username)) {
+		if (userDAO.existLogin("cogroo", username)) {
 			cogrooUser = userDAO.retrieveByLogin(service, username);
 		} else {
 			LOG.error("Invalid user in addErrorEntry:" + username);

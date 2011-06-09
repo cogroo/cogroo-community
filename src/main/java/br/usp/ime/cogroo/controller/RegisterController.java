@@ -101,8 +101,7 @@ public class RegisterController {
 				validator.add(new ValidationMessage(ExceptionMessages.FORBIDDEN_LOGIN,
 						ExceptionMessages.INVALID_ENTRY));
 			}
-			User userFromDB = userDAO.retrieveByLogin("cogroo", login);
-			if (userFromDB != null) {
+			if (userDAO.existLogin("cogroo", login)) {
 				validator.add(new ValidationMessage(
 						ExceptionMessages.USER_ALREADY_EXIST,
 						ExceptionMessages.INVALID_ENTRY));
@@ -110,8 +109,7 @@ public class RegisterController {
 		}
 		
 		if (!email.isEmpty()) {
-			User userFromDB = userDAO.retrieveByEmail("cogroo", email);
-			if (userFromDB != null) {
+			if (userDAO.existEmail("cogroo", email)) {
 				validator.add(new ValidationMessage(
 						ExceptionMessages.EMAIL_ALREADY_EXIST, ExceptionMessages.INVALID_ENTRY));
 			}
