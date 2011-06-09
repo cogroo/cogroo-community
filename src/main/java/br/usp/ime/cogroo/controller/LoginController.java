@@ -75,6 +75,16 @@ public class LoginController {
 			validator.onErrorUse(Results.page()).of(LoginController.class)
 					.login();
 		}
+		
+		if (!login.trim().isEmpty()) {
+			if (login.trim().startsWith("oauth")) {
+				validator.add(new ValidationMessage(
+						ExceptionMessages.FORBIDDEN_LOGIN,
+						ExceptionMessages.INVALID_ENTRY));
+				validator.onErrorUse(Results.page()).of(LoginController.class)
+						.login();
+			}
+		}
 
 		User userFromDB = userDAO.retrieveByLogin("cogroo", login);
 		if (userFromDB == null) {
@@ -82,7 +92,7 @@ public class LoginController {
 					+ "]. Redirecting to register page.");
 			validator.add(new ValidationMessage(ExceptionMessages.USER_DONT_EXISTS,
 					ExceptionMessages.ERROR));
-			validator.onErrorUse(Results.page()).of(RegisterController.class).register();
+			validator.onErrorUse(Results.page()).of(LoginController.class).login();
 		}
 
 		String passCripto = CriptoUtils.digestMD5(login, password);
@@ -309,7 +319,7 @@ public class LoginController {
 		}
 
 		User userFromDB = userDAO.retrieveByLogin(service, login);
-
+		
 		userFromDB.setLastLogin(System.currentTimeMillis());
 		userDAO.update(userFromDB);
 		loggedUser.login(userFromDB);

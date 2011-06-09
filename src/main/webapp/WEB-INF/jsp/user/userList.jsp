@@ -23,6 +23,7 @@
 			"sInfoFiltered": "(filtrados de um total de _MAX_ entradas)"
 			},
 			"aLengthMenu": [20,50,100,200],
+			"aaSorting": [[ 4, 'desc' ]],
 			"iDisplayLength": 20,
 			"aoColumns": [
 				null,	//service
@@ -60,7 +61,7 @@
 						<td><fmt:message key="${user.role}" /></td>
 						<td><c:choose>
 							<c:when test="${not empty user.lastLogin}">
-								<span title="<fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss" value="${user.lastLogin}" />"></span><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${user.lastLogin}" />
+								<span title="${user.lastLogin}"></span><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${user.lastLogin}" />
 							</c:when>
 							<c:otherwise>
 							nunca
