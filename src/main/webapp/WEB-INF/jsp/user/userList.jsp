@@ -64,7 +64,7 @@
 								<span title="${user.lastLogin}"></span><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${user.lastLogin}" />
 							</c:when>
 							<c:otherwise>
-							nunca
+								<span title="0"></span>nunca
 							</c:otherwise>
 						</c:choose></td>
 					</tr>
