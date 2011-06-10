@@ -6,34 +6,13 @@
 			Este é o portal colaborativo para aprimorar o CoGrOO, o corretor gramatical em português para o LibreOffice e OpenOffice.org.
 		</p>
 		<p>
-			Conheça aqui mais sobre este projeto, os seus <a href="#num">números</a>, <a href="#ling">linguístas</a> e <a href="#dev">desenvolvedores</a>. Quer participar? Existe muito o que fazer. Veja como começar ....
+			Conheça aqui mais sobre este projeto, os seus <a href="#num">números</a>, <a href="#ling">linguístas</a> e <a href="#dev">desenvolvedores</a>. Quer participar? Existe muito o que fazer. Veja como começar em <a href="<c:url value="/development"/>">desenvolvimento</a>.
 		</p>
 		<p>
 			O portal CoGrOO Comunidade é software livre, distribuido sob a licença <a href="http://www.gnu.org/licenses/gpl-3.0-standalone.html" >GPL-3.0</a>.
 		</p>
 	</div>
-	
-	
-	<div class="white_box">
-		<a name="num"><h2>Números do desenvolvimento</h2></a>
 		
-		<div class="dashed_white">
-			<table border="0" cellspacing="10">
-			  <tr>
-			    <td>
-			    	<script type="text/javascript" src="http://www.ohloh.net/p/584248/widgets/project_basic_stats.js"></script>
-				</td>
-			    <td>
-			    	<script type="text/javascript" src="http://www.ohloh.net/p/584248/widgets/project_languages.js"></script>
-				</td>
-			    <td>
-			    	<script type="text/javascript" src="http://www.ohloh.net/p/584248/widgets/project_cocomo.js"></script>
-				</td>
-			  </tr>
-			</table>
-		</div>
-	</div>
-	
 	<div class="white_box">
 		<a name="dev"><h2>Quem cria este site?</h2></a>
 		<div class="dashed_white" >
@@ -70,8 +49,8 @@
 		<div class="dashed_white" >
 			<table border="0" cellpadding="10" cellspacing="10">
 			  <tr>
-					<td width="180"><%-- <img alt='William Colen' height='170'
-						src='<c:url value="images/people/wc.jpg"/>' width='170' /> --%></td>
+					<td width="180"><img alt='Wesley Seidel' height='170'
+						src='<c:url value="images/people/wesley.jpg"/>' width='170' /></td>
 					<td>
 					<h2 align="right">Wesley Seidel</h2>
 			    	<p align="justify" style="margin-left: 15px">Graduado em
@@ -164,6 +143,54 @@
 			</table>
 		</div>
 	</div>
+	
+		<div class="white_box">
+		<a name="num"><h2>Números</h2>
+		</a>
+
+		<div class="dashed_white">
+			<h3>Números do Desenvolvimento</h3>
+			<table border="0" cellspacing="10">
+				<tr>
+				<td><script type="text/javascript"
+						src="http://www.ohloh.net/p/584248/widgets/project_basic_stats.js"></script>
+				</td>
+				<td><script type="text/javascript"
+						src="http://www.ohloh.net/p/584248/widgets/project_languages.js"></script>
+
+				</td>
+				</tr>
+			</table>
+			* números a partir da mudança para o SourceForge
+		</div>
+		<div class="dashed_white">
+			<h3>Números da Comunidade</h3>
+			<table border="0" cellspacing="10">
+				<tr>
+					<td align="right"><b>Visitas:</b>
+					</td>
+					<td align="right">${appData.visits}</td>
+				</tr>
+				<tr>
+					<td align="right"><b>Impressões:</b>
+					</td>
+					<td align="right">${appData.pageviews}</td>
+				</tr>
+				<tr>
+					<td align="right"><b>Erros reportados:</b>
+					</td>
+					<td align="right">${appData.reportedErrors}</td>
+				</tr>
+				<tr>
+					<td align="right"><b>Membros:</b>
+					</td>
+					<td align="right">${appData.registeredMembers}</td>
+				</tr>
+			</table>
+			* veja mais em <a href="<c:url value="/stats"/>">estatísticas</a>.
+		</div>
+	</div>
+	
 
 	<div class="white_box">
 		<h2>Quem já colaborou?</h2>
