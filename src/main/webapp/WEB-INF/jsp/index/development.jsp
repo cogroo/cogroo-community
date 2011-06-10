@@ -2,11 +2,16 @@
 <div id="about">
 	<div class="yellow_box">
 		<h1>Desenvolvimento</h1>
+		<p>Que tal colaborar no desenvolvimento do CoGrOO Comunidade? Pode
+			ser uma ótima oportunidade para adquirir, praticar ou aprimorar seus
+			conhecimentos de desenvolvimento de software, e ainda fazer parte de
+			uma comunidade de desenvovimento de software livre.</p>
 		<p>
-			Que tal colaborar no desenvolvimento do CoGrOO Comunidade? Conheça
-			aqui como obter o <a href="#src">código fonte</a>, como <a
-				href="#comp">compilar</a> e <a href="#begin">por onde começar</a>.
+			Conheça aqui como obter o código fonte</a>, como <a href="#comp">compilar</a>
+			e <a href="#begin">por onde começar</a>.
 		</p>
+
+
 	</div>
 
 	<div class="white_box">
@@ -42,7 +47,8 @@
 				<code>svn co
 					https://cogroo.svn.sourceforge.net/svnroot/cogroo/cogroo-community/tags/(nome
 					da tag)</code>
-				<code>svn co
+				<br>
+				<code> svn co
 					https://cogroo.svn.sourceforge.net/svnroot/cogroo/cogroo-community/branches/(nome
 					do branch)</code>
 			</div>
@@ -100,10 +106,10 @@
 				<code>cogroo-community/src/main/resources/META-INF/persistence.xml</code>
 				.
 			<p>
-			<h3>Configurando o cogroo.properties</h3>
+			<h3>Configurando o comunidade.properties</h3>
 			<p>
 				Copie o arquivo
-				<code>cogroo-community/cogroo.properties</code>
+				<code>cogroo-community/comunidade.properties</code>
 				para a pasta um nível acima, junto da pasta
 				<code>cogroo-community</code>
 				. Este arquivo armazena informações confidenciais do projeto, como
@@ -144,7 +150,8 @@
 					href="http://ccsl.ime.usp.br/redmine/projects/cogroo-community/issues">repositório
 					de tarefas</a>. Você pode escolher uma que te agrade e submeter um
 				patch. Caso tenha dúvidas, queira sugestões ou acompanhamento em uma
-				tarefa entre em contato pelo fórum.
+				tarefa entre em contato pelo <a
+					href="https://sourceforge.net/projects/cogroo/forums/forum/1285746">fórum</a>.
 			</p>
 		</div>
 	</div>
