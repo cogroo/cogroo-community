@@ -183,6 +183,7 @@
 					<li><a title="Página inicial." href="<c:url value="/"/>">Página inicial</a></li>
 					<li><a title="Mapa do site." href="<c:url value="/sitemap"/>">Mapa do site</a></li>
 					<li><a title="Estatísticas de acessso." href="<c:url value="/stats"/>">Estatísticas</a></li>
+					<li><a title="Colabore no desenvolvimento do Cogroo Comunidade." href="<c:url value="/development"/>">Desenvolvimento</a></li>
 					<li><a title="Histórico do Cogroo Comunidade." href="<c:url value="/about"/>">Sobre</a></li>
 				</ul>
 			</li>

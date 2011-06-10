@@ -7,6 +7,7 @@ import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
 import br.usp.ime.cogroo.logic.RulesLogic;
 import br.usp.ime.cogroo.logic.errorreport.ErrorEntryLogic;
+import br.usp.ime.cogroo.model.ApplicationData;
 
 /**
  * Today this is the entry point of the web application. It shows a form where a
@@ -19,12 +20,14 @@ public class IndexController {
 	private final Result result;
 	private ErrorEntryLogic errorEntryLogic;
 	private RulesLogic rulesLogic;
+	private ApplicationData appData;
 
 	public IndexController(Result result, ErrorEntryLogic errorEntryLogic,
-			RulesLogic rulesLogic) {
+			RulesLogic rulesLogic, ApplicationData appData) {
 		this.result = result;
 		this.errorEntryLogic = errorEntryLogic;
 		this.rulesLogic = rulesLogic;
+		this.appData = appData;
 	}
 
 	@Get
@@ -42,7 +45,17 @@ public class IndexController {
 	@Get
 	@Path("/about")
 	public void about() {
+		result.include("appData", appData);
+		
 		result.include("headerTitle", "Sobre");
+	}
+	
+	@Get
+	@Path("/development")
+	public void development() {
+		result.include("appData", appData);
+		
+		result.include("headerTitle", "Desenvolvimento");
 	}
 	
 	@Get
