@@ -6,14 +6,14 @@
 	<li class="outside_list"><a href="<c:url value="/reports"/>">Problemas Reportados</a>
 	<ul>
 		<c:forEach items="${errorEntryList}" var="errorEntry">
-			<li><a href="<c:url value="/reports/${errorEntry.id}"/>">Problema #${errorEntry.id}: ${errorEntry.text}</a></li>
+			<li><a href="<c:url value="/reports/${errorEntry.id}"/>">Problema Nº. ${errorEntry.id}: ${errorEntry.text}</a></li>
 		</c:forEach>
 	</ul>
 	</li>
 	<li class="outside_list"><a href="<c:url value="/rules"/>">Regras</a>
 	<ul>
 		<c:forEach items="${ruleList}" var="rule">
-			<li><a href="<c:url value="/rules/${rule.id}"/>">Regra #${rule.id}: ${rule.shortMessage}</a></li>
+			<li><a href="<c:url value="/rules/${rule.id}"/>">Regra Nº. ${rule.id}: ${rule.shortMessage}</a></li>
 		</c:forEach>
 	</ul>
 	</li>
