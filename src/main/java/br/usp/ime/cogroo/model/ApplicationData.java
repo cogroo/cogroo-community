@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -44,7 +45,7 @@ public class ApplicationData implements Serializable {
 	private List<User> idleUsers = new ArrayList<User>();
 	private List<User> topUsers = new ArrayList<User>();
 
-	private Calendar lastUpdated;
+	private Calendar lastUpdated = new GregorianCalendar();
 	private File csvFolder;
 	private File csvStatsFile;
 	private String temporalData;
@@ -72,6 +73,7 @@ public class ApplicationData implements Serializable {
 
 	public ApplicationData(AnalyticsManager manager, ServletContext context) {
 		this.manager = manager;
+		this.lastUpdated.setTimeInMillis(0);
 		csvFolder = new File(context.getRealPath("/WEB-INF/csv"));
 		csvFolder.mkdir();
 		updateStats();
@@ -113,32 +115,34 @@ public class ApplicationData implements Serializable {
 		DataFeed feed = manager.getData(IDS, METRICS, DIMENSIONS,
 				LAUNCH_DAY.getTime(), twoDaysAgo.getTime());
 
-		String metrics = manager.getDatedMetricsAsString(feed);
-
-		String header = "data,eventos,visitas,impressões"
-				+ System.getProperty("line.separator");
-		String csv = metrics.replaceAll(";",
-				System.getProperty("line.separator"));
-
-		File statsFile = new File(csvFolder, "stats.csv");
-
-		try {
-			FileWriter fw = new FileWriter(statsFile);
-			fw.write(header);
-			fw.write(csv);
-			fw.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if (feed != null) {
+			String metrics = manager.getDatedMetricsAsString(feed);
+	
+			String header = "data,eventos,visitas,impressões"
+					+ System.getProperty("line.separator");
+			String csv = metrics.replaceAll(";",
+					System.getProperty("line.separator"));
+	
+			File statsFile = new File(csvFolder, "stats.csv");
+	
+			try {
+				FileWriter fw = new FileWriter(statsFile);
+				fw.write(header);
+				fw.write(csv);
+				fw.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	
+			this.lastUpdated = zeroTime(Calendar.getInstance());
+			this.csvStatsFile = statsFile;
+			this.temporalData = metrics;
+			
+			setEvents(feed.getAggregates().getMetrics().get(0).numericValue().intValue());
+			setVisits(feed.getAggregates().getMetrics().get(1).numericValue().intValue());
+			setPageviews(feed.getAggregates().getMetrics().get(2).numericValue().intValue());
 		}
-
-		this.lastUpdated = zeroTime(Calendar.getInstance());
-		this.csvStatsFile = statsFile;
-		this.temporalData = metrics;
-		
-		setEvents(feed.getAggregates().getMetrics().get(0).numericValue().intValue());
-		setVisits(feed.getAggregates().getMetrics().get(1).numericValue().intValue());
-		setPageviews(feed.getAggregates().getMetrics().get(2).numericValue().intValue());
 	}
 
 	public String getVersion() {
