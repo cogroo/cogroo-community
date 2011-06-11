@@ -259,12 +259,14 @@ public class SecurityUtil {
 		PublicKey key = null;
 		try {
 			KeyFactory fact = KeyFactory.getInstance("RSA");
-			fact.generatePublic(es);
+			key = fact.generatePublic(es);
 		} catch (NoSuchAlgorithmException e) {
 			// should not happen!
 			LOG.fatal("NO RSA factory", e);
+			throw new RuntimeException(e);
 		} catch (InvalidKeySpecException e) {
 			LOG.fatal("InvalidKeySpecException", e);
+			throw new RuntimeException(e);
 		}
 		
 //		key = new RSAPublicKeyImpl(encKey);
