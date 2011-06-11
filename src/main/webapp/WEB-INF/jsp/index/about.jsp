@@ -29,11 +29,11 @@
 						</p>&ensp;
 						<a href='http://twitter.com/#!/michelole'> <img
 							alt='Michel Oleynik no Twitter' height='32'
-							src='<c:url value="images/Twitter-icon.png"/>'
+							src='<c:url value="images/social/twitter.png"/>'
 							width='32' /> </a> &ensp;
 						<a href='http://br.linkedin.com/pub/michel-oleynik/16/464/41b'> <img
 							alt='Michel Oleynik no LinkedIn' height='32'
-							src='<c:url value="images/Linked-In-icon.png"/>'
+							src='<c:url value="images/social/linkedin.png"/>'
 							width='32' /> </a> &ensp;
 						<!-- <a href='http://www.ohloh.net/accounts/42854?ref=Detailed'> <img
 							alt='Ohloh profile for William Colen' height='35'
@@ -63,11 +63,11 @@
 							CoGrOO Comunidade.</p>&ensp;
 						<a href='http://twitter.com/#!/wcolen'> <img
 							alt='Wesley Seidel no Twitter' height='32'
-							src='<c:url value="images/Twitter-icon.png"/>'
+							src='<c:url value="images/social/twitter.png"/>'
 							width='32' /> </a> &ensp;
 						<a href='    http://br.linkedin.com/pub/wesley-seidel/28/176/711'> <img
 							alt='Wesley Seidel no LinkedIn' height='32'
-							src='<c:url value="images/Linked-In-icon.png"/>'
+							src='<c:url value="images/social/linkedin.png"/>'
 							width='32' /> </a> &ensp;
 						<!-- <a href='http://www.ohloh.net/accounts/42854?ref=Detailed'> <img
 							alt='Ohloh profile for William Colen' height='35'
@@ -100,11 +100,11 @@
 						</p>&ensp;
 						<a href='http://twitter.com/#!/wcolen'> <img
 							alt='William Colen no Twitter' height='32'
-							src='<c:url value="images/Twitter-icon.png"/>'
+							src='<c:url value="images/social/twitter.png"/>'
 							width='32' /> </a> &ensp;
 						<a href='http://br.linkedin.com/in/williamcolen'> <img
 							alt='William Colen no LinkedIn' height='32'
-							src='<c:url value="images/Linked-In-icon.png"/>'
+							src='<c:url value="images/social/linkedin.png"/>'
 							width='32' /> </a> &ensp;
 						<a href='http://www.ohloh.net/accounts/42854?ref=Detailed'> <img
 							alt='Ohloh profile for William Colen' height='35'
@@ -132,11 +132,11 @@
 						</p>&ensp;
 						<a href='http://twitter.com/'> <img
 							alt='Cesar Augusto Marcon no Twitter' height='32'
-							src='<c:url value="images/Twitter-icon.png"/>'
+							src='<c:url value="images/social/twitter.png"/>'
 							width='32' /> </a> &ensp;
 						<a href='http://br.linkedin.com/'> <img
 							alt='Cesar Augusto Marcon no LinkedIn' height='32'
-							src='<c:url value="images/Linked-In-icon.png"/>'
+							src='<c:url value="images/social/linkedin.png"/>'
 							width='32' /> </a>
 				</td>
 			  </tr>
