@@ -93,6 +93,7 @@ public class RecoverPasswordController {
 		 */
 		userFromDB.setPassword(CriptoUtils.digestMD5(userFromDB.getLogin(),
 				password));
+		userFromDB.setRecoverCode("");
 		userDAO.update(userFromDB);
 		
 		result.include("gaEventPasswordRecovered", true).include("provider", userFromDB.getService());
