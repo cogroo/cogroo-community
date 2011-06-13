@@ -20,7 +20,9 @@
 	<li class="outside_list"><a href="<c:url value="/dictionary/search"/>">Léxico</a></li>
 	<li class="outside_list"><a href="<c:url value="/login"/>">Login</a></li>
 	<li class="outside_list"><a href="<c:url value="/register"/>">Cadastro</a></li>
+	<li class="outside_list"><a href="<c:url value="/recover"/>">Recuperação de senha</a></li>
 	<li class="outside_list"><a href="<c:url value="/stats"/>">Estatísticas</a></li>
+	<li class="outside_list"><a href="<c:url value="/development"/>">Desenvolvimento</a></li>
 	<li class="outside_list"><a href="<c:url value="/about"/>">Sobre</a></li>
 </ul>
 <br />

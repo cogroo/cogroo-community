@@ -19,7 +19,7 @@
 		<meta name="description" content="${headerDescription}"/>
 	</c:when>
 	<c:otherwise>
-		<meta name="description" content="O CoGrOO Comunidade é um portal colaborativo para aprimorar o CoGrOO, o corretor gramatical em português para BrOffice."/>
+		<meta name="description" content="O CoGrOO Comunidade é um portal colaborativo para aprimorar o CoGrOO, o corretor gramatical em português para LibreOffice e OpenOffice.org."/>
 	</c:otherwise>
 </c:choose>
   <meta name="keywords" content="cogroo, comunidade, cogroo comunidade, corretor gramatical, análise gramatical, análise morfológica, português, openoffice, libreoffice, broffice, grammar checker, online grammar checker, corretor online" />

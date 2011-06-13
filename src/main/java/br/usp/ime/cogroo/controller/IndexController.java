@@ -55,7 +55,9 @@ public class IndexController {
 	public void development() {
 		result.include("appData", appData);
 		
-		result.include("headerTitle", "Desenvolvimento");
+		result.include("headerTitle", "Desenvolvimento")
+				.include("headerDescription",
+						"Encontre informações sobre como colaborar no desenvolvimento do CoGrOO Comunidade.");
 	}
 	
 	@Get

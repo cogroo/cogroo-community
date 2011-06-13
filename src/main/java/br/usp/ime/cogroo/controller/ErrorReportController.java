@@ -290,16 +290,18 @@ public class ErrorReportController {
 		String sender = "Enviado por: "
 				+ errorEntryFromDB.getSubmitter().getName();
 		String version = "Versão: " + errorEntryFromDB.getVersion().getVersion();
-		String creationDate = "Criado em: " + DateFormat.getDateInstance(DateFormat.LONG).format(errorEntryFromDB.getCreation());
-		String changeDate = "Modificado em: " + DateFormat.getDateInstance(DateFormat.LONG).format(errorEntryFromDB.getModified());
+		String creationDate = "Criado em: " + DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG).format(errorEntryFromDB.getCreation());
+		String changeDate = "Modificado em: " + DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG).format(errorEntryFromDB.getModified());
 		String type = "Tipo: ";
 		String details = null;
 		if (errorEntryFromDB.getOmission() == null) {
 			type += "Intervenção indevida";
+			String rule = "Regra: "
+					+ errorEntryFromDB.getBadIntervention().getRule();
 			String classification = "Erro: "
 					+ messages.getString(errorEntryFromDB.getBadIntervention()
 							.getClassification().toString());
-			details = classification;
+			details = rule + "; " + classification;
 		} else {
 			type += "Omissão";
 			String category = "Categoria"
