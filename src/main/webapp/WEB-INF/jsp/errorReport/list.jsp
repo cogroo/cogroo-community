@@ -85,16 +85,14 @@
 					$(this).click( function () {
 						window.location = title;
 					} );
+					$(this).hover(function() {
+			            $(this).css('cursor', 'pointer');
+			        }, function() {
+			            $(this).css('cursor', 'auto');
+			        });
 				} );
 			}
 		} );
-		
-		/* Change mouse on hover (line is a link) */
-        $('#errorList tbody tr').hover(function() {
-            $(this).css('cursor', 'pointer');
-        }, function() {
-            $(this).css('cursor', 'auto');
-        });
 		
 		/* Add click event handler for user interaction */
 		$('td img', oTable.fnGetNodes() ).each( function () {
