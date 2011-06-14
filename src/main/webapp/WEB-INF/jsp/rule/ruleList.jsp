@@ -45,12 +45,30 @@
 				null,  
 				null,
 				{ "bVisible": false }
-			]
+			],
+			
+			"fnDrawCallback": function ( oSettings ) {
+				$('#table_id tbody tr').each( function () {
+					var title = $(this).attr('title');
+					$(this).click( function () {
+						window.location = title;
+					} );
+				} );
+			}
+			
 		} );
+
+		/* Change mouse on hover (line is a link) */
+        $('#table_id tbody tr').hover(function() {
+            $(this).css('cursor', 'pointer');
+        }, function() {
+            $(this).css('cursor', 'auto');
+        });
 		
 		/* Add click event handler for user interaction */
 		$('td img', oTable.fnGetNodes() ).each( function () {
-			$(this).click( function () {
+			$(this).click( function (e) {
+				e.stopPropagation();
 				var nTr = this.parentNode.parentNode;
 				if ( this.src.match('details_close') )
 				{
@@ -91,7 +109,7 @@
 		</thead>
 		<tbody>
 			<c:forEach items="${ruleList}" var="rule">
-				<tr>
+				<tr title="<c:url value="/rules/${rule.id}"/>" id="${rule.id}">
 					<td valign="middle"><img src="./images/details_open.png"></td>
 					<c:choose> 
 					  <c:when test="${rule.active == true}" > 

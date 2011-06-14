@@ -76,12 +76,30 @@
 				{ "sType": "title-string" },//5
 				null,						//6
 				{ "bVisible": false }		//7
-			]
+			],
+			
+			
+			"fnDrawCallback": function ( oSettings ) {
+				$('#errorList tbody tr').each( function () {
+					var title = $(this).attr('title');
+					$(this).click( function () {
+						window.location = title;
+					} );
+				} );
+			}
 		} );
+		
+		/* Change mouse on hover (line is a link) */
+        $('#errorList tbody tr').hover(function() {
+            $(this).css('cursor', 'pointer');
+        }, function() {
+            $(this).css('cursor', 'auto');
+        });
 		
 		/* Add click event handler for user interaction */
 		$('td img', oTable.fnGetNodes() ).each( function () {
-			$(this).click( function () {
+			$(this).click( function (e) {
+				e.stopPropagation();
 				var nTr = this.parentNode.parentNode;
 				if ( this.src.match('details_close') )
 				{
@@ -125,10 +143,10 @@
 			<c:forEach items="${errorEntryList}" var="errorEntry" varStatus="i">
 
 				<c:if test="${errorEntry.isNew}">
-					<tr id="tr_errorEntry_${ i.count }" class="highlighted">
+					<tr id="tr_errorEntry_${ i.count }" class="highlighted" title="<c:url value="/reports/${errorEntry.id}"/>">
 				</c:if>
 				<c:if test="${not errorEntry.isNew}">
-					<tr id="tr_errorEntry_${ i.count }">
+					<tr id="tr_errorEntry_${ i.count }" title="<c:url value="/reports/${errorEntry.id}"/>">
 				</c:if>
 			
 					<td valign="middle"><img src="./images/details_open.png"></td>		<!-- 0 -->

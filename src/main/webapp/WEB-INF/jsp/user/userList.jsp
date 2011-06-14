@@ -31,8 +31,26 @@
 				null, 	//name
 				null,  	//role
 				{ "sType": "title-string" },	//last login
-			]
+			],
+			
+			"fnDrawCallback": function ( oSettings ) {
+				$('#table_id tbody tr').each( function () {
+					var title = $(this).attr('title');
+					$(this).click( function () {
+						window.location = title;
+					} );
+				} );
+			}
+			
 		} );
+		
+
+		/* Change mouse on hover (line is a link) */
+        $('#table_id tbody tr').hover(function() {
+            $(this).css('cursor', 'pointer');
+        }, function() {
+            $(this).css('cursor', 'auto');
+        });
 		
 	} );
 </script>
@@ -54,7 +72,7 @@
 				</thead>
 				<%!int i = 0;%>
 				<c:forEach items="${userList}" var="user">
-					<tr>
+					<tr title="<c:url value="/users/${user.service}/${user.login}"/>">
 						<td>${user.service}</td>
 						<td><a href="<c:url value="/users/${user.service}/${user.login}"/>">${user.login}</a></td>
 						<td>${user.name}</td>
