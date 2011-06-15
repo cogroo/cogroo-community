@@ -19,26 +19,28 @@
 			
 			<table border="0" cellpadding="10" cellspacing="10">
 			  <tr>
-					<td  width="180"><%-- <img alt='William Colen' height='170'
-						src='<c:url value="images/people/wc.jpg"/>' width='170' /> --%></td>
+					<td  width="180"><img alt='Michel Oleynik' height='170'
+						src='<c:url value="images/people/michel.jpg"/>' width='170' /></td>
 					<td>
 					<h2 align="right">Michel Oleynik</h2>
-			    	<p align="justify" style="margin-left: 15px">
-			    		
-							Resumo aqui resumo aqui resumo aqui resumo aqui resumo aqui resumo aqui resumo aqui resumo aqui resumo aqui resumo aqui resumo aqui resumo aqui resumo aqui resumo aqui resumo aqui resumo aqui resumo aqui.
-						</p>&ensp;
-						<a href='http://twitter.com/#!/michelole'> <img
-							alt='Michel Oleynik no Twitter' height='32'
-							src='<c:url value="images/social/twitter.png"/>'
+			    	<p align="justify" style="margin-left: 15px">Graduado em
+							Engenharia de Computação pela Pontifícia Universidade Católica do
+							Paraná (PUCPR) e mestrando em Ciência da Computação pelo
+							Instituto de Matemática e Estatística da Universidade de São
+							Paulo (IME/USP). Tem experiência na área de Informática Médica,
+							com ênfase em Processamento da Linguagem Natural.</p>&ensp; 
+						<a href='http://profiles.google.com/michelole'> <img
+							alt='Google Profile for Michel Oleynik' height='32'
+							src='<c:url value="images/social/google.png"/>'
 							width='32' /> </a> &ensp;
 						<a href='http://br.linkedin.com/pub/michel-oleynik/16/464/41b'> <img
 							alt='Michel Oleynik no LinkedIn' height='32'
 							src='<c:url value="images/social/linkedin.png"/>'
 							width='32' /> </a> &ensp;
-						<!-- <a href='http://www.ohloh.net/accounts/42854?ref=Detailed'> <img
-							alt='Ohloh profile for William Colen' height='35'
-							src='http://www.ohloh.net/accounts/42854/widgets/account_detailed.gif'
-							width='191' /> </a> -->
+						<a href='http://twitter.com/#!/michelole'> <img
+							alt='Michel Oleynik no Twitter' height='32'
+							src='<c:url value="images/social/twitter.png"/>'
+							width='32' /> </a> &ensp;
 				</td>
 			  </tr>
 			</table>
@@ -58,17 +60,18 @@
 							Banco de Dados pela Universidade Federal do Pará, e mestrando em
 							Ciência da Computação no IME/USP, com foco em PLN. Possui
 							experiência em Banco de Dados, Desenvolvimento de sistemas web, e
-							atualmente é pesquisador/bolsista Escola de Economia de São
+							atualmente é pesquisador/bolsista da Escola de Economia de São
 							Paulo/EESP/FGV. Participa ativamente do desenvolvimento do portal
 							CoGrOO Comunidade.</p>&ensp;
-						<a href='http://twitter.com/#!/wcolen'> <img
-							alt='Wesley Seidel no Twitter' height='32'
-							src='<c:url value="images/social/twitter.png"/>'
-							width='32' /> </a> &ensp;
 						<a href='    http://br.linkedin.com/pub/wesley-seidel/28/176/711'> <img
 							alt='Wesley Seidel no LinkedIn' height='32'
 							src='<c:url value="images/social/linkedin.png"/>'
 							width='32' /> </a> &ensp;
+						<a href='http://twitter.com/#!/wcolen'> <img
+							alt='Wesley Seidel no Twitter' height='32'
+							src='<c:url value="images/social/twitter.png"/>'
+							width='32' /> </a> &ensp;
+						
 						<!-- <a href='http://www.ohloh.net/accounts/42854?ref=Detailed'> <img
 							alt='Ohloh profile for William Colen' height='35'
 							src='http://www.ohloh.net/accounts/42854/widgets/account_detailed.gif'
@@ -98,13 +101,13 @@
 							Desenvolveu também a extensão SpeechOO, uma extensão de ditado
 							para o LibreOffice. É bolsista CNPq.
 						</p>&ensp;
-						<a href='http://twitter.com/#!/wcolen'> <img
-							alt='William Colen no Twitter' height='32'
-							src='<c:url value="images/social/twitter.png"/>'
-							width='32' /> </a> &ensp;
 						<a href='http://br.linkedin.com/in/williamcolen'> <img
 							alt='William Colen no LinkedIn' height='32'
 							src='<c:url value="images/social/linkedin.png"/>'
+							width='32' /> </a> &ensp;
+						<a href='http://twitter.com/#!/wcolen'> <img
+							alt='William Colen no Twitter' height='32'
+							src='<c:url value="images/social/twitter.png"/>'
 							width='32' /> </a> &ensp;
 						<a href='http://www.ohloh.net/accounts/42854?ref=Detailed'> <img
 							alt='Ohloh profile for William Colen' height='35'
@@ -130,14 +133,14 @@
 			    		
 							Resumo aqui resumo aqui resumo aqui resumo aqui resumo aqui resumo aqui resumo aqui resumo aqui resumo aqui resumo aqui resumo aqui resumo aqui resumo aqui resumo aqui resumo aqui resumo aqui resumo aqui.
 						</p>&ensp;
-						<a href='http://twitter.com/'> <img
-							alt='Cesar Augusto Marcon no Twitter' height='32'
-							src='<c:url value="images/social/twitter.png"/>'
-							width='32' /> </a> &ensp;
 						<a href='http://br.linkedin.com/'> <img
 							alt='Cesar Augusto Marcon no LinkedIn' height='32'
 							src='<c:url value="images/social/linkedin.png"/>'
 							width='32' /> </a>
+						<a href='http://twitter.com/'> <img
+							alt='Cesar Augusto Marcon no Twitter' height='32'
+							src='<c:url value="images/social/twitter.png"/>'
+							width='32' /> </a> &ensp;
 				</td>
 			  </tr>
 			</table>
