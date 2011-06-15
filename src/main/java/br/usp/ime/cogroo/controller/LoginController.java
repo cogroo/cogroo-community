@@ -201,7 +201,7 @@ public class LoginController {
 				.getFirstName() + " " + p.getLastName() : p.getDisplayName());
 
 		// TODO replace / and other special characters, if necessary.
-		String login = "oauth-" + p.getValidatedId();
+		String login = "oauth-" + service + "-" + p.getValidatedId();
 
 		if (!userDAO.existLogin(service, login)) {
 			// Register
