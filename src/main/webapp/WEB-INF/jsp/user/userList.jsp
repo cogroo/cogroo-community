@@ -76,7 +76,7 @@
 						<td><fmt:message key="${user.role}" /></td>
 						<td><c:choose>
 							<c:when test="${not empty user.lastLogin}">
-								<span title="${user.lastLogin}"></span><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${user.lastLogin}" />
+								<span title="${user.lastLoginAsLong}"></span><fmt:formatDate type="both" dateStyle="short" timeStyle="short" value="${user.lastLogin}" />
 							</c:when>
 							<c:otherwise>
 								<span title="0"></span>nunca

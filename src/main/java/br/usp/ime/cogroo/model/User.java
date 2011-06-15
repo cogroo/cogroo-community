@@ -101,6 +101,13 @@ public class User {
 		return cachedLastLogin;
 	}
 	
+	public long getLastLoginAsLong() {
+		if(cachedLastLogin == null) {
+			cachedLastLogin = (lastLogin != null && lastLogin != 0) ? new Date(lastLogin) : null;
+		}
+		return cachedLastLogin != null ? cachedLastLogin.getTime() : 0;
+	}
+	
 	public Date getPreviousLogin() {
 		if(previousLogin == null) {
 			previousLogin = (lastLogin != null && lastLogin != 0) ? new Date(lastLogin) : null;
