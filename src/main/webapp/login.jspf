@@ -41,7 +41,7 @@
 		<p class="logintitle">Conectar-se usando outro serviço</p>
 		<hr>
 		<a href="<c:url value="/login/oauth/facebook"/>"><img class="socialicon" width=32 height=32 title="Facebook" alt="Facebook" src="<c:url value="/images/social/facebook.png"/>"/></a>
-		<a href="<c:url value="/login/oauth/google"/>"><img class="socialicon" width=32 height=32 title="Google" alt="Google" src="<c:url value="/images/social/google.png"/>"/></a>
+<%-- 		<a href="<c:url value="/login/oauth/google"/>"><img class="socialicon" width=32 height=32 title="Google" alt="Google" src="<c:url value="/images/social/google.png"/>"/></a> --%>
 		<a href="<c:url value="/login/oauth/hotmail"/>"><img class="socialicon" width=32 height=32 title="Hotmail" alt="Hotmail" src="<c:url value="/images/social/hotmail.png"/>"/></a>
 		<a href="<c:url value="/login/oauth/linkedin"/>"><img class="socialicon" width=32 height=32 title="LinkedIn" alt="LinkedIn" src="<c:url value="/images/social/linkedin.png"/>"/></a>
 		<a href="<c:url value="/login/oauth/twitter"/>"><img class="socialicon" width=32 height=32 title="Twitter" alt="Twitter" src="<c:url value="/images/social/twitter.png"/>"/></a>

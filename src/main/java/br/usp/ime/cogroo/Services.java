@@ -7,7 +7,7 @@ public class Services {
 	private static final Set<String> SERVICES = new HashSet<String>();
 	static {
 		SERVICES.add("facebook");
-		SERVICES.add("google");
+		//SERVICES.add("google");
 		SERVICES.add("hotmail");
 		SERVICES.add("linkedin");
 		SERVICES.add("twitter");
