@@ -128,21 +128,15 @@
 					<td width="180"><!-- <img alt='William Colen' height='170'
 						src='<c:url value="images/people/wc.jpg"/>' width='170' /> --></td>
 					<td>
-					<h2 align="right">Cesar Augusto Marcon</h2>
-			    	<p align="justify" style="margin-left: 15px">
-			    		
-							Resumo aqui resumo aqui resumo aqui resumo aqui resumo aqui resumo aqui resumo aqui resumo aqui resumo aqui resumo aqui resumo aqui resumo aqui resumo aqui resumo aqui resumo aqui resumo aqui resumo aqui.
-						</p>&ensp;
-						<a href='http://br.linkedin.com/'> <img
-							alt='Cesar Augusto Marcon no LinkedIn' height='32'
-							src='<c:url value="images/social/linkedin.png"/>'
-							width='32' /> </a>
-						<a href='http://twitter.com/'> <img
-							alt='Cesar Augusto Marcon no Twitter' height='32'
-							src='<c:url value="images/social/twitter.png"/>'
-							width='32' /> </a> &ensp;
-				</td>
-			  </tr>
+						<h2 align="right">Cesar Augusto Marcon</h2>
+						<p align="justify" style="margin-left: 15px">Graduou-se em
+							2009 em Letras pela UNIBERO e seu projeto de conclusão de curso
+							foi "Processamento de Línguas Naturais sob um Aspecto
+							Linguístico". Neste trabalho estudou detalhadamente o corretor
+							gramatical CoGrOO. Hoje é tradutor na Alemanha e é linguista
+							colaborador no CoGrOO Comunidade.</p>
+					</td>
+				</tr>
 			</table>
 		</div>
 	</div>
