@@ -523,8 +523,7 @@ public class ErrorReportController {
 	@Path("/submitErrorReport")
 	public void submitErrorEntry(String username, String token, String error) {
 		error = securityUtil.decodeURLSafeString(error);
-		// TODO Sanitize input in the plugin. Should check also for XML markup.
-		//error = sanitizer.sanitize(error, false);
+		username = sanitizer.sanitize(username, false);
 		
 		LOG.debug("Got new error report from: " + username +
 				" encrypted token: " + token +
@@ -541,6 +540,7 @@ public class ErrorReportController {
 	@Post
 	@Path("/getErrorCategoriesForUser")
 	public void getErrorCategoriesForUser(String username, String token) {
+		username = sanitizer.sanitize(username, false);
 		LOG.debug("getErrorCategoriesForUser: " + username +
 				" encrypted token: " + token);
 		

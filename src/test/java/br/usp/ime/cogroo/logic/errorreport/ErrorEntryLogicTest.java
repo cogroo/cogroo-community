@@ -73,6 +73,7 @@ public class ErrorEntryLogicTest {
 				new HistoryEntryFieldDAO(em),
 				appdata,
 				null,
+				null,
 				null);
 	}
 

@@ -31,6 +31,7 @@ import br.usp.ime.cogroo.dao.errorreport.GrammarCheckerOmissionDAO;
 import br.usp.ime.cogroo.exceptions.CommunityException;
 import br.usp.ime.cogroo.exceptions.CommunityExceptionMessages;
 import br.usp.ime.cogroo.logic.StringTemplateUtil;
+import br.usp.ime.cogroo.logic.TextSanitizer;
 import br.usp.ime.cogroo.model.ApplicationData;
 import br.usp.ime.cogroo.model.GrammarCheckerVersion;
 import br.usp.ime.cogroo.model.LoggedUser;
@@ -74,10 +75,12 @@ public class ErrorEntryLogic {
 	private StringTemplateUtil templateUtil;
 	private Notificator notificator;
 
+	private TextSanitizer sanitizer;
+
 	public ErrorEntryLogic(LoggedUser loggedUser, ErrorEntryDAO errorEntryDAO,
 			UserDAO userDAO, CommentDAO commentDAO, CogrooFacade cogrooFacade,
 			GrammarCheckerVersionDAO versionDAO, GrammarCheckerOmissionDAO omissionDAO,
-			GrammarCheckerBadInterventionDAO badInterventionDAO, HistoryEntryDAO historyEntryDAO, HistoryEntryFieldDAO historyEntryFieldDAO, ApplicationData appData, Notificator notificator, StringTemplateUtil templateUtil) {
+			GrammarCheckerBadInterventionDAO badInterventionDAO, HistoryEntryDAO historyEntryDAO, HistoryEntryFieldDAO historyEntryFieldDAO, ApplicationData appData, Notificator notificator, StringTemplateUtil templateUtil, TextSanitizer sanitizer) {
 		this.userDAO = userDAO;
 		this.commentDAO = commentDAO;
 		this.errorEntryDAO = errorEntryDAO;
@@ -91,7 +94,7 @@ public class ErrorEntryLogic {
 		this.appData = appData;
 		this.notificator = notificator;
 		this.templateUtil = templateUtil;
-		
+		this.sanitizer = sanitizer;
 	}
 
 	public List<ErrorEntry> getAllReports() {
@@ -214,14 +217,13 @@ public class ErrorEntryLogic {
 		Date time = new Date();
 		
 		// we split the report in several new entries...
-		
+		// sanitizer.sanitize(username, false)
 		if(er.getOmissions() != null) {
 			List<Omission> omissions = er.getOmissions().getOmission();
 			if(omissions != null) {
 				for (Omission omission : omissions) {
-					
 					ErrorEntry errorEntry = new ErrorEntry(
-							er.getText(), 
+							sanitizer.sanitize(er.getText(), false), 
 							omission.getSpan().getStart(), 
 							omission.getSpan().getEnd(), 
 							new ArrayList<Comment>(),
@@ -236,7 +238,7 @@ public class ErrorEntryLogic {
 					
 					if(omission.getComment() != null && omission.getComment().length() > 0) {
 						List<Comment> comments = new ArrayList<Comment>();
-						Comment c = new Comment(cogrooUser, time, omission.getComment(), errorEntry, null);
+						Comment c = new Comment(cogrooUser, time, sanitizer.sanitize(omission.getComment(), false), errorEntry, null);
 						commentDAO.add(c);
 						comments.add(c);
 						errorEntry.setComments(comments);
@@ -244,8 +246,8 @@ public class ErrorEntryLogic {
 					
 					GrammarCheckerOmission gcOmission = new GrammarCheckerOmission(
 							omission.getCategory(), 
-							omission.getCustomCategory(), 
-							omission.getReplaceBy(), 
+							sanitizer.sanitize(omission.getCustomCategory(), false), 
+							sanitizer.sanitize(omission.getReplaceBy(), false), 
 							errorEntry);
 					omissionDAO.add(gcOmission);
 					errorEntry.setOmissions(gcOmission);
@@ -264,7 +266,7 @@ public class ErrorEntryLogic {
 				for (BadIntervention badIntervention : badInterventions) {
 					
 					ErrorEntry errorEntry = new ErrorEntry(
-							er.getText(), 
+							sanitizer.sanitize(er.getText(), false), 
 							badIntervention.getSpan().getStart(), 
 							badIntervention.getSpan().getEnd(), 
 							null,
@@ -279,7 +281,7 @@ public class ErrorEntryLogic {
 					
 					if(badIntervention.getComment() != null && badIntervention.getComment().length() > 0) {
 						List<Comment> comments = new ArrayList<Comment>();
-						Comment c = new Comment(cogrooUser, time, badIntervention.getComment(), errorEntry, null);
+						Comment c = new Comment(cogrooUser, time, sanitizer.sanitize(badIntervention.getComment(), false), errorEntry, null);
 						commentDAO.add(c);
 						comments.add(c);
 						errorEntry.setComments(comments);

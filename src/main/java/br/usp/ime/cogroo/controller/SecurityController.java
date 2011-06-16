@@ -9,6 +9,7 @@ import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.Validator;
 import br.usp.ime.cogroo.dao.UserDAO;
 import br.usp.ime.cogroo.logic.SecurityUtil;
+import br.usp.ime.cogroo.logic.TextSanitizer;
 import br.usp.ime.cogroo.util.RestUtil;
 
 /**
@@ -27,21 +28,26 @@ public class SecurityController {
 	private Validator validator;
 
 	private UserDAO userDAO;
+
+	private TextSanitizer sanitizer;
 	
 	public SecurityController(
 			Result result,
 			Validator validator,
 			SecurityUtil securityUtil,
-			UserDAO userDAO) {
+			UserDAO userDAO,
+			TextSanitizer sanitizer) {
 		this.result = result;
 		this.validator = validator;
 		this.securityUtil = securityUtil;
 		this.userDAO = userDAO;
+		this.sanitizer = sanitizer;
 	}
 	
 	@Post
 	@Path("/saveClientSecurityKey")
 	public void saveClientSecurityKey(String user, String pubKey) {
+		user = sanitizer.sanitize(user, false);
 		LOG.debug("Saving pubkey for user: " + user + ". Will prepare a secret key for user send the password.");
 		try {
 			if(this.userDAO.existLogin("cogroo", user)) {
@@ -67,6 +73,7 @@ public class SecurityController {
 	@Post
 	@Path("/generateAuthenticationForUser")
 	public void generateAuthenticationForUser(String username, String encryptedPassword) {
+		username = sanitizer.sanitize(username, false);
 		try {
 			if(this.userDAO.existLogin("cogroo", username)) {
 				LOG.debug("Will generate token for " + username);
