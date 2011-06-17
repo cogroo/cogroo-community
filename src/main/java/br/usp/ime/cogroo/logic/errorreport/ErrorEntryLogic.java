@@ -223,7 +223,7 @@ public class ErrorEntryLogic {
 			if(omissions != null) {
 				for (Omission omission : omissions) {
 					ErrorEntry errorEntry = new ErrorEntry(
-							sanitizer.sanitize(er.getText(), false), 
+							sanitizer.sanitize(er.getText(), false, true), 
 							omission.getSpan().getStart(), 
 							omission.getSpan().getEnd(), 
 							new ArrayList<Comment>(),
@@ -266,7 +266,7 @@ public class ErrorEntryLogic {
 				for (BadIntervention badIntervention : badInterventions) {
 					
 					ErrorEntry errorEntry = new ErrorEntry(
-							sanitizer.sanitize(er.getText(), false), 
+							sanitizer.sanitize(er.getText(), false, true), 
 							badIntervention.getSpan().getStart(), 
 							badIntervention.getSpan().getEnd(), 
 							null,
