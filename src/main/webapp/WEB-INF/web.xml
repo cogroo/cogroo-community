@@ -68,7 +68,7 @@
        <filter-class>br.usp.ime.cogroo.interceptors.ExpiresFilter</filter-class>
        <init-param>
           <param-name>ExpiresActive</param-name>
-          <param-value>On</param-value>
+          <param-value>Off</param-value>
 	   </init-param>
        <init-param>
           <param-name>ExpiresByType application/javascript</param-name>
