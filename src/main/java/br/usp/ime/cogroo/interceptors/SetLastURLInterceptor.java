@@ -49,9 +49,9 @@ public class SetLastURLInterceptor implements Interceptor {
 			}
 
 			if (!clazz.equals(LoginController.class)
-					|| (!(clazz.equals(RegisterController.class) && invokedMethod
+					&& (!(clazz.equals(RegisterController.class) && invokedMethod
 							.getName().equals("register")))
-					|| clazz.equals(RecoverPasswordController.class)) {
+					&& !clazz.equals(RecoverPasswordController.class)) {
 				String lastURL = request.getRequestURL().toString();
 				if (LOG.isDebugEnabled()) {
 					LOG.debug("Saving last visited URL: " + lastURL);
