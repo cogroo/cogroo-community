@@ -103,7 +103,7 @@ public class RecoverPasswordController {
 	@Post
 	@Path("/recover")
 	public void sendMailRecover(String email) {
-		User userFromDB = new User();
+		User userFromDB = getUserIfValid(email); 
 		/*
 		 * Validators
 		 */
@@ -190,6 +190,27 @@ public class RecoverPasswordController {
 				}
 			} else {
 				LOG.info("Wrong recovery to user.id: " + user.getId());
+				validator.add(new ValidationMessage(
+						ExceptionMessages.USER_DONT_EXISTS,
+						ExceptionMessages.ERROR));
+			}
+		}
+		return userFromDB;
+	}
+	
+	private User getUserIfValid(String email) {
+		User userFromDB = new User();
+		email = email.trim();
+
+		// Validators
+		if (email.isEmpty()) {
+			LOG.warn("Password recovering with empty email.");
+			validator.add(new ValidationMessage(ExceptionMessages.EMPTY_FIELD,
+					ExceptionMessages.ERROR));
+		} else {
+			userFromDB = userDAO.retrieveByEmail("cogroo", email);
+			if (userFromDB == null) {
+				LOG.info("Invalid e-mail: " + email);
 				validator.add(new ValidationMessage(
 						ExceptionMessages.USER_DONT_EXISTS,
 						ExceptionMessages.ERROR));
