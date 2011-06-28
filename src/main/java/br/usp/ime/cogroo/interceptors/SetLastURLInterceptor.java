@@ -12,6 +12,7 @@ import br.com.caelum.vraptor.core.InterceptorStack;
 import br.com.caelum.vraptor.interceptor.Interceptor;
 import br.com.caelum.vraptor.resource.ResourceMethod;
 import br.usp.ime.cogroo.controller.LoginController;
+import br.usp.ime.cogroo.controller.RecoverPasswordController;
 import br.usp.ime.cogroo.controller.RegisterController;
 import br.usp.ime.cogroo.model.LoggedUser;
 
@@ -48,8 +49,9 @@ public class SetLastURLInterceptor implements Interceptor {
 			}
 
 			if (!clazz.equals(LoginController.class)
-					&& !(clazz.equals(RegisterController.class) && invokedMethod
-							.getName().equals("register"))) {
+					|| (!(clazz.equals(RegisterController.class) && invokedMethod
+							.getName().equals("register")))
+					|| clazz.equals(RecoverPasswordController.class)) {
 				String lastURL = request.getRequestURL().toString();
 				if (LOG.isDebugEnabled()) {
 					LOG.debug("Saving last visited URL: " + lastURL);
