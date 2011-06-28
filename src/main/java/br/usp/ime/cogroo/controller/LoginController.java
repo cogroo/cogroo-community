@@ -100,7 +100,7 @@ public class LoginController {
 
 		if (!passCripto.equalsIgnoreCase(passFromDB)) {
 			LOG.info("Password Failed[" + login
-					+ "]. Redirecting to login page.");
+					+ "|" + userFromDB.getEmail() + "]. Redirecting to login page.");
 			validator.add(new ValidationMessage(ExceptionMessages.USER_PASSWORD_FAILED,
 					ExceptionMessages.ERROR));
 			validator.onErrorUse(Results.page()).of(LoginController.class)
