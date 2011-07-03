@@ -58,6 +58,15 @@ public class LoginController {
 	@Get
 	@Path("/login")
 	public void login() {
+		if (loggedUser.isLogged()) {
+			String lastURL = loggedUser.getLastURLVisited();
+			if(lastURL != null && lastURL.length() > 0) {
+				result.redirectTo(loggedUser.getLastURLVisited());
+			} else {
+				result.redirectTo(IndexController.class).index();
+			}
+			return;
+		}
 		result.include("headerTitle", HEADER_TITLE).include(
 				"headerDescription", HEADER_DESCRIPTION);
 	}
@@ -127,6 +136,15 @@ public class LoginController {
 	@Get
 	@Path("/login/oauth/{service}")
 	public void oauthLogin(String service) {
+		if (loggedUser.isLogged()) {
+			String lastURL = loggedUser.getLastURLVisited();
+			if(lastURL != null && lastURL.length() > 0) {
+				result.redirectTo(loggedUser.getLastURLVisited());
+			} else {
+				result.redirectTo(IndexController.class).index();
+			}
+			return;
+		}
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Trying to login with OAuth on service " + service);
 		}

@@ -13,6 +13,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
+import javax.sound.midi.SysexMessage;
 
 import br.com.caelum.vraptor.ioc.ApplicationScoped;
 import br.com.caelum.vraptor.ioc.Component;
@@ -273,11 +274,14 @@ public class ApplicationData implements Serializable {
 		return loggedUsers;
 	}
 
-	public void addLoggedUser(User user) {
+	public synchronized void addLoggedUser(User user) {
+		if (loggedUsers.contains(user))
+			// Removes old user in order to ensure correct last login date.
+			this.loggedUsers.remove(user);
 		this.loggedUsers.add(user);
 	}
 
-	public void removeLoggedUser(User user) {
+	public synchronized void removeLoggedUser(User user) {
 		this.loggedUsers.remove(user);
 	}
 
