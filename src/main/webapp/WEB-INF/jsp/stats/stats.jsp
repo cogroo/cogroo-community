@@ -35,8 +35,10 @@
       data.setValue(153, 6, 'Lançamento da versão 1.2.0');
       // 26/04/11
       data.setValue(167, 4, 'Post no Twitter @<a href="http://twitter.com/vendenafarmacia/status/62998635268407296">vendenafarmacia</a>');
-      // 05/06/11
+      // 04/06/11
       data.setValue(206, 2, 'Véspera deadline <a href="http://www.textolivre.pro.br/blog/?p=1107">UEADSL</a>');
+      // 17/06/11
+      data.setValue(219, 6, 'Lançamento da versão 1.3.0');
       
       var annotatedtimeline = new google.visualization.AnnotatedTimeLine(
           document.getElementById('visualization'));
