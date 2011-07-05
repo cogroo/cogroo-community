@@ -181,6 +181,15 @@ public class LoginController {
 	@Get
 	@Path("/login/oauth")
 	public void oauthLogin() {
+		if (loggedUser.isLogged()) {
+			String lastURL = loggedUser.getLastURLVisited();
+			if(lastURL != null && lastURL.length() > 0) {
+				result.redirectTo(loggedUser.getLastURLVisited());
+			} else {
+				result.redirectTo(IndexController.class).index();
+			}
+			return;
+		}
 		String service = (String) request.getSession().getAttribute("service");
 		AuthProvider provider = (AuthProvider) request.getSession()
 				.getAttribute("SocialAuth");
