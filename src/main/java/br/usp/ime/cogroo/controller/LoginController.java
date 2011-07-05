@@ -364,6 +364,7 @@ public class LoginController {
 	@Path("/logout")
 	public void logout() {
 		loggedUser.logout();
+		request.getSession().invalidate();
 		result.redirectTo(IndexController.class).index();
 	}
 
