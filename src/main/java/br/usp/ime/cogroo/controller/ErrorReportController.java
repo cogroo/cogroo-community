@@ -655,4 +655,27 @@ public class ErrorReportController {
 			LOG.info("Invalid user tried to set priority: " + loggedUser.getUser());
 		}
 	}
+	
+	@Get
+	@Path("/reports/edit")
+	public void multipleEdit() {
+		List<ErrorEntry> reports = errorEntryLogic.getAllReports();
+		if(LOG.isDebugEnabled()) {
+			LOG.debug("Will list of size: "
+					+ reports.size());
+		}
+		
+		result.include("errorEntryList", reports).
+			include("priorities", Priority.values()).
+			include("states", State.values());
+		if(!loggedUser.isLogged()) {
+			Calendar now = Calendar.getInstance();
+			now.add(Calendar.DATE, -7);
+			result.include("oneWeekAgo", now.getTime());
+		}
+		result.include("headerTitle",
+				messages.getString("LIST_ERROR_REPORT_HEADER")).include(
+				"headerDescription",
+				messages.getString("LIST_ERROR_REPORT_DESCRIPTION"));
+	}
 }
