@@ -131,7 +131,7 @@
 	            <p>
 		            <a onclick="on('logform'); off('loginlink'); return false" href="#"><b>conectar-se</b></a> | 
 		            <a rel="nofollow" href="<c:url value="/login/oauth/facebook"/>"><img style="vertical-align:top" width=16 height=16 title="Facebook" alt="Facebook" src="<c:url value="/images/social/facebook-small.png"/>"/></a>
- 		            <a rel="nofollow" href="<c:url value="/login/oauth/google"/>"><img style="vertical-align:top" width=16 height=16 title="Google" alt="Google" src="<c:url value="/images/social/google-small.png"/>"/></a> 
+<!-- 		            <a rel="nofollow" href="<c:url value="/login/oauth/google"/>"><img style="vertical-align:top" width=16 height=16 title="Google" alt="Google" src="<c:url value="/images/social/google-small.png"/>"/></a> -->
 		            <a rel="nofollow" href="<c:url value="/login/oauth/hotmail"/>"><img style="vertical-align:top" width=16 height=16 title="Hotmail" alt="Hotmail" src="<c:url value="/images/social/hotmail-small.png"/>"/></a>
 		            <a rel="nofollow" href="<c:url value="/login/oauth/linkedin"/>"><img style="vertical-align:top" width=16 height=16 title="LinkedIn" alt="LinkedIn" src="<c:url value="/images/social/linkedin-small.png"/>"/></a>
 		            <a rel="nofollow" href="<c:url value="/login/oauth/twitter"/>"><img style="vertical-align:top" width=16 height=16 title="Twitter" alt="Twitter" src="<c:url value="/images/social/twitter-small.png"/>"/></a>

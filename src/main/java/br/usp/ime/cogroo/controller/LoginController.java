@@ -4,8 +4,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.brickred.socialauth.AuthProvider;
-import org.brickred.socialauth.AuthProviderFactory;
 import org.brickred.socialauth.Profile;
+import org.brickred.socialauth.SocialAuthConfig;
+import org.brickred.socialauth.SocialAuthManager;
+import org.brickred.socialauth.util.SocialAuthUtil;
 
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
@@ -157,15 +159,18 @@ public class LoginController {
 			validator.onErrorUse(Results.page()).of(LoginController.class)
 					.login();
 		}
-
+		  
 		try {
-			AuthProvider provider = AuthProviderFactory.getInstance(service);
+			SocialAuthConfig config = SocialAuthConfig.getDefault();
+			config.load();
+			
+			SocialAuthManager manager = new SocialAuthManager();
+			manager.setSocialAuthConfig(config);
 
 			String returnToUrl = BuildUtil.BASE_URL + "login/oauth";
-			String redirectUrl = provider.getLoginRedirectURL(returnToUrl);
+			String redirectUrl = manager.getAuthenticationUrl(service, returnToUrl);
 
-			request.getSession().setAttribute("service", service);
-			request.getSession().setAttribute("SocialAuth", provider);
+			request.getSession().setAttribute("authManager", manager);
 			result.redirectTo(redirectUrl);
 		} catch (Exception e) {
 			LOG.error("Could not authenticate user using OAuth on " + service,
@@ -190,31 +195,31 @@ public class LoginController {
 			}
 			return;
 		}
-		String service = (String) request.getSession().getAttribute("service");
-		AuthProvider provider = (AuthProvider) request.getSession()
-				.getAttribute("SocialAuth");
-		if (service == null || provider == null) {
+		SocialAuthManager manager = (SocialAuthManager) request.getSession()
+				.getAttribute("authManager");
+		if (manager == null) {
 			result.redirectTo(LoginController.class).login();
 			return;
 		}
 
-		Profile p = (Profile) provider.getUserProfile();
-		
-		if (p == null) {
-			try {
-				p = provider.verifyResponse(request);
-				//request.getSession().setAttribute("profile", p);
-			} catch (Exception e) {
-				LOG.error("Could not verify user using OAuth on " + service, e);
-				validator.add(new ValidationMessage(
-						ExceptionMessages.OAUTH_VERIFY_USER_ERROR,
-						ExceptionMessages.ERROR));
-				validator.onErrorUse(Results.page()).of(LoginController.class)
-						.login();
-			}
+		AuthProvider provider = null;
+		String service = null;
+		Profile p = null;
+		try {
+			provider = manager.connect(SocialAuthUtil
+					.getRequestParametersMap(request));
+			service = provider.getProviderId();
+			p = (Profile) provider.getUserProfile();
+		} catch (Exception e) {
+			LOG.error("Could not verify user using OAuth on " + service, e);
+			validator.add(new ValidationMessage(
+					ExceptionMessages.OAUTH_VERIFY_USER_ERROR,
+					ExceptionMessages.ERROR));
+			validator.onErrorUse(Results.page()).of(LoginController.class)
+					.login();
 		}
 
-		if (LOG.isDebugEnabled()) {
+		if (LOG.isDebugEnabled()) {	
 			LOG.debug("OAuth profile for service " + service);
 			LOG.debug(p);
 		}
