@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Matchers;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockServletContext;
 
@@ -44,8 +45,10 @@ public class LoginControllerTest {
 		
 		mockResult = new MockResult();
 		mockUserDAO = mock(UserDAO.class);
-		MockServletContext mockContext= new MockServletContext("../classes/");
-		mockContext.getRealPath("");
+//		MockServletContext mockContext= new MockServletContext("../classes");
+		MockServletContext mockContext= new MockServletContext();
+		System.out.println(mockContext.getRealPath(""));
+		
 		AnalyticsManager am = mock(AnalyticsManager.class);
 		when(am.getDatedMetricsAsString(any(DataFeed.class))).thenReturn("2010-11-17,0,8,21;2010-11-18,12,20,81;2010-11-19,9,16,65");
 		ApplicationData mockAppData = new ApplicationData(am, mockContext);

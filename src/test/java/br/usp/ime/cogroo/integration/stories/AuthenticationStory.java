@@ -7,11 +7,11 @@ import br.usp.ime.cogroo.integration.stories.common.DefaultStory;
 public class AuthenticationStory extends DefaultStory {
 
 	@Test
-	public void signUpWithANewUser() {
+	public void signUpWithAnInvalidUser() {
 		given.theUserDoesntExist("edu").and().
 		      iAmOnTheRootPage();
-		when.iSignUpAs("edu");
-		then.iMustBeLoggedInAs("edu");		
+		when.iSignUpAs("edu","senha");
+		then.iGetAnErrorWithDescription("Usuário não existe");		
 	}
 
 	@Test

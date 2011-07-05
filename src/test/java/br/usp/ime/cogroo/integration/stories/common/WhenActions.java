@@ -11,7 +11,7 @@ public class WhenActions {
 	
 	public void iSearchForWord(String word) {
 		browser.type("word", word);
-		browser.click("go");
+		browser.click("searchbtm");
 	}
 
 	public WhenActions iAmAtDictionaryEntrySearchPage() {
@@ -23,10 +23,11 @@ public class WhenActions {
 		return this;
 	}
 
-	public void iSignUpAs(String username) {
+	public void iSignUpAs(String username, String password) {
 		browser.click("//div[@id='loginlink']/p/a/b");
 		browser.type("login", username);
-		browser.click("//input[@value=' entrar » ']");
+		browser.type("password", password);
+		browser.click("entrar");
 	}
 	
 	public void iRegisterAs(String username,
