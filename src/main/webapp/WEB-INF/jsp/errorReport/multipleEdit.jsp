@@ -20,21 +20,20 @@
 	var oTable;
 	
 	var apply = function(e) {
-		e.preventDefault();
+		//e.preventDefault();
 		var r=confirm("Deseja mesmo continuar edição multipla?");
+		if(r==false) {
+			e.preventDefault();
+		}
 		if (r==true) {
 			
-			var form = $("#form_remove_error_" + currentId);
-			var url = form.attr('action');
+			_gaq.push(['_trackEvent', 'Problems', 'multiple edit', '${loggedUser.user.service}']);
 			
-			//form.
-			
-			location.reload();
 		};
 		
 	}
 	
-	var remove_error = function(currentId) {
+/* 	var remove_error = function(currentId) {
 
 		var r=confirm("Você deseja remover este erro?");
 		if (r==true) {
@@ -53,7 +52,7 @@
 			oTable.fnDeleteRow(nTr);
 			
 		};
-	};
+	}; */
 
 	/* Formating function for row details */
 	var fnFormatDetails = function ( nTr )
@@ -61,7 +60,7 @@
 		var iIndex = oTable.fnGetPosition( nTr );
 		var aData = oTable.fnSettings().aoData[iIndex]._aData;
 		
-		return '<div class="reportlist_details">'+aData[7]+'</div>';
+		return '<div class="reportlist_details">'+aData[8]+'</div>';
 	};
 	
 	function fnGetSelected( oTableLocal )
@@ -90,14 +89,15 @@
 			max_chars: 700
 		});
 		
-		$('#errorList tr').click( function() {
-			if ( $(this).hasClass('row_selected') )
-				$(this).removeClass('row_selected');
+ 		$('#errorList tr td input').click( function(e) {
+ 			var tr = $(this).parent().parent();
+			if ( $(this).is(':checked') )
+				tr.addClass('row_selected');
 			else
-				$(this).addClass('row_selected');
+				tr.removeClass('row_selected');
 		} );
 		
-		$('.remove_error').click(remove_error);
+		//$('.remove_error').click(remove_error);
 		
 		oTable = $('#errorList').dataTable( {
 			"oLanguage": {
@@ -117,13 +117,14 @@
 			"iDisplayLength": 20,
 			"aoColumns": [
 				{ "bSortable": false }, 	//0
-				{ "sType": "num-html" }, 	//1
-				null,  						//2
-				null,						//3
-				null,  						//4
-				{ "sType": "title-string" },//5
-				null,						//6
-				{ "bVisible": false }		//7
+				{ "bSortable": false }, 	//1
+				{ "sType": "num-html" }, 	//2
+				null,  						//3
+				null,						//4
+				null,  						//5
+				{ "sType": "title-string" },//6
+				null,						//7
+				{ "bVisible": false }		//8
 			]
 		} );
 		
@@ -157,29 +158,31 @@
 		<p>Clique nas setas encontradas em cada coluna para ordenar os resultados em ordem alfabética.</p>
 	</div>
 	<p>Selecione os erros que deseja editar e use o formulário no fim da página.</p>
+	<form id="form_apply" action="<c:url value='/reports/edit'/>" method="post">
 	<table cellpadding="0" cellspacing="0" border="0" class="display" id="errorList">
 		<thead>
 			<tr>
-			  <th></th> 			<!-- 0 -->
-			  <th title="Exibe o número do problema reportado.">Nº.</th>			<!-- 1 -->
-			  <th title="Indica a situação (aberta, em andamento, resolvida, aguardando resposta, fechada ou rejeitada) do problema.">Situação</th>				<!-- 2 -->
-			  <th title="Indica a prioridade (baixa, normal, alta, urgente ou imediata) do problema.">Prioridade</th>			<!-- 3 -->
-			  <th title="Exibe a sentença relacionada ao problema reportado.">Sentença com problema</th>		<!-- 4 -->
-			  <th title="Exibe a data da última alteração realizada no problema.">Data</th>	<!-- 5 -->
-			  <th title="Exibe o número de comentários feitos sobre o problema.">Comentários</th>	<!-- 6 -->
-			  <th>Detalhes</th>		<!-- 7 -->
+			  <th></th> 
+			  <th></th> 			<!-- 1 -->
+			  <th title="Exibe o número do problema reportado.">Nº.</th>			<!-- 2 -->
+			  <th title="Indica a situação (aberta, em andamento, resolvida, aguardando resposta, fechada ou rejeitada) do problema.">Situação</th>				<!-- 3 -->
+			  <th title="Indica a prioridade (baixa, normal, alta, urgente ou imediata) do problema.">Prioridade</th>			<!-- 4 -->
+			  <th title="Exibe a sentença relacionada ao problema reportado.">Sentença com problema</th>		<!-- 5 -->
+			  <th title="Exibe a data da última alteração realizada no problema.">Data</th>	<!-- 6 -->
+			  <th title="Exibe o número de comentários feitos sobre o problema.">Comentários</th>	<!-- 7 -->
+			  <th>Detalhes</th>		<!-- 8 -->
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach items="${errorEntryList}" var="errorEntry" varStatus="i">
-
+				
 				<c:if test="${errorEntry.isNew}">
 					<tr id="tr_errorEntry_${ i.count }" class="highlighted" title="<c:url value="/reports/${errorEntry.id}"/>">
 				</c:if>
 				<c:if test="${not errorEntry.isNew}">
 					<tr id="tr_errorEntry_${ i.count }" title="<c:url value="/reports/${errorEntry.id}"/>">
 				</c:if>
-			
+					<td><input type="checkbox" name="errorEntryID[${errorEntry.id}]" value="${errorEntry.id}"/></td>
 					<td valign="middle"><img src="<c:url value="/images/details_open.png"/>"></td>		<!-- 0 -->
 					<td><a href="<c:url value="/reports/${errorEntry.id}"/>">${errorEntry.id}</a></td>		<!-- 1 -->
 					<td><fmt:message key="${errorEntry.state}" /></td>					<!-- 2 -->
@@ -224,7 +227,7 @@
 		</tbody>
 	</table>
 	<br>
-         <form id="form_apply" action="<c:url value='/reports/edit'/>" method="post">
+         
          	<input id="cb_applystate" type="checkbox" name="applystate"/>
          	<label for="cb_applystate">Aplicar novo estado</label>
          	<select name="state">
@@ -251,7 +254,7 @@
          	<label for="tb_applycomment">Inserir comentário</label>	<br>
          	<textarea id="newCommentText" name="newComment" cols="80" rows="4"></textarea>
          	<span id="newCommentTextCount">700</span> caracteres restantes<br>
-			<input name="selectedErrors[]" value="fnGetSelected('#errorList');" type="hidden" />
-			<input type="hidden" name="_method" value="PUT"/>
+<!-- 			<input name="selectedErrors[]" value="fnGetSelected('#errorList');" type="hidden" />
+ -->			<input type="hidden" name="_method" value="PUT"/>
 			<input id="bt_apply" type="submit" style="font-size: 11px;" value=" Aplicar " class="button"/>
 		</form>

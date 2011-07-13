@@ -2,6 +2,8 @@ package br.usp.ime.cogroo.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
@@ -677,5 +679,49 @@ public class ErrorReportController {
 				messages.getString("LIST_ERROR_REPORT_HEADER")).include(
 				"headerDescription",
 				messages.getString("LIST_ERROR_REPORT_DESCRIPTION"));
+	}
+	
+	@Put
+	@Path("/reports/edit")
+	@LoggedIn
+	public void multipleEdit(Boolean applycomment, Boolean applypriority,
+			Boolean applystate, Integer errorlist_lenght, Long[] errorEntryID,
+			String newComment, String priority, String state) {
+		if (loggedUser.getUser().getRole().getCanEditErrorReport()) {
+
+			String comment = null;
+			if (applycomment != null && applycomment) {
+				comment = sanitizer.sanitize(newComment, true);;
+			}
+			Priority priorityEnum = null;
+			if (applypriority != null && applypriority) {
+				priorityEnum = Enum.valueOf(Priority.class, priority);
+			}
+			State stateEnum = null;
+			if (applystate != null && applystate) {
+				stateEnum = Enum.valueOf(State.class, state);
+			}
+			List<ErrorEntry> entries = new ArrayList<ErrorEntry>();
+			if (errorEntryID != null && errorEntryID.length > 0) {
+				LOG.info("Selected errors: " + Arrays.toString(errorEntryID));
+
+				for (int i = 0; i < errorEntryID.length; i++) {
+					if (errorEntryID[i] != null) {
+						LOG.info("Will get error " + i);
+						ErrorEntry error = this.errorEntryDAO
+								.retrieve(errorEntryID[i]);
+						LOG.info("Got " + error);
+						entries.add(error);
+					}
+				}
+			}
+			errorEntryLogic.multipleEdit(entries, priorityEnum, stateEnum,
+					comment);
+		} else {
+			LOG.info("Invalid user tried to set priority: "
+					+ loggedUser.getUser());
+		}
+
+		result.redirectTo(getClass()).list();
 	}
 }

@@ -16,10 +16,10 @@ public class HistoryEntryField {
 	@Column(length=128)
 	private String fieldName;
 	
-	@Column(length=700)
+	@Column(length=255)
 	private String valueBefore;
 	
-	@Column(length=700)
+	@Column(length=255)
 	private String valueAfter;
 	
 	@ManyToOne

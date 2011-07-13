@@ -1071,4 +1071,28 @@ public class ErrorEntryLogic {
 			userList.add(user);
 		}
 	}
+
+	public void multipleEdit(List<ErrorEntry> entries, Priority priorityEnum,
+			State stateEnum, String comment) {
+		LOG.info("Will update entrie: ");
+		for (ErrorEntry errorEntry : entries) {
+			LOG.info(errorEntry.getId());
+		}
+		LOG.info("Will add comment: " + comment);
+		LOG.info("Set priority " + priorityEnum);
+		LOG.info("State: " + stateEnum);
+		
+		for (ErrorEntry errorEntry : entries) {
+			if(priorityEnum != null) {
+				errorEntry.setPriority(priorityEnum);
+			}
+			if(stateEnum != null) {
+				errorEntry.setState(stateEnum);
+			}
+			if(comment != null && comment.length() > 0) {
+				addCommentToErrorEntry(errorEntry.getId(), this.user.getId(), comment);
+			}
+		}
+		
+	}
 }
