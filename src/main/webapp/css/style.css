@@ -429,6 +429,13 @@ DIV.white_box {
 	margin-bottom:15px;
 }
 
+.blue_box {
+	border: 1px solid #369;
+	padding: 10px 10px 10px 15px;
+	BACKGROUND-COLOR: #CEDFEF;
+	margin-bottom:15px;
+}
+
 /* white_box */
 /* dashed_white*/
 /*___________________________________ .about <<< _____________________________________*/
