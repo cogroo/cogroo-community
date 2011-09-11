@@ -36,15 +36,24 @@ a:hover {
 }
 
 #logoBROffice {
-	background-image: url(../images/broffice.png);
+	background-image: url(../images/logo_libreoffice.png);
 	background-repeat: no-repeat;
 	background-position: center center;
 	position: relative;
 	border: none;
 	top: 0px;
-	margin-left: 624px;
+	margin-left: 700px;
 	height: 100px;
 	width: 400px;
+}
+
+#social {
+position: relative;
+font-size: 70%;
+text-align: right;
+float: right;
+margin: -5px 5px 0px 5px;
+padding: 0;
 }
 
 .clear {
