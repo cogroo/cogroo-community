@@ -117,6 +117,10 @@
 			  </tr>
 			</table>
 		</div>
+		
+		<div class="blue_box">
+			<p><b>Nota:</b> Wesley Seidel e William Colen oferecem serviços de Processamento de Linguagens Naturais através do projeto <a target="_blank" class="fork" href="http://www.ltasks.com">LTasks</a>.</p>
+		</div>
 	</div>
 	
 	<div class="white_box">
