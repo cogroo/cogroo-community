@@ -431,9 +431,10 @@ DIV.white_box {
 
 .blue_box {
 	border: 1px solid #369;
-	padding: 10px 10px 10px 15px;
 	BACKGROUND-COLOR: #CEDFEF;
-	margin-bottom:15px;
+	margin-right: 12px; 
+	padding: 15px 15px 15px 15px;
+	margin-bottom:6px;
 }
 
 /* white_box */
