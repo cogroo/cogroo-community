@@ -4,6 +4,8 @@
 </script>
 <script src="<c:url value='/js/analysisdetails.js' />" type="text/javascript" ></script>
 
+<h2>Regra Nº. ${rule.id}</h2>
+
 <span style="FLOAT: right; POSITION: static">
 <c:if test="${previousRule != NULL}">
 [<a href="<c:url value="/rules/${previousRule}"/>">anterior</a>]
@@ -14,7 +16,6 @@
 </span>
 
 <div class="rule_details">
-	<h3>Regra Nº. ${rule.id}</h3>
 	<table class="attributes">
 		<tbody>
 			<tr>
