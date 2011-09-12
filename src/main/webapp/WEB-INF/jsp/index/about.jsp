@@ -1,7 +1,7 @@
-		
+
+<h2>Sobre o CoGrOO Comunidade</h2>		
 <div id="about">
 	<div class="yellow_box">
-		<h1>Sobre o CoGrOO Comunidade</h1>
 		<p>
 			Este é o portal colaborativo para aprimorar o CoGrOO, o corretor gramatical em português para o LibreOffice e OpenOffice.org.
 		</p>
