@@ -301,11 +301,10 @@ table.attributes td { vertical-align: top; }
 }
 
 .socialNetworks {
-	float: right;
-	position:relative;
-	margin-top: 35px;
-	margin-left: 5px;
-	padding: 0;
+float: right;
+position: relative;
+margin-top: 20px;
+margin-left: 20px;
 }
 
 .twitter {
