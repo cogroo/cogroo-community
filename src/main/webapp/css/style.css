@@ -303,8 +303,7 @@ table.attributes td { vertical-align: top; }
 .socialNetworks {
 float: right;
 position: relative;
-margin-top: 20px;
-margin-left: 20px;
+margin: -5px 5px 0px 5px;
 }
 
 .twitter {
