@@ -293,7 +293,8 @@
 			<filter>${basedir}/target/filter.properties</filter>
 			<filter>../comunidade.properties</filter>
 	    </filters>
-	
+
+        <outputDirectory>${basedir}/src/main/webapp/WEB-INF/classes</outputDirectory> 	
 		<finalName>cogroo</finalName>
 		<resources>
 			<resource>
