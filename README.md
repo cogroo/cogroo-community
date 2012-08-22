@@ -3,6 +3,11 @@ CoGrOO Comunidade
 
 This is the source code of CoGrOO Comunidade, which runs at http://comunidade.cogroo.org
 
+Project Management (issues, wiki etc)
+==================
+
+http://ccsl.ime.usp.br/redmine/projects/cogroo-community
+
 Development Environment
 =======================
 
