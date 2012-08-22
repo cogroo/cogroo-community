@@ -1,3 +1,33 @@
+CoGrOO Comunidade
+=================
+
+This is the source code of CoGrOO Comunidade, which runs at http://comunidade.cogroo.org
+
+Development Environment
+=======================
+
+The development environment depends on:
+
+- Maven 3
+- Java 6
+
+The following instructions will start the website using HSQL and Jetty:
+
+* Copy the file `comunidade.properties` to the parent folder, i.e. the same level of the project. This holds sensitive information, and this procedure would prevents us from  accidentally commit passwords. Only the build team own the file with passwords.
+
+* Copy the contents of `src/main/resources/META-INF/persistence.xml_test` to `src/main/resources/META-INF/persistence.xml`. The `persistence.xml` is for production, and use MySQL. The `persistence.xml_test` is for development and will use HSQL. *Please don't commit this change*.
+
+* Open a terminal, go to the project directory and execute `mvn clean install -Dmaven.test.skip` to build the project. Sorry we need to skip tests. It is on our TODO to fix it and any help is welcome.
+
+* In the same terminal execute `sh scripts/dbStart.sh` to start HSQLDB.
+
+* Open another terminal, go to the project directory and execute `sh scripts/jettyStart.sh` to start Jetty.
+
+* If everything is OK you will be able to open Cogroo Comunidade at http://localhost:8080
+
+
+Other info
+==========
 Eclipse plugins
 - Subversive: Subversion (SVN) integration for Eclipse
   site: http://www.eclipse.org/subversive/
