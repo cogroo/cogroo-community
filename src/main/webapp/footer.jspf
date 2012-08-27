@@ -11,6 +11,7 @@
 					
 		<div id="logoCCSL"></div>
 		<div id="logoVRaptor"></div>
+		<div id="logoCogrooOrg"></div>
 		<div id="stats">
 			<p>Foram reportados ${appData.reportedErrors} erros até agora.</p>
 			<p>Há ${appData.registeredMembers} membros cadastrados.</p>

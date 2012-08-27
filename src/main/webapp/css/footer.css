@@ -20,6 +20,17 @@
 	width: 100px;
 }
 
+#logoCogrooOrg {
+	background-image: url(../images/cogroo_org.png);
+	background-position: center;
+	background-repeat: no-repeat;
+	display:block;
+	float:left;
+	text-align:justify;
+	height: 100px;
+	width: 110px;
+}
+
 #stats {
 	background-repeat: no-repeat;
 	display: block;
