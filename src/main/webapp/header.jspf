@@ -171,11 +171,12 @@
 			</li>
 			<li><span title="Links relacionados ao CoGrOO.">Links Externos</span>
 				<ul>
-					<li><a title="Download da versão mais recente do plugin para o BrOffice.org" href="http://cogroo.sourceforge.net/download/current.html" onclick="_gaq.push(['_trackEvent', 'Link', 'clicked link', 'http://cogroo.sourceforge.net/download/current.html']);">Download CoGrOO</a></li>
-					<li><a title="Fórum de discussões sobre este portal" href="https://sourceforge.net/projects/cogroo/forums/forum/1285746" onclick="_gaq.push(['_trackEvent', 'Link', 'clicked link', 'http://cogroo.sourceforge.net/download/current.html']);">SourceForge Forum</a></li>
+					<li><a title="Download da versão mais recente do plugin para o BrOffice.org" href="http://www.cogroo.org/" onclick="_gaq.push(['_trackPageview', 'http://www.cogroo.org/'])">Download CoGrOO</a></li>
+					<li><a title="Fórum de discussões sobre este portal" href="https://sourceforge.net/projects/cogroo/forums/forum/1285746" onclick="_gaq.push(['_trackPageview', 'https://sourceforge.net/projects/cogroo/forums/forum/1285746']);">SourceForge Forum</a></li>
 					<!--<li><a title="Portal de notícias sobre o projeto CoGrOO" href="http://ccsl.ime.usp.br/cogroo/" onclick="_gaq.push(['_trackEvent', 'Link', 'clicked link', 'http://cogroo.sourceforge.net/download/current.html']);">Drupal</a></li>
-					--><li><a title="Portal BrOffice.org" href="http://www.broffice.org" onclick="_gaq.push(['_trackEvent', 'Link', 'clicked link', 'http://cogroo.sourceforge.net/download/current.html']);">BrOffice.org</a></li>
-					<li><a title="Centro de Competência em Software Livre" href="http://ccsl.ime.usp.br" onclick="_gaq.push(['_trackEvent', 'Link', 'clicked link', 'http://ccsl.ime.usp.br']);">CCSL</a></li>
+					--><li><a title="Portal LibreOffice" href="http://pt-br.libreoffice.org" onclick="_gaq.push(['_trackPageView', 'http://pt-br.libreoffice.org']);">LibreOffice</a></li>
+					<li><a title="Portal Apache OpenOffice.org" href="http://www.openoffice.org/pt-br" onclick="_gaq.push(['_trackPageView', 'http://www.openoffice.org/pt-br']);">Apache OpenOffice.org</a></li>
+					<li><a title="Centro de Competência em Software Livre" href="http://ccsl.ime.usp.br" onclick="_gaq.push(['_trackPageView', 'http://ccsl.ime.usp.br']);">CCSL</a></li>
 				</ul>
 			</li>
 			<li><span title="Veja outras informações sobre o projeto.">Mais Informações</span>
