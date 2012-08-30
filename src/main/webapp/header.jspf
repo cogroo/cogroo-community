@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml">
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb#">
 <head>
 <c:choose>
 	<c:when test="${not empty headerTitle}">	
@@ -89,6 +89,16 @@
 
 </head>
 <body>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/pt_BR/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
 <div id="wrap">
 	<div id="header">
 <!--		<div id="usuario">-->
@@ -145,15 +155,10 @@
     </div>
 	    
 	<div id="logoCogroo"><a href="<c:url value="/"/>" title="CoGrOO Comunidade" id="logoCogrooLink"></a></div>
-	
 	<div id="logoBROffice"><a title="Portal LibreOffice" href="http://pt-br.libreoffice.org" target="_blank" onclick="_gaq.push(['_trackPageView', 'http://pt-br.libreoffice.org']);" id="logoBROfficeLink"></a></div>
-	
 	<div id="logoOpenOffice"><a title="Portal Apache OpenOffice.org" href="http://www.openoffice.org/pt-br" target="_blank" onclick="_gaq.push(['_trackPageView', 'http://www.openoffice.org/pt-br']);" id="logoOpenOfficeLink"></a></div>
-	
 	<div id="buttonDownload"><a title="Download da versão mais recente do plugin para o LibreOffice" href="http://www.cogroo.org/" target="_blank" id="buttonDownloadLink" onclick="_gaq.push(['_trackPageview', 'http://www.cogroo.org/'])"></a></div>
-	
-	<div class="clear"> </div>
-	
+	<div class="clear"></div>
 	
 		<ul id="menu" class="menu">
 			<li><a title="Experimente o CoGrOO e explore os resultados: erros gramaticais, análise morfológica e de agrupamentos." href="<c:url value="/grammar"/>">Análise Gramatical</a></li>
@@ -234,7 +239,8 @@
 <!-- twitter -->
 <a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="cogroo" data-related="cogrcom" data-lang="pt">Tweetar</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
 
-<!-- face -->
-<iframe src="//www.facebook.com/plugins/like.php?app_id=271422932875533&amp;href&amp;send=false&amp;layout=button_count&amp;width=80&amp;show_faces=true&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:100px; height:21px;" allowTransparency="true"></iframe>
 
+
+<!-- face -->
+<fb:like send="false" layout="button_count" width="35" show_faces="false"></fb:like>
 </div>
