@@ -291,9 +291,21 @@ table.attributes td { vertical-align: top; }
 }
 
 .specialframe {
-	background:none repeat scroll 0 0 #FFF8DC;
-	border:3px solid #996666;
-	padding:20px;
+	background: none repeat scroll 0 0 #FFF8DC;
+	border: 3px solid #996666;
+	font-size: 15px;
+	line-height: 200%;
+	margin: 50px;
+	padding: 30px;
+}
+
+.inputtxt {
+    border: 1px solid #006;
+    background: #ffc;
+}
+
+.inputtxt:focus {
+    background: #fff;
 }
 
 .required {

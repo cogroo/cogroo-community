@@ -13,7 +13,7 @@
 		<div id="logoVRaptor"></div>
 <!-- 		<div id="logoCogrooOrg"></div> -->
 		
-		<div id="email"></div>		
+		<div id="emailImage"></div>		
 		
 		<div id="stats">
 			<p>Foram reportados ${appData.reportedErrors} erros até agora.</p>

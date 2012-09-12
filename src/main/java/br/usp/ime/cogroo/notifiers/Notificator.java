@@ -52,33 +52,33 @@ public class Notificator {
 	}
 	
 	public void sendEmail(String body, String subject, String email) {
-		//if(BuildUtil.NOTIFY) {
-		//	if(LOG.isDebugEnabled()) {
-		//		Log.debug("Will send email to " + email);
-		//	}
-		//	this.email.sendEmail(body, subject, email);
-		//} else {
+		if(BuildUtil.NOTIFY) {
+			if(LOG.isDebugEnabled()) {
+				Log.debug("Will send email to " + email);
+			}
+			this.email.sendEmail(body, subject, email);
+		} else {
 			LOG.info("Notifications are disabled.");
 			LOG.info("... Would email: " + body);
 			LOG.info("... with subject: " + subject);
 			LOG.info("... with email: " + email);
-		//}
+		}
 		
 	}
 	
 	public void sendEmail(String unescapeHtml, String subject,
 			Set<User> userList) {
-		//if(BuildUtil.NOTIFY) {
-		//	if(LOG.isDebugEnabled()) {
-		//		Log.debug("Will send email to " + Arrays.toString(userList.toArray()));
-		//	}
-		//	this.email.sendEmail(unescapeHtml, subject, userList);
-		//} else {
+		if(BuildUtil.NOTIFY) {
+			if(LOG.isDebugEnabled()) {
+				Log.debug("Will send email to " + Arrays.toString(userList.toArray()));
+			}
+			this.email.sendEmail(unescapeHtml, subject, userList);
+		} else {
 			LOG.info("Notifications are disabled.");
 			LOG.info("... Would email: " + unescapeHtml);
 			LOG.info("... with subject: " + subject);
 			LOG.info("... to users: " + Arrays.toString(userList.toArray()));
-		//}
+		}
 		
 	}
 

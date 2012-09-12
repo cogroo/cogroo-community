@@ -42,7 +42,7 @@ class EmailSender {
 	private final static String SUBJECT_PREFFIX = "[CoGrOO Comunidade] ";
 	private final static String BASE_EMAIL;
 	private final static String NOREPLY_EMAIL;
-	private final static String SMTP = "mail.gandi.net";
+	private final static String SMTP = "smtp.cogroo.org";
 	private Queue<Email> emailQueue = new ConcurrentLinkedQueue<Email>();
 	
 	private final static List<InternetAddress> REPLYTO = new ArrayList<InternetAddress>(1);

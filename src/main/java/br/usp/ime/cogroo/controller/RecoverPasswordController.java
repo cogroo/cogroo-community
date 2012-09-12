@@ -1,5 +1,6 @@
 package br.usp.ime.cogroo.controller;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 
@@ -94,6 +95,7 @@ public class RecoverPasswordController {
 		userFromDB.setPassword(CriptoUtils.digestMD5(userFromDB.getLogin(),
 				password));
 		userFromDB.setRecoverCode("");
+		userFromDB.setDateRecoverCode(null);
 		userDAO.update(userFromDB);
 		
 		result.include("gaEventPasswordRecovered", true).include("provider", userFromDB.getService());
@@ -103,6 +105,11 @@ public class RecoverPasswordController {
 	@Post
 	@Path("/recover")
 	public void sendMailRecover(String email) {
+	  
+	 if (LOG.isDebugEnabled()) {
+	   LOG.debug("Preparing to send mail recovery");
+	 }
+	  
 		User userFromDB = getUserIfValid(email); 
 		/*
 		 * Validators
@@ -115,6 +122,7 @@ public class RecoverPasswordController {
 				validator.add(new ValidationMessage(
 						ExceptionMessages.INVALID_EMAIL,
 						ExceptionMessages.ERROR));
+				
 			}
 		}
 
@@ -149,8 +157,12 @@ public class RecoverPasswordController {
 		body.append("Lembrando que seu login é \"" + userFromDB.getLogin() + "\".<br>");
 		
 		String subject = "Redefinição de senha";
+		
+		if (LOG.isDebugEnabled()) {
+	       LOG.debug("Will send mail now");
+	     }
+		
 		notificator.sendEmail(body.toString(), subject, userFromDB.getEmail().trim());
-
 	}
 
 	private String getRandomField(User userFromDB) {
@@ -183,7 +195,28 @@ public class RecoverPasswordController {
 							ExceptionMessages.BAD_RECOVERY_CODE, 
 							ExceptionMessages.ERROR));
 				} else {
-					/*
+					Date date = userFromDB.getDateRecoverCode();
+					
+					
+					Calendar calendar = Calendar.getInstance();
+					calendar.setTime(date);
+					calendar.add(Calendar.HOUR_OF_DAY, 48);
+					
+				    Date expireDate = calendar.getTime();
+				    
+				    if (LOG.isDebugEnabled()) {
+                      LOG.debug("Recovery code was generated in " + date.toString());
+                      LOG.debug("Expires in " + expireDate.toString());
+				    }
+
+				    if (expireDate.before(new Date())) {
+				      LOG.warn("Date has already expired: " + user.toString());
+				      validator.add(new ValidationMessage(
+                            ExceptionMessages.EXPIRED_RECOVERY_CODE, 
+                            ExceptionMessages.ERROR));
+				    }
+				  
+				  /*
 					 * Código Hash igual, tem q testar a diferenca de tempo pelo
 					 * getDateRecoveryCode()
 					 */
