@@ -19,38 +19,18 @@
 			<a name="src">Código Fonte</a>
 		</h2>
 		<div class="dashed_white">
-			<h2>Acesso Web</h2>
-			<p>
-				Navegue pelo código fonte usando o <a
-					href="http://cogroo.svn.sourceforge.net/viewvc/cogroo/cogroo-community">ViewVC</a>
-				pelo navegador.
-			</p>
-		</div>
-		<div class="dashed_white">
 			<h2>Repositório</h2>
 			<p>
-				O repositório SVN do CoGrOO Comunidade está localizado em<br>
-				<code>https://cogroo.svn.sourceforge.net/svnroot/cogroo/cogroo-community/trunk</code>
-				.
+				O repositório Git do CoGrOO Comunidade está localizado em<br>
+				<code>https://github.com/cogroo/cogroo-community</code>
+				. Através do site é possível navegar por todo código fonte.
 			</p>
 		</div>
 		<div class="dashed_white">
-			<h2>Checkout SVN</h2>
+			<h2>Checkout Git</h2>
 			<p>Para obter o código fonte mais recente:</p>
 			<div class="white_box">
-				<code>svn co
-					https://cogroo.svn.sourceforge.net/svnroot/cogroo/cogroo-community/trunk
-					cogroo-community</code>
-			</div>
-			<p>Para obter uma tag ou branch:</p>
-			<div class="white_box">
-				<code>svn co
-					https://cogroo.svn.sourceforge.net/svnroot/cogroo/cogroo-community/tags/(nome
-					da tag)</code>
-				<br>
-				<code> svn co
-					https://cogroo.svn.sourceforge.net/svnroot/cogroo/cogroo-community/branches/(nome
-					do branch)</code>
+				<code>git clone https://github.com/cogroo/cogroo-community.git</code>
 			</div>
 		</div>
 	</div>
@@ -68,14 +48,14 @@
 					5</a> para compilar e executar o projeto.
 			</p>
 			<p>
-				Pelo menos <a href="http://maven.apache.org/">Maven 2</a> para
+				Pelo menos <a href="http://maven.apache.org/">Maven 3</a> para
 				compilar os fontes e empacotar o projeto.
 			</p>
 		</div>
 		<div class="dashed_white">
 			<h2>Procedimento para compilação</h2>
 			<p>O build do CoGrOO Comunidade pode ser feito por um checkout do
-				SVN. Aqui mostraremos como fazer da versão mais atual do trunk.</p>
+				Git. Aqui mostraremos como fazer da versão mais atual do trunk.</p>
 			<p>Depois do primeiro checkout é necessário fazer um build
 				completo:</p>
 			<div class="white_box">
@@ -96,7 +76,7 @@
 			<p>O CoGrOO Comunidade requer um servidor web e um banco de
 				dados. No ambiente de produção usamos Tomcat + MySQL, mas no de
 				desenvolvimento podemos usar Jetty + HSQLDB.</p>
-			<p>O SVN deve ficar preparado para rodar no ambiente de produção.
+			<p>O Git deve ficar preparado para rodar no ambiente de produção.
 				No ambiente local precisamos fazer algumas modificações.</p>
 			<h3>Banco de Dados</h3>
 			<p>
