@@ -34,7 +34,7 @@ public class RecoverPasswordController {
 	private Notificator notificator;
 	Random random = new Random(System.currentTimeMillis());
 	private final HttpServletRequest request;
-
+	
 	public RecoverPasswordController(Result result, UserDAO userDAO,
 			Validator validator, Notificator notificator, HttpServletRequest request) {
 		this.result = result;
@@ -122,7 +122,15 @@ public class RecoverPasswordController {
 				validator.add(new ValidationMessage(
 						ExceptionMessages.INVALID_EMAIL,
 						ExceptionMessages.ERROR));
-				
+			}
+			
+			else {
+			  if (lessThanMinimumTime(userFromDB)) {
+			    LOG.warn("Another password recovery request in less than five minutes: " + userFromDB.toString());
+			      validator.add(new ValidationMessage(
+			            ExceptionMessages.MINIMUM_TIME_RECOVERY_CODE, 
+			            ExceptionMessages.ERROR));
+			  }
 			}
 		}
 
@@ -140,7 +148,7 @@ public class RecoverPasswordController {
 		userFromDB.setDateRecoverCode(new Date());
 		userFromDB.setRecoverCode(codeRecover);
 		userDAO.update(userFromDB);
-
+		
 		result.include("email", userFromDB.getEmail());
 		result.include("codeRecover", codeRecover);
 		/*
@@ -197,7 +205,6 @@ public class RecoverPasswordController {
 				} else {
 					Date date = userFromDB.getDateRecoverCode();
 					
-					
 					Calendar calendar = Calendar.getInstance();
 					calendar.setTime(date);
 					calendar.add(Calendar.HOUR_OF_DAY, 48);
@@ -252,4 +259,23 @@ public class RecoverPasswordController {
 		return userFromDB;
 	}
 
+  private boolean lessThanMinimumTime(User user) {
+    Date date = user.getDateRecoverCode();
+    
+    if (date != null) {
+      Calendar calendar = Calendar.getInstance();
+      calendar.setTime(date);
+      calendar.add(Calendar.MINUTE, 5);
+      
+      Date expirableDate = calendar.getTime();
+      Date now = new Date(); 
+      
+      if (now.before(expirableDate)) {
+        return true;
+      }
+    }
+    
+    return false;
+  }
+  
 }

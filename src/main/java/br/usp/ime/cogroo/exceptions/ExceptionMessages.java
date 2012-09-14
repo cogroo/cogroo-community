@@ -32,4 +32,5 @@ public class ExceptionMessages {
   public static final String ERROR_REPORT_OMISSION_MISSING_REPLACE = "ERROR_REPORT_OMISSION_MISSING_REPLACE";
   public static final String BAD_RECOVERY_CODE = "BAD_RECOVERY_CODE";
   public static final String EXPIRED_RECOVERY_CODE = "EXPIRED_RECOVERY_CODE";
+  public static final String MINIMUM_TIME_RECOVERY_CODE = "MINIMUM_TIME_RECOVERY_CODE";
 }
