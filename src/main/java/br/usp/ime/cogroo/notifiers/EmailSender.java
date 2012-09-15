@@ -1,8 +1,5 @@
 package br.usp.ime.cogroo.notifiers;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.net.UnknownHostException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Queue;
@@ -11,24 +8,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
-import org.apache.commons.mail.SimpleEmail;
-import org.apache.geronimo.mail.util.StringBufferOutputStream;
-import org.apache.james.jdkim.DKIMSigner;
-import org.apache.james.jdkim.DKIMVerifier;
-import org.apache.james.jdkim.api.PublicKeyRecordRetriever;
-import org.apache.james.jdkim.api.SignatureRecord;
-import org.apache.james.jdkim.exceptions.FailException;
-import org.apache.james.jdkim.impl.DNSPublicKeyRecordRetriever;
 import org.apache.log4j.Logger;
-import org.xbill.DNS.Resolver;
-import org.xbill.DNS.SimpleResolver;
 
 import br.com.caelum.vraptor.ioc.ApplicationScoped;
 import br.com.caelum.vraptor.ioc.Component;
@@ -123,7 +108,7 @@ class EmailSender {
       throws EmailException {
     String msg = body + FOOTER;
 
-    Email email = new SimpleEmail();
+    DKimSimpleMail email = new DKimSimpleMail();
     email.setHostName(SMTP);
     email.setDebug(true);
     email.setSSL(true);
@@ -140,37 +125,8 @@ class EmailSender {
     else
       email.setCharset("UTF-8");
 
-    sign(email);
-
+    email.setKDimSigner(DKIM_HEADER_TEMPLATE, DKIM_PRIVATE_KEY);
     return email;
-  }
-
-  private void sign(Email email) {
-
-    try {
-      email.buildMimeMessage();
-      StringBuffer data = new StringBuffer();
-
-      StringBufferOutputStream dataStream = new StringBufferOutputStream(data);
-      MimeMessage msg = email.getMimeMessage();
-
-      msg.writeTo(dataStream);
-
-      DKIMSigner signer = new DKIMSigner(DKIM_HEADER_TEMPLATE,
-          DKIMSigner.getPrivateKey(DKIM_PRIVATE_KEY));
-      String dkimHeader = signer.sign(new ByteArrayInputStream(data.toString()
-          .getBytes())).replace("DKIM-Signature: ", "");
-
-      LOG.warn("Header: " + dkimHeader);
-
-      email.addHeader("DKIM-Signature", dkimHeader);
-    } catch (Exception e) {
-      // Failed to sign message. This is not fatal, will send message anyway.
-      LOG.error(
-          "Failed to sign message. Please check exception. Will try to send email anyway.",
-          e);
-    }
-
   }
 
   public void sendEmail(String body, String subject, Set<User> users) {
@@ -187,17 +143,4 @@ class EmailSender {
 		}
   }
   
-  public static void main(String[] args) throws IOException, FailException, MessagingException, EmailException {
-    PublicKeyRecordRetriever ret = new DNSPublicKeyRecordRetriever();
-    DKIMVerifier verifier = new DKIMVerifier(ret);
-    
-    EmailSender es = new EmailSender();
-    Email email = es.createEmail("Body a body", "a subject", "william.colen@gmail.com");
-    
-    List<SignatureRecord> list = verifier.verify(email.getMimeMessage().getInputStream());
-    
-    for (SignatureRecord signatureRecord : list) {
-      System.out.println(list);
-    }
-  }
 }
