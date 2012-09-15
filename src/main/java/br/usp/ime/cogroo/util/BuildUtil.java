@@ -33,6 +33,8 @@ public final class BuildUtil {
 	public static final String BITLY_APIKEY = getString("BITLY_APIKEY");
 
 	public static final boolean NOTIFY = getBoolean("NOTIFY");
+
+	public static final String DKIM_PRIVATE_KEY = getString("DKIM_PRIVATE_KEY");;
 	
 	private static String getString(String key) {
 		return PROPERTIES.getString(key);
