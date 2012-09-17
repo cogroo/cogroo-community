@@ -157,7 +157,7 @@
 	<div id="logoCogroo"><a href="<c:url value="/"/>" title="CoGrOO Comunidade" id="logoCogrooLink"></a></div>
 	<div id="logoBROffice"><a title="Portal LibreOffice" href="http://pt-br.libreoffice.org" target="_blank" onclick="_gaq.push(['_trackPageView', 'http://pt-br.libreoffice.org']);" id="logoBROfficeLink"></a></div>
 	<div id="logoOpenOffice"><a title="Portal Apache OpenOffice.org" href="http://www.openoffice.org/pt-br" target="_blank" onclick="_gaq.push(['_trackPageView', 'http://www.openoffice.org/pt-br']);" id="logoOpenOfficeLink"></a></div>
-	<div id="buttonDownload"><a title="Download da versão mais recente do plugin para o LibreOffice" href="http://www.cogroo.org/" target="_blank" id="buttonDownloadLink" onclick="_gaq.push(['_trackPageview', 'http://www.cogroo.org/'])"></a></div>
+	<div id="buttonDownload"><a title="Download da versão mais recente do plugin para o LibreOffice" href="http://www.cogroo.org/" target="_blank" class="cssbutton" onclick="_gaq.push(['_trackPageview', 'http://www.cogroo.org/'])">Baixar Corretor Gramatical</a></div>
 	<div class="clear"></div>
 	
 		<ul id="menu" class="menu">
