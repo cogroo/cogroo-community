@@ -169,6 +169,7 @@ class EmailSender {
   private String createUnsubscribeLink(User user) {
     StringBuilder sb = new StringBuilder();
     
+    
     sb.append(BuildUtil.BASE_URL).append("unsubscribe/")
     .append(user.getId()).append("/")
     .append(getOrGenerateOptoutCode(user));
