@@ -51,12 +51,12 @@ public class Notificator {
 		
 	}
 	
-	public void sendEmail(String body, String subject, String email) {
+	public void sendEmail(String body, String subject, User user) {
 		if(BuildUtil.NOTIFY) {
 			if(LOG.isDebugEnabled()) {
-				Log.debug("Will send email to " + email);
+				Log.debug("Will send email to " + user.getEmail());
 			}
-			this.email.sendEmail(body, subject, email);
+			this.email.sendEmail(body, subject, user);
 		} else {
 			LOG.info("Notifications are disabled.");
 			LOG.info("... Would email: " + body);

@@ -2,7 +2,6 @@ package br.usp.ime.cogroo.controller;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -32,7 +31,6 @@ public class RecoverPasswordController {
 	private UserDAO userDAO;
 	private Validator validator;
 	private Notificator notificator;
-	Random random = new Random(System.currentTimeMillis());
 	private final HttpServletRequest request;
 	
 	public RecoverPasswordController(Result result, UserDAO userDAO,
@@ -141,9 +139,7 @@ public class RecoverPasswordController {
 		 * Logic create HashCode ... Need send email...
 		 */
 
-		String codeRecover = String.valueOf(System.currentTimeMillis())
-				+ getRandomField(userFromDB);
-		codeRecover = CriptoUtils.digestMD5(codeRecover);
+		String codeRecover = CriptoUtils.generateHash(userFromDB);
 
 		userFromDB.setDateRecoverCode(new Date());
 		userFromDB.setRecoverCode(codeRecover);
@@ -162,7 +158,7 @@ public class RecoverPasswordController {
 		body.append("Olá, " + userFromDB.getName() + "!<br><br>");
 		body.append("De acordo com sua solicitação no portal CoGrOO Comunidade, enviamos um link para redefinir sua senha:<br>");
 		body.append("<a href=\"" + url + "\">" + url + "</a><br><br>");
-		body.append("Lembrando que seu login é \"" + userFromDB.getLogin() + "\".<br>");
+		body.append("Lembrando que seu login é \"" + userFromDB.getLogin() + "\".<br><br>");
 		
 		String subject = "Redefinição de senha";
 		
@@ -170,20 +166,7 @@ public class RecoverPasswordController {
 	       LOG.debug("Will send mail now");
 	     }
 		
-		notificator.sendEmail(body.toString(), subject, userFromDB.getEmail().trim());
-	}
-
-	private String getRandomField(User userFromDB) {
-		String value = "";
-		Integer cmp = random.nextInt(100);
-		if (cmp >= 0 && cmp <= 33) {
-			value = userFromDB.getName();
-		} else if (cmp > 33 && cmp <= 66) {
-			value = userFromDB.getEmail();
-		} else if (cmp > 66) {
-			value = userFromDB.getLogin();
-		}
-		return value;
+		notificator.sendEmail(body.toString(), subject, userFromDB);
 	}
 
 	private User getUserIfValidate(User user, String codeRecover) {

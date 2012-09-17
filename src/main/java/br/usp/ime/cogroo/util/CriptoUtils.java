@@ -8,9 +8,13 @@ package br.usp.ime.cogroo.util;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Random;
+
+import br.usp.ime.cogroo.model.User;
 
 public final class CriptoUtils {
 	private static final String hexDigits = "0123456789abcdef";
+	private static final Random random = new Random(System.currentTimeMillis());
 
 	public static String digestMD5(String login, String pass){
 		String input = login + pass;
@@ -98,5 +102,27 @@ public final class CriptoUtils {
 					.indexOf(hexa.charAt(i + 1))));
 		}
 		return b;
+	}
+	
+	private static String getRandomField(User userFromDB) {
+      String value = "";
+      Integer cmp = random.nextInt(100);
+      if (cmp >= 0 && cmp <= 33) {
+          value = userFromDB.getName();
+      } else if (cmp > 33 && cmp <= 66) {
+          value = userFromDB.getEmail();
+      } else if (cmp > 66) {
+          value = userFromDB.getLogin();
+      }
+      return value;
+  }
+	
+	public static String generateHash(User user) {
+	  String codeRecover = String.valueOf(System.currentTimeMillis())
+      + getRandomField(user);
+	  
+	  codeRecover = CriptoUtils.digestMD5(codeRecover);
+	  
+	  return codeRecover;
 	}
 }

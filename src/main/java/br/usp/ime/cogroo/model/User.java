@@ -63,11 +63,17 @@ public class User {
 	
 	@Column(length = 32)
 	private String recoverCode;
+	
+	@Column(length = 32)
+    private String emailOptOutCode;
 
-	@Column
+  @Column //Transactional Mails
 	private Boolean isReceiveEmail;
 	
-	public User() {
+  @Column
+  private Boolean isReceiveNewsMail;
+  
+  public User() {
 	}
 	
 	@Deprecated
@@ -257,6 +263,14 @@ public class User {
 		this.isReceiveEmail = Boolean.valueOf(isReceiveEmail);		
 	}
 	
+	public Boolean getIsReceiveNewsMail() {
+	    return isReceiveNewsMail;
+	  }
+
+	  public void setIsReceiveNewsMail(Boolean isReceiveNewsMail) {
+	    this.isReceiveNewsMail = isReceiveNewsMail;
+	  }
+	
 	public void setService(String provider) {
 		this.provider = provider;
 	}
@@ -282,5 +296,13 @@ public class User {
 			return getName();
 		}
 	}
+	
+	   public String getEmailOptOutCode() {
+	     return emailOptOutCode;
+	   }
 
+	   public void setEmailOptOutCode(String emailOptOutCode) {
+	     this.emailOptOutCode = emailOptOutCode;
+	   }
+	   
 }
