@@ -5,6 +5,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+import com.google.common.base.Strings;
+
 @Entity
 public class GrammarCheckerBadIntervention implements Cloneable {
 	
@@ -16,6 +18,8 @@ public class GrammarCheckerBadIntervention implements Cloneable {
 	
 	private int rule;
 	
+	private String ruleID;
+	
 	@OneToOne
 	private ErrorEntry errorEntry;
 	
@@ -24,11 +28,11 @@ public class GrammarCheckerBadIntervention implements Cloneable {
 	}
 	
 	public GrammarCheckerBadIntervention(
-			BadInterventionClassification classification, int rule, ErrorEntry errorEntry) {
-		this.classification = classification;
-		this.rule = rule;
-		this.errorEntry = errorEntry;
-	}
+        BadInterventionClassification classification, String ruleID, ErrorEntry errorEntry) {
+    this.classification = classification;
+    this.ruleID = ruleID;
+    this.errorEntry = errorEntry;
+}
 
 	public Long getId() {
 		return id;
@@ -46,12 +50,17 @@ public class GrammarCheckerBadIntervention implements Cloneable {
 		this.classification = classification;
 	}
 
-	public int getRule() {
-		return rule;
+	public String getRule() {
+	  
+	  if (Strings.isNullOrEmpty(ruleID)) {
+	    this.ruleID = "xml:" + rule;
+	  }
+	  
+		return ruleID;
 	}
 
-	public void setRule(int rule) {
-		this.rule = rule;
+	public void setRule(String ruleID) {
+		this.ruleID = ruleID;
 	}
 
 	public ErrorEntry getErrorEntry() {

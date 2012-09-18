@@ -303,7 +303,7 @@ public class ErrorEntryLogic {
 					} 
 					GrammarCheckerBadIntervention gcBadIntervention = new GrammarCheckerBadIntervention(
 							classification, 
-							badIntervention.getRule(),
+							"xml:" + badIntervention.getRule(),
 							errorEntry);
 					
 					badInterventionDAO.add(gcBadIntervention);
@@ -422,7 +422,7 @@ public class ErrorEntryLogic {
 					
 					GrammarCheckerBadIntervention gcBadIntervention = new GrammarCheckerBadIntervention(
 							classification, 
-							Integer.parseInt(badintRule.get(i)),
+							"xml:" + Integer.parseInt(badintRule.get(i)),
 							errorEntry);
 					
 					badInterventionDAO.add(gcBadIntervention);

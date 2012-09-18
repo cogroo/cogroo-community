@@ -55,54 +55,59 @@ public class RuleController {
 	@Get
 	@Path(value = "/rule/{rule.id}")
 	public void deprecatedRule(Rule rule) {
-		result.use(Results.status()).movedPermanentlyTo(RuleController.class).rule(rule);
+		result.use(Results.status()).movedPermanentlyTo(RuleController.class).rule("xml:" + rule.getId());
 	}
 	
 	@Get
-	@Path(value = "/rules/{rule.id}")
-	public void rule(Rule rule) {
-		if(rule == null) {
-			result.redirectTo(getClass()).ruleList();
-			return;
-		}
-		rule = rulesLogic.getRule(rule.getId());
-		if (rule == null) {
-			result.notFound();
-			return;
-		}
-		
-		List<Pair<Pair<String,List<ProcessResult>>,Pair<String,List<ProcessResult>>>> exampleList =
-			new ArrayList<Pair<Pair<String,List<ProcessResult>>,Pair<String,List<ProcessResult>>>>();
-		
-		for (Example example : rule.getExample()) {
-			
-			List<ProcessResult> incorrect = cogroo.cachedProcessText(example.getIncorrect());
-			List<ProcessResult> correct = cogroo.cachedProcessText(example.getCorrect());
-			
-			String incorrectStr = cogroo.getAnnotatedText(example.getIncorrect(), incorrect);
-			String correctStr = cogroo.getAnnotatedText(example.getCorrect(), correct);
-			
-			Pair<String,List<ProcessResult>> incorrectPair = new Pair<String, List<ProcessResult>>(incorrectStr, incorrect);
-			Pair<String,List<ProcessResult>> correctPair = new Pair<String, List<ProcessResult>>(correctStr, correct);
-			
-			Pair<Pair<String,List<ProcessResult>>,Pair<String,List<ProcessResult>>> examplePair = 
-				new Pair<Pair<String,List<ProcessResult>>, Pair<String,List<ProcessResult>>>(incorrectPair, correctPair);
-			
-			exampleList.add(examplePair);
-		}
-		
-		result.include("rule", rule)
-			.include("exampleList", exampleList)
-			.include("nextRule", rulesLogic.getNextRuleID(rule.getId()))
-			.include("previousRule", rulesLogic.getPreviousRuleID(rule.getId()))
-			.include("pattern", RuleUtils.getPatternAsString(rule))
-			.include("replacePattern", RuleUtils.getSuggestionsAsString(rule));
-		
-		String title = "Regra Nº. " + rule.getId() + ": "
-				+ rule.getShortMessage();
-		String description = rule.getMessage();
-		result.include("headerTitle", StringEscapeUtils.escapeHtml(title))
-				.include("headerDescription",
-						StringEscapeUtils.escapeHtml(description));
-	}
+    @Path(value = "/rules/{ruleID}")
+    public void rule(String ruleID) {
+        
+	  if (ruleID.startsWith("xml:")) {
+	    ruleID = ruleID.substring(4);
+	  }
+	  
+	  if(ruleID == null) {
+            result.redirectTo(getClass()).ruleList();
+            return;
+        }
+        Rule rule = rulesLogic.getRule(Long.parseLong(ruleID));
+        if (rule == null) {
+            result.notFound();
+            return;
+        }
+        
+        List<Pair<Pair<String,List<ProcessResult>>,Pair<String,List<ProcessResult>>>> exampleList =
+            new ArrayList<Pair<Pair<String,List<ProcessResult>>,Pair<String,List<ProcessResult>>>>();
+        
+        for (Example example : rule.getExample()) {
+            
+            List<ProcessResult> incorrect = cogroo.cachedProcessText(example.getIncorrect());
+            List<ProcessResult> correct = cogroo.cachedProcessText(example.getCorrect());
+            
+            String incorrectStr = cogroo.getAnnotatedText(example.getIncorrect(), incorrect);
+            String correctStr = cogroo.getAnnotatedText(example.getCorrect(), correct);
+            
+            Pair<String,List<ProcessResult>> incorrectPair = new Pair<String, List<ProcessResult>>(incorrectStr, incorrect);
+            Pair<String,List<ProcessResult>> correctPair = new Pair<String, List<ProcessResult>>(correctStr, correct);
+            
+            Pair<Pair<String,List<ProcessResult>>,Pair<String,List<ProcessResult>>> examplePair = 
+                new Pair<Pair<String,List<ProcessResult>>, Pair<String,List<ProcessResult>>>(incorrectPair, correctPair);
+            
+            exampleList.add(examplePair);
+        }
+        
+        result.include("rule", rule)
+            .include("exampleList", exampleList)
+            .include("nextRule", rulesLogic.getNextRuleID(rule.getId()))
+            .include("previousRule", rulesLogic.getPreviousRuleID(rule.getId()))
+            .include("pattern", RuleUtils.getPatternAsString(rule))
+            .include("replacePattern", RuleUtils.getSuggestionsAsString(rule));
+        
+        String title = "Regra Nº. " + rule.getId() + ": "
+                + rule.getShortMessage();
+        String description = rule.getMessage();
+        result.include("headerTitle", StringEscapeUtils.escapeHtml(title))
+                .include("headerDescription",
+                        StringEscapeUtils.escapeHtml(description));
+    }
 }
