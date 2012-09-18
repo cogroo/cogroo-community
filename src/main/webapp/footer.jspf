@@ -9,9 +9,9 @@
 				<img width="16" height="16" title="Divulgar conteúdo" alt="Divulgar conteúdo" src="<c:url value="/images/feed.png"/>"/></a><br/>
 		</div>
 					
-		<div id="logoCCSL"></div>
-		<div id="logoVRaptor"></div>
-<!-- 		<div id="logoCogrooOrg"></div> -->
+		<div id="logoCCSL"><a title="Centro de Competência em Software Livre" href="http://ccsl.ime.usp.br" target="_blank" onclick="_gaq.push(['_trackPageView', 'http://ccsl.ime.usp.br']);" id="logoCCSLLink"></a></div>
+		
+		<div id="logoVRaptor"><a title="VRaptor" href="http://vraptor.caelum.com.br/pt" target="_blank" onclick="_gaq.push(['_trackPageView', 'http://vraptor.caelum.com.br/pt']);" id="logoVRaptorLink"></a></div>
 		
 		<div id="emailImage"></div>		
 		

@@ -1,46 +1,56 @@
 
 #logoCCSL {
-	background: #336699 url(../images/ccsl.png) no-repeat scroll 20% 50%;
-	background-position: center;
-	background-repeat: no-repeat;
-	display:block;
-	float:left;
-	text-align:justify;
-	height: 100px;
-	width: 250px;
+	background: url("../images/ccsl.png") no-repeat scroll center center #336699;
+    float: left;
+    height: 60px;
+    margin-left: 15px;
+    margin-top: 20px;
+    width: 220px;
 }
+
+#logoCCSLLink {
+	float: inherit;
+	height: inherit;
+	width: inherit;
+}
+
 #logoVRaptor {
-	background-image: url(../images/logo-vraptor.png);
-	background-position: center;
-	background-repeat: no-repeat;
-	display:block;
-	float:left;
-	text-align:justify;
-	height: 100px;
-	width: 100px;
+	background-image: url("../images/logo-vraptor.png");
+    background-position: center center;
+    background-repeat: no-repeat;
+    float: left;
+    height: 60px;
+    margin-left: 15px;
+    margin-top: 20px;
+    text-align: justify;
+    width: 100px;
+}
+
+#logoVRaptorLink {
+	float: inherit;
+	height: inherit;
+	width: inherit;
 }
 
 #emailImage {
 	background-image: url(../images/org_cogroo.png);
 	background-position: center bottom;
 	background-repeat: no-repeat;
-	display: block;
 	float: left;
-	height: 100px;
-	width: 250px;
+    height: 20px;
+    margin-left: 80px;
+    margin-top: 80px;
+    width: 100px;
 }
 
 #stats {
 	background-repeat: no-repeat;
-	display: block;
-	width: 400px;
-	float: right;
-	color: #ffffff;
-	font-size: 10px;
-	position: 50%;
-	vertical-align: middle;
-	padding-top: 15px;
-	padding-right: 3px;
+    color: #FFFFFF;
+    float: right;
+    font-size: 10px;
+    padding-right: 3px;
+    padding-top: 15px;
+    width: 400px;
 }
 
 p.right {
@@ -49,8 +59,8 @@ p.right {
 
 #footer {
 	background: #336699; 
-	display: block;
 	clear: both;
+/* 	display: block; */
 	height: 100px;
 }
 #footer #ftlink {
