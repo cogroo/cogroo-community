@@ -19,7 +19,7 @@
 	<table class="attributes">
 		<tbody>
 			<tr>
-			    <th>Categoria:</th><td>${rule.type}</td>
+			    <th>Categoria:</th><td>${rule.category}</td>
 			</tr>
 			<tr>
 			    <th>Grupo:</th><td>${rule.group}</td>
@@ -30,9 +30,9 @@
 			<tr>
 			    <th>Mensagem:</th><td>${rule.message}</td>
 			</tr>
-			<tr>
-			    <th>Ativa:</th><td><fmt:message key="yn${rule.active}"/></td>
-			</tr>
+<!-- 			<tr> -->
+<%-- 			    <th>Ativa:</th><td><fmt:message key="yn${rule.active}"/></td> --%>
+<!-- 			</tr> -->
 			<tr>
 			    <th>Padrão da regra:</th><td></td>
 			</tr>
@@ -47,21 +47,21 @@
 	</div>
 	<div class="rule_examples">
 	<h3>Exemplos de erros</h3>
-		    			<c:forEach items="${exampleList}" var="example" varStatus="i">
+		    			<c:forEach items="${exampleList}" var="examples" varStatus="i">
 		    				<div class="dashed_white">
 								<b>Incorreto:</b> <br />
 									<div class="analise_text_incorrect">
-										<p>${example.a.a}</p>
+										<p>${examples.a.a}</p>
 									</div>
-									<c:set var="processResultList" scope="request" value="${example.a.b}" />    
+									<c:set var="processResultList" scope="request" value="${examples.a.b}" />    
 									<c:set var="id" scope="request" value="i${i.count}" />
 									<c:set var="hidden" scope="request" value="hidden" />
 									<jsp:include page="/analysisdetails.jspf" /><br />
 								<b>Correto:</b> <br />
 									<div class="analise_text_correct">
-										<p>${example.b.a}</p>
+										<p>${examples.b.a}</p>
 									</div>
-									<c:set var="processResultList" scope="request" value="${example.b.b}" />    
+									<c:set var="processResultList" scope="request" value="${examples.b.b}" />    
 									<c:set var="id" scope="request" value="c${i.count}" />
 									<c:set var="hidden" scope="request" value="hidden" />
 									<jsp:include page="/analysisdetails.jspf" />
@@ -71,7 +71,7 @@
 					</ol>
 	
 			<form id="formOwnExample"  action="<c:url value="/grammar"/>" method="post" >
-			    <input type="hidden" name="text" value="${rule.example[0].incorrect}" />
+			    <input type="hidden" name="text" value="${rule.examples[0].incorrect}" />
 			    <input type="submit" value=" Teste seu próprio exemplo &raquo; " id="submitOwnExample"/>
 			</form>
 	<br />

@@ -18,7 +18,6 @@ import br.usp.ime.cogroo.model.ProcessResult;
 import br.usp.ime.cogroo.util.RuleUtils;
 import br.usp.pcs.lta.cogroo.tools.checker.RuleDefinitionI;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Example;
-import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Rule;
 
 @Resource
 public class RuleController {
@@ -52,22 +51,22 @@ public class RuleController {
 	
 	@Deprecated
 	@Get
-	@Path(value = "/rule/{rule.id}")
-	public void deprecatedRule(RuleDefinitionI rule) {
+	@Path(value = "/rule/{ruleID}")
+	public void deprecatedRule(String rule) {
 		result.use(Results.status()).movedPermanentlyTo(RuleController.class).rule(rule);
 	}
 	
 	@Get
-    @Path(value = "/rules/{rule.id}")
-    public void rule(RuleDefinitionI rule) {
+    @Path(value = "/rules/{ruleID}")
+    public void rule(String ruleID) {
         
-	  if(rule == null) {
+	  if(ruleID == null) {
             result.redirectTo(getClass()).ruleList();
             return;
         }
 	  
 	    // this will handle cases where we don't have the prefix
-        rule = rulesLogic.getRule(rule.getId());
+        RuleDefinitionI rule = rulesLogic.getRule(ruleID);
         if (rule == null) {
             result.notFound();
             return;
