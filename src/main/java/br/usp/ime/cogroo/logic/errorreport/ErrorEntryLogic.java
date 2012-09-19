@@ -424,7 +424,7 @@ public class ErrorEntryLogic {
 					
 					GrammarCheckerBadIntervention gcBadIntervention = new GrammarCheckerBadIntervention(
 							classification, 
-							"xml:" + Integer.parseInt(badintRule.get(i)),
+							badintRule.get(i),
 							errorEntry);
 					
 					badInterventionDAO.add(gcBadIntervention);
