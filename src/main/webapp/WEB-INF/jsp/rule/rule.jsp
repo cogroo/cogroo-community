@@ -4,7 +4,7 @@
 </script>
 <script src="<c:url value='/js/analysisdetails.js' />" type="text/javascript" ></script>
 
-<h2>Regra Nº. ${rule.id}</h2>
+<h2>Regra ${rule.id}</h2>
 
 <span style="FLOAT: right; POSITION: static">
 <c:if test="${previousRule != NULL}">
@@ -30,18 +30,34 @@
 			<tr>
 			    <th>Mensagem:</th><td>${rule.message}</td>
 			</tr>
-<!-- 			<tr> -->
-<%-- 			    <th>Ativa:</th><td><fmt:message key="yn${rule.active}"/></td> --%>
-<!-- 			</tr> -->
+			
+			<c:if test="${active != NULL }">
 			<tr>
-			    <th>Padrão da regra:</th><td></td>
+			    <th>Ativa:</th><td><fmt:message key="yn${active}"/></td>
 			</tr>
+			</c:if>
+			
+			<c:if test="${method == \"PHRASE_LOCAL\" }">
 			<tr>
-			    <td align="center" colspan="2">${pattern}</td>
+			    <th>Tipo de regra:</th><td>Dentro de um sintagma nominal</td>
 			</tr>
-			<tr>
-			    <th>Padrão da sugestão:</th><td>${replacePattern}</td>
-			</tr>
+			</c:if>
+			
+			<c:if test="${pattern != NULL}">
+				<tr>
+				    <th>Padrão da regra:</th><td></td>
+				</tr>
+				<tr>
+				    <td align="center" colspan="2">${pattern}</td>
+				</tr>
+			</c:if>
+			
+			<c:if test="${replacePattern != NULL}">
+				<tr>
+				    <th>Padrão da sugestão:</th><td>${replacePattern}</td>
+				</tr>
+			</c:if>
+			
 		</tbody>
 	</table>
 	</div>

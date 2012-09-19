@@ -18,6 +18,7 @@ import br.usp.ime.cogroo.model.ProcessResult;
 import br.usp.ime.cogroo.util.RuleUtils;
 import br.usp.pcs.lta.cogroo.tools.checker.RuleDefinitionI;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Example;
+import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Rule;
 
 @Resource
 public class RuleController {
@@ -67,6 +68,7 @@ public class RuleController {
 	  
 	    // this will handle cases where we don't have the prefix
         RuleDefinitionI rule = rulesLogic.getRule(ruleID);
+        
         if (rule == null) {
             result.notFound();
             return;
@@ -98,8 +100,13 @@ public class RuleController {
             .include("previousRule", rulesLogic.getPreviousRuleID(rule.getId()));
         
         if(rule.isXMLBased()) {
-          result.include("pattern", RuleUtils.getPatternAsString(rulesLogic.getXmlRule(rule)))
-          .include("replacePattern", RuleUtils.getSuggestionsAsString(rulesLogic.getXmlRule(rule)));
+          
+          Rule ruleXML = rulesLogic.getXmlRule(rule);
+          
+          result.include("pattern", RuleUtils.getPatternAsString(ruleXML))
+          .include("replacePattern", RuleUtils.getSuggestionsAsString(ruleXML))
+          .include("active", ruleXML.isActive())
+          .include("method", ruleXML.getMethod());
         }
         
         String title = "Regra " + rule.getId() + ": "

@@ -168,7 +168,7 @@ public class ErrorEntryLogic {
 
 		SortedSet<String> uniqueRules = new TreeSet<String>();
 
-		SortedSet<RuleDefinitionI> rules = cogrooFacade.getRuleDefinitionList();
+		Set<RuleDefinitionI> rules = cogrooFacade.getRuleDefinitionList();
 		for (RuleDefinitionI rule : rules) {
 			uniqueRules.add(rule.getCategory());
 		}

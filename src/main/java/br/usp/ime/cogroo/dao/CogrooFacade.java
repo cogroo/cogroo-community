@@ -2,12 +2,11 @@ package br.usp.ime.cogroo.dao;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.SortedMap;
-import java.util.SortedSet;
 import java.util.TreeMap;
-import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -45,6 +44,9 @@ public class CogrooFacade {
 	private static final Logger LOG_SENT = Logger.getLogger("sentences");
 	public static final String GC_PATH = "/gc/";
 	
+	private Set<RuleDefinitionI> ruleDefinitionList = null;
+	
+	
 	/** The Cogroo instance */
 	private CogrooI theCogroo = null;
 	private String resources = getClass().getResource(GC_PATH).getPath();
@@ -67,7 +69,7 @@ public class CogrooFacade {
 					LegacyRuntimeConfiguration config = new LegacyRuntimeConfiguration(resources);
 					this.theCogroo = new Cogroo(config);
 					
-					this.ruleDefinitionList = new TreeSet<RuleDefinitionI>(new RuleDefinitionComparator());
+					this.ruleDefinitionList = new HashSet<RuleDefinitionI>();
 					this.ruleDefinitionList.addAll(config.getChecker().getRulesDefinition());
 					
 					if(LOG.isDebugEnabled()) {
@@ -370,9 +372,8 @@ public class CogrooFacade {
     return xmlRules;
   }
 	
-	private SortedSet<RuleDefinitionI> ruleDefinitionList = null;
 	
-	public SortedSet<RuleDefinitionI> getRuleDefinitionList() {
+	public Set<RuleDefinitionI> getRuleDefinitionList() {
 	  start();
 	  return ruleDefinitionList;
 	  
@@ -389,26 +390,4 @@ public class CogrooFacade {
     return ruleID;
   }
 	
-  private static class RuleDefinitionComparator implements
-      Comparator<RuleDefinitionI> {
-
-    private static final String XML_PREFIX = "xml:";
-
-    @Override
-    public int compare(RuleDefinitionI o1, RuleDefinitionI o2) {
-      boolean o1IsXml = o1.getId().startsWith(XML_PREFIX);
-      boolean o2IsXml = o2.getId().startsWith(XML_PREFIX);
-      if (o1IsXml && o2IsXml) {
-        Integer i1 = new Integer(o1.getId().substring(4));
-        Integer i2 = new Integer(o2.getId().substring(4));
-        return i1.compareTo(i2);
-      } else if (o1IsXml) {
-        return -1;
-      } else if (o2IsXml) {
-        return 1;
-      }
-      return o1.getId().compareTo(o2.getId());
-    }
-
-  }
 }
