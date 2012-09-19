@@ -39,7 +39,7 @@ public class GrammarController {
 	@Path("/grammar")
 	public void grammar() {
 		if (!result.included().containsKey("text")) {
-			String exampleText = "Isso são um exemplo de erro gramaticais.";
+			String exampleText = "Isto são um exemplo de erro gramaticais.";
 			result.include("text", exampleText);
 			grammar(exampleText);
 		}

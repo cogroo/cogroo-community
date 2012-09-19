@@ -50,7 +50,7 @@ import br.usp.ime.cogroo.util.BuildUtil;
 import br.usp.pcs.lta.cogroo.errorreport.model.BadIntervention;
 import br.usp.pcs.lta.cogroo.errorreport.model.ErrorReport;
 import br.usp.pcs.lta.cogroo.errorreport.model.Omission;
-import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Rule;
+import br.usp.pcs.lta.cogroo.tools.checker.RuleDefinitionI;
 
 @Component
 public class ErrorEntryLogic {
@@ -168,9 +168,9 @@ public class ErrorEntryLogic {
 
 		SortedSet<String> uniqueRules = new TreeSet<String>();
 
-		List<Rule> rules = cogrooFacade.getRules();
-		for (Rule rule : rules) {
-			uniqueRules.add(rule.getType());
+		SortedSet<RuleDefinitionI> rules = cogrooFacade.getRuleDefinitionList();
+		for (RuleDefinitionI rule : rules) {
+			uniqueRules.add(rule.getCategory());
 		}
 
 		if (LOG.isDebugEnabled()) {
@@ -303,7 +303,9 @@ public class ErrorEntryLogic {
 					} 
 					GrammarCheckerBadIntervention gcBadIntervention = new GrammarCheckerBadIntervention(
 							classification, 
-							"xml:" + badIntervention.getRule(),
+							// we had to do it here because the rule might be without prefix if coming from a old version of cogroo
+							// it was not handled before because it was inside the XML.
+							CogrooFacade.addPrefixIfMissing(badIntervention.getRule()),
 							errorEntry);
 					
 					badInterventionDAO.add(gcBadIntervention);
@@ -320,7 +322,7 @@ public class ErrorEntryLogic {
 		return list;
 	}
 	
-	public void addErrorEntry(
+  public void addErrorEntry(
 			User cogrooUser,
 			String text,
 			List<String> badint,

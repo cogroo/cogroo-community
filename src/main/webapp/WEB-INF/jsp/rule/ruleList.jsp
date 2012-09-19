@@ -40,7 +40,7 @@
 			"iDisplayLength": 20,
 			"aoColumns": [
 				{ "bSortable": false },
-				{ "sType": "num-html" }, 
+				{ "sType": "title-numeric" }, 
 				null,
 				null,  
 				null,
@@ -106,20 +106,15 @@
 			</tr>
 		</thead>
 		<tbody>
+			<c:set var="count" value="0" scope="page" />
 			<c:forEach items="${ruleList}" var="rule">
+				<c:set var="count" value="${count + 1}" scope="page"/>
 				<tr title="<c:url value="/rules/${rule.id}"/>" id="${rule.id}">
 					<td valign="middle"><img src="./images/details_open.png"></td>
-					<c:choose> 
-					  <c:when test="${rule.active == true}" > 
-					    <td>
-					  </c:when> 
-					  <c:otherwise> 
-					    <td style="text-decoration: line-through;">
-					  </c:otherwise> 
-					</c:choose> 
-						<a href="<c:url value="/rules/${rule.id}"/>">${rule.id}</a>
+					<td title="${count}">
+						<a title="${count}" href="<c:url value="/rules/${rule.id}"/>">${rule.id}</a>
 					</td>
-					<td>${rule.type}</td>
+					<td>${rule.category}</td>
 					<td>${rule.group}</td>
 					<td>${rule.shortMessage}</td>
 	  			  	<td>
@@ -127,10 +122,10 @@
 			    		<tr><td>Mensagem longa:</td><td>${rule.message}</td></tr>
 			    		<tr><td>Exemplos:</td><td>
 			    			<ol>
-				    			<c:forEach items="${rule.example}" var="example">
+				    			<c:forEach items="${rule.examples}" var="example">
 									<li>${ i.count }
 										<ul>
-											<c:forEach items="${rule.example}" var="example">
+											<c:forEach items="${rule.examples}" var="example">
 												<li><b>incorreto:</b> ${example.incorrect}</li>
 												<li><b>correto:</b> ${example.correct}</li>
 											</c:forEach>

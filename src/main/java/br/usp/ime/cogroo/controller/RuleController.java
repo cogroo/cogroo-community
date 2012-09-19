@@ -10,14 +10,13 @@ import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.Validator;
-import br.com.caelum.vraptor.validator.ValidationMessage;
 import br.com.caelum.vraptor.view.Results;
 import br.usp.ime.cogroo.dao.CogrooFacade;
-import br.usp.ime.cogroo.exceptions.ExceptionMessages;
 import br.usp.ime.cogroo.logic.RulesLogic;
 import br.usp.ime.cogroo.model.Pair;
 import br.usp.ime.cogroo.model.ProcessResult;
 import br.usp.ime.cogroo.util.RuleUtils;
+import br.usp.pcs.lta.cogroo.tools.checker.RuleDefinitionI;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Example;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Rule;
 
@@ -54,23 +53,21 @@ public class RuleController {
 	@Deprecated
 	@Get
 	@Path(value = "/rule/{rule.id}")
-	public void deprecatedRule(Rule rule) {
-		result.use(Results.status()).movedPermanentlyTo(RuleController.class).rule("xml:" + rule.getId());
+	public void deprecatedRule(RuleDefinitionI rule) {
+		result.use(Results.status()).movedPermanentlyTo(RuleController.class).rule(rule);
 	}
 	
 	@Get
-    @Path(value = "/rules/{ruleID}")
-    public void rule(String ruleID) {
+    @Path(value = "/rules/{rule.id}")
+    public void rule(RuleDefinitionI rule) {
         
-	  if (ruleID.startsWith("xml:")) {
-	    ruleID = ruleID.substring(4);
-	  }
-	  
-	  if(ruleID == null) {
+	  if(rule == null) {
             result.redirectTo(getClass()).ruleList();
             return;
         }
-        Rule rule = rulesLogic.getRule(Long.parseLong(ruleID));
+	  
+	    // this will handle cases where we don't have the prefix
+        rule = rulesLogic.getRule(rule.getId());
         if (rule == null) {
             result.notFound();
             return;
@@ -79,7 +76,7 @@ public class RuleController {
         List<Pair<Pair<String,List<ProcessResult>>,Pair<String,List<ProcessResult>>>> exampleList =
             new ArrayList<Pair<Pair<String,List<ProcessResult>>,Pair<String,List<ProcessResult>>>>();
         
-        for (Example example : rule.getExample()) {
+        for (Example example : rule.getExamples()) {
             
             List<ProcessResult> incorrect = cogroo.cachedProcessText(example.getIncorrect());
             List<ProcessResult> correct = cogroo.cachedProcessText(example.getCorrect());
@@ -99,11 +96,14 @@ public class RuleController {
         result.include("rule", rule)
             .include("exampleList", exampleList)
             .include("nextRule", rulesLogic.getNextRuleID(rule.getId()))
-            .include("previousRule", rulesLogic.getPreviousRuleID(rule.getId()))
-            .include("pattern", RuleUtils.getPatternAsString(rule))
-            .include("replacePattern", RuleUtils.getSuggestionsAsString(rule));
+            .include("previousRule", rulesLogic.getPreviousRuleID(rule.getId()));
         
-        String title = "Regra Nº. " + rule.getId() + ": "
+        if(rule.isXMLBased()) {
+          result.include("pattern", RuleUtils.getPatternAsString(rulesLogic.getXmlRule(rule)))
+          .include("replacePattern", RuleUtils.getSuggestionsAsString(rulesLogic.getXmlRule(rule)));
+        }
+        
+        String title = "Regra " + rule.getId() + ": "
                 + rule.getShortMessage();
         String description = rule.getMessage();
         result.include("headerTitle", StringEscapeUtils.escapeHtml(title))

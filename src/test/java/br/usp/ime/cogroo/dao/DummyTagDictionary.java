@@ -1,6 +1,7 @@
 package br.usp.ime.cogroo.dao;
 
 import br.usp.pcs.lta.cogroo.entity.impl.runtime.MorphologicalTag;
+import br.usp.pcs.lta.cogroo.tag.TagInterpreterI;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.model.TagMask;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.model.TagMask.Case;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.model.TagMask.Class;
@@ -73,5 +74,11 @@ public class DummyTagDictionary implements CogrooTagDictionary {
 		aa.setTense(Tense.FUTURE);
 		return aa;
 	}
+
+  @Override
+  public TagInterpreterI getTagInterpreter() {
+    // TODO Auto-generated method stub
+    return null;
+  }
 
 }

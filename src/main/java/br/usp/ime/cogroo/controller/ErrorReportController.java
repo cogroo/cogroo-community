@@ -157,7 +157,7 @@ public class ErrorReportController {
 			return;
 
 		}
-		result.include("text", "Isso são um exemplo de erro gramaticais.");
+		result.include("text", "Isto são um exemplo de erro gramaticais.");
 		result.include("headerTitle",
 				messages.getString("NEW_ERROR_REPORT_HEADER")).include(
 				"headerDescription",

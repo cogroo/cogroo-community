@@ -2,9 +2,12 @@ package br.usp.ime.cogroo.dao;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.SortedMap;
+import java.util.SortedSet;
 import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -24,6 +27,7 @@ import br.usp.pcs.lta.cogroo.errorreport.ErrorReportAccess;
 import br.usp.pcs.lta.cogroo.grammarchecker.CheckerResult;
 import br.usp.pcs.lta.cogroo.grammarchecker.Cogroo;
 import br.usp.pcs.lta.cogroo.grammarchecker.CogrooI;
+import br.usp.pcs.lta.cogroo.tools.checker.RuleDefinitionI;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.applier.RulesProvider;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Rule;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.util.RulesContainerHelper;
@@ -60,7 +64,18 @@ public class CogrooFacade {
 					LOG.warn("Will start grammar checker!");
 					LOG_SENT.warn("Will start grammar checker!");
 					
-					this.theCogroo = new Cogroo(new LegacyRuntimeConfiguration(resources));
+					LegacyRuntimeConfiguration config = new LegacyRuntimeConfiguration(resources);
+					this.theCogroo = new Cogroo(config);
+					
+					this.ruleDefinitionList = new TreeSet<RuleDefinitionI>(new RuleDefinitionComparator());
+					this.ruleDefinitionList.addAll(config.getChecker().getRulesDefinition());
+					
+					if(LOG.isDebugEnabled()) {
+					  LOG.debug("Loaded " + this.ruleDefinitionList.size() + " rule definitions");
+					}
+
+					
+					
 					this.errorReportAccess = new ErrorReportAccess();
 					initCache();
 					
@@ -195,8 +210,8 @@ public class CogrooFacade {
 		if(LOG.isDebugEnabled()) {
 			LOG.debug("Will check text: [" + text + "]");
 		}
-		if(LOG_SENT.isInfoEnabled()) {
-			LOG_SENT.info("{" + count + "} " + memory() + "\n  [" + text + "]");
+		if(LOG_SENT.isDebugEnabled()) {
+			LOG_SENT.debug("{" + count + "} " + memory() + "\n  [" + text + "]");
 		}
 		
 		List<ProcessResult> processResults = new ArrayList<ProcessResult>();
@@ -207,6 +222,11 @@ public class CogrooFacade {
 			if(result == null || result.sentences == null) {
 				LOG.warn("Cogroo returned null for text: " + text);
 				return processResults;
+			}
+			if(LOG.isDebugEnabled()) {
+              LOG.debug("Got " + result.sentences.size()
+                  + " sentences with a total of " + result.mistakes.size()
+                  + " mistakes.");
 			}
 			for (Sentence sentence : result.sentences) {
 				List<Mistake> filteredMistakes = filterMistakes(sentence, result.mistakes);
@@ -326,29 +346,69 @@ public class CogrooFacade {
 		return filterdMistakes;
 	}
 	
-	private List<Rule> rules;
+  private List<Rule> xmlRules;
+
+  public List<Rule> getXMLRules() {
+    if (xmlRules != null) {
+      return xmlRules;
+    }
+    synchronized (this) {
+      if (xmlRules == null) {
+        String path = getClass().getResource(CogrooFacade.GC_PATH).getPath();
+        if (LOG.isDebugEnabled()) {
+          LOG.debug("Will load rule list from path: " + path);
+        }
+        xmlRules = Collections.unmodifiableList(new RulesContainerHelper(path)
+            .getContainerForXMLAccess().getComponent(RulesProvider.class)
+            .getRules().getRule());
+
+        if (LOG.isDebugEnabled()) {
+          LOG.debug("Rule list loaded. #" + xmlRules.size());
+        }
+      }
+    }
+    return xmlRules;
+  }
 	
-	public List<Rule> getRules() {
-		if (rules != null) {
-			return rules;
-		}
-		synchronized (this) {
-			if (rules == null) {
-				String path = getClass().getResource(CogrooFacade.GC_PATH).getPath();
-				LOG.info("Will load rule list from path: " + path);
-				rules = Collections
-						.unmodifiableList(new RulesContainerHelper(path)
-								.getContainerForXMLAccess()
-								.getComponent(RulesProvider.class).getRules()
-								.getRule());
-
-				LOG.info("Rule list loaded. #" + rules.size());
-			}
-		}
-		return rules;
+	private SortedSet<RuleDefinitionI> ruleDefinitionList = null;
+	
+	public SortedSet<RuleDefinitionI> getRuleDefinitionList() {
+	  start();
+	  return ruleDefinitionList;
+	  
 	}
-
+	
 	public void setResources(String resources) {
 		this.resources = resources;
 	}
+	
+  public static String addPrefixIfMissing(String ruleID) {
+    if (ruleID != null && !ruleID.contains(":")) {
+      ruleID = "xml:" + ruleID;
+    }
+    return ruleID;
+  }
+	
+  private static class RuleDefinitionComparator implements
+      Comparator<RuleDefinitionI> {
+
+    private static final String XML_PREFIX = "xml:";
+
+    @Override
+    public int compare(RuleDefinitionI o1, RuleDefinitionI o2) {
+      boolean o1IsXml = o1.getId().startsWith(XML_PREFIX);
+      boolean o2IsXml = o2.getId().startsWith(XML_PREFIX);
+      if (o1IsXml && o2IsXml) {
+        Integer i1 = new Integer(o1.getId().substring(4));
+        Integer i2 = new Integer(o2.getId().substring(4));
+        return i1.compareTo(i2);
+      } else if (o1IsXml) {
+        return -1;
+      } else if (o2IsXml) {
+        return 1;
+      }
+      return o1.getId().compareTo(o2.getId());
+    }
+
+  }
 }
