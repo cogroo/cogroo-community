@@ -32,6 +32,7 @@ public class StringTemplateUtil {
         this.templatesPath = context.getRealPath("/stringtemplates");
 		this.group =  new StringTemplateGroup("myGroup", 
 				this.templatesPath, DefaultTemplateLexer.class);
+		this.group.setFileCharEncoding("UTF-8");
 	}
 	
 	public StringTemplate getTemplate(String name) {
