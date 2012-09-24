@@ -98,7 +98,7 @@
 		<thead>
 			<tr>
 			  <th></th>
-			  <th title="Exibe o número da regra utilizada pelo CoGrOO.">Nº.</th>
+			  <th title="Exibe o identificador da regra utilizada pelo CoGrOO.">Id.</th>
 			  <th title="Indica a categoria de erros gramaticais coberta pela regra.">Categoria</th>
 			  <th title="Indica o grupo interno da categoria coberto pela regra.">Grupo</th>
 			  <th title="Exibe uma mensagem curta descritiva do erro gramatical coberto pela regra.">Mensagem</th>
@@ -112,7 +112,7 @@
 				<tr title="<c:url value="/rules/${rule.id}"/>" id="${rule.id}">
 					<td valign="middle"><img src="./images/details_open.png"></td>
 					<td title="${count}">
-						<a title="${count}" href="<c:url value="/rules/${rule.id}"/>">${rule.id}</a>
+						<a title="${count}" href="<c:url value="/rules/${rule.id}"/>">${fn:replace(fn:toLowerCase(rule.id), '_', ' ')}</a>
 					</td>
 					<td>${rule.category}</td>
 					<td>${rule.group}</td>
