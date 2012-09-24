@@ -1,6 +1,7 @@
 package br.usp.ime.cogroo.logic;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -31,9 +32,11 @@ import com.google.gdata.util.ServiceException;
  */
 @Component
 @ApplicationScoped
-public class StableAnalyticsManager implements AnalyticsManager {
+public class StableAnalyticsManager implements AnalyticsManager, Serializable {
 
-	private AnalyticsService analyticsService;
+  private static final long serialVersionUID = -8942593409150938968L;
+
+  private AnalyticsService analyticsService;
 
 	public StableAnalyticsManager() {
 		analyticsService = new AnalyticsService(BuildUtil.APP_NAME);
