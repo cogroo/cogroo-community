@@ -63,8 +63,14 @@ public class CogrooFacade {
 		if(theCogroo == null) {
 			synchronized (this) {
 				if(theCogroo == null) {
-					LOG.warn("Will start grammar checker!");
-					LOG_SENT.warn("Will start grammar checker!");
+				  
+				    if(LOG.isInfoEnabled()) {
+				      LOG.info("Will start grammar checker!");
+				    }
+				    
+				    if(LOG_SENT.isInfoEnabled()) {
+				      LOG_SENT.info("Will start grammar checker!");
+                    }
 					
 					LegacyRuntimeConfiguration config = new LegacyRuntimeConfiguration(resources);
 					this.theCogroo = new Cogroo(config);
@@ -81,8 +87,13 @@ public class CogrooFacade {
 					this.errorReportAccess = new ErrorReportAccess();
 					initCache();
 					
-					LOG.warn("Grammar checker started!");
-					LOG_SENT.warn("Grammar checker started!");
+					if(LOG.isInfoEnabled()) {
+					    LOG.info("Grammar checker started!");
+                    }
+					
+					if(LOG_SENT.isInfoEnabled()) {
+					  LOG_SENT.info("Grammar checker started!");
+                    }
 				}
 			}
 		}
