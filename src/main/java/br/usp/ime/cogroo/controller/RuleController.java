@@ -19,6 +19,7 @@ import br.usp.ime.cogroo.logic.RulesLogic;
 import br.usp.ime.cogroo.model.LoggedUser;
 import br.usp.ime.cogroo.model.Pair;
 import br.usp.ime.cogroo.model.ProcessResult;
+import br.usp.ime.cogroo.model.RuleStatus;
 import br.usp.ime.cogroo.model.User;
 import br.usp.ime.cogroo.security.annotations.LoggedIn;
 import br.usp.ime.cogroo.util.RuleUtils;
@@ -59,7 +60,7 @@ public class RuleController {
 		result.include("ruleStatusList", rulesLogic.getRuleStatus());
 		result.include("headerTitle", "Regras").include(
 				"headerDescription", "Exibe as regras utilizadas pelo corretor gramatical CoGrOO para identificar erros.")
-				.include("status", "OI");
+				.include("stats", rulesLogic.getStats());
 	}
 	
 	@Get

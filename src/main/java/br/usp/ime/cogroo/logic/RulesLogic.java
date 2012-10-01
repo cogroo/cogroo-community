@@ -12,6 +12,7 @@ import br.com.caelum.vraptor.ioc.ApplicationScoped;
 import br.com.caelum.vraptor.ioc.Component;
 import br.usp.ime.cogroo.dao.CogrooFacade;
 import br.usp.ime.cogroo.model.ProcessResult;
+import br.usp.ime.cogroo.model.RuleStats;
 import br.usp.ime.cogroo.model.RuleStatus;
 import br.usp.pcs.lta.cogroo.entity.Mistake;
 import br.usp.pcs.lta.cogroo.tools.checker.RuleDefinitionI;
@@ -176,4 +177,9 @@ public class RulesLogic {
     return ruleStatus;
   }
   
+  public RuleStats getStats () {
+    RuleStats stats = new RuleStats(getRuleStatus());
+    
+    return stats;
+  }
 }

@@ -36,12 +36,12 @@
 				"sInfoFiltered": "(filtrados de um total de _MAX_ entradas)"
 			},
 			"aLengthMenu": [20,50,100,200],
-			"aaSorting": [[ 2, "asc" ]],
+			"aaSorting": [[ 1, "asc" ]],
 			"iDisplayLength": 20,
 			"aoColumns": [
 				{ "bSortable": false },
-				null,
-				{ "sType": "title-numeric" }, 
+				{ "sType": "title-numeric" },
+				{ "sType": "title-numeric" },
 				null,
 				null,  
 				null,
@@ -88,11 +88,28 @@
 </script>
 
 
-	<h2>Regras <span class="help"><a onclick="onOff('helpRuleList'); return false" href="#"><img src="<c:url value='/images/help.png' />" /></a></span></h2>
+	<h2>Regras
+	<span class="help"><a onclick="onOff('helpRuleList'); return false" href="#"><img src="<c:url value='/images/help.png' />" /></a></span>
+	<span class="help"><a onclick="onOff('statistics'); return false" href="#">Estatísticas</a></span>
+	</h2>
 		<div id="helpRuleList" style="display: none;" class="help">
 			<p>Exibe as regras utilizadas pelo corretor gramatical CoGrOO para identificar erros.</p>
 			<p>Clique no número da regra para detalhes. Regras com identificador tachado estão desabilitadas.</p>
 			<p>Clique nas setas encontradas em cada coluna para ordenar os resultados em ordem alfabética.</p>
+		</div>
+		
+		<div id="statistics" style="display: none;" class="help">
+			<p>Estatísticas gerais do CoGrOO:</p>
+			<ul class="message">
+				<li title="Verdadeiros Positivos">| <b>VP:</b> ${stats.tp} </li>
+				<li title ="Falsos Positivos">| <b>FP:</b> ${stats.fp} </li>
+				<li title ="Falsos Negativos">| <b>FN:</b> ${stats.fn} |</li>
+			</ul>
+			<ul class="message">
+				<li>| <b>Precisão:</b> <fmt:formatNumber value="${stats.precision} " type="percent"/></li>
+				<li>| <b>Cobertura:</b> <fmt:formatNumber value="${stats.recall} " type="percent"/></li>
+				<li>| <b>Medida F:</b> <fmt:formatNumber value="${stats.FMeasure}" type="percent"/> |</li>
+			</ul>
 		</div>
 		
 		<c:if test="${loggedUser.user.role.canRefreshRuleStatus}">
@@ -120,7 +137,26 @@
 					<td title="${count}">
 						<a title="${count}" href="<c:url value="/rules/${ruleStatus.rule.id}"/>">${fn:replace(fn:toLowerCase(ruleStatus.rule.id), '_', ' ')}</a>
 					</td>
-					<td>${status }</td>
+					
+					<c:choose>  
+					    <c:when test="${ruleStatus.active == false}">  
+					        <td valign="middle"><img title="-1" src="./images/icons/status-grey.png"></td>  
+					    </c:when>
+					    <c:otherwise>
+					        <c:choose>
+					        	<c:when test="${ruleStatus.FMeasure == 1.0}">
+					        		<td valign="middle"><img title="1" src="./images/icons/status-green.png"></td> 
+					        	</c:when>
+					        	<c:when test="${ruleStatus.FMeasure == 0.0}">
+					        		<td valign="middle"><img title="0" src="./images/icons/status-red.png"></td> 
+					        	</c:when>
+					        	<c:otherwise>
+					        		<td valign="middle"><img title="${ruleStatus.FMeasure}" src="./images/icons/status-yellow.png"></td>
+					        	</c:otherwise>
+					        </c:choose>
+					    </c:otherwise>
+					</c:choose> 
+					
 					<td>${ruleStatus.rule.category}</td>
 					<td>${ruleStatus.rule.group}</td>
 					<td>${ruleStatus.rule.shortMessage}</td>
@@ -139,11 +175,20 @@
 										</ul> 
 									</li>
 								</c:forEach> 
-								<ul>
-									<li>Verdadeiros Positivos: ${ruleStatus.tp} }</li>
-									<li>Falsos Positivos: ${ruleStatus.fp}</li>
-								</ul>
 							</ol>
+			    			</td>
+			    		</tr>
+			    		<tr><td>Estatísticas:</td><td>
+								<ul class="message">
+									<li title="Verdadeiros Positivos">| <b>VP:</b> ${ruleStatus.tp} </li>
+									<li title ="Falsos Positivos">| <b>FP:</b> ${ruleStatus.fp} </li>
+									<li title ="Falsos Negativos">| <b>FN:</b> ${ruleStatus.fn} |</li>
+								</ul>
+								<ul class="message">
+									<li>| <b>Precisão:</b> <fmt:formatNumber value="${ruleStatus.precision} " type="percent"/></li>
+									<li>| <b>Cobertura:</b> <fmt:formatNumber value="${ruleStatus.recall} " type="percent"/></li>
+									<li>| <b>Medida F:</b> <fmt:formatNumber value="${ruleStatus.FMeasure}" type="percent"/> |</li>
+								</ul>
 			    			</td>
 			    		</tr>
  			  			
