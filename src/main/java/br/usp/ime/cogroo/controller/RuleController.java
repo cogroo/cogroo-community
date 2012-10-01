@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.log4j.Logger;
+
+import com.mysql.jdbc.log.Log;
 
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
@@ -13,8 +16,11 @@ import br.com.caelum.vraptor.Validator;
 import br.com.caelum.vraptor.view.Results;
 import br.usp.ime.cogroo.dao.CogrooFacade;
 import br.usp.ime.cogroo.logic.RulesLogic;
+import br.usp.ime.cogroo.model.LoggedUser;
 import br.usp.ime.cogroo.model.Pair;
 import br.usp.ime.cogroo.model.ProcessResult;
+import br.usp.ime.cogroo.model.User;
+import br.usp.ime.cogroo.security.annotations.LoggedIn;
 import br.usp.ime.cogroo.util.RuleUtils;
 import br.usp.pcs.lta.cogroo.tools.checker.RuleDefinitionI;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Example;
@@ -23,16 +29,21 @@ import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Rule;
 @Resource
 public class RuleController {
 
+  private static final Logger LOG = Logger
+      .getLogger(RuleController.class);
+  
+    private LoggedUser loggedUser;
 	private final Result result;
 	private Validator validator;
 	private CogrooFacade cogroo;
 	private RulesLogic rulesLogic;
 
-	public RuleController(Result result, Validator validator, CogrooFacade cogroo, RulesLogic rulesLogic) {
+	public RuleController(Result result, Validator validator, CogrooFacade cogroo, RulesLogic rulesLogic, LoggedUser loggedUser) {
 		this.result = result;
 		this.validator = validator;
 		this.cogroo = cogroo;
 		this.rulesLogic = rulesLogic;
+		this.loggedUser = loggedUser;
 	}
 	
 	@Deprecated
@@ -45,11 +56,32 @@ public class RuleController {
 	@Get
 	@Path("/rules")
 	public void ruleList() {
-		result.include("ruleList", rulesLogic.getRuleList());
+		result.include("ruleStatusList", rulesLogic.getRuleStatus());
 		result.include("headerTitle", "Regras").include(
-				"headerDescription", "Exibe as regras utilizadas pelo corretor gramatical CoGrOO para identificar erros.");
+				"headerDescription", "Exibe as regras utilizadas pelo corretor gramatical CoGrOO para identificar erros.")
+				.include("status", "OI");
 	}
 	
+	@Get
+	@Path("/rulesRefresh")
+	@LoggedIn
+	public void ruleStatus() {
+	  User user = loggedUser.getUser();
+	  
+	  
+	  if (user != null) {
+	    if (user.getRole().getCanRefreshRuleStatus()) {
+	      result.include("refresh", "R")
+	      .include("user", user.getRole().getCanRefreshRuleStatus());
+	      
+	      LOG.warn("Pode atualizar status das regras.");
+	    }
+	  }
+	  
+	  result.redirectTo(this).ruleList();
+	  
+	}
+		
 	@Deprecated
 	@Get
 	@Path(value = "/rule/{ruleID}")

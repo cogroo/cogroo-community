@@ -17,7 +17,7 @@
 		var iIndex = oTable.fnGetPosition( nTr );
 		var aData = oTable.fnSettings().aoData[iIndex]._aData;
 		
-		return '<div class="reportlist_details">'+aData[5]+'</div>';
+		return '<div class="reportlist_details">'+aData[6]+'</div>';
 	}
 
 
@@ -36,10 +36,11 @@
 				"sInfoFiltered": "(filtrados de um total de _MAX_ entradas)"
 			},
 			"aLengthMenu": [20,50,100,200],
-			"aaSorting": [[ 1, "asc" ]],
+			"aaSorting": [[ 2, "asc" ]],
 			"iDisplayLength": 20,
 			"aoColumns": [
 				{ "bSortable": false },
+				null,
 				{ "sType": "title-numeric" }, 
 				null,
 				null,  
@@ -93,12 +94,17 @@
 			<p>Clique no número da regra para detalhes. Regras com identificador tachado estão desabilitadas.</p>
 			<p>Clique nas setas encontradas em cada coluna para ordenar os resultados em ordem alfabética.</p>
 		</div>
+		
+		<c:if test="${loggedUser.user.role.canRefreshRuleStatus}">
+			<a href="<c:url value='/rulesRefresh' />" >Refresh</a>
+		</c:if>
 		 
 	<table cellpadding="0" cellspacing="0" border="0" class="display" id="table_id">
 		<thead>
 			<tr>
 			  <th></th>
 			  <th title="Exibe o número da regra utilizada pelo CoGrOO.">Nº.</th>
+			  <th title="Exibe o status da regra.">Flag</th>
 			  <th title="Indica a categoria de erros gramaticais coberta pela regra.">Categoria</th>
 			  <th title="Indica o grupo interno da categoria coberto pela regra.">Grupo</th>
 			  <th title="Exibe uma mensagem curta descritiva do erro gramatical coberto pela regra.">Mensagem</th>
@@ -107,31 +113,36 @@
 		</thead>
 		<tbody>
 			<c:set var="count" value="0" scope="page" />
-			<c:forEach items="${ruleList}" var="rule">
+			<c:forEach items="${ruleStatusList}" var="ruleStatus">
 				<c:set var="count" value="${count + 1}" scope="page"/>
-				<tr title="<c:url value="/rules/${rule.id}"/>" id="${rule.id}">
+				<tr title="<c:url value="/rules/${ruleStatus.rule.id}"/>" id="${ruleStatus.rule.id}">
 					<td valign="middle"><img src="./images/details_open.png"></td>
 					<td title="${count}">
-						<a title="${count}" href="<c:url value="/rules/${rule.id}"/>">${rule.id}</a>
+						<a title="${count}" href="<c:url value="/rules/${ruleStatus.rule.id}"/>">${ruleStatus.rule.id}</a>
 					</td>
-					<td>${rule.category}</td>
-					<td>${rule.group}</td>
-					<td>${rule.shortMessage}</td>
+					<td>${status }</td>
+					<td>${ruleStatus.rule.category}</td>
+					<td>${ruleStatus.rule.group}</td>
+					<td>${ruleStatus.rule.shortMessage}</td>
 	  			  	<td>
 	  			  	<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">
-			    		<tr><td>Mensagem longa:</td><td>${rule.message}</td></tr>
+			    		<tr><td>Mensagem longa:</td><td>${ruleStatus.rule.message}</td></tr>
 			    		<tr><td>Exemplos:</td><td>
 			    			<ol>
-				    			<c:forEach items="${rule.examples}" var="example">
+				    			<c:forEach items="${ruleStatus.rule.examples}" var="example">
 									<li>${ i.count }
 										<ul>
-											<c:forEach items="${rule.examples}" var="example">
+											<c:forEach items="${ruleStatus.rule.examples}" var="example">
 												<li><b>incorreto:</b> ${example.incorrect}</li>
 												<li><b>correto:</b> ${example.correct}</li>
 											</c:forEach>
 										</ul> 
 									</li>
 								</c:forEach> 
+								<ul>
+									<li>Verdadeiros Positivos: ${ruleStatus.tp} }</li>
+									<li>Falsos Positivos: ${ruleStatus.fp}</li>
+								</ul>
 							</ol>
 			    			</td>
 			    		</tr>
