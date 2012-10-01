@@ -120,7 +120,7 @@ class EmailSender {
 
     DKimSimpleMail email = new DKimSimpleMail();
     email.setHostName(SMTP);
-    email.setDebug(true);
+    email.setDebug(LOG.isDebugEnabled());
     email.setSSL(true);
     email.addTo(userMail);
     email.setAuthentication(BASE_EMAIL, BuildUtil.EMAIL_SYSTEM_PWD);

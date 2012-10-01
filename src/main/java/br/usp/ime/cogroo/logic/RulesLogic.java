@@ -53,7 +53,7 @@ public class RulesLogic {
 
   public Collection<RuleDefinitionI> getRuleList() {
     init();
-    return cogrooFacade.getRuleDefinitionList();
+    return this.ruleMap.values();
   }
 
   public RuleDefinitionI getRule(String id) {

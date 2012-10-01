@@ -42,7 +42,7 @@ public class Notificator {
 
 	public void tweet(String text, String link) {
 		if(BuildUtil.NOTIFY) {
-//			this.twitter.tweet(StringEscapeUtils.unescapeHtml(text), link);
+			this.twitter.tweet(StringEscapeUtils.unescapeHtml(text), link);
 		} else {
 			LOG.info("Notifications are desabled.");
 			LOG.info("... Would tweet: " + text);

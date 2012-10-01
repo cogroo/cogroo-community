@@ -11,7 +11,7 @@
 	
 	<!-- (all|debug|info|warn|error|fatal|off|null) -->
 	<category name="sentences">
-		<priority value="info" />
+		<priority value="off" />
 		<appender-ref ref="stdout" />
 		<appender-ref ref="SENT" />
 	</category>

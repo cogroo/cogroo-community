@@ -217,7 +217,7 @@
       response.setHeader("X-GA-MOBILE-URL", utmUrl);
     }
     // Finally write the gif data to the response.
-    writeGifData(response);
+    //writeGifData(response);
   }
 %><%
   // Let exceptions bubble up to container, for better debugging.

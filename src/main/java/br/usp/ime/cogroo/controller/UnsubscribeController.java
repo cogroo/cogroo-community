@@ -58,7 +58,7 @@ public class UnsubscribeController {
   public void doUnsubscription(User user, String codeRecover, boolean isReceiveTransactionalMail, boolean isReceiveNewsMail) {
     
     if (LOG.isDebugEnabled()) {
-      LOG.warn("Unsubscribing user");
+      LOG.debug("Unsubscribing user");
       }
     
     User userFromBD = validateUser(user, codeRecover);
@@ -84,14 +84,13 @@ public class UnsubscribeController {
     } else {
       userFromDB = userDAO.retrieve(user.getId());
       if (userFromDB != null) {
-          LOG.warn(userFromDB.getEmailOptOutCode());
         if (!userFromDB.getEmailOptOutCode().equals(codeRecover)) {
           LOG.warn("Bad recovery code for user: " + user.toString());
           validator.add(new ValidationMessage(
               ExceptionMessages.BAD_OPT_OUT_CODE, ExceptionMessages.ERROR));
         }
       } else {
-        LOG.info("Wrong user.id: " + user.getId());
+        LOG.warn("Wrong user.id: " + user.getId());
         validator.add(new ValidationMessage(ExceptionMessages.USER_DONT_EXISTS,
             ExceptionMessages.ERROR));
       }
