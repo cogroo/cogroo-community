@@ -90,16 +90,22 @@ public class RuleController {
 		result.use(Results.status()).movedPermanentlyTo(RuleController.class).rule(rule);
 	}
 	
-	@Get
-    @Path(value = "/rules/{ruleID}")
-    public void rule(String ruleID) {
+    @Get
+    @Path(value = "/rules/{id}")
+    public void rule(String id) {
         
-	  if(ruleID == null) {
+      if(id == null) {
             result.redirectTo(getClass()).ruleList();
             return;
         }
+      
+        String ruleID = CogrooFacade.addPrefixIfMissing(id);
+        
+        if(!id.equals(ruleID)) {
+          result.use(Results.status()).movedPermanentlyTo(RuleController.class).rule(ruleID);
+          return;
+        }
 	  
-	    // this will handle cases where we don't have the prefix
         RuleDefinitionI rule = rulesLogic.getRule(ruleID);
         
         if (rule == null) {
