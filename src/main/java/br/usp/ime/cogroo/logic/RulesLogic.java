@@ -1,5 +1,6 @@
 package br.usp.ime.cogroo.logic;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
@@ -10,7 +11,12 @@ import java.util.TreeMap;
 import br.com.caelum.vraptor.ioc.ApplicationScoped;
 import br.com.caelum.vraptor.ioc.Component;
 import br.usp.ime.cogroo.dao.CogrooFacade;
+import br.usp.ime.cogroo.model.ProcessResult;
+import br.usp.ime.cogroo.model.RuleStats;
+import br.usp.ime.cogroo.model.RuleStatus;
+import br.usp.pcs.lta.cogroo.entity.Mistake;
 import br.usp.pcs.lta.cogroo.tools.checker.RuleDefinitionI;
+import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Example;
 import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Rule;
 
 @Component
@@ -20,6 +26,8 @@ public class RulesLogic {
   private TreeMap<String, RuleDefinitionI> ruleMap;
   private TreeMap<String, Rule> xmlRuleMap;
   private CogrooFacade cogrooFacade;
+  private List<RuleStatus> ruleStatus;
+
 
   public RulesLogic(CogrooFacade cogrooFacade) {
     this.cogrooFacade = cogrooFacade;
@@ -99,7 +107,79 @@ public class RulesLogic {
       }
       return o1.compareTo(o2);
     }
-
+  }
+   
+  
+  public void refreshRuleStatus() {
+    Collection<RuleDefinitionI> rules = this.getRuleList();
+    
+    this.ruleStatus = new ArrayList<RuleStatus>(rules.size());
+    
+    for (RuleDefinitionI rule : rules) {
+      ruleStatus.add(status(rule));
+    }
   }
 
+  private RuleStatus status(RuleDefinitionI rule) {
+    RuleStatus status = new RuleStatus(rule);
+    
+    if (rule.isXMLBased()) {
+      Rule ruleXML = this.getXmlRule(rule);
+      if (ruleXML.isActive()) {
+        status.setActive(true);
+      }
+    }
+    
+    int tp = 0, fp = 0, fn = 0;
+    List<Example> examples = rule.getExamples();
+    
+    for (Example example : examples) {
+      boolean vpLocal = false;
+      
+      List<ProcessResult> results = cogrooFacade.processText(example.getIncorrect());
+      for (ProcessResult result : results) {
+        
+        List<Mistake> mistakes = result.getMistakes();
+        for (Mistake mistake : mistakes) {
+          if (mistake.getRuleIdentifier().equals(rule.getId())) {
+            vpLocal = true;
+            tp++;
+          }
+          else {
+            fp++;
+          }
+        }
+        
+      }
+      if (vpLocal == false) {
+        fn++;
+      }
+      
+      
+      results = cogrooFacade.processText(example.getCorrect());
+      for (ProcessResult result : results) {
+        List<Mistake> mistakes = result.getMistakes();
+        fp += mistakes.size();
+      }
+    }
+    
+    status.setFn(fn);
+    status.setFp(fp);
+    status.setTp(tp);  
+  
+    return status;
+  }
+
+  public List<RuleStatus> getRuleStatus() {
+    if (ruleStatus == null) {
+      refreshRuleStatus();
+    }
+    return ruleStatus;
+  }
+  
+  public RuleStats getStats () {
+    RuleStats stats = new RuleStats(getRuleStatus());
+    
+    return stats;
+  }
 }

@@ -453,3 +453,8 @@ DIV.white_box {
 /* white_box */
 /* dashed_white*/
 /*___________________________________ .about <<< _____________________________________*/
+
+
+ul.message li {
+	display: inline;
+}
