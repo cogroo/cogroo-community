@@ -6,8 +6,6 @@ import java.util.List;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
 
-import com.mysql.jdbc.log.Log;
-
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Resource;
@@ -19,7 +17,6 @@ import br.usp.ime.cogroo.logic.RulesLogic;
 import br.usp.ime.cogroo.model.LoggedUser;
 import br.usp.ime.cogroo.model.Pair;
 import br.usp.ime.cogroo.model.ProcessResult;
-import br.usp.ime.cogroo.model.RuleStatus;
 import br.usp.ime.cogroo.model.User;
 import br.usp.ime.cogroo.security.annotations.LoggedIn;
 import br.usp.ime.cogroo.util.RuleUtils;
