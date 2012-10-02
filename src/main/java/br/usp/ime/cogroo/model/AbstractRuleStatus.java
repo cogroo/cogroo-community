@@ -3,26 +3,36 @@ package br.usp.ime.cogroo.model;
 public class AbstractRuleStatus {
   
   protected int tp = 0, fp = 0, fn = 0;
+  protected double precision = -1, recall = -1, fMeasure = -1;
   
   public double getPrecision() {
-    double sum = tp + fp;
-    if (sum > 0)
-      return tp / sum;
-    return 0;
+    if (precision == -1) {
+      double sum = tp + fp;
+      if (sum > 0)
+        return tp / sum;
+      return 0;
+    }
+    return precision;
   }
   
   public double getRecall() {
-    double sum = tp + fn;
-    if (sum > 0)
-      return tp / sum;
-    return 0;
+    if (recall == -1) {
+      double sum = tp + fn;
+      if (sum > 0)
+        return tp / sum;
+      return 0;
+      }
+    return recall;
   }
   
   public double getFMeasure() {
-    double sum = getPrecision() + getRecall();
-    if (sum > 0)
-      return 2 * getPrecision() * getRecall() / sum;
-    return 0;
+    if (fMeasure == -1) {
+      double sum = getPrecision() + getRecall();
+      if (sum > 0)
+        return 2 * getPrecision() * getRecall() / sum;
+      return 0;
+    }
+    return fMeasure;
   }
   
   public int getFn() {

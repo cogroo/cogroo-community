@@ -27,6 +27,8 @@ public class RulesLogic {
   private TreeMap<String, Rule> xmlRuleMap;
   private CogrooFacade cogrooFacade;
   private List<RuleStatus> ruleStatus;
+  private RuleStats stats
+;
 
 
   public RulesLogic(CogrooFacade cogrooFacade) {
@@ -178,8 +180,9 @@ public class RulesLogic {
   }
   
   public RuleStats getStats () {
-    RuleStats stats = new RuleStats(getRuleStatus());
-    
+    if (stats == null) {
+      stats = new RuleStats(getRuleStatus());
+    }
     return stats;
   }
 }
