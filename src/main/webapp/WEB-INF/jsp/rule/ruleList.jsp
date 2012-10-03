@@ -75,7 +75,7 @@
 					this.src = "./images/details_open.png";
 					oTable.fnClose( nTr );
 				}
-				else
+				else if(this.src.match('details_open'))
 				{
 					/* Open this row */
 					this.src = "./images/details_close.png";
@@ -121,7 +121,7 @@
 			<tr>
 			  <th></th>
 			  <th title="Exibe o identificador da regra utilizada pelo CoGrOO.">Id.</th>
-			  <th title="Exibe o status da regra. Verde: todos exemplos OK; Amarelo: algum exemplo falhou; Vermelho: todos os exemplos falharam; Cinza: regra desabilitada">Flag</th>
+			  <th title="Exibe o status da regra. Verde: todos exemplos OK; Amarelo: algum exemplo falhou; Vermelho: todos os exemplos falharam; Cinza: regra desabilitada">Status</th>
 			  <th title="Indica a categoria de erros gramaticais coberta pela regra.">Categoria</th>
 			  <th title="Indica o grupo interno da categoria coberto pela regra.">Grupo</th>
 			  <th title="Exibe uma mensagem curta descritiva do erro gramatical coberto pela regra.">Mensagem</th>
