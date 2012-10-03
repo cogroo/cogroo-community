@@ -1116,7 +1116,6 @@ public class ErrorEntryLogic {
 	  List<ErrorEntry> list = errorEntryDAO.listAll();
 	  
 	  for (ErrorEntry report : list) {
-	    LOG.warn("Refresh Reports");
 	    setStatus(report);
 	    errorEntryDAO.update(report);
 	  }
@@ -1124,8 +1123,6 @@ public class ErrorEntryLogic {
 	
   public void setStatus(ErrorEntry report) {
    
-    LOG.warn("Gerando Status para: " + report.getId());
-    
    GrammarCheckerBadIntervention badIntervention = report.getBadIntervention();
    List<ProcessResult> results = cogrooFacade.processText(report.getText());
    

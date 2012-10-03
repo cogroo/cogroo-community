@@ -26,6 +26,7 @@ import br.usp.ime.cogroo.dao.errorreport.ErrorEntryDAO;
 import br.usp.ime.cogroo.dao.errorreport.GrammarCheckerBadInterventionDAO;
 import br.usp.ime.cogroo.dao.errorreport.GrammarCheckerOmissionDAO;
 import br.usp.ime.cogroo.exceptions.CommunityException;
+import br.usp.ime.cogroo.logic.RulesLogic;
 import br.usp.ime.cogroo.model.ApplicationData;
 import br.usp.ime.cogroo.model.LoggedUser;
 import br.usp.ime.cogroo.model.User;
@@ -74,7 +75,8 @@ public class ErrorEntryLogicTest {
 				appdata,
 				null,
 				null,
-				null);
+				null,
+				new RulesLogic(facade));
 	}
 
 	@Test(expected=CommunityException.class)
