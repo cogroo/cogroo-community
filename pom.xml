@@ -4,7 +4,7 @@
 	<groupId>br.usp.ime.cogroo</groupId>
 	<artifactId>comunidade</artifactId>
 	<packaging>war</packaging>
-	<version>1.3.3</version>
+	<version>1.3.4</version>
 	<name>comunidade</name>
 	
 	<prerequisites>
@@ -320,7 +320,7 @@
 			         		
         <outputDirectory>${basedir}/src/main/webapp/WEB-INF/classes</outputDirectory> 	 
 
-		<finalName>cogroo</finalName>
+		<finalName>comunidade</finalName>
 		<resources>
 			<resource>
 				<directory>target/gc</directory>
