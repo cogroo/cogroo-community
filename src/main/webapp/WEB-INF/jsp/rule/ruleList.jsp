@@ -99,7 +99,7 @@
 		</div>
 		
 		<div id="statistics" style="display: none;" class="help">
-			<p>Estatísticas gerais do CoGrOO:</p>
+			<p>Estatísticas das regras:</p>
 			<ul class="message">
 				<li title="Verdadeiros Positivos">| <b>VP:</b> ${stats.tp} </li>
 				<li title ="Falsos Positivos">| <b>FP:</b> ${stats.fp} </li>
@@ -121,7 +121,7 @@
 			<tr>
 			  <th></th>
 			  <th title="Exibe o identificador da regra utilizada pelo CoGrOO.">Id.</th>
-			  <th title="Exibe o status da regra.">Flag</th>
+			  <th title="Exibe o status da regra. Verde: todos exemplos OK; Amarelo: algum exemplo falhou; Vermelho: todos os exemplos falharam; Cinza: regra desabilitada">Flag</th>
 			  <th title="Indica a categoria de erros gramaticais coberta pela regra.">Categoria</th>
 			  <th title="Indica o grupo interno da categoria coberto pela regra.">Grupo</th>
 			  <th title="Exibe uma mensagem curta descritiva do erro gramatical coberto pela regra.">Mensagem</th>
