@@ -44,7 +44,7 @@
 		var iIndex = oTable.fnGetPosition( nTr );
 		var aData = oTable.fnSettings().aoData[iIndex]._aData;
 		
-		return '<div class="reportlist_details">'+aData[7]+'</div>';
+		return '<div class="reportlist_details">'+aData[8]+'</div>';
 	};
 	
 	$(document).ready(function() {
@@ -70,6 +70,7 @@
 			"aoColumns": [
 				{ "bSortable": false }, 	//0
 				{ "sType": "num-html" }, 	//1
+				null,
 				null,  						//2
 				null,						//3
 				null,  						//4
@@ -133,6 +134,7 @@
 			<tr>
 			  <th></th> 			<!-- 0 -->
 			  <th title="Exibe o número do problema reportado.">Nº.</th>			<!-- 1 -->
+			  <th title="Exibe o status do problema">Status</th>
 			  <th title="Indica a situação (aberta, em andamento, resolvida, aguardando resposta, fechada ou rejeitada) do problema.">Situação</th>				<!-- 2 -->
 			  <th title="Indica a prioridade (baixa, normal, alta, urgente ou imediata) do problema.">Prioridade</th>			<!-- 3 -->
 			  <th title="Exibe a sentença relacionada ao problema reportado.">Sentença com problema</th>		<!-- 4 -->
@@ -153,6 +155,22 @@
 			
 					<td valign="middle"><img src="./images/details_open.png"></td>		<!-- 0 -->
 					<td><a href="<c:url value="/reports/${errorEntry.id}"/>">${errorEntry.id}</a></td>		<!-- 1 -->
+					
+					<c:choose>  
+					    <c:when test="${errorEntry.statusFlag == 'OK'}">  
+					        <td valign="middle"><img title="Corrigido" src="./images/icons/status-green.png"></td>  
+					    </c:when>
+					    <c:when test="${errorEntry.statusFlag == 'NOT'}">  
+					        <td valign="middle"><img title="Não corrigido" src="./images/icons/status-red.png"></td>  
+					    </c:when>
+					    <c:when test="${errorEntry.statusFlag == 'WARN'}">  
+					        <td valign="middle"><img title="Parcialmente corrigido" src="./images/icons/status-yellow.png"></td>  
+					    </c:when>
+					    <c:otherwise>
+				        	<td valign="middle"><img title="Inválido" src="./images/icons/status-grey.png"></td>
+				    	</c:otherwise>
+					</c:choose>
+					
 					<td><fmt:message key="${errorEntry.state}" /></td>					<!-- 2 -->
 					<td><fmt:message key="${errorEntry.priority}" /></td>				<!-- 3 -->
 					<td>${errorEntry.markedText}</td>									<!-- 4 -->

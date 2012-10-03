@@ -27,10 +27,9 @@ public class RulesLogic {
   private TreeMap<String, Rule> xmlRuleMap;
   private CogrooFacade cogrooFacade;
   private List<RuleStatus> ruleStatus;
-  private RuleStats stats
-;
+  private RuleStats stats;
 
-
+  
   public RulesLogic(CogrooFacade cogrooFacade) {
     this.cogrooFacade = cogrooFacade;
   }

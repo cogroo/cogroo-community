@@ -31,6 +31,8 @@ public class ErrorEntry implements Cloneable {
 	private int spanStart;
 	
 	private int spanEnd;
+	
+	private String statusFlag;
 
 	@OneToMany(mappedBy = "errorEntry", cascade = CascadeType.ALL)
 	private List<Comment> comments;
@@ -320,4 +322,12 @@ public class ErrorEntry implements Cloneable {
 		}
 		return clone;
 	}
+
+  public String getStatusFlag() {
+    return statusFlag;
+  }
+
+  public void setStatusFlag(String statusFlag) {
+    this.statusFlag = statusFlag;
+  }
 }

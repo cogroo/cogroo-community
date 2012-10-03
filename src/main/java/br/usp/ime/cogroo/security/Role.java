@@ -48,7 +48,7 @@ public abstract class Role {
 		return false;
 	}
 	
-	public boolean getCanRefreshRuleStatus() {
+	public boolean getCanRefreshStatus() {
 	  return false;
 	}
 	

@@ -18,7 +18,7 @@ public class Developer extends Linguist {
 	}
 	
 	@Override
-	public boolean getCanRefreshRuleStatus() {
+	public boolean getCanRefreshStatus() {
 	  return true;
 	}
 	

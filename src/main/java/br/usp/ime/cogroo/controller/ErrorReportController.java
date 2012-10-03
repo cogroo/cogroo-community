@@ -37,6 +37,7 @@ import br.usp.ime.cogroo.logic.TextSanitizer;
 import br.usp.ime.cogroo.logic.errorreport.ErrorEntryLogic;
 import br.usp.ime.cogroo.model.LoggedUser;
 import br.usp.ime.cogroo.model.ProcessResult;
+import br.usp.ime.cogroo.model.User;
 import br.usp.ime.cogroo.model.errorreport.BadInterventionClassification;
 import br.usp.ime.cogroo.model.errorreport.Comment;
 import br.usp.ime.cogroo.model.errorreport.ErrorEntry;
@@ -108,6 +109,28 @@ public class ErrorReportController {
 	}
 	
 	@Get
+    @Path("/reportStatusRefresh")
+    @LoggedIn
+    public void reportStatus() {
+      User user = loggedUser.getUser();
+      
+      if (user != null) {
+        if (user.getRole().getCanRefreshStatus()) {
+          
+          LOG.warn("Report Status");
+          
+          errorEntryLogic.refreshReports();
+        }
+        else {
+          LOG.warn("Não tem credenciais");
+        }
+      }
+      
+      result.redirectTo(this).list();
+    }
+	
+	
+	@Get
 	@Path("/reports")
 	public void list() {
 		List<ErrorEntry> reports = errorEntryLogic.getAllReports();
@@ -123,10 +146,10 @@ public class ErrorReportController {
 			result.include("oneWeekAgo", now.getTime());
 		}
 		result.include("headerTitle",
-				messages.getString("LIST_ERROR_REPORT_HEADER")).include(
-				"headerDescription",
+				messages.getString("LIST_ERROR_REPORT_HEADER"))
+				.include("headerDescription",
 				messages.getString("LIST_ERROR_REPORT_DESCRIPTION"));
-	}
+		}
 	
 	@Deprecated
 	@Get

@@ -30,11 +30,13 @@ import br.usp.ime.cogroo.dao.errorreport.GrammarCheckerBadInterventionDAO;
 import br.usp.ime.cogroo.dao.errorreport.GrammarCheckerOmissionDAO;
 import br.usp.ime.cogroo.exceptions.CommunityException;
 import br.usp.ime.cogroo.exceptions.CommunityExceptionMessages;
+import br.usp.ime.cogroo.logic.RulesLogic;
 import br.usp.ime.cogroo.logic.StringTemplateUtil;
 import br.usp.ime.cogroo.logic.TextSanitizer;
 import br.usp.ime.cogroo.model.ApplicationData;
 import br.usp.ime.cogroo.model.GrammarCheckerVersion;
 import br.usp.ime.cogroo.model.LoggedUser;
+import br.usp.ime.cogroo.model.ProcessResult;
 import br.usp.ime.cogroo.model.User;
 import br.usp.ime.cogroo.model.errorreport.BadInterventionClassification;
 import br.usp.ime.cogroo.model.errorreport.Comment;
@@ -47,6 +49,7 @@ import br.usp.ime.cogroo.model.errorreport.Priority;
 import br.usp.ime.cogroo.model.errorreport.State;
 import br.usp.ime.cogroo.notifiers.Notificator;
 import br.usp.ime.cogroo.util.BuildUtil;
+import br.usp.pcs.lta.cogroo.entity.Mistake;
 import br.usp.pcs.lta.cogroo.errorreport.model.BadIntervention;
 import br.usp.pcs.lta.cogroo.errorreport.model.ErrorReport;
 import br.usp.pcs.lta.cogroo.errorreport.model.Omission;
@@ -60,6 +63,10 @@ public class ErrorEntryLogic {
 	public static final String CUSTOM = "custom";
 	
 	private static final String REPORTS = "reports/";
+	
+	private static final String STATUS_OK = "OK";
+	private static final String STATUS_NOT = "NOT";
+	private static final String STATUS_WARN = "WARN";
 	
 	private ErrorEntryDAO errorEntryDAO;
 	private UserDAO userDAO;
@@ -76,11 +83,13 @@ public class ErrorEntryLogic {
 	private Notificator notificator;
 
 	private TextSanitizer sanitizer;
+	
+	private RulesLogic rulesLogic;
 
 	public ErrorEntryLogic(LoggedUser loggedUser, ErrorEntryDAO errorEntryDAO,
 			UserDAO userDAO, CommentDAO commentDAO, CogrooFacade cogrooFacade,
 			GrammarCheckerVersionDAO versionDAO, GrammarCheckerOmissionDAO omissionDAO,
-			GrammarCheckerBadInterventionDAO badInterventionDAO, HistoryEntryDAO historyEntryDAO, HistoryEntryFieldDAO historyEntryFieldDAO, ApplicationData appData, Notificator notificator, StringTemplateUtil templateUtil, TextSanitizer sanitizer) {
+			GrammarCheckerBadInterventionDAO badInterventionDAO, HistoryEntryDAO historyEntryDAO, HistoryEntryFieldDAO historyEntryFieldDAO, ApplicationData appData, Notificator notificator, StringTemplateUtil templateUtil, TextSanitizer sanitizer, RulesLogic rulesLogic) {
 		this.userDAO = userDAO;
 		this.commentDAO = commentDAO;
 		this.errorEntryDAO = errorEntryDAO;
@@ -95,6 +104,7 @@ public class ErrorEntryLogic {
 		this.notificator = notificator;
 		this.templateUtil = templateUtil;
 		this.sanitizer = sanitizer;
+		this.rulesLogic = rulesLogic;
 	}
 
 	public List<ErrorEntry> getAllReports() {
@@ -252,6 +262,7 @@ public class ErrorEntryLogic {
 					omissionDAO.add(gcOmission);
 					errorEntry.setOmissions(gcOmission);
 					
+					setStatus(errorEntry);
 					errorEntryDAO.add(errorEntry);
 					notificationForReport(errorEntry);
 					appData.incReportedErrors();
@@ -311,6 +322,7 @@ public class ErrorEntryLogic {
 					badInterventionDAO.add(gcBadIntervention);
 					errorEntry.setBadIntervention(gcBadIntervention);
 					
+					setStatus(errorEntry);
 					errorEntryDAO.add(errorEntry);
 					notificationForReport(errorEntry);
 					appData.incReportedErrors();
@@ -386,6 +398,7 @@ public class ErrorEntryLogic {
 					omissionDAO.add(gcOmission);
 					errorEntry.setOmissions(gcOmission);
 					
+					setStatus(errorEntry);
 					errorEntryDAO.add(errorEntry);
 					notificationForReport(errorEntry);
 					appData.incReportedErrors();
@@ -430,6 +443,7 @@ public class ErrorEntryLogic {
 					badInterventionDAO.add(gcBadIntervention);
 					errorEntry.setBadIntervention(gcBadIntervention);
 					
+					setStatus(errorEntry);
 					errorEntryDAO.add(errorEntry);
 					notificationForReport(errorEntry);
 					appData.incReportedErrors();
@@ -1097,4 +1111,81 @@ public class ErrorEntryLogic {
 		}
 		
 	}
+
+	public void refreshReports() {
+	  List<ErrorEntry> list = errorEntryDAO.listAll();
+	  
+	  for (ErrorEntry report : list) {
+	    LOG.warn("Refresh Reports");
+	    setStatus(report);
+	    errorEntryDAO.update(report);
+	  }
+	}
+	
+  public void setStatus(ErrorEntry report) {
+   
+    LOG.warn("Gerando Status para: " + report.getId());
+    
+   GrammarCheckerBadIntervention badIntervention = report.getBadIntervention();
+   List<ProcessResult> results = cogrooFacade.processText(report.getText());
+   
+   if (badIntervention != null) {
+     for (ProcessResult result : results) {
+       List<Mistake> mistakes = result.getMistakes();
+       
+       if (!mistakes.isEmpty()) {
+         
+         for (Mistake mistake : mistakes) {
+           if (badIntervention.getRule().equals(mistake.getRuleIdentifier())) {
+             report.setStatusFlag(STATUS_NOT);
+             break;
+           }
+           else {
+             report.setStatusFlag(STATUS_OK);     
+           }
+           
+         }
+       }
+       else {
+         report.setStatusFlag(STATUS_OK);
+       }
+     }
+   }
+   else {
+     
+     GrammarCheckerOmission omission = report.getOmission();
+     
+     if (omission != null) {
+       
+       for (ProcessResult result : results) {
+         List<Mistake> mistakes = result.getMistakes();
+         
+         if (!mistakes.isEmpty()) {
+           
+           boolean status = false;
+           
+           for (Mistake mistake : mistakes) {
+             
+             RuleDefinitionI rule = rulesLogic.getRule(mistake.getRuleIdentifier());
+             
+             if (omission.getCategory().equals(rule.getCategory())) {
+               status = true;
+             }
+
+           }
+           if (status == true) {
+             report.setStatusFlag(STATUS_OK);
+           }
+           else {
+             report.setStatusFlag(STATUS_WARN);
+           }
+         }
+         else {
+           report.setStatusFlag(STATUS_NOT);
+         }
+       }
+     }
+   }
+  }
+  
 }
