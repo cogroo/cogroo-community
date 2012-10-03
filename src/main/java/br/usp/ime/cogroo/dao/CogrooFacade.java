@@ -276,6 +276,10 @@ public class CogrooFacade {
 		return String.format("Free: %.2f; Max: %.2f; Total: %.2f", free, max, total);
 
 	}
+	
+	public long getProcessedSentencesCounter() {
+	  return this.procSentCounter.get();
+	}
 
 	public String getAnnotatedText(String text, List<ProcessResult> processResult) {
 		if(LOG.isDebugEnabled()) {

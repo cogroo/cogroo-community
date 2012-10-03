@@ -60,7 +60,7 @@ public class RulesLogic {
 
   public RuleDefinitionI getRule(String id) {
     init();
-    return ruleMap.get(CogrooFacade.addPrefixIfMissing(id));
+    return ruleMap.get(id);
   }
 
   public String getNextRuleID(String currentRuleID) {
