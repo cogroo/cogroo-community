@@ -120,15 +120,12 @@
 
 <h2>Problemas reportados
 <span class="help"><a onclick="onOff('helpErrorList'); return false" href="#"><img src="<c:url value='/images/help.png' />" /></a></span>
-<span class="help"><a onclick="onOff('statistics'); return false" href="#">Estatísticas</a></span>
 </h2>
 	<div id="helpErrorList" style="display: none;" class="help">
 		<p>Exibe todos os problemas reportados através da página e do plug-in CoGrOO para BrOffice.</p>
 		<p>Clique no número do problema reportado para detalhes.</p>
 		<p>Clique nas setas encontradas em cada coluna para ordenar os resultados em ordem alfabética.</p>
-	</div>
-	
-	<div id="statistics" style="display: none;" class="help">
+		<br>
 		<p>Estatísticas dos erros:</p>
 		<ul class="message">
 			<li title="Regras resolvidas">| <b>Resolvidos:</b> ${stats.ok} </li>

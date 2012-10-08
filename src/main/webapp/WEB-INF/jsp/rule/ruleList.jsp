@@ -90,15 +90,12 @@
 
 	<h2>Regras
 	<span class="help"><a onclick="onOff('helpRuleList'); return false" href="#"><img src="<c:url value='/images/help.png' />" /></a></span>
-	<span class="help"><a onclick="onOff('statistics'); return false" href="#">Estatísticas</a></span>
 	</h2>
 		<div id="helpRuleList" style="display: none;" class="help">
 			<p>Exibe as regras utilizadas pelo corretor gramatical CoGrOO para identificar erros.</p>
 			<p>Clique no número da regra para detalhes. Regras com identificador tachado estão desabilitadas.</p>
 			<p>Clique nas setas encontradas em cada coluna para ordenar os resultados em ordem alfabética.</p>
-		</div>
-		
-		<div id="statistics" style="display: none;" class="help">
+			<br>
 			<p>Estatísticas das regras:</p>
 			<ul class="message">
 				<li title="Verdadeiros Positivos">| <b>VP:</b> ${stats.tp} </li>
