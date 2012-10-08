@@ -17,6 +17,8 @@ import org.antlr.stringtemplate.StringTemplate;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
 
+import com.google.common.base.Objects;
+
 import br.com.caelum.vraptor.ioc.Component;
 import br.usp.ime.cogroo.Messages;
 import br.usp.ime.cogroo.dao.CogrooFacade;
@@ -1165,7 +1167,9 @@ public class ErrorEntryLogic {
              
              RuleDefinitionI rule = rulesLogic.getRule(mistake.getRuleIdentifier());
              
-             if (omission.getCategory().equals(rule.getCategory())) {
+             if(rule == null) {
+               LOG.warn("Got null rule for id: " + mistake.getRuleIdentifier());
+             } else if ( Objects.equal(rule.getCategory(), omission.getCategory()) ) {
                status = true;
              }
 

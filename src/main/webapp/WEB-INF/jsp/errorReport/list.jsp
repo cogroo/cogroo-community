@@ -106,7 +106,7 @@
 					this.src = "./images/details_open.png";
 					oTable.fnClose( nTr );
 				}
-				else
+				else if(this.src.match('details_open'))
 				{
 					/* Open this row */
 					this.src = "./images/details_close.png";
