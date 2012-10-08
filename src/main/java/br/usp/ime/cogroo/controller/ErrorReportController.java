@@ -148,8 +148,9 @@ public class ErrorReportController {
 		result.include("headerTitle",
 				messages.getString("LIST_ERROR_REPORT_HEADER"))
 				.include("headerDescription",
-				messages.getString("LIST_ERROR_REPORT_DESCRIPTION"));
-		}
+				messages.getString("LIST_ERROR_REPORT_DESCRIPTION"))
+				.include("stats", errorEntryLogic.getStats());
+	}
 	
 	@Deprecated
 	@Get

@@ -118,12 +118,37 @@
 	} );
 </script>
 
-<h2>Problemas reportados <span class="help"><a onclick="onOff('helpErrorList'); return false" href="#"><img src="<c:url value='/images/help.png' />" /></a></span></h2>
+<h2>Problemas reportados
+<span class="help"><a onclick="onOff('helpErrorList'); return false" href="#"><img src="<c:url value='/images/help.png' />" /></a></span>
+<span class="help"><a onclick="onOff('statistics'); return false" href="#">Estatísticas</a></span>
+</h2>
 	<div id="helpErrorList" style="display: none;" class="help">
 		<p>Exibe todos os problemas reportados através da página e do plug-in CoGrOO para BrOffice.</p>
 		<p>Clique no número do problema reportado para detalhes.</p>
 		<p>Clique nas setas encontradas em cada coluna para ordenar os resultados em ordem alfabética.</p>
 	</div>
+	
+	<div id="statistics" style="display: none;" class="help">
+		<p>Estatísticas dos erros:</p>
+		<ul class="message">
+			<li title="Regras resolvidas">| <b>Resolvidos:</b> ${stats.ok} </li>
+			<li title="Regras parcialmente corrigidas">| <b>Parcialmente corrigidos:</b> ${stats.warn} </li>
+			<li title="Regras não corrigidas">| <b>Não corrigidos:</b> ${stats.notOK}</li>
+			<li title="Regras inválidas">| <b>Inválidos:</b> ${stats.invalid} |</li>
+		</ul>
+		<ul class="message">
+			<li title="Verdadeiros Positivos">| <b>VP:</b> ${stats.tp} </li>
+			<li title ="Falsos Positivos">| <b>FP:</b> ${stats.fp} </li>
+			<li title ="Falsos Negativos">| <b>FN:</b> ${stats.fn} |</li>
+		</ul>
+		<ul class="message">
+			<li>| <b>Precisão:</b> <fmt:formatNumber value="${stats.precision} " type="percent"/></li>
+			<li>| <b>Cobertura:</b> <fmt:formatNumber value="${stats.recall} " type="percent"/></li>
+			<li>| <b>Medida F:</b> <fmt:formatNumber value="${stats.FMeasure}" type="percent"/> |</li>
+		</ul>
+	</div>
+		
+	
 	<span style="FLOAT: right; POSITION: static">
 		<c:if test="${loggedUser.user.role.canEditErrorReport}">
 			<a href="<c:url value="/reports/edit"/>">Edição multipla</a>

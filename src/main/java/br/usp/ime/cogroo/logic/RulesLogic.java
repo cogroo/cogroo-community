@@ -135,7 +135,7 @@ public class RulesLogic {
     }
 //    else {
 //      if (rule.isChecker()) {
-//          %TODO   
+//          %TODO
 //      }
 //    }
     

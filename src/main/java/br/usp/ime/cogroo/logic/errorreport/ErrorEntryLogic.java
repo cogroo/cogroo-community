@@ -39,6 +39,7 @@ import br.usp.ime.cogroo.model.ApplicationData;
 import br.usp.ime.cogroo.model.GrammarCheckerVersion;
 import br.usp.ime.cogroo.model.LoggedUser;
 import br.usp.ime.cogroo.model.ProcessResult;
+import br.usp.ime.cogroo.model.ReportStats;
 import br.usp.ime.cogroo.model.User;
 import br.usp.ime.cogroo.model.errorreport.BadInterventionClassification;
 import br.usp.ime.cogroo.model.errorreport.Comment;
@@ -66,9 +67,9 @@ public class ErrorEntryLogic {
 	
 	private static final String REPORTS = "reports/";
 	
-	private static final String STATUS_OK = "OK";
-	private static final String STATUS_NOT = "NOT";
-	private static final String STATUS_WARN = "WARN";
+	public static final String STATUS_OK = "OK";
+	public static final String STATUS_NOT = "NOT";
+	public static final String STATUS_WARN = "WARN";
 	
 	private ErrorEntryDAO errorEntryDAO;
 	private UserDAO userDAO;
@@ -1113,7 +1114,7 @@ public class ErrorEntryLogic {
 		}
 		
 	}
-
+	
 	public void refreshReports() {
 	  List<ErrorEntry> list = errorEntryDAO.listAll();
 	  
@@ -1123,7 +1124,7 @@ public class ErrorEntryLogic {
 	  }
 	}
 	
-  public void setStatus(ErrorEntry report) {
+	public void setStatus(ErrorEntry report) {
    
    GrammarCheckerBadIntervention badIntervention = report.getBadIntervention();
    List<ProcessResult> results = cogrooFacade.processText(report.getText());
@@ -1169,24 +1170,29 @@ public class ErrorEntryLogic {
              
              if(rule == null) {
                LOG.warn("Got null rule for id: " + mistake.getRuleIdentifier());
-             } else if ( Objects.equal(rule.getCategory(), omission.getCategory()) ) {
-               status = true;
-             }
+           } else if ( Objects.equal(rule.getCategory(), omission.getCategory()) ) {
+             status = true;
+           }
 
-           }
-           if (status == true) {
-             report.setStatusFlag(STATUS_OK);
-           }
-           else {
-             report.setStatusFlag(STATUS_WARN);
-           }
+         }
+         if (status == true) {
+           report.setStatusFlag(STATUS_OK);
          }
          else {
-           report.setStatusFlag(STATUS_NOT);
+           report.setStatusFlag(STATUS_WARN);
          }
+       }
+       else {
+         report.setStatusFlag(STATUS_NOT);
        }
      }
    }
+ }
+}
+  
+  public ReportStats getStats() {
+    ReportStats stats = new ReportStats(errorEntryDAO.listAll());
+    return stats;
   }
   
 }
