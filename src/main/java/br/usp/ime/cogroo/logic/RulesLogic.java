@@ -129,7 +129,16 @@ public class RulesLogic {
       if (ruleXML.isActive()) {
         status.setActive(true);
       }
+      else {
+        status.setActive(false);
+      }
     }
+//    else {
+//      if (rule.isChecker()) {
+//          %TODO   
+//      }
+//    }
+    
     
     int tp = 0, fp = 0, fn = 0;
     List<Example> examples = rule.getExamples();

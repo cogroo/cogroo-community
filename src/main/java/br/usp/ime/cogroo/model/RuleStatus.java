@@ -5,7 +5,7 @@ import br.usp.pcs.lta.cogroo.tools.checker.RuleDefinitionI;
 public class RuleStatus extends AbstractRuleStatus {
   
   private RuleDefinitionI rule;
-  private boolean active;
+  private boolean active = true;
   
   /* RulesLogic sets the variable's values */
   public RuleStatus(RuleDefinitionI definitionI) {
