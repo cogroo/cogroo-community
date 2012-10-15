@@ -70,6 +70,7 @@ public class ErrorEntryLogic {
 	public static final String STATUS_OK = "OK";
 	public static final String STATUS_NOT = "NOT";
 	public static final String STATUS_WARN = "WARN";
+	public static final String STATUS_INVALID = "INVALID";
 	
 	private ErrorEntryDAO errorEntryDAO;
 	private UserDAO userDAO;
@@ -1123,67 +1124,73 @@ public class ErrorEntryLogic {
 	    errorEntryDAO.update(report);
 	  }
 	}
-	
-	public void setStatus(ErrorEntry report) {
+
+public void setStatus(ErrorEntry report) {
    
    GrammarCheckerBadIntervention badIntervention = report.getBadIntervention();
    List<ProcessResult> results = cogrooFacade.processText(report.getText());
    
-   if (badIntervention != null) {
-     for (ProcessResult result : results) {
-       List<Mistake> mistakes = result.getMistakes();
-       
-       if (!mistakes.isEmpty()) {
-         
-         for (Mistake mistake : mistakes) {
-           if (badIntervention.getRule().equals(mistake.getRuleIdentifier())) {
-             report.setStatusFlag(STATUS_NOT);
-             break;
-           }
-           else {
-             report.setStatusFlag(STATUS_OK);     
-           }
-           
-         }
-       }
-       else {
-         report.setStatusFlag(STATUS_OK);
-       }
-     }
+   if (report.getState().equals(State.REJECTED)) {
+     report.setStatusFlag(STATUS_INVALID);
    }
    else {
-     
-     GrammarCheckerOmission omission = report.getOmission();
-     
-     if (omission != null) {
-       
+   
+     if (badIntervention != null) {
        for (ProcessResult result : results) {
          List<Mistake> mistakes = result.getMistakes();
          
          if (!mistakes.isEmpty()) {
            
-           boolean status = false;
-           
            for (Mistake mistake : mistakes) {
+             if (badIntervention.getRule().equals(mistake.getRuleIdentifier())) {
+               report.setStatusFlag(STATUS_NOT);
+               break;
+             }
+             else {
+               report.setStatusFlag(STATUS_OK);     
+             }
              
-             RuleDefinitionI rule = rulesLogic.getRule(mistake.getRuleIdentifier());
-             
-             if(rule == null) {
-               LOG.warn("Got null rule for id: " + mistake.getRuleIdentifier());
-           } else if ( Objects.equal(rule.getCategory(), omission.getCategory()) ) {
-             status = true;
            }
-
-         }
-         if (status == true) {
-           report.setStatusFlag(STATUS_OK);
          }
          else {
-           report.setStatusFlag(STATUS_WARN);
+           report.setStatusFlag(STATUS_OK);
          }
        }
-       else {
-         report.setStatusFlag(STATUS_NOT);
+     }
+     else {
+       
+       GrammarCheckerOmission omission = report.getOmission();
+       
+       if (omission != null) {
+         
+         for (ProcessResult result : results) {
+           List<Mistake> mistakes = result.getMistakes();
+           
+           if (!mistakes.isEmpty()) {
+             
+             boolean status = false;
+             
+             for (Mistake mistake : mistakes) {
+               
+               RuleDefinitionI rule = rulesLogic.getRule(mistake.getRuleIdentifier());
+               
+               if(rule == null) {
+                 LOG.warn("Got null rule for id: " + mistake.getRuleIdentifier());
+             } else if ( Objects.equal(rule.getCategory(), omission.getCategory()) ) {
+               status = true;
+             }
+  
+           }
+           if (status == true) {
+             report.setStatusFlag(STATUS_OK);
+           }
+           else {
+             report.setStatusFlag(STATUS_WARN);
+           }
+         }
+         else {
+           report.setStatusFlag(STATUS_NOT);
+         }
        }
      }
    }

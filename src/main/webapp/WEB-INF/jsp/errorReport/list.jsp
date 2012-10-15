@@ -70,7 +70,7 @@
 			"aoColumns": [
 				{ "bSortable": false }, 	//0
 				{ "sType": "num-html" }, 	//1
-				null,
+				{ "sType": "title-string" },
 				null,  						//2
 				null,						//3
 				null,  						//4
@@ -131,7 +131,7 @@
 			<li title="Regras resolvidas">| <b>Resolvidos:</b> ${stats.ok} </li>
 			<li title="Regras parcialmente corrigidas">| <b>Parcialmente corrigidos:</b> ${stats.warn} </li>
 			<li title="Regras não corrigidas">| <b>Não corrigidos:</b> ${stats.notOK}</li>
-			<li title="Regras inválidas">| <b>Inválidos:</b> ${stats.invalid} |</li>
+			<li title="Regras inválidas">| <b>Rejeitados:</b> ${stats.invalid} |</li>
 		</ul>
 		<ul class="message">
 			<li title="Verdadeiros Positivos">| <b>VP:</b> ${stats.tp} </li>
@@ -189,7 +189,7 @@
 					        <td valign="middle"><img title="Parcialmente corrigido" src="./images/icons/status-yellow.png"></td>  
 					    </c:when>
 					    <c:otherwise>
-				        	<td valign="middle"><img title="Inválido" src="./images/icons/status-grey.png"></td>
+				        	<td valign="middle"><img title="Rejeitado" src="./images/icons/status-grey.png"></td>
 				    	</c:otherwise>
 					</c:choose>
 					
