@@ -129,6 +129,11 @@ public class ErrorReportController {
       result.redirectTo(this).list();
     }
 	
+	@Get
+	@Path("/reports/text")
+	public void createCorpus() {
+		result.use(Results.http()).body(errorEntryLogic.getCorpus());
+	}
 	
 	@Get
 	@Path("/reports")

@@ -1,13 +1,18 @@
 package br.usp.ime.cogroo.logic.errorreport;
 
 import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.SortedSet;
@@ -18,6 +23,7 @@ import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
 
 import com.google.common.base.Objects;
+import com.google.gdata.data.introspection.Collection;
 
 import br.com.caelum.vraptor.ioc.Component;
 import br.usp.ime.cogroo.Messages;
@@ -89,7 +95,41 @@ public class ErrorEntryLogic {
 	private TextSanitizer sanitizer;
 	
 	private RulesLogic rulesLogic;
-
+	
+	private static final Map<String, String> CATEGORIES;
+	
+	static {
+		Map<String, String> lc = new HashMap<String, String>();
+		lc.put("emprego do mim e ti", "pro"); // , cop|pro, 
+	    lc.put("uso do verbo haver", "sem");
+	    lc.put("regência verbal", "reg");
+	    lc.put("verbo preferir", "ali"); // "cov"
+	    lc.put("emprego de vírgulas", "ptn");
+	    lc.put("gerundismo", "ger");
+	    lc.put("concordância determinante-substantivo", "con");
+	    lc.put("em anexo", "ali"); // ali
+	    lc.put("concordância artigo-substantivo", "con");
+	    lc.put("erros mecânicos", "esp");
+	    lc.put("concordância do sujeito com o adjetivo predicativo", "con"); // con/cov
+	    lc.put("verbo haver", "aha");
+	    lc.put("à medida em que/à medida que", "det"); // det
+	    lc.put("crase", "cra");
+	    lc.put("concordância sujeito-verbo", "cov"); // ver
+	    lc.put("se eu ver", "cmt");
+	    lc.put("emprego de eu e mim", "ren");
+	    lc.put("colocação pronominal", "cop"); // pro
+	    lc.put("emprego de mau e mal", "mal");
+	    lc.put("regência nominal", "ren");
+	    lc.put("verbo fazer", "cov");//cov|reg|ver
+	    lc.put("concordância adjetivo-substantivo", "con"); //adv
+	    lc.put("concordância numeral-substantivo", "con");
+	    lc.put("concordância do sujeito com o predicativo", "con"); //cov
+	    lc.put("uso de meio", "adv"); // con
+	    lc.put("concordância do sujeito com o verbo do predicado", "ver");
+	    lc.put("expressões redundantes", "sem");
+	    CATEGORIES = Collections.unmodifiableMap(lc);
+	}
+	
 	public ErrorEntryLogic(LoggedUser loggedUser, ErrorEntryDAO errorEntryDAO,
 			UserDAO userDAO, CommentDAO commentDAO, CogrooFacade cogrooFacade,
 			GrammarCheckerVersionDAO versionDAO, GrammarCheckerOmissionDAO omissionDAO,
@@ -197,6 +237,48 @@ public class ErrorEntryLogic {
 	public List<ErrorEntry> addErrorEntry(String username, String error)
 			throws CommunityException {
 		return addErrorEntry("cogroo", username, error);
+	}
+	
+	public String getCorpus() {
+		StringBuilder text = new StringBuilder();
+		List<ErrorEntry> reports = this.getAllReports();
+		
+		for (ErrorEntry errorEntry : reports) {
+			text.append(getFormattedText(errorEntry));
+		}
+		
+		return text.toString();
+	}
+
+	private String getFormattedText(ErrorEntry e) {
+		StringBuilder t = new StringBuilder();
+		
+		if (e.getState() != State.REJECTED && e.getState() != State.OPEN) {
+			t.append("<ext id=\"");
+			t.append(e.getId());
+			t.append("\" url=\"comunidade.org");
+			t.append(">\"\n<p id=\"1\">\n<s id=\"1\">\n");
+			t.append("\nSOURCE: CM t=").append(e.getId());
+			t.append(" p=1 s=1");
+			
+			if (e.getOmission() != null) {
+				GrammarCheckerOmission checker = e.getOmission();
+				t.append(" c=");
+				t.append(CATEGORIES.get(checker.getCategory().toLowerCase()));
+				t.append(" err=\"");
+				t.append(e.getText().substring(e.getSpanStart(), e.getSpanEnd()));
+				t.append("\" rep=\"");
+				
+				t.append(StringEscapeUtils.unescapeHtml(checker.getReplaceBy()));
+				t.append("\"");
+			}
+			
+			t.append("\nCM").append(e.getId()).append("-1 ");
+			t.append(e.getText());
+			t.append("\n\n</s>\n</p>\n</ext>\n\n");
+		}
+		
+		return t.toString();
 	}
 
 	/**
