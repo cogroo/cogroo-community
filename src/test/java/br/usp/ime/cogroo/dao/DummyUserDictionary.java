@@ -5,8 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import br.usp.pcs.lta.cogroo.tools.dictionary.LexicalDictionary;
-import br.usp.pcs.lta.cogroo.tools.dictionary.PairWordPOSTag;
+import org.cogroo.tools.checker.rules.dictionary.LexicalDictionary;
+import org.cogroo.util.PairWordPOSTag;
 
 public class DummyUserDictionary implements LexicalDictionary {
 	

@@ -1,6 +1,6 @@
 package br.usp.ime.cogroo.exceptions;
 
-import br.usp.pcs.lta.cogroo.InternationalizedRuntimeException;
+import org.cogroo.exceptions.InternationalizedRuntimeException;
 
 public class CommunityRuntimeException extends
 		InternationalizedRuntimeException {

@@ -5,6 +5,10 @@ import java.util.List;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
+import org.cogroo.tools.checker.RuleDefinition;
+import org.cogroo.tools.checker.rules.model.Example;
+import org.cogroo.tools.checker.rules.model.Rule;
+import org.cogroo.tools.checker.rules.util.RuleUtils;
 
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
@@ -19,10 +23,6 @@ import br.usp.ime.cogroo.model.Pair;
 import br.usp.ime.cogroo.model.ProcessResult;
 import br.usp.ime.cogroo.model.User;
 import br.usp.ime.cogroo.security.annotations.LoggedIn;
-import br.usp.ime.cogroo.util.RuleUtils;
-import br.usp.pcs.lta.cogroo.tools.checker.RuleDefinitionI;
-import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Example;
-import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Rule;
 
 @Resource
 public class RuleController {
@@ -102,7 +102,7 @@ public class RuleController {
           return;
         }
 	  
-        RuleDefinitionI rule = rulesLogic.getRule(ruleID);
+        RuleDefinition rule = rulesLogic.getRule(ruleID);
         
         if (rule == null) {
             result.notFound();

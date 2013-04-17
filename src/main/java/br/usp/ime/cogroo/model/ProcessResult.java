@@ -2,8 +2,9 @@ package br.usp.ime.cogroo.model;
 
 import java.util.List;
 
-import br.usp.pcs.lta.cogroo.entity.Mistake;
-import br.usp.pcs.lta.cogroo.entity.Sentence;
+import org.cogroo.entities.Mistake;
+import org.cogroo.text.Sentence;
+
 
 public class ProcessResult {
 	

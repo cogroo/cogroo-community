@@ -15,8 +15,7 @@ public class CogrooFacadeTest {
 
 	@Before
 	public void before() {
-		this.theCogrooFacade = new CogrooFacade(new DummyBaseDictionary());
-		this.theCogrooFacade.setResources("target/cogroo");
+		this.theCogrooFacade = new CogrooFacade();
 		this.theCogrooFacade.setCogroo(new DummyCogroo());
 	}
 

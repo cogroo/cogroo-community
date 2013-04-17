@@ -1,6 +1,7 @@
 package br.usp.ime.cogroo.model;
 
-import br.usp.pcs.lta.cogroo.entity.Mistake;
+import org.cogroo.entities.Mistake;
+
 
 public class SingleGrammarError {
 	

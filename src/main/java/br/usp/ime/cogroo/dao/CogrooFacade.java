@@ -1,9 +1,8 @@
 package br.usp.ime.cogroo.dao;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -14,23 +13,24 @@ import opennlp.tools.util.Cache;
 import opennlp.tools.util.Span;
 
 import org.apache.log4j.Logger;
+import org.cogroo.analyzer.ComponentFactory;
+import org.cogroo.checker.CheckAnalyzer;
+import org.cogroo.checker.CheckDocument;
+import org.cogroo.checker.GrammarChecker;
+import org.cogroo.entities.Mistake;
+import org.cogroo.errorreport.ErrorReportAccess;
+import org.cogroo.text.Sentence;
+import org.cogroo.tools.checker.RuleDefinition;
+import org.cogroo.tools.checker.rules.applier.RulesProvider;
+import org.cogroo.tools.checker.rules.applier.RulesXmlAccess;
+import org.cogroo.tools.checker.rules.dictionary.LexicalDictionary;
+import org.cogroo.tools.checker.rules.model.Rule;
 
 import br.com.caelum.vraptor.ioc.ApplicationScoped;
 import br.com.caelum.vraptor.ioc.Component;
+import br.usp.ime.cogroo.exceptions.CommunityRuntimeException;
 import br.usp.ime.cogroo.model.ProcessResult;
 import br.usp.ime.cogroo.model.SingleGrammarError;
-import br.usp.pcs.lta.cogroo.configuration.LegacyRuntimeConfiguration;
-import br.usp.pcs.lta.cogroo.entity.Mistake;
-import br.usp.pcs.lta.cogroo.entity.Sentence;
-import br.usp.pcs.lta.cogroo.errorreport.ErrorReportAccess;
-import br.usp.pcs.lta.cogroo.grammarchecker.CheckerResult;
-import br.usp.pcs.lta.cogroo.grammarchecker.Cogroo;
-import br.usp.pcs.lta.cogroo.grammarchecker.CogrooI;
-import br.usp.pcs.lta.cogroo.tools.checker.RuleDefinitionI;
-import br.usp.pcs.lta.cogroo.tools.checker.rules.applier.RulesProvider;
-import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Rule;
-import br.usp.pcs.lta.cogroo.tools.checker.rules.util.RulesContainerHelper;
-import br.usp.pcs.lta.cogroo.tools.dictionary.LexicalDictionary;
 
 /**
  * Access point to CoGrOO. Each session will instantiate one {@link CogrooFacade}, so each user will
@@ -42,19 +42,16 @@ public class CogrooFacade {
 	
 	private static final Logger LOG = Logger.getLogger(CogrooFacade.class);
 	private static final Logger LOG_SENT = Logger.getLogger("sentences");
-	public static final String GC_PATH = "/gc/";
 	
-	private Set<RuleDefinitionI> ruleDefinitionList = null;
+	private Set<RuleDefinition> ruleDefinitionList = null;
 	
-	
-	/** The Cogroo instance */
-	private CogrooI theCogroo = null;
-	private String resources = getClass().getResource(GC_PATH).getPath();
+		/** The Cogroo instance */
+	private CheckAnalyzer theCogroo = null;
 	
 	private AtomicLong procSentCounter = new AtomicLong();
 	private AtomicInteger exceptionsCounter = new AtomicInteger();
 
-	private ErrorReportAccess errorReportAccess; 
+	private ErrorReportAccess errorReportAccess;
 	
 	
 	private Cache cache = new Cache(500);
@@ -72,11 +69,15 @@ public class CogrooFacade {
 				      LOG_SENT.info("Will start grammar checker!");
                     }
 					
-					LegacyRuntimeConfiguration config = new LegacyRuntimeConfiguration(resources);
-					this.theCogroo = new Cogroo(config);
+					ComponentFactory factory = ComponentFactory.create(new Locale("pt", "BR"));
+					try {
+                      this.theCogroo = new GrammarChecker(factory.createPipe());
+                    } catch (Exception e) {
+                      LOG.error("Couldn't load CoGrOO.", e);
+                      throw new CommunityRuntimeException(e);
+                    }
 					
-					this.ruleDefinitionList = new HashSet<RuleDefinitionI>();
-					this.ruleDefinitionList.addAll(config.getChecker().getRulesDefinition());
+					this.ruleDefinitionList = ((GrammarChecker) theCogroo).getRuleDefinitions();
 					
 					if(LOG.isDebugEnabled()) {
 					  LOG.debug("Loaded " + this.ruleDefinitionList.size() + " rule definitions");
@@ -107,7 +108,6 @@ public class CogrooFacade {
 			for (String k : hardcoded) {
 				cache.put(k, new ArrayList<ProcessResult>());
 			}
-			
 		}
 	}
 
@@ -120,7 +120,7 @@ public class CogrooFacade {
 		}
 	}
 	
-	private CogrooI getCogroo(){
+	private CheckAnalyzer getCogroo(){
 		start();
 		return theCogroo;
 	}
@@ -134,19 +134,10 @@ public class CogrooFacade {
 	}
 	
 	/**
-	 * Creates a new {@link CogrooFacade}. The instance of {@link CogrooI} will 
-	 * use the dictionary of the user.
-	 * @param lexicalDictionary that {@link CogrooI} will use.
-	 */
-	public CogrooFacade(LexicalDictionary lexicalDictionary) {
-		LOG.info("Loading CoGrOO from: " + resources);
-	}
-	
-	/**
 	 * Set CoGrOO instance. For testing purpose.
 	 * @param cogroo a Cogroo instance.
 	 */
-	void setCogroo(CogrooI cogroo) {
+	void setCogroo(CheckAnalyzer cogroo) {
 		this.theCogroo = cogroo;
 	}
 
@@ -169,9 +160,11 @@ public class CogrooFacade {
 		List<String> mistakes = new ArrayList<String>();
 		
 		try {
-			
-			List<Mistake> errors = getCogroo().checkText(text);
-
+		    CheckDocument document = new CheckDocument(text);
+		    getCogroo().analyze(document);
+		    
+		    List<Mistake> errors = document.getMistakes();
+		    
 			for (Mistake mistake : errors) {			
 				StringBuilder str = new StringBuilder();
 				str.append(mistake);
@@ -230,22 +223,19 @@ public class CogrooFacade {
 		List<ProcessResult> processResults = new ArrayList<ProcessResult>();
 		
 		try {
-			CheckerResult result = getCogroo().analyseAndCheckText(text);
-			
-			if(result == null || result.sentences == null) {
-				LOG.warn("Cogroo returned null for text: " + text);
-				return processResults;
-			}
+		    CheckDocument document = new CheckDocument(text);
+            getCogroo().analyze(document);
+		    
 			if(LOG.isDebugEnabled()) {
-              LOG.debug("Got " + result.sentences.size()
-                  + " sentences with a total of " + result.mistakes.size()
+              LOG.debug("Got " + document.getSentences().size()
+                  + " sentences with a total of " + document.getMistakes().size()
                   + " mistakes.");
 			}
-			for (Sentence sentence : result.sentences) {
-				List<Mistake> filteredMistakes = filterMistakes(sentence, result.mistakes);
+			for (Sentence sentence : document.getSentences()) {
+				List<Mistake> filteredMistakes = filterMistakes(sentence, document.getMistakes());
 				
 				ProcessResult pr = new ProcessResult();
-				pr.setSyntaxTree(sentence.getSyntaxTree());
+				pr.setSyntaxTree(sentence.asTree().toSyntaxTree());
 				pr.setTextAnnotatedWithErrors(annotateText(sentence, filteredMistakes));
 				pr.setSentence(sentence);
 				pr.setMistakes(filterMistakes(sentence, filteredMistakes));
@@ -341,17 +331,17 @@ public class CogrooFacade {
 			Span mSpan = new Span(mistake.getStart(), mistake.getEnd());
 			sortedMistakes.put(mSpan, mistake);
 		}
-		StringBuilder text = new StringBuilder(sentence.getSentence());
+		StringBuilder text = new StringBuilder(sentence.getText());
 		Span[] spans = sortedMistakes.keySet().toArray(new Span[sortedMistakes.size()]);
 		for(int i = spans.length - 1; i >= 0; i--)  {
-			text.insert(spans[i].getEnd() - sentence.getOffset(), "</span>");
-			text.insert(spans[i].getStart() - sentence.getOffset(), "<span class=\"grammarerror\" title=\"" + sortedMistakes.get(spans[i]).getShortMessage() + "\">");
+			text.insert(spans[i].getEnd(), "</span>");
+			text.insert(spans[i].getStart(), "<span class=\"grammarerror\" title=\"" + sortedMistakes.get(spans[i]).getShortMessage() + "\">");
 		}
 		return text.toString();
 	}
 	
 	private List<Mistake> filterMistakes(Sentence sentence, List<Mistake> mistakes) {
-		Span sentSpan = new Span(sentence.getOffset(), sentence.getOffset() + sentence.getSentence().length());
+		Span sentSpan = new Span(sentence.getStart(), sentence.getEnd());
 		List<Mistake> filterdMistakes = new ArrayList<Mistake>();
 		for (Mistake mistake : mistakes) {
 			
@@ -371,14 +361,10 @@ public class CogrooFacade {
     }
     synchronized (this) {
       if (xmlRules == null) {
-        String path = getClass().getResource(CogrooFacade.GC_PATH).getPath();
-        if (LOG.isDebugEnabled()) {
-          LOG.debug("Will load rule list from path: " + path);
-        }
-        xmlRules = Collections.unmodifiableList(new RulesContainerHelper(path)
-            .getContainerForXMLAccess().getComponent(RulesProvider.class)
-            .getRules().getRule());
-
+        RulesProvider xmlProvider = new RulesProvider(RulesXmlAccess.getInstance(),
+            false);
+        xmlRules = xmlProvider.getRules().getRule();
+        
         if (LOG.isDebugEnabled()) {
           LOG.debug("Rule list loaded. #" + xmlRules.size());
         }
@@ -388,14 +374,10 @@ public class CogrooFacade {
   }
 	
 	
-	public Set<RuleDefinitionI> getRuleDefinitionList() {
+	public Set<RuleDefinition> getRuleDefinitionList() {
 	  start();
 	  return ruleDefinitionList;
 	  
-	}
-	
-	public void setResources(String resources) {
-		this.resources = resources;
 	}
 	
   public static String addPrefixIfMissing(String ruleID) {

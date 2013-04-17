@@ -16,7 +16,6 @@ import org.junit.Test;
 import utils.HSQLDBEntityManagerFactory;
 import utils.ResourcesUtil;
 import br.usp.ime.cogroo.dao.CogrooFacade;
-import br.usp.ime.cogroo.dao.DummyBaseDictionary;
 import br.usp.ime.cogroo.dao.GrammarCheckerVersionDAO;
 import br.usp.ime.cogroo.dao.HistoryEntryDAO;
 import br.usp.ime.cogroo.dao.HistoryEntryFieldDAO;
@@ -57,8 +56,7 @@ public class ErrorEntryLogicTest {
 		LoggedUser lu = new LoggedUser(null);
 		lu.setUser(william);
 		
-		CogrooFacade facade = new CogrooFacade(new DummyBaseDictionary());
-		facade.setResources("target/cogroo/gc");
+		CogrooFacade facade = new CogrooFacade();
 		
 		ApplicationData appdata = mock(ApplicationData.class);
 		

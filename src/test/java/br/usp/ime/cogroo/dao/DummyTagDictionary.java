@@ -1,18 +1,18 @@
 package br.usp.ime.cogroo.dao;
 
-import br.usp.pcs.lta.cogroo.entity.impl.runtime.MorphologicalTag;
-import br.usp.pcs.lta.cogroo.tag.TagInterpreterI;
-import br.usp.pcs.lta.cogroo.tools.checker.rules.model.TagMask;
-import br.usp.pcs.lta.cogroo.tools.checker.rules.model.TagMask.Case;
-import br.usp.pcs.lta.cogroo.tools.checker.rules.model.TagMask.Class;
-import br.usp.pcs.lta.cogroo.tools.checker.rules.model.TagMask.Finiteness;
-import br.usp.pcs.lta.cogroo.tools.checker.rules.model.TagMask.Gender;
-import br.usp.pcs.lta.cogroo.tools.checker.rules.model.TagMask.Mood;
-import br.usp.pcs.lta.cogroo.tools.checker.rules.model.TagMask.Number;
-import br.usp.pcs.lta.cogroo.tools.checker.rules.model.TagMask.Person;
-import br.usp.pcs.lta.cogroo.tools.checker.rules.model.TagMask.Punctuation;
-import br.usp.pcs.lta.cogroo.tools.checker.rules.model.TagMask.Tense;
-import br.usp.pcs.lta.cogroo.tools.dictionary.CogrooTagDictionary;
+import org.cogroo.entities.impl.MorphologicalTag;
+import org.cogroo.interpreters.TagInterpreter;
+import org.cogroo.tools.checker.rules.dictionary.CogrooTagDictionary;
+import org.cogroo.tools.checker.rules.model.TagMask;
+import org.cogroo.tools.checker.rules.model.TagMask.Case;
+import org.cogroo.tools.checker.rules.model.TagMask.Gender;
+import org.cogroo.tools.checker.rules.model.TagMask.Mood;
+import org.cogroo.tools.checker.rules.model.TagMask.Person;
+import org.cogroo.tools.checker.rules.model.TagMask.Punctuation;
+import org.cogroo.tools.checker.rules.model.TagMask.Tense;
+import org.cogroo.tools.checker.rules.model.TagMask.Number;
+import org.cogroo.tools.checker.rules.model.TagMask.Class;
+
 
 public class DummyTagDictionary implements CogrooTagDictionary {
 
@@ -48,14 +48,13 @@ public class DummyTagDictionary implements CogrooTagDictionary {
 	}
 
 	public boolean match(String lexeme, TagMask tagMask, boolean cs) {
-		return true;
+	  return true;
 	}
 	
 	private MorphologicalTag getMophtagA() {
 		MorphologicalTag aa = new MorphologicalTag();
 		aa.setCase(Case.ACCUSATIVE);
 		aa.setClazz(Class.ADVERB);
-		aa.setFiniteness(Finiteness.GERUND);
 		aa.setGender(Gender.MALE);
 		aa.setMood(Mood.IMPERATIVE);
 		aa.setNumber(Number.SINGULAR);
@@ -76,7 +75,7 @@ public class DummyTagDictionary implements CogrooTagDictionary {
 	}
 
   @Override
-  public TagInterpreterI getTagInterpreter() {
+  public TagInterpreter getTagInterpreter() {
     // TODO Auto-generated method stub
     return null;
   }

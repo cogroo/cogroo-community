@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
+import org.cogroo.util.PairWordPOSTag;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,7 +28,6 @@ import br.usp.ime.cogroo.model.NicePrintDictionaryEntry;
 import br.usp.ime.cogroo.model.PosTag;
 import br.usp.ime.cogroo.model.User;
 import br.usp.ime.cogroo.model.Word;
-import br.usp.pcs.lta.cogroo.tools.dictionary.PairWordPOSTag;
 
 public class DictionaryManagerTest {
 	DictionaryManager dictionaryNull;

@@ -11,6 +11,11 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.cogroo.entities.impl.MorphologicalTag;
+import org.cogroo.interpreters.FlorestaTagInterpreter;
+import org.cogroo.interpreters.TagInterpreter;
+import org.cogroo.tools.checker.rules.dictionary.LexicalDictionary;
+import org.cogroo.util.PairWordPOSTag;
 
 import br.com.caelum.vraptor.ioc.Component;
 import br.usp.ime.cogroo.dao.DictionaryEntryDAO;
@@ -24,11 +29,6 @@ import br.usp.ime.cogroo.model.NicePrintDictionaryEntry;
 import br.usp.ime.cogroo.model.PosTag;
 import br.usp.ime.cogroo.model.User;
 import br.usp.ime.cogroo.model.Word;
-import br.usp.pcs.lta.cogroo.entity.impl.runtime.MorphologicalTag;
-import br.usp.pcs.lta.cogroo.tag.LegacyTagInterpreter;
-import br.usp.pcs.lta.cogroo.tag.TagInterpreterI;
-import br.usp.pcs.lta.cogroo.tools.dictionary.LexicalDictionary;
-import br.usp.pcs.lta.cogroo.tools.dictionary.PairWordPOSTag;
 
 /**
  * Class to manage dictionary logics, like user restrictions to dictionaries.
@@ -44,7 +44,7 @@ public class DictionaryManager implements LexicalDictionary {
 	private WordDAO wordDAO;
 	private PosTagDAO postagDAO;
 	
-	private TagInterpreterI ti;
+	private TagInterpreter ti;
 
 	public DictionaryManager(LoggedUser loggedUser,
 			DictionaryEntryDAO dictionaryEntryDAO,
@@ -56,7 +56,7 @@ public class DictionaryManager implements LexicalDictionary {
 		this.wordDAO = wordDAO;
 		this.postagDAO = postagDAO;
 		
-		ti = new LegacyTagInterpreter();
+		ti = new FlorestaTagInterpreter(); //TODO:arrumar
 	}
 
 	// ********************************************************

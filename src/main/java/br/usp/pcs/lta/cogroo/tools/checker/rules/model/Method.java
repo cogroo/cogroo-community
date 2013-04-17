@@ -2,6 +2,8 @@ package br.usp.pcs.lta.cogroo.tools.checker.rules.model;
 
 import java.util.Set;
 
+import org.cogroo.tools.checker.rules.model.Rule;
+
 public class Method {
 	private int id;
 	private Rule.Method method;

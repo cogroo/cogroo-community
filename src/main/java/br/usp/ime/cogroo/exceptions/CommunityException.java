@@ -1,6 +1,7 @@
 package br.usp.ime.cogroo.exceptions;
 
-import br.usp.pcs.lta.cogroo.InternationalizedException;
+import org.cogroo.exceptions.InternationalizedException;
+
 
 public class CommunityException extends InternationalizedException {
 

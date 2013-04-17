@@ -8,22 +8,23 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
+import org.cogroo.entities.Mistake;
+import org.cogroo.tools.checker.RuleDefinition;
+import org.cogroo.tools.checker.rules.model.Example;
+import org.cogroo.tools.checker.rules.model.Rule;
+
 import br.com.caelum.vraptor.ioc.ApplicationScoped;
 import br.com.caelum.vraptor.ioc.Component;
 import br.usp.ime.cogroo.dao.CogrooFacade;
 import br.usp.ime.cogroo.model.ProcessResult;
 import br.usp.ime.cogroo.model.RuleStats;
 import br.usp.ime.cogroo.model.RuleStatus;
-import br.usp.pcs.lta.cogroo.entity.Mistake;
-import br.usp.pcs.lta.cogroo.tools.checker.RuleDefinitionI;
-import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Example;
-import br.usp.pcs.lta.cogroo.tools.checker.rules.model.Rule;
 
 @Component
 @ApplicationScoped
 public class RulesLogic {
 
-  private TreeMap<String, RuleDefinitionI> ruleMap;
+  private TreeMap<String, RuleDefinition> ruleMap;
   private TreeMap<String, Rule> xmlRuleMap;
   private CogrooFacade cogrooFacade;
   private List<RuleStatus> ruleStatus;
@@ -36,10 +37,10 @@ public class RulesLogic {
 
   private void init() {
     if (ruleMap == null) {
-      Set<RuleDefinitionI> rules = cogrooFacade.getRuleDefinitionList();
-      ruleMap = new TreeMap<String, RuleDefinitionI>(
+      Set<RuleDefinition> rules = cogrooFacade.getRuleDefinitionList();
+      ruleMap = new TreeMap<String, RuleDefinition>(
           new RuleDefinitionComparator());
-      for (RuleDefinitionI rule : rules) {
+      for (RuleDefinition rule : rules) {
         ruleMap.put(rule.getId(), rule);
       }
     }
@@ -53,19 +54,19 @@ public class RulesLogic {
     }
   }
 
-  public Collection<RuleDefinitionI> getRuleList() {
+  public Collection<RuleDefinition> getRuleList() {
     init();
     return this.ruleMap.values();
   }
 
-  public RuleDefinitionI getRule(String id) {
+  public RuleDefinition getRule(String id) {
     init();
     return ruleMap.get(id);
   }
 
   public String getNextRuleID(String currentRuleID) {
 
-    Entry<String, RuleDefinitionI> entry = ruleMap.higherEntry(currentRuleID);
+    Entry<String, RuleDefinition> entry = ruleMap.higherEntry(currentRuleID);
 
     if (entry != null) {
       return entry.getKey();
@@ -76,7 +77,7 @@ public class RulesLogic {
 
   public String getPreviousRuleID(String currentRuleID) {
 
-    Entry<String, RuleDefinitionI> entry = ruleMap.lowerEntry(currentRuleID);
+    Entry<String, RuleDefinition> entry = ruleMap.lowerEntry(currentRuleID);
 
     if (entry != null) {
       return entry.getKey();
@@ -85,7 +86,7 @@ public class RulesLogic {
     return null;
   }
 
-  public Rule getXmlRule(RuleDefinitionI rule) {
+  public Rule getXmlRule(RuleDefinition rule) {
     return this.xmlRuleMap.get(rule.getId());
   }
 
@@ -112,16 +113,16 @@ public class RulesLogic {
    
   
   public void refreshRuleStatus() {
-    Collection<RuleDefinitionI> rules = this.getRuleList();
+    Collection<RuleDefinition> rules = this.getRuleList();
     
     this.ruleStatus = new ArrayList<RuleStatus>(rules.size());
     
-    for (RuleDefinitionI rule : rules) {
+    for (RuleDefinition rule : rules) {
       ruleStatus.add(status(rule));
     }
   }
 
-  private RuleStatus status(RuleDefinitionI rule) {
+  private RuleStatus status(RuleDefinition rule) {
     RuleStatus status = new RuleStatus(rule);
     
     if (rule.isXMLBased()) {

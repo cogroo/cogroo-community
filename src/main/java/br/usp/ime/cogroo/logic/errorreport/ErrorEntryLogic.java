@@ -1,8 +1,6 @@
 package br.usp.ime.cogroo.logic.errorreport;
 
 import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -21,9 +19,11 @@ import java.util.TreeSet;
 import org.antlr.stringtemplate.StringTemplate;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.log4j.Logger;
-
-import com.google.common.base.Objects;
-import com.google.gdata.data.introspection.Collection;
+import org.cogroo.entities.Mistake;
+import org.cogroo.tools.checker.RuleDefinition;
+import org.cogroo.tools.errorreport.model.BadIntervention;
+import org.cogroo.tools.errorreport.model.ErrorReport;
+import org.cogroo.tools.errorreport.model.Omission;
 
 import br.com.caelum.vraptor.ioc.Component;
 import br.usp.ime.cogroo.Messages;
@@ -58,11 +58,8 @@ import br.usp.ime.cogroo.model.errorreport.Priority;
 import br.usp.ime.cogroo.model.errorreport.State;
 import br.usp.ime.cogroo.notifiers.Notificator;
 import br.usp.ime.cogroo.util.BuildUtil;
-import br.usp.pcs.lta.cogroo.entity.Mistake;
-import br.usp.pcs.lta.cogroo.errorreport.model.BadIntervention;
-import br.usp.pcs.lta.cogroo.errorreport.model.ErrorReport;
-import br.usp.pcs.lta.cogroo.errorreport.model.Omission;
-import br.usp.pcs.lta.cogroo.tools.checker.RuleDefinitionI;
+
+import com.google.common.base.Objects;
 
 @Component
 public class ErrorEntryLogic {
@@ -222,8 +219,8 @@ public class ErrorEntryLogic {
 
 		SortedSet<String> uniqueRules = new TreeSet<String>();
 
-		Set<RuleDefinitionI> rules = cogrooFacade.getRuleDefinitionList();
-		for (RuleDefinitionI rule : rules) {
+		Set<RuleDefinition> rules = cogrooFacade.getRuleDefinitionList();
+		for (RuleDefinition rule : rules) {
 			uniqueRules.add(rule.getCategory());
 		}
 
@@ -1254,7 +1251,7 @@ public void setStatus(ErrorEntry report) {
              
              for (Mistake mistake : mistakes) {
                
-               RuleDefinitionI rule = rulesLogic.getRule(mistake.getRuleIdentifier());
+               RuleDefinition rule = rulesLogic.getRule(mistake.getRuleIdentifier());
                
                if(rule == null) {
                  LOG.warn("Got null rule for id: " + mistake.getRuleIdentifier());

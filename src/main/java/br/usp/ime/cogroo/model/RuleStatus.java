@@ -1,14 +1,15 @@
 package br.usp.ime.cogroo.model;
 
-import br.usp.pcs.lta.cogroo.tools.checker.RuleDefinitionI;
+import org.cogroo.tools.checker.RuleDefinition;
+
 
 public class RuleStatus extends AbstractRuleStatus {
   
-  private RuleDefinitionI rule;
+  private RuleDefinition rule;
   private boolean active = true;
   
   /* RulesLogic sets the variable's values */
-  public RuleStatus(RuleDefinitionI definitionI) {
+  public RuleStatus(RuleDefinition definitionI) {
     this.rule = definitionI;
   }
   
@@ -20,7 +21,7 @@ public class RuleStatus extends AbstractRuleStatus {
     this.active = active;
   }
   
-  public RuleDefinitionI getRule() {
+  public RuleDefinition getRule() {
     return rule;
   }
 
