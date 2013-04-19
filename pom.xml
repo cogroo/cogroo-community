@@ -23,10 +23,15 @@
 			<artifactId>cogroo-gc-pt_br</artifactId>
 			<version>4.0.0-SNAPSHOT</version>
 		</dependency>
-        <dependency>
+		<dependency>
 			<groupId>org.brickred</groupId>
 			<artifactId>socialauth</artifactId>
 			<version>2.0-beta3</version>
+		</dependency>
+		<dependency>
+    		<groupId>com.google.gdata</groupId>
+    		<artifactId>core</artifactId>
+    		<version>1.47.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.gdata</groupId>
@@ -56,12 +61,13 @@
 		<dependency>
 			<groupId>br.com.caelum</groupId>
 			<artifactId>vraptor</artifactId>
-			<version>3.5.0</version> <!-- 3.1.2 or better -->
-		</dependency>
-		<dependency>
-			<groupId>org.jfree</groupId>
-			<artifactId>jcommon</artifactId>
-			<version>1.0.17</version>
+			<version>3.3.1</version> <!-- 3.1.2 or better -->
+			<exclusions>
+				<exclusion>
+					<artifactId>guava</artifactId>
+					<groupId>com.google.guava</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<!-- web.xml should be updated to use Tomcat 6 -->
 		<dependency>
@@ -96,7 +102,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.11</version>
+			<version>4.7</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -134,14 +140,14 @@
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
-			<version>1.1.2</version>
+			<version>1.1.1</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.6.1</version>
+			<version>1.5.10</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
@@ -155,14 +161,14 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.6.1</version>
+			<version>1.5.10</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.24</version>
+			<version>5.1.11</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
@@ -199,7 +205,7 @@
 		<dependency>
 			<groupId>org.hamcrest</groupId>
 			<artifactId>hamcrest-all</artifactId>
-			<version>1.3</version>
+			<version>1.1</version>
 			<!--	        <scope>test</scope>-->
 		</dependency>
 		<dependency>
@@ -215,7 +221,7 @@
 		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
-			<version>1.7</version>
+			<version>1.4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -355,14 +361,9 @@
 		-->
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>2.2</version>
-			</plugin>
-			<plugin>
 				<groupId>org.mortbay.jetty</groupId>
 				<artifactId>jetty-maven-plugin</artifactId>
-				<version>7.6.8.v20121106</version>
+				<version>7.0.1.v20091125</version>
 				<configuration>
 					<scanIntervalSeconds>5</scanIntervalSeconds>
 					<webAppConfig>

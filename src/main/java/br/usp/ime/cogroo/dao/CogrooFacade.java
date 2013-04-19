@@ -334,8 +334,8 @@ public class CogrooFacade {
 		StringBuilder text = new StringBuilder(sentence.getText());
 		Span[] spans = sortedMistakes.keySet().toArray(new Span[sortedMistakes.size()]);
 		for(int i = spans.length - 1; i >= 0; i--)  {
-			text.insert(spans[i].getEnd(), "</span>");
-			text.insert(spans[i].getStart(), "<span class=\"grammarerror\" title=\"" + sortedMistakes.get(spans[i]).getShortMessage() + "\">");
+			text.insert(spans[i].getEnd() - sentence.getStart(), "</span>");
+			text.insert(spans[i].getStart() - sentence.getStart(), "<span class=\"grammarerror\" title=\"" + sortedMistakes.get(spans[i]).getShortMessage() + "\">");
 		}
 		return text.toString();
 	}

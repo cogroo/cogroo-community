@@ -96,7 +96,8 @@
 									  <th>Nº.</th>
 									  <th>Elemento</th>
 									  <th>Primitiva</th>
-									  <th>Classificação</th>
+									  <th>Morfologia</th>
+									  <th>Características</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -104,27 +105,16 @@
 										<tr>
 											<td>${ j.count }</td>
 											<td>${token.lexeme}</td>
-											<td>${token.primitive}</td>
-											<td><c:forEach items="${token.morphologicalTag.asTagList}" var="tagPart"><fmt:message key="${tagPart}"/>, </c:forEach></td>
+											<td>${fn:join(token.lemmas, ', ')}</td>
+											<td>${token.POSTag}</td>
+											<td>${token.features}</td>
 									    </tr>
 									</c:forEach>
 								</tbody>
 							</table>
 							<br/>
 							<h3>Agrupamentos sintáticos</h3>
-								<form id="form_${id}${ i.count }" action="/cogroo/phpsyntaxtree/?" method="post" target="externalSite">
-									<input  type="hidden" name="antialias" value="on" />
-									<input  type="hidden" name="autosub" value="on" />
-									<input  type="hidden" name="autosub" value="on" />
-									<input  type="hidden" name="closedcount" value="5" />
-									<input  type="hidden" name="color" value="on" />
-									<input  type="hidden" name="data" value="${processResult.syntaxTree}" />
-									<input  type="hidden" name="font" value="era_sans" />
-									<input  type="hidden" name="fontsize" value="8" />
-									<input  type="hidden" name="opencount" value="5" />
-									<input  type="hidden" name="triangles" value="on" />
-									<p><a id="_${id}${ i.count }" class="iframe" href="about:blank" title="Agrupamentos">Clique aqui para exibir os agrupamentos sintáticos.</a></p>
-								</form>
+							<img src="/syntaxTree/stgraph.png?data=${processResult.syntaxTree}" alt="carregando..." title="${processResult.syntaxTree}">
 						</td>
 				    </tr>
 				</c:forEach>

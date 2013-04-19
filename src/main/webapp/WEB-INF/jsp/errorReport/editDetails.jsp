@@ -19,7 +19,12 @@ $(document).ready(function() {
 	 
 	 // set select text handler for omission
 	 $('#addNewOmission').click(function() {
-		 omissionChanged();
+		 if($('#typeSelection').val() == 'BADINT') {
+			 badintChanged();
+		 } else {
+			 omissionChanged();
+		 }
+		 
 	 });
 	 
 	// Type: omission or badint
@@ -63,28 +68,55 @@ function typeChanged() {
 };
 
 function badintChanged() {
+	var s;
+	var e;
 	
-	var badint = document.getElementById("badintSelec").value;
-	var text = $("#selector").text();
-	
-	var s = document.getElementById("badintStart_" + badint).value;
-	var e = document.getElementById("badintEnd_" + badint).value;
-	
-	if(e > 0 && s != e) {
-		var selection = text.substr(s, e - s);
-		var before = text.substr(0, s);
-		var after = text.substr(e);
-	    
-		$('#selectedOmission').html( before + '<span class="badint">' + selection + '</span>' + after);
+	if(document.getElementById("badintSelec") != null && document.getElementById("badIntMan").value == "") {
+		var badint = document.getElementById("badintSelec").value;
+		s = document.getElementById("badintStart_" + badint).value;
+		e = document.getElementById("badintEnd_" + badint).value;
+		
+		var text = $("#selector").val();
+		
+		if(e > 0 && s != e) {
+			var selection = text.substr(s, e - s);
+			var before = text.substr(0, s);
+			var after = text.substr(e);
+		    
+			$('#selectedOmission').html( before + '<span class="badint">' + selection + '</span>' + after);
+		} else {
+			$('#selectedOmission').html(text);
+		}
 	} else {
-		$('#selectedOmission').html(text);
+		 var input = $("#selector");
+		    
+		 var range = input.getSelection();
+			    
+		 if(range.end > 0 && range.start != range.end) {
+	    	var text = input.val();
+	    	
+	    	$('#changedText').attr('value',text);
+	        
+	        var selection = text.substr(range.start, range.end - range.start);
+	        var before = text.substr(0, range.start);
+	        var after = text.substr(range.end);
+	        
+	        // var html = $('#toCopy').children('div').clone();
+	        // Formatando novo input
+	        $('#selectedOmission').html( before + '<span class="omission">' + selection + '</span>' + after);
+	        $('#omissionStart').attr('value',range.start);
+	        $('#omissionEnd').attr('value',range.end);
+	        
+	        off('updateOmission'); on('displayOmission');
+		 }
+		
 	}
+	
 };
 
 function restoreOmission() {
 	
-	var badint = document.getElementById("badintSelec").value;
-	var text = $("#selector").text();
+	var text = $("#selector").val();
 	
 	var s = document.getElementById("omissionStart").value;
 	var e = document.getElementById("omissionEnd").value;
@@ -106,7 +138,9 @@ function omissionChanged() {
     var range = input.getSelection();
 	    
      if(range.end > 0 && range.start != range.end) {
-    	var text = input.text();
+    	var text = input.val();
+    	
+    	$('#changedText').attr('value',text);
         
         var selection = text.substr(range.start, range.end - range.start);
         var before = text.substr(0, range.start);
@@ -132,7 +166,7 @@ function omissionChanged() {
 				<tbody>
 					<tr>
 					    <th>Tipo:</th>
-						   <td><select id="typeSelection" name="type" style="width: 300px;" <c:if test="${not hasError}">disabled="disabled"</c:if>>
+						   <td><select id="typeSelection" name="type" style="width: 300px;">
 								<option value="OMISSION" <c:if test="${not empty errorEntry.omission}">selected="selected"</c:if>>Omissão</option>
 								<option value="BADINT" <c:if test="${not empty errorEntry.badIntervention}">selected="selected"</c:if>>Intervenção Indevida</option>
 							</select></td>
@@ -150,6 +184,10 @@ function omissionChanged() {
 							</c:forEach>
 						</select></td>
 						</c:if>
+					</tr>
+					<tr class="badint">
+						<th>Regra (manual):</th>
+						<td><input name="badIntMan" id="badIntMan" style="width: 300px;" <c:if test="${empty singleGrammarErrorList}">value="${errorEntry.badIntervention.rule}"</c:if>/></td>
 					</tr>
 					<tr class="badint">
 						<th>Erro:</th>
@@ -185,10 +223,10 @@ function omissionChanged() {
 			<div class="analise_text" >
 				<p><b id="selectedOmission">${errorEntry.markedText}</b></p>
 			</div>
-			<a class="omission" onclick="on('updateOmission'); off('displayOmission'); return false" href="#">(alterar)</a>
+			<a onclick="on('updateOmission'); off('displayOmission'); return false" href="#">(alterar)</a>
 		</div>
 		<div class="analise_text" id="updateOmission" style="display: none;">
-			<textarea rows="2" cols="70" readonly="readonly" id="selector" >${errorEntry.text}</textarea><br/>
+			<textarea rows="2" cols="70" id="selector" >${errorEntry.text}</textarea><br/>
 			<button type="button" id="addNewOmission" class="a_button" > Alterar seleção &raquo; </button>
 		</div>
 		<hr>
@@ -230,6 +268,7 @@ function omissionChanged() {
 					</c:forEach>
 				</c:if>
 	     </div>
+	     <input type="hidden" id="changedText" name="changedText" value="${errorEntry.text}"/>
 	    <button type="submit" name="_method" value="PUT">Enviar</button>                
 	</div>
 </form>

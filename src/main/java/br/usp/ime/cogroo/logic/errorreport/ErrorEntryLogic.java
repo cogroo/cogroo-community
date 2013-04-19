@@ -124,6 +124,10 @@ public class ErrorEntryLogic {
 	    lc.put("uso de meio", "adv"); // con
 	    lc.put("concordância do sujeito com o verbo do predicado", "ver");
 	    lc.put("expressões redundantes", "sem");
+	    lc.put("uso de mas/mais", "lex");
+	    lc.put("uso de advérbios", "adv");
+	    lc.put("concordância de modos e tempos verbais", "ver");
+	    lc.put("uso de porque e variantes", "ort");
 	    CATEGORIES = Collections.unmodifiableMap(lc);
 	}
 	
@@ -223,6 +227,13 @@ public class ErrorEntryLogic {
 		for (RuleDefinition rule : rules) {
 			uniqueRules.add(rule.getCategory());
 		}
+		
+		uniqueRules.add("Uso de pontuação");
+        uniqueRules.add("Uso de mas/mais");
+        uniqueRules.add("Uso de advérbios");
+        uniqueRules.add("Concordância de modos e tempos verbais");
+        uniqueRules.add("Uso de porque e variantes");
+        
 
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Finished getting error categories for user.");
@@ -250,7 +261,7 @@ public class ErrorEntryLogic {
 	private String getFormattedText(ErrorEntry e) {
 		StringBuilder t = new StringBuilder();
 		
-		if (e.getState() != State.REJECTED && e.getState() != State.OPEN) {
+		if ( isAddToCorpus(e) ) {
 			t.append("<ext id=\"");
 			t.append(e.getId());
 			t.append("\" url=\"comunidade.org");
@@ -258,19 +269,34 @@ public class ErrorEntryLogic {
 			t.append("\nSOURCE: CM t=").append(e.getId());
 			t.append(" p=1 s=1");
 			
+			String catId = "";
+			
 			if (e.getOmission() != null) {
 				GrammarCheckerOmission checker = e.getOmission();
+				String cat;
 				t.append(" c=");
-				t.append(CATEGORIES.get(checker.getCategory().toLowerCase()));
+				if(checker.getCategory() == null) {
+				  cat = "NULL";
+				} else if(CATEGORIES.containsKey(checker.getCategory().toLowerCase())) {
+				  cat = CATEGORIES.get(checker.getCategory().toLowerCase());
+				} else {
+				  cat = "*** " + checker.getCategory() + " ***";
+				}
+				
+				t.append(cat);
+				
 				t.append(" err=\"");
 				t.append(e.getText().substring(e.getSpanStart(), e.getSpanEnd()));
 				t.append("\" rep=\"");
 				
 				t.append(StringEscapeUtils.unescapeHtml(checker.getReplaceBy()));
 				t.append("\"");
+				
+				//catId = "_" + cat + "_";
 			}
 			
-			t.append("\nCM").append(e.getId()).append("-1 ");
+			
+			t.append("\nCM").append(catId).append(e.getId()).append("-1 ");
 			t.append(e.getText());
 			t.append("\n\n</s>\n</p>\n</ext>\n\n");
 		}
@@ -278,7 +304,21 @@ public class ErrorEntryLogic {
 		return t.toString();
 	}
 
-	/**
+	private boolean isAddToCorpus(ErrorEntry e) {
+      if (e.getState() == State.REJECTED || e.getState() == State.OPEN
+          || e.getState() == State.FEEDBACK) {
+  
+        return false;
+      }
+      if (e.getBadIntervention() != null
+          && e.getBadIntervention().getClassification() != BadInterventionClassification.FALSE_ERROR) {
+        return false;
+      }
+	  
+	  return true;
+    }
+
+  /**
 	 * Add a new error entry via OpenOffice plugin.
 	 * @param service
 	 * @param username

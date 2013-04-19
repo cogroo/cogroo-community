@@ -401,8 +401,10 @@ public class ErrorReportController {
 	public void updateErrorReport(
 			Long reportId,
 			String type,
+			String changedText,  
 			String badintIndex, 
 			String badintType,
+			String badIntMan,
 			List<String> badintStart,
 			List<String> badintEnd, 
 			List<String> badintRule, 
@@ -415,11 +417,13 @@ public class ErrorReportController {
 			
 		LOG.debug("reportId: " + reportId + "\n" +
 			"type: " + type + "\n" +
+		    "changedText: " + changedText + "\n" +
 			"badintIndex: " + badintIndex + "\n" +
 			"badintType: " + badintType + "\n" +
 			"badintStart: " + badintStart+ "\n" +
 			"badintEnd: " + badintEnd + "\n" +
 			"badintRule: " + badintRule + "\n" +
+			"badIntMan: " + badIntMan + "\n" +
 			"omissionCategory: " + omissionCategory + "\n" +
 			"omissionCustom: " + omissionCustom + "\n" +
 			"omissionReplaceBy: " + omissionReplaceBy + "\n" +
@@ -434,6 +438,11 @@ public class ErrorReportController {
 		} catch (CloneNotSupportedException e) {
 			LOG.error("Error cloning ErrorEntry object: ", e);
 		}
+		
+		if(changedText != null && !changedText.equals(errorEntryFromDB.getText())) {
+		  errorEntryFromDB.setText(changedText);
+		}
+		
 		if(type == null) {
 			if(errorEntryFromDB.getBadIntervention() != null) {
 				type = "BADINT";
@@ -452,10 +461,27 @@ public class ErrorReportController {
 			
 			newBadIntervention.setClassification(Enum.valueOf(BadInterventionClassification.class, badintType));
 			newBadIntervention.setErrorEntry(errorEntryFromDB);
-			newBadIntervention.setRule(badintRule.get(Integer.valueOf(badintIndex) - 1));
 			
-			errorEntryFromDB.setSpanStart(Integer.valueOf(badintStart.get(Integer.valueOf(badintIndex) - 1)));
-			errorEntryFromDB.setSpanEnd(Integer.valueOf(badintEnd.get(Integer.valueOf(badintIndex) - 1)));
+			if( !badIntMan.isEmpty()) {
+	            int start = -1;
+	            int end = -1;
+	            
+	            if(omissionStart != null && omissionEnd != null) {
+	                start = Integer.parseInt(omissionStart);
+	                end = Integer.parseInt(omissionEnd);
+	            }
+			  
+			  newBadIntervention.setRule(badIntMan);
+			  errorEntryFromDB.setSpanStart(start);
+	          errorEntryFromDB.setSpanEnd(end);
+	            
+			} else {
+			  newBadIntervention.setRule(badintRule.get(Integer.valueOf(badintIndex) - 1));
+			  errorEntryFromDB.setSpanStart(Integer.valueOf(badintStart.get(Integer.valueOf(badintIndex) - 1)));
+	          errorEntryFromDB.setSpanEnd(Integer.valueOf(badintEnd.get(Integer.valueOf(badintIndex) - 1)));
+			}
+			
+			
 			
 			this.errorEntryLogic.updateBadIntervention(errorEntryFromDB, originalErrorEntry);
 		} else {
