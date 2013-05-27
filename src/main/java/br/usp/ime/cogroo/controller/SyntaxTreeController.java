@@ -13,6 +13,8 @@ import java.net.URLEncoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.google.common.base.Charsets;
+
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Resource;
@@ -33,16 +35,21 @@ public class SyntaxTreeController {
   }
 
   
+  private static final String ISO = Charsets.ISO_8859_1.name(); 
   private static File createTree(String data) throws Exception {
 
+    data = data.replace('_', ' ');
     String cookie;
     Pattern stgraph = Pattern.compile("(stgraph.png.*?)\"", Pattern.MULTILINE);
     String targetURL = "http://ccsl.ime.usp.br/cogroo/phpsyntaxtree/?";
-    String urlParameters = "data=" + URLEncoder.encode(data, "UTF-8")
-        + "&antialias=" + URLEncoder.encode("on", "UTF-8") + "&autosub="
-        + URLEncoder.encode("on", "UTF-8") + "&color="
-        + URLEncoder.encode("on", "UTF-8") + "&triangles="
-        + URLEncoder.encode("on", "UTF-8");
+    String urlParameters = 
+        "data=" + URLEncoder.encode(data, ISO)
+        + "&antialias=" + URLEncoder.encode("on", ISO) 
+        //+ "&autosub=" + URLEncoder.encode("off", ISO) 
+        + "&color=" + URLEncoder.encode("on", ISO) 
+        + "&triangles=" + URLEncoder.encode("off", ISO)
+        + "&fontsize=" + URLEncoder.encode("10", ISO);
+    
 
     URL url;
     HttpURLConnection connection = null;

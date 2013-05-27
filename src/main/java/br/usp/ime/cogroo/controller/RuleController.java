@@ -8,7 +8,6 @@ import org.apache.log4j.Logger;
 import org.cogroo.tools.checker.RuleDefinition;
 import org.cogroo.tools.checker.rules.model.Example;
 import org.cogroo.tools.checker.rules.model.Rule;
-import org.cogroo.tools.checker.rules.util.RuleUtils;
 
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
@@ -23,6 +22,7 @@ import br.usp.ime.cogroo.model.Pair;
 import br.usp.ime.cogroo.model.ProcessResult;
 import br.usp.ime.cogroo.model.User;
 import br.usp.ime.cogroo.security.annotations.LoggedIn;
+import br.usp.ime.cogroo.util.RuleUtils;
 
 @Resource
 public class RuleController {
@@ -138,8 +138,8 @@ public class RuleController {
           
           Rule ruleXML = rulesLogic.getXmlRule(rule);
           
-          result.include("pattern", RuleUtils.getPatternAsString(ruleXML))
-          .include("replacePattern", RuleUtils.getSuggestionsAsString(ruleXML))
+          result.include("pattern", RuleUtils.getPatternAsHTML(ruleXML))
+          .include("replacePattern", RuleUtils.getSuggestionsAsHTML(ruleXML))
           .include("active", ruleXML.isActive())
           .include("method", ruleXML.getMethod());
         }

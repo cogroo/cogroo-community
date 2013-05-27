@@ -24,7 +24,7 @@
 		<table cellpadding="0" cellspacing="0" border="0" class="display" id="analysisTable_${id}">
 			<thead>
 				<tr>
-				  <th></th>
+				  <th title="Clique no + para expandir análise">&darr; Análise</th>
 				  <th title="Exibe a sentença submetida pelo usuário para análise.">Sentença</th>
 				  <th title="Exibe o número de erros gramaticais encontrados pelo CoGrOO.">Erros gramaticais</th>
 				  <th>Detalhes</th>
@@ -95,26 +95,31 @@
 									<tr>
 									  <th>Nº.</th>
 									  <th>Elemento</th>
-									  <th>Primitiva</th>
-									  <th>Morfologia</th>
-									  <th>Características</th>
+									  <th>Lemas</th>
+									  <th>Classe</th>
+									  <th>Flexão</th>
+									  <th>Sintagma</th>
+									  <th>Função</th>
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach items="${processResult.sentence.tokens}" var="token" varStatus="j">
+									<c:forEach items="${processResult.sentenceAsTable}" var="token" varStatus="j">
 										<tr>
 											<td>${ j.count }</td>
-											<td>${token.lexeme}</td>
-											<td>${fn:join(token.lemmas, ', ')}</td>
-											<td>${token.POSTag}</td>
-											<td>${token.features}</td>
+											<td>${token[0]}</td>
+											<td>${token[1]}</td>
+											<td>${token[2]}</td>
+											<td>${token[3]}</td>
+											<td>${token[4]}</td>
+											<td>${token[5]}</td>
 									    </tr>
 									</c:forEach>
 								</tbody>
 							</table>
 							<br/>
-							<h3>Agrupamentos sintáticos</h3>
-							<img src="/syntaxTree/stgraph.png?data=${processResult.syntaxTree}" alt="carregando..." title="${processResult.syntaxTree}">
+							<h3>Árvore sintática</h3>
+							<img src="/syntaxTree/stgraph.png?data=${processResult.syntaxTree}" alt="carregando..." title="${processResult.syntaxTree}"
+							style="padding:1px; border:1px solid #021a40; background-color:#ff0; display: block; margin-left: auto; margin-right: auto;">
 						</td>
 				    </tr>
 				</c:forEach>

@@ -23,7 +23,6 @@ import org.cogroo.text.Sentence;
 import org.cogroo.tools.checker.RuleDefinition;
 import org.cogroo.tools.checker.rules.applier.RulesProvider;
 import org.cogroo.tools.checker.rules.applier.RulesXmlAccess;
-import org.cogroo.tools.checker.rules.dictionary.LexicalDictionary;
 import org.cogroo.tools.checker.rules.model.Rule;
 
 import br.com.caelum.vraptor.ioc.ApplicationScoped;
