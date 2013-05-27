@@ -1,19 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<!DOCTYPE log4j:configuration SYSTEM "http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/xml/doc-files/log4j.dtd">
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
-
-	<!-- (all|debug|info|warn|error|fatal|off|null) -->
-	<category name="br.usp.ime.cogroo">
-		<priority value="warn" />
-		<appender-ref ref="stdout" />
-		<appender-ref ref="R" />
-	</category>
-
-	<root>
-		<priority value="warn" />
-		<appender-ref ref="stdout" />
-		<appender-ref ref="R" />
-	</root>
 
 	<appender name="stdout" class="org.apache.log4j.ConsoleAppender">
 		<layout class="org.apache.log4j.PatternLayout">
@@ -39,5 +26,18 @@
 <!--			<param name="LocationInfo" value="false" />-->
 <!--		</layout>-->
 <!--	</appender>-->
+
+	<!-- (all|debug|info|warn|error|fatal|off|null) -->
+	<category name="br.usp.ime.cogroo">
+		<priority value="warn" />
+		<appender-ref ref="stdout" />
+		<appender-ref ref="R" />
+	</category>
+
+	<root>
+		<priority value="warn" />
+		<appender-ref ref="stdout" />
+		<appender-ref ref="R" />
+	</root>
 
 </log4j:configuration>
