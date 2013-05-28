@@ -118,7 +118,20 @@
 							</table>
 							<br/>
 							<h3>Árvore sintática</h3>
-							<img src="/syntaxTree/stgraph.png?data=${processResult.syntaxTree}" alt="carregando..." title="${processResult.syntaxTree}"
+							<script type="text/javascript">
+							
+							 //<![CDATA[
+							    $(document).ready(function() {
+								 $('#stgraph_${i.count}').attr('src', '/syntaxTree/stgraph.png?data=' + encodeURIComponent( "${processResult.syntaxTree}" ));
+							    	//alert( $('#stgraph').attr('src') );
+							    });
+							    // ]]>
+								
+							// var data = encodeURIComponent( "${processResult.syntaxTree}" );
+							// /syntaxTree/stgraph.png?data=${processResult.syntaxTree}							
+
+							</script>
+							<img id="stgraph_${i.count}" src="xxx" alt="carregando..." title="${processResult.syntaxTree}"
 							style="padding:1px; border:1px solid #021a40; background-color:#ff0; display: block; margin-left: auto; margin-right: auto;">
 						</td>
 				    </tr>

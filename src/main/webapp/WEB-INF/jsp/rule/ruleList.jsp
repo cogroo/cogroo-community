@@ -108,10 +108,6 @@
 				<li>| <b>Medida F:</b> <fmt:formatNumber value="${stats.FMeasure}" type="percent"/> |</li>
 			</ul>
 		</div>
-		
-		<c:if test="${loggedUser.user.role.canRefreshRuleStatus}">
-			<a href="<c:url value='/rulesRefresh' />" >Refresh</a>
-		</c:if>
 		 
 	<table cellpadding="0" cellspacing="0" border="0" class="display" id="table_id">
 		<thead>

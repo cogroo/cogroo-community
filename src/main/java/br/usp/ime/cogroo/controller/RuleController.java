@@ -72,6 +72,8 @@ public class RuleController {
 	      result.include("refresh", "R")
 	      .include("user", user.getRole().getCanRefreshStatus());
 	      LOG.warn("Pode atualizar status das regras.");
+	    } else {
+	      rulesLogic.refreshRuleStatus();
 	    }
 	  }
 	  

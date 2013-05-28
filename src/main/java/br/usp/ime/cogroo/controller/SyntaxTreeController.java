@@ -13,6 +13,8 @@ import java.net.URLEncoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.log4j.Logger;
+
 import com.google.common.base.Charsets;
 
 import br.com.caelum.vraptor.Get;
@@ -24,6 +26,9 @@ import br.com.caelum.vraptor.interceptor.download.FileDownload;
 @Resource
 public class SyntaxTreeController {
 
+  private static final Logger LOG = Logger
+      .getLogger(SyntaxTreeController.class);
+  
   @Get
   @Path("/syntaxTree/stgraph.png")
   public Download tree(String data) throws Exception {
@@ -37,7 +42,9 @@ public class SyntaxTreeController {
   
   private static final String ISO = Charsets.ISO_8859_1.name(); 
   private static File createTree(String data) throws Exception {
-
+    
+    LOG.warn("DATA: " + data);
+    
     data = data.replace('_', ' ');
     String cookie;
     Pattern stgraph = Pattern.compile("(stgraph.png.*?)\"", Pattern.MULTILINE);
