@@ -16,8 +16,8 @@
 				}
 			}); 
 		
-		$('#news').rssfeed('http://ccsl.ime.usp.br/cogroo/pt-br/rss.xml', {
-		    limit: 6,
+		$('#news').rssfeed('http://ccsl.ime.usp.br/cogroo/rss.xml', {
+		    limit: 7,
 		    date: false,
 		    content: true,
 		    snippet: true,
