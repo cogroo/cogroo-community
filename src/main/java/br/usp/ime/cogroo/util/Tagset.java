@@ -137,34 +137,60 @@ public class Tagset {
     return comma(out);
   }
 
-  public static String getChunk(String tag) {
+  public static String getChunk(String tag, String next) {
     if(tag.startsWith("I-")) {
-      return "+";
+      if(next != null && next.startsWith("I-")) {
+        return "&#9474;";
+      } else {
+        return "&#9492;";
+      }
     } else if (tag.startsWith("B-")) {
       tag = tag.substring(2);
     } else {
       return "";
     }
     if (GROUP.containsKey(tag)) {
-      return GROUP.get(tag);
+      tag = GROUP.get(tag);
     } else {
-      return unknown(tag);
+      tag = unknown(tag);
     }
+    
+    String dash = null;
+    if(next != null && next.startsWith("I-")) {
+      dash = "&#9484; ";
+    } else {
+      dash = "&ndash; ";
+    }
+    
+    return dash + tag;
   }
 
-  public static String getClause(String tag) {
+  public static String getClause(String tag, String next) {
     if(tag.startsWith("I-")) {
-      return "+";
+      if(next != null && next.startsWith("I-")) {
+        return "&#9474;";
+      } else {
+        return "&#9492;";
+      }
     } else if (tag.startsWith("B-")) {
       tag = tag.substring(2);
     } else {
       return "";
     }
     if (CLAUSE.containsKey(tag)) {
-      return CLAUSE.get(tag);
+      tag = CLAUSE.get(tag);
     } else {
-      return unknown(tag);
+      tag = unknown(tag);
     }
+    
+    String dash = null;
+    if(next != null && next.startsWith("I-")) {
+      dash = "&#9484; ";
+    } else {
+      dash = "&ndash; ";
+    }
+    
+    return dash + tag;
   }
 
 }

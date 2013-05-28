@@ -44,8 +44,16 @@ public class ProcessResult {
         table[i][1] = comma(token.getLemmas());
         table[i][2] = getPOS(token.getPOSTag(), token.getLexeme());
         table[i][3] = getFeatures(token.getFeatures());
-        table[i][4] = getChunk(token.getChunkTag());
-        table[i][5] = getClause(token.getSyntacticTag());
+        
+        String nextChunk = null;
+        String nextClause = null;
+        if(i+1<sentence.getTokens().size()) {
+          Token nextToken = sentence.getTokens().get(i+1);
+          nextChunk = nextToken.getChunkTag();
+          nextClause = nextToken.getSyntacticTag();
+        }
+        table[i][4] = getChunk(token.getChunkTag(), nextChunk);
+        table[i][5] = getClause(token.getSyntacticTag(), nextClause);
       }
       
       return table;
