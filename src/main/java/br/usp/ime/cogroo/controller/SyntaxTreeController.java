@@ -16,22 +16,36 @@ import java.util.regex.Pattern;
 import org.apache.log4j.Logger;
 
 import com.google.common.base.Charsets;
+import com.google.common.base.Strings;
 
 import br.com.caelum.vraptor.Get;
 import br.com.caelum.vraptor.Path;
 import br.com.caelum.vraptor.Resource;
 import br.com.caelum.vraptor.interceptor.download.Download;
 import br.com.caelum.vraptor.interceptor.download.FileDownload;
+import br.usp.ime.cogroo.logic.TextSanitizer;
 
 @Resource
 public class SyntaxTreeController {
+  
+  private TextSanitizer sanitizer;
 
   private static final Logger LOG = Logger
       .getLogger(SyntaxTreeController.class);
   
+  public SyntaxTreeController(TextSanitizer sanitizer) {
+    this.sanitizer = sanitizer;
+  }
+  
   @Get
-  @Path("/syntaxTree/stgraph.png")
+  @Path("/syntaxTree/{data*}")
   public Download tree(String data) throws Exception {
+    data = sanitizer.sanitize(data, false, true);
+    
+    if(Strings.isNullOrEmpty(data)) {
+      data = "[]";
+    }
+    
     File file = createTree(data);
     String contentType = "image/jpg";
     String filename = "stgraph.png";
@@ -42,9 +56,6 @@ public class SyntaxTreeController {
   
   private static final String ISO = Charsets.ISO_8859_1.name(); 
   private static File createTree(String data) throws Exception {
-    
-    LOG.warn("DATA: " + data);
-    
     data = data.replace('_', ' ');
     String cookie;
     Pattern stgraph = Pattern.compile("(stgraph.png.*?)\"", Pattern.MULTILINE);
@@ -65,7 +76,7 @@ public class SyntaxTreeController {
     connection = (HttpURLConnection) url.openConnection();
     connection.setRequestMethod("POST");
     connection.setRequestProperty("Content-Type",
-        "application/x-www-form-urlencoded");
+        "application/x-www-form-urlencoded; charset=ISO-8859-1");
 
     connection.setRequestProperty("Content-Length",
         "" + Integer.toString(urlParameters.getBytes().length));

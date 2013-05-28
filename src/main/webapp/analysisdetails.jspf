@@ -122,8 +122,8 @@
 							
 							 //<![CDATA[
 							    $(document).ready(function() {
-								 $('#stgraph_${i.count}').attr('src', '/syntaxTree/stgraph.png?data=' + encodeURIComponent( "${processResult.syntaxTree}" ));
-							    	//alert( $('#stgraph').attr('src') );
+								 $('#stgraph_${i.count}').attr('src', '/syntaxTree/' + encodeURIComponent( "${processResult.syntaxTree}" ));
+							    	//alert( escape( "${processResult.syntaxTree}" ) );
 							    });
 							    // ]]>
 								
