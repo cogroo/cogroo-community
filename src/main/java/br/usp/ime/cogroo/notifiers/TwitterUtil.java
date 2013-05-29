@@ -41,13 +41,14 @@ class TwitterUtil {
 
 	public void tweet(String text, String link) {
 		if (isAvaiable) {
+		    String str = merge(text, shortURL(link));
 			try {
-				Status status = twitter.updateStatus(merge(text, shortURL(link)));
+				Status status = twitter.updateStatus(str);
 				if (LOG.isDebugEnabled()) {
 					LOG.debug("Tweeted: " + status.getText());
 				}
 			} catch (TwitterException e) {
-				LOG.error("Failed to tweet", e);
+				LOG.error("Failed to tweet: " + str, e);
 			}
 		} else {
 			LOG.error("Twetter not avaiable");

@@ -822,7 +822,7 @@ public class ErrorEntryLogic {
 		notificationForChange(er, he);
 	}
 	
-	public Long addCommentToErrorEntry(Long errorEntryID, Long userID, String comment) {
+	public Long addCommentToErrorEntry(Long errorEntryID, Long userID, String comment, boolean tweet) {
 		ErrorEntry errorEntry = errorEntryDAO.retrieve(errorEntryID);
 		User user = userDAO.retrieve(userID);
 		Comment c = new Comment(user, new Date(), comment, errorEntry, new ArrayList<Comment>());
@@ -830,7 +830,7 @@ public class ErrorEntryLogic {
 		errorEntry.getComments().add(c);
 		updateModified(errorEntry);
 		errorEntryDAO.update(errorEntry);
-		notificationForNewComment(errorEntry, c);
+		notificationForNewComment(errorEntry, c, tweet);
 		return c.getId();
 	}
 	
@@ -845,7 +845,7 @@ public class ErrorEntryLogic {
 		commentDAO.update(c);
 		updateModified(c.getErrorEntry());
 		errorEntryDAO.update(c.getErrorEntry());
-		notificationForNewComment(c.getErrorEntry(), answer);
+		notificationForNewComment(c.getErrorEntry(), answer, true);
 	}
 
 	public void removeAnswer(Comment answer, Comment comment) {
@@ -1063,7 +1063,7 @@ public class ErrorEntryLogic {
 		
 	}
 	
-	private void notificationForNewComment(ErrorEntry errorEntry, Comment comment) {
+	private void notificationForNewComment(ErrorEntry errorEntry, Comment comment, boolean tweet) {
 		// get the users
 		Set<User> userList = createToList(errorEntry);
 		// generate the subject
@@ -1087,15 +1087,17 @@ public class ErrorEntryLogic {
 		String url =  BuildUtil.BASE_URL + REPORTS + errorEntry.getId();
 		notificator.rssFeed(subject, url, body.toString());
 		
-		StringTemplate stTweet = this.templateUtil.getTemplate(StringTemplateUtil.NEW_COMMENT_TWEET);
+		if(tweet) {
+		  StringTemplate stTweet = this.templateUtil.getTemplate(StringTemplateUtil.NEW_COMMENT_TWEET);
 		
-		stTweet.setAttribute("user", comment.getUser().getTwitterRefOrName());
-		stTweet.setAttribute("ori", errorEntry.getSubmitter().getTwitterRefOrName());
-		stTweet.setAttribute("id", errorEntry.getId());
-		stTweet.setAttribute("type", getEntryType(errorEntry));
-		stTweet.setAttribute("comment", comment.getComment());
+		  stTweet.setAttribute("user", comment.getUser().getTwitterRefOrName());
+		  stTweet.setAttribute("ori", errorEntry.getSubmitter().getTwitterRefOrName());
+		  stTweet.setAttribute("id", errorEntry.getId());
+		  stTweet.setAttribute("type", getEntryType(errorEntry));
+		  stTweet.setAttribute("comment", comment.getComment());
 		
-		notificator.tweet(stTweet.toString(), url);
+		  notificator.tweet(stTweet.toString(), url);
+		}
 	}
 
 	private static final ResourceBundle messages =
@@ -1229,7 +1231,7 @@ public class ErrorEntryLogic {
 				errorEntry.setState(stateEnum);
 			}
 			if(comment != null && comment.length() > 0) {
-				addCommentToErrorEntry(errorEntry.getId(), this.user.getId(), comment);
+				addCommentToErrorEntry(errorEntry.getId(), this.user.getId(), comment, false);
 			}
 		}
 		

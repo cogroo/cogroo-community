@@ -634,7 +634,7 @@ public class ErrorReportController {
 			validator.onErrorUse(Results.logic()).redirectTo(ErrorReportController.class)
 					.details(errorEntryFromDB);
 		} else {
-			errorEntryLogic.addCommentToErrorEntry(errorEntryFromDB.getId(), loggedUser.getUser().getId(), newComment);
+			errorEntryLogic.addCommentToErrorEntry(errorEntryFromDB.getId(), loggedUser.getUser().getId(), newComment, true);
 			
 		}
 		

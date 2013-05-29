@@ -60,7 +60,7 @@
 		var iIndex = oTable.fnGetPosition( nTr );
 		var aData = oTable.fnSettings().aoData[iIndex]._aData;
 		
-		return '<div class="reportlist_details">'+aData[8]+'</div>';
+		return '<div class="reportlist_details">'+aData[9]+'</div>';
 	};
 	
 	function fnGetSelected( oTableLocal )
@@ -113,12 +113,13 @@
 				"sInfoFiltered": "(filtrados de um total de _MAX_ entradas)"
 			},
 			"aLengthMenu": [20,50,100,200],
-			"aaSorting": [[ 5, 'desc' ]],
+			"aaSorting": [[ 7, 'desc' ]],
 			"iDisplayLength": 20,
 			"aoColumns": [
 				{ "bSortable": false }, 	//0
 				{ "bSortable": false }, 	//1
 				{ "sType": "num-html" }, 	//2
+				{ "sType": "title-string" },
 				null,  						//3
 				null,						//4
 				null,  						//5
@@ -165,6 +166,7 @@
 			  <th></th> 
 			  <th></th> 			<!-- 1 -->
 			  <th title="Exibe o número do problema reportado.">Nº.</th>			<!-- 2 -->
+			  <th title="Exibe o status do problema">Status</th>
 			  <th title="Indica a situação (aberta, em andamento, resolvida, aguardando resposta, fechada ou rejeitada) do problema.">Situação</th>				<!-- 3 -->
 			  <th title="Indica a prioridade (baixa, normal, alta, urgente ou imediata) do problema.">Prioridade</th>			<!-- 4 -->
 			  <th title="Exibe a sentença relacionada ao problema reportado.">Sentença com problema</th>		<!-- 5 -->
@@ -185,6 +187,22 @@
 					<td><input type="checkbox" name="errorEntryID[${errorEntry.id}]" value="${errorEntry.id}"/></td>
 					<td valign="middle"><img src="<c:url value="/images/details_open.png"/>"></td>		<!-- 0 -->
 					<td><a href="<c:url value="/reports/${errorEntry.id}"/>">${errorEntry.id}</a></td>		<!-- 1 -->
+					
+				<c:choose>  
+					    <c:when test="${errorEntry.statusFlag == 'OK'}">  
+					        <td valign="middle"><img title="Corrigido" src="<c:url value="/images/icons/status-green.png"/>"></td>  
+					    </c:when>
+					    <c:when test="${errorEntry.statusFlag == 'NOT'}">  
+					        <td valign="middle"><img title="Não corrigido" src="<c:url value="/images/icons/status-red.png"/>"></td>  
+					    </c:when>
+					    <c:when test="${errorEntry.statusFlag == 'WARN'}">  
+					        <td valign="middle"><img title="Parcialmente corrigido" src="<c:url value="/images/icons/status-yellow.png"/>"></td>  
+					    </c:when>
+					    <c:otherwise>
+				        	<td valign="middle"><img title="Rejeitado" src="<c:url value="/images/icons/status-grey.png"/>"></td>
+				    	</c:otherwise>
+					</c:choose>
+					
 					<td><fmt:message key="${errorEntry.state}" /></td>					<!-- 2 -->
 					<td><fmt:message key="${errorEntry.priority}" /></td>				<!-- 3 -->
 					<td>${errorEntry.markedText}</td>									<!-- 4 -->
