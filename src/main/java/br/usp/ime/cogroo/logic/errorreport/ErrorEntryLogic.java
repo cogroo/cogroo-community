@@ -1268,7 +1268,7 @@ public void setStatus(ErrorEntry report) {
                break;
              }
              else {
-               report.setStatusFlag(STATUS_OK);     
+               report.setStatusFlag(STATUS_WARN);     
              }
              
            }
