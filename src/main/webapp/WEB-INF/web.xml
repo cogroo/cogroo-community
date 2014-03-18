@@ -4,65 +4,65 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_4.xsd"
 	id="WebApp_ID" version="2.4">
 	<!-- Tomcat 5.5 requires WebApp 2.4, Tomcat 6 requires 2.5 -->
-	
+
 	<display-name>Cogroo Comunidade</display-name>
 
 	<!--
-		VRaptor will scan classpath for all @Component and 
+		VRaptor will scan classpath for all @Component and
 		@Resource inside WEB-INF/classes
 
-		If you want to load them also from WEB-INF/lib/ jars, 
+		If you want to load them also from WEB-INF/lib/ jars,
 		you need to specify from which packages they will
 		be loaded, comma separated:
 	-->
-	
-	<!--	
+
+	<!--
 	<context-param>
         	<param-name>br.com.caelum.vraptor.packages</param-name>
 	        <param-value>br.com.caelum.vraptor.blank</param-value>
     </context-param>
 	-->
-	
-	
+
+
 	<context-param>
 		<param-name>javax.servlet.jsp.jstl.fmt.localizationContext</param-name>
 		<param-value>messages</param-value>
 	</context-param>
-	
+
 	<context-param>
         	<param-name>br.com.caelum.vraptor.packages</param-name>
 	        <param-value>br.usp.ime.cogroo</param-value>
     </context-param>
-    
-    
-	<!--  
+
+
+	<!--
     <context-param>
 	    <param-name>br.com.caelum.vraptor.provider</param-name>
 	    <param-value>br.com.caelum.vraptor.util.hibernate.HibernateCustomProvider</param-value>
-	</context-param>    
-	-->		
+	</context-param>
+	-->
     <context-param>
 	    <param-name>br.com.caelum.vraptor.provider</param-name>
 	    <param-value>br.com.caelum.vraptor.util.jpa.JPACustomProvider</param-value>
-	</context-param>    
-	
-	<context-param>    
-		<description>VRaptor handles HTTP requests in UTF-8 format</description>    
-		<param-name>br.com.caelum.vraptor.encoding</param-name>    
-		<param-value>UTF-8</param-value>    
-	</context-param>   
-    
-	<!--  
-	   if you are using a servlet 3.0 container 
+	</context-param>
+
+	<context-param>
+		<description>VRaptor handles HTTP requests in UTF-8 format</description>
+		<param-name>br.com.caelum.vraptor.encoding</param-name>
+		<param-value>UTF-8</param-value>
+	</context-param>
+
+	<!--
+	   if you are using a servlet 3.0 container
 		as glassfish 3 or jetty 8, you dont need this
-		filter configuration 
-	-->		
-		
+		filter configuration
+	-->
+
 	<filter>
 		<filter-name>vraptor</filter-name>
 		<filter-class>br.com.caelum.vraptor.VRaptor</filter-class>
-	</filter>	
-	
+	</filter>
+
 	<filter>
        <filter-name>ExpiresFilter</filter-name>
        <filter-class>br.usp.ime.cogroo.interceptors.ExpiresFilter</filter-class>
@@ -89,7 +89,7 @@
        <init-param>
           <param-name>ExpiresByType image</param-name>
           <param-value>access plus 1 days</param-value>
-       </init-param>   
+       </init-param>
     </filter>
 
     <filter-mapping>
@@ -104,25 +104,25 @@
 		<dispatcher>FORWARD</dispatcher>
 		<dispatcher>REQUEST</dispatcher>
 	</filter-mapping>
-	
+
 	<servlet-mapping>
         <servlet-name>jsp</servlet-name>
         <url-pattern>*.jspf</url-pattern>
     </servlet-mapping>
-    
+
     <error-page>
 		<error-code>404</error-code>
 		<location>/error.jsp</location>
 	</error-page>
-    
+
     <listener>
 		<listener-class>br.usp.ime.cogroo.interceptors.SessionListener</listener-class>
 	</listener>
-    
+
     <session-config>
   		<session-timeout>30</session-timeout>
   	</session-config>
-		
+
 	<jsp-config>
 		<jsp-property-group>
 			<display-name>Cogroo Comunidade</display-name>
@@ -134,5 +134,18 @@
 			<include-coda>/footer.jspf</include-coda>
 		</jsp-property-group>
 	</jsp-config>
-	
+
+
+
+	<!-- >>> JCaptcha -->
+	<servlet>
+		<servlet-name>jcaptcha</servlet-name>
+		<servlet-class>br.usp.ime.cogroo.servlets.ImageCaptchaServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>jcaptcha</servlet-name>
+		<url-pattern>/jcaptcha.jpg</url-pattern>
+	</servlet-mapping>
+	<!-- <<< JCaptcha -->
+
 </web-app>

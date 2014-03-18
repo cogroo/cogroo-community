@@ -6,17 +6,17 @@
 	<packaging>war</packaging>
 	<version>1.4.1-SNAPSHOT</version>
 	<name>comunidade</name>
-	
+
 	<prerequisites>
 		<maven>3.0</maven>
 	</prerequisites>
-	
+
 	<scm>
 		<connection>scm:git:git://github.com/cogroo/cogroo-community.git</connection>
 		<url>scm:git:git://github.com/cogroo/cogroo-community.git</url>
 		<developerConnection>scm:git:git://github.com/cogroo/cogroo-community.git</developerConnection>
 	</scm>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>org.cogroo.lang.pt_br</groupId>
@@ -96,7 +96,7 @@
 		<dependency>
 			<groupId>javax.el</groupId>
 			<artifactId>el-api</artifactId>
-			<version>1.0</version> 
+			<version>1.0</version>
 		</dependency>
 
 		<dependency>
@@ -263,19 +263,48 @@
         <artifactId>bitlyj</artifactId>
         <version>2.0.0</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.apache.james.jdkim</groupId>
 			<artifactId>apache-jdkim-library</artifactId>
 			<version>0.2</version>
 		</dependency>
-		
+
 		<dependency>
 		    <groupId>org.subethamail</groupId>
 		    <artifactId>subethasmtp-wiser</artifactId>
 		    <version>1.2</version>
 		    <scope>test</scope>
 		</dependency>
+
+
+		<!-- JCaptcha -->
+		<dependency>
+			<groupId>com.octo.captcha</groupId>
+			<artifactId>jcaptcha</artifactId>
+			<version>2.0-alpha-1</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.1.3</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+			<version>3.2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.octo.captcha</groupId>
+			<artifactId>jcaptcha-api</artifactId>
+			<version>2.0-alpha-1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.jhlabs</groupId>
+			<artifactId>filters</artifactId>
+			<version>2.0.235</version>
+		</dependency>
+		<!--/ JCaptcha -->
 	</dependencies>
 
 	<repositories>
@@ -314,14 +343,19 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</repository>
+
+		<repository>
+			<id>sourceforge-releases@sonatype</id>
+			<url>https://oss.sonatype.org/content/repositories/sourceforge-releases</url>
+		</repository>
 	</repositories>
 	<build>
 	    <filters>
 			<filter>${basedir}/target/filter.properties</filter>
 			<filter>../comunidade.properties</filter>
 	    </filters>
-			         		
-        <outputDirectory>${basedir}/src/main/webapp/WEB-INF/classes</outputDirectory> 	 
+
+        <outputDirectory>${basedir}/src/main/webapp/WEB-INF/classes</outputDirectory>
 
 		<finalName>comunidade</finalName>
 		<resources>
@@ -331,7 +365,7 @@
 				<excludes>
 					<exclude>version.properties</exclude>
 				</excludes>
-			</resource>			
+			</resource>
 			<resource>
 				<directory>src/main/resources</directory>
 				<filtering>true</filtering>
@@ -407,8 +441,8 @@
              <groupId>org.codehaus.mojo</groupId>
              <artifactId>tomcat-maven-plugin</artifactId>
               	<configuration>
-                      
-					  <!-- 
+
+					  <!--
 					  password and user: command line -
 					  -Dtomcat.password=apassword -Dtomcat.username=ausername
 					  <url>http://doncovim:8080/manager</url>
@@ -438,7 +472,7 @@
 			</executions>
 			</plugin>
 
-			
+
 		</plugins>
 		<pluginManagement>
 			<plugins>

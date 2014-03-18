@@ -2,6 +2,8 @@ package br.usp.ime.cogroo.controller;
 
 import java.util.regex.Pattern;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
 
 import br.com.caelum.vraptor.Get;
@@ -17,11 +19,12 @@ import br.usp.ime.cogroo.exceptions.ExceptionMessages;
 import br.usp.ime.cogroo.logic.TextSanitizer;
 import br.usp.ime.cogroo.model.ApplicationData;
 import br.usp.ime.cogroo.model.User;
+import br.usp.ime.cogroo.servlets.ImageCaptchaServlet;
 import br.usp.ime.cogroo.util.CriptoUtils;
 
 @Resource
 public class RegisterController {
-	
+
 	private static final String LOGIN_REGEX = "[A-Z0-9.@_%+-]+";
 	public static final Pattern LOGIN_PATTERN = Pattern.compile(LOGIN_REGEX, Pattern.CASE_INSENSITIVE);
 	private static final String EMAIL_REGEX = "[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}";
@@ -32,13 +35,14 @@ public class RegisterController {
 	private Validator validator;
 	private ApplicationData appData;
 	private TextSanitizer sanitizer;
+  private HttpServletRequest mRequest;
 	private static final Logger LOG = Logger
 			.getLogger(RegisterController.class);
-	
+
 	private static final String HEADER_TITLE = "Cadastro";
 	private static final String HEADER_DESCRIPTION = "Cadastre-se no CoGrOO Comunidade! É rápido e gratuito!";
 
-	public RegisterController(Result result, UserDAO userDAO,
+	public RegisterController(Result result, HttpServletRequest aRequest, UserDAO userDAO,
 			Validator validator, ApplicationData appData,
 			TextSanitizer sanitizer) {
 		this.result = result;
@@ -46,6 +50,7 @@ public class RegisterController {
 		this.validator = validator;
 		this.appData = appData;
 		this.sanitizer = sanitizer;
+		this.mRequest = aRequest;
 	}
 
 	@Get
@@ -54,28 +59,36 @@ public class RegisterController {
 		result.include("headerTitle", HEADER_TITLE).include(
 				"headerDescription", HEADER_DESCRIPTION);
 	}
-	
+
 	@Post
 	@Path("/sendNewPass")
 	public void register(String email){
-		
+
 	}
 
 	@Post
 	@Path("/register")
 	public void register(String login, String password, String passwordRepeat,
-			String email, String name, String twitter, boolean iAgree) {
+			String email, String name, String twitter, String captcha, boolean iAgree) {
 		login = sanitizer.sanitize(login, false);
 		email = sanitizer.sanitize(email, false);
 		name = sanitizer.sanitize(name, false);
 		twitter = sanitizer.sanitize(twitter, false);
-		
+		captcha = sanitizer.sanitize(captcha, false);
+
 		email = email.trim();
-		
+
+		if (captcha == null
+		    || captcha.isEmpty()
+		    || !ImageCaptchaServlet.validateResponse(mRequest, captcha)) {
+		  validator.add(new ValidationMessage(ExceptionMessages.INVALID_CAPTCHA,
+              ExceptionMessages.INVALID_ENTRY));
+        }
+
 		if (name.trim().isEmpty())
 			validator.add(new ValidationMessage(ExceptionMessages.USER_CANNOT_BE_EMPTY,
 					ExceptionMessages.INVALID_ENTRY));
-		
+
 		if (login.trim().isEmpty() || !LOGIN_PATTERN.matcher(login).matches())
 			validator.add(new ValidationMessage(ExceptionMessages.FORBIDDEN_LOGIN,
 					ExceptionMessages.INVALID_ENTRY));
@@ -83,7 +96,7 @@ public class RegisterController {
 		if (email.isEmpty() || !EMAIL_PATTERN.matcher(email).matches())
 			validator.add(new ValidationMessage(ExceptionMessages.INVALID_EMAIL,
 					ExceptionMessages.INVALID_ENTRY));
-		
+
 		if (password.trim().isEmpty())
 			validator.add(new ValidationMessage(ExceptionMessages.PASSWORD_CANNOT_BE_EMPTY,
 					ExceptionMessages.INVALID_ENTRY));
@@ -109,14 +122,14 @@ public class RegisterController {
 						ExceptionMessages.INVALID_ENTRY));
 			}
 		}
-		
+
 		if (!email.isEmpty()) {
 			if (userDAO.existEmail("cogroo", email)) {
 				validator.add(new ValidationMessage(
 						ExceptionMessages.EMAIL_ALREADY_EXIST, ExceptionMessages.INVALID_ENTRY));
 			}
 		}
-		
+
 		if(twitter != null) {
 			twitter = twitter.replace("@", "");
 		}
@@ -131,13 +144,13 @@ public class RegisterController {
 		user.setTwitter(twitter);
 		userDAO.add(user);
 		appData.incRegisteredMembers();
-		
+
 		result.include("okMessage", "Cadastro realizado com sucesso!");
 		result.include("gaEventUserRegistered", true).include("provider", "cogroo");
-		
+
 		result.forwardTo(LoginController.class).login(login, password);
-		
+
 		//result.redirectTo(this).welcome();
 	}
-	
+
 }

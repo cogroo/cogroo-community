@@ -3,6 +3,7 @@ package br.usp.ime.cogroo.exceptions;
 public class ExceptionMessages {
   public final static String USER_CANNOT_BE_EMPTY = "USER_CANNOT_BE_EMPTY";
   public final static String LOGIN_CANNOT_BE_EMPTY = "LOGIN_CANNOT_BE_EMPTY";
+  public final static String INVALID_CAPTCHA = "INVALID_CAPTCHA";
   public final static String FORBIDDEN_LOGIN = "FORBIDDEN_LOGIN";
   public final static String PASSWORD_CANNOT_BE_EMPTY = "PASSWORD_CANNOT_BE_EMPTY";
   public final static String USER_UNAUTHORIZED = "USER_UNAUTHORIZED";

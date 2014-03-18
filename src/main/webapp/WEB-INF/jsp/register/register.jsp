@@ -2,6 +2,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#refreshCaptcha").click(function() {
+	    $("#captchaImage").fadeOut(500, function() {
+	       $("#captchaImage").attr("src", "<c:url value='/jcaptcha.jpg'/>?" + Math.random());
+	    });
+	    $("#captchaImage").fadeIn(300);
+	});
+});
+</script>
+
 	<h2>Cadastro no CoGrOO Comunidade</h2>
 
 	<p>É rápido e gratuito! Seus dados nunca serão divulgados, fique tranquilo.</p>
@@ -41,7 +52,14 @@
             	<label for="twitter" class="loginlabel">Twitter:</label>
             	<input type="text" value="${ twitter }" maxlength="60" style="width: 300px;" class="inputtxt" name="twitter" id="twitter"> (opcional)
             </p>
-
+            <br/>
+            <p>Para sua segurança digite a palavra que aparece na imagem abaixo:</p>
+            <img id="captchaImage" class="img-polaroid" src="<c:url value='/jcaptcha.jpg'/>" /><br/>
+			<p>
+            	<label for="captcha" class="loginlabel">Palavra de segurança:
+            		<span class="required">*</span></label>
+            	<input type="text" id="captcha" name="captcha" class="inputtxt" style="width: 300px;" maxlength="20" /> <a id="refreshCaptcha">[Nova palavra]</a>
+            </p>
         </div>
 
         <br />
