@@ -65,16 +65,16 @@ import com.google.common.base.Objects;
 public class ErrorEntryLogic {
 
 	private static final Logger LOG = Logger.getLogger(ErrorEntryLogic.class);
-	
+
 	public static final String CUSTOM = "custom";
-	
+
 	private static final String REPORTS = "reports/";
-	
+
 	public static final String STATUS_OK = "OK";
 	public static final String STATUS_NOT = "NOT";
 	public static final String STATUS_WARN = "WARN";
 	public static final String STATUS_INVALID = "INVALID";
-	
+
 	private ErrorEntryDAO errorEntryDAO;
 	private UserDAO userDAO;
 	private CommentDAO commentDAO;
@@ -90,14 +90,14 @@ public class ErrorEntryLogic {
 	private Notificator notificator;
 
 	private TextSanitizer sanitizer;
-	
+
 	private RulesLogic rulesLogic;
-	
+
 	private static final Map<String, String> CATEGORIES;
-	
+
 	static {
 		Map<String, String> lc = new HashMap<String, String>();
-		lc.put("emprego do mim e ti", "pro"); // , cop|pro, 
+		lc.put("emprego do mim e ti", "pro"); // , cop|pro,
 	    lc.put("uso do verbo haver", "sem");
 	    lc.put("regência verbal", "reg");
 	    lc.put("verbo preferir", "ali"); // "cov"
@@ -130,7 +130,7 @@ public class ErrorEntryLogic {
 	    lc.put("uso de porque e variantes", "ort");
 	    CATEGORIES = Collections.unmodifiableMap(lc);
 	}
-	
+
 	public ErrorEntryLogic(LoggedUser loggedUser, ErrorEntryDAO errorEntryDAO,
 			UserDAO userDAO, CommentDAO commentDAO, CogrooFacade cogrooFacade,
 			GrammarCheckerVersionDAO versionDAO, GrammarCheckerOmissionDAO omissionDAO,
@@ -167,18 +167,18 @@ public class ErrorEntryLogic {
 			} else if(this.user != null && this.user.getPreviousLogin().before(errorEntry.getModified())) {
 				// if comments is empty, check only the submitter
 				if(errorEntry.getComments().size() == 0) {
-					if(!errorEntry.getSubmitter().getLogin().equals(this.user.getLogin()) || 
+					if(!errorEntry.getSubmitter().getLogin().equals(this.user.getLogin()) ||
 							!errorEntry.getSubmitter().getService().equals(this.user.getService())) {
 						errorEntry.setIsNew(true);
 					}
 				}
-				
+
 				else {
 					// we check the comments. we skip if the newest is of this user
 					Date newest = this.user.getPreviousLogin();
 					boolean isNew = false;
 					for (Comment comment : errorEntry.getComments()) {
-						
+
 						for(Comment answer : comment.getAnswers()) {
 							if(answer.getDate().after(newest)) {
 								newest = answer.getDate();
@@ -215,7 +215,7 @@ public class ErrorEntryLogic {
 		 // TODO implement for user
 		 return getErrorCategoriesForUser();
 	}
-	
+
 	public SortedSet<String> getErrorCategoriesForUser() {
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Will get error categories for user.");
@@ -227,40 +227,40 @@ public class ErrorEntryLogic {
 		for (RuleDefinition rule : rules) {
 			uniqueRules.add(rule.getCategory());
 		}
-		
+
 		uniqueRules.add("Uso de pontuação");
         uniqueRules.add("Uso de mas/mais");
         uniqueRules.add("Uso de advérbios");
         uniqueRules.add("Concordância de modos e tempos verbais");
         uniqueRules.add("Uso de porque e variantes");
-        
+
 
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Finished getting error categories for user.");
 		}
 		return uniqueRules;
 	}
-	
+
 	@Deprecated
 	public List<ErrorEntry> addErrorEntry(String username, String error)
 			throws CommunityException {
 		return addErrorEntry("cogroo", username, error);
 	}
-	
+
 	public String getCorpus() {
 		StringBuilder text = new StringBuilder();
 		List<ErrorEntry> reports = this.getAllReports();
-		
+
 		for (ErrorEntry errorEntry : reports) {
 			text.append(getFormattedText(errorEntry));
 		}
-		
+
 		return text.toString();
 	}
 
 	private String getFormattedText(ErrorEntry e) {
 		StringBuilder t = new StringBuilder();
-		
+
 		if ( isAddToCorpus(e) ) {
 			t.append("<ext id=\"");
 			t.append(e.getId());
@@ -268,9 +268,9 @@ public class ErrorEntryLogic {
 			t.append(">\"\n<p id=\"1\">\n<s id=\"1\">\n");
 			t.append("\nSOURCE: CM t=").append(e.getId());
 			t.append(" p=1 s=1");
-			
+
 			String catId = "";
-			
+
 			if (e.getOmission() != null) {
 				GrammarCheckerOmission checker = e.getOmission();
 				String cat;
@@ -282,39 +282,39 @@ public class ErrorEntryLogic {
 				} else {
 				  cat = "*** " + checker.getCategory() + " ***";
 				}
-				
+
 				t.append(cat);
-				
+
 				t.append(" err=\"");
 				t.append(e.getText().substring(e.getSpanStart(), e.getSpanEnd()));
 				t.append("\" rep=\"");
-				
+
 				t.append(StringEscapeUtils.unescapeHtml(checker.getReplaceBy()));
 				t.append("\"");
-				
+
 				//catId = "_" + cat + "_";
 			}
-			
-			
+
+
 			t.append("\nCM").append(catId).append(e.getId()).append("-1 ");
 			t.append(e.getText());
 			t.append("\n\n</s>\n</p>\n</ext>\n\n");
 		}
-		
+
 		return t.toString();
 	}
 
 	private boolean isAddToCorpus(ErrorEntry e) {
       if (e.getState() == State.REJECTED || e.getState() == State.OPEN
           || e.getState() == State.FEEDBACK) {
-  
+
         return false;
       }
       if (e.getBadIntervention() != null
           && e.getBadIntervention().getClassification() != BadInterventionClassification.FALSE_ERROR) {
         return false;
       }
-	  
+
 	  return true;
     }
 
@@ -346,9 +346,9 @@ public class ErrorEntryLogic {
 		ErrorReport er = cogrooFacade.getErrorReportAccess().getErrorReport(
 				new StringReader(error));
 		GrammarCheckerVersion version = versionDAO.retrieve(er.getVersion());
-		
+
 		Date time = new Date();
-		
+
 		// we split the report in several new entries...
 		// sanitizer.sanitize(username, false)
 		if(er.getOmissions() != null) {
@@ -356,19 +356,19 @@ public class ErrorEntryLogic {
 			if(omissions != null) {
 				for (Omission omission : omissions) {
 					ErrorEntry errorEntry = new ErrorEntry(
-							sanitizer.sanitize(er.getText(), false, true), 
-							omission.getSpan().getStart(), 
-							omission.getSpan().getEnd(), 
+							sanitizer.sanitize(er.getText(), false, true),
+							omission.getSpan().getStart(),
+							omission.getSpan().getEnd(),
 							new ArrayList<Comment>(),
-							version, 
-							cogrooUser, 
-							time, 
+							version,
+							cogrooUser,
+							time,
 							time,
 							null,
 							null,
 							State.OPEN,
 							Priority.NORMAL);
-					
+
 					if(omission.getComment() != null && omission.getComment().length() > 0) {
 						List<Comment> comments = new ArrayList<Comment>();
 						Comment c = new Comment(cogrooUser, time, sanitizer.sanitize(omission.getComment(), false), errorEntry, null);
@@ -376,15 +376,14 @@ public class ErrorEntryLogic {
 						comments.add(c);
 						errorEntry.setComments(comments);
 					}
-					
+
 					GrammarCheckerOmission gcOmission = new GrammarCheckerOmission(
-							omission.getCategory(), 
-							sanitizer.sanitize(omission.getCustomCategory(), false), 
-							sanitizer.sanitize(omission.getReplaceBy(), false), 
+							omission.getCategory(),
+							sanitizer.sanitize(omission.getCustomCategory(), false),
+							sanitizer.sanitize(omission.getReplaceBy(), false),
 							errorEntry);
 					omissionDAO.add(gcOmission);
 					errorEntry.setOmissions(gcOmission);
-					
 					setStatus(errorEntry);
 					errorEntryDAO.add(errorEntry);
 					notificationForReport(errorEntry);
@@ -393,26 +392,26 @@ public class ErrorEntryLogic {
 				}
 			}
 		}
-		
+
 		if(er.getBadInterventions() != null) {
 			List<BadIntervention> badInterventions = er.getBadInterventions().getBadIntervention();
 			if(badInterventions != null) {
 				for (BadIntervention badIntervention : badInterventions) {
-					
+
 					ErrorEntry errorEntry = new ErrorEntry(
-							sanitizer.sanitize(er.getText(), false, true), 
-							badIntervention.getSpan().getStart(), 
-							badIntervention.getSpan().getEnd(), 
+							sanitizer.sanitize(er.getText(), false, true),
+							badIntervention.getSpan().getStart(),
+							badIntervention.getSpan().getEnd(),
 							null,
-							version, 
-							cogrooUser, 
-							time, 
+							version,
+							cogrooUser,
+							time,
 							time,
 							null,
 							null,
 							State.OPEN,
 							Priority.NORMAL);
-					
+
 					if(badIntervention.getComment() != null && badIntervention.getComment().length() > 0) {
 						List<Comment> comments = new ArrayList<Comment>();
 						Comment c = new Comment(cogrooUser, time, sanitizer.sanitize(badIntervention.getComment(), false), errorEntry, null);
@@ -420,7 +419,7 @@ public class ErrorEntryLogic {
 						comments.add(c);
 						errorEntry.setComments(comments);
 					}
-					
+
 					BadInterventionClassification classification = null;
 					switch (badIntervention.getClassification()) {
 						case FALSE_ERROR:
@@ -434,17 +433,17 @@ public class ErrorEntryLogic {
 							break;
 						default:
 							break;
-					} 
+					}
 					GrammarCheckerBadIntervention gcBadIntervention = new GrammarCheckerBadIntervention(
-							classification, 
+							classification,
 							// we had to do it here because the rule might be without prefix if coming from a old version of cogroo
 							// it was not handled before because it was inside the XML.
 							CogrooFacade.addPrefixIfMissing(badIntervention.getRule()),
 							errorEntry);
-					
+
 					badInterventionDAO.add(gcBadIntervention);
 					errorEntry.setBadIntervention(gcBadIntervention);
-					
+
 					setStatus(errorEntry);
 					errorEntryDAO.add(errorEntry);
 					notificationForReport(errorEntry);
@@ -456,44 +455,44 @@ public class ErrorEntryLogic {
 
 		return list;
 	}
-	
+
   public void addErrorEntry(
 			User cogrooUser,
 			String text,
 			List<String> badint,
 			List<String> badintComments,
 			List<String> badintStart,
-			List<String> badintEnd, 
-			List<String> badintRule, 
+			List<String> badintEnd,
+			List<String> badintRule,
 			List<String> omissionClassification,
 			List<String> customOmissionText,
 			List<String> omissionComment,
 			List<String> omissionReplaceBy,
 			List<String> omissionStart,
 			List<String> omissionEnd) {
-		
+
 		GrammarCheckerVersion version = versionDAO.retrieve("c" + BuildUtil.POM_VERSION);
-		
+
 		Date time = new Date();
-		
+
 		// we split the report in several new entries...
-		
+
 		if(omissionClassification != null) {
 			for (int i = 0; i < omissionClassification.size(); i++) {
 					ErrorEntry errorEntry = new ErrorEntry(
-							text,  
-							Integer.parseInt(omissionStart.get(i)), 
-							Integer.parseInt(omissionEnd.get(i)), 
+							text,
+							Integer.parseInt(omissionStart.get(i)),
+							Integer.parseInt(omissionEnd.get(i)),
 							new ArrayList<Comment>(),
-							version, 
-							cogrooUser, 
-							time, 
+							version,
+							cogrooUser,
+							time,
 							time,
 							null,
 							null,
 							State.OPEN,
 							Priority.NORMAL);
-					
+
 					if(omissionComment.get(i) != null && omissionComment.get(i).length() > 0) {
 						List<Comment> comments = new ArrayList<Comment>();
 						Comment c = new Comment(cogrooUser, time, omissionComment.get(i), errorEntry, null);
@@ -501,10 +500,10 @@ public class ErrorEntryLogic {
 						comments.add(c);
 						errorEntry.setComments(comments);
 					}
-					
+
 					String classification = null;
 					String customClass = null;
-					
+
 					if(omissionClassification.get(i).equals(CUSTOM)) {
 						classification = null;
 						customClass = customOmissionText.get(i);
@@ -512,15 +511,15 @@ public class ErrorEntryLogic {
 						classification = omissionClassification.get(i);
 						customClass = null;
 					}
-					
+
 					GrammarCheckerOmission gcOmission = new GrammarCheckerOmission(
-							classification, 
+							classification,
 							customClass,
-							omissionReplaceBy.get(i), 
+							omissionReplaceBy.get(i),
 							errorEntry);
 					omissionDAO.add(gcOmission);
 					errorEntry.setOmissions(gcOmission);
-					
+
 					setStatus(errorEntry);
 					errorEntryDAO.add(errorEntry);
 					notificationForReport(errorEntry);
@@ -530,24 +529,24 @@ public class ErrorEntryLogic {
 					}
 				}
 		}
-		
+
 		if(badint != null) {
 			for (int i = 0; i < badint.size(); i++) {
 				if( !badint.get(i).equals("ok") ) {
 					ErrorEntry errorEntry = new ErrorEntry(
-							text, 
-							Integer.parseInt(badintStart.get(i)), 
-							Integer.parseInt(badintEnd.get(i)), 
+							text,
+							Integer.parseInt(badintStart.get(i)),
+							Integer.parseInt(badintEnd.get(i)),
 							null,
-							version, 
-							cogrooUser, 
-							time, 
+							version,
+							cogrooUser,
+							time,
 							time,
 							null,
 							null,
 							State.OPEN,
 							Priority.NORMAL);
-					
+
 					if(badintComments.get(i) != null && badintComments.get(i).length() > 0) {
 						List<Comment> comments = new ArrayList<Comment>();
 						Comment c = new Comment(cogrooUser, time, badintComments.get(i), errorEntry, null);
@@ -555,17 +554,17 @@ public class ErrorEntryLogic {
 						comments.add(c);
 						errorEntry.setComments(comments);
 					}
-					
+
 					BadInterventionClassification classification = BadInterventionClassification.fromValue(badint.get(i));
-					
+
 					GrammarCheckerBadIntervention gcBadIntervention = new GrammarCheckerBadIntervention(
-							classification, 
+							classification,
 							badintRule.get(i),
 							errorEntry);
-					
+
 					badInterventionDAO.add(gcBadIntervention);
 					errorEntry.setBadIntervention(gcBadIntervention);
-					
+
 					setStatus(errorEntry);
 					errorEntryDAO.add(errorEntry);
 					notificationForReport(errorEntry);
@@ -577,13 +576,13 @@ public class ErrorEntryLogic {
 			}
 		}
 
-		
+
 	}
-	
+
 	public List<HistoryEntryField> generateHistory(GrammarCheckerOmission before, GrammarCheckerOmission after) {
-		
+
 		List<HistoryEntryField> h = new ArrayList<HistoryEntryField>();
-		
+
 		if(before == null && after == null) {
 			return h;
 		} else if(before != null && after == null) {
@@ -593,14 +592,14 @@ public class ErrorEntryLogic {
 				category.setBefore(before.getCategory());
 				h.add(category);
 			}
-			
+
 			if( before.getCustomCategory() != null ) {
 				HistoryEntryField custom = new HistoryEntryField();
 				custom.setFieldName(Messages.OMISSION_CUSTOM_CATEGORY);
 				custom.setBefore(before.getCustomCategory());
 				h.add(custom);
 			}
-			
+
 			if( before.getReplaceBy() != null ) {
 				HistoryEntryField replace = new HistoryEntryField();
 				replace.setFieldName(Messages.OMISSION_REPLACE_BY);
@@ -614,14 +613,14 @@ public class ErrorEntryLogic {
 				category.setAfter(after.getCategory());
 				h.add(category);
 			}
-			
+
 			if( after.getCustomCategory() != null ) {
 				HistoryEntryField custom = new HistoryEntryField();
 				custom.setFieldName(Messages.OMISSION_CUSTOM_CATEGORY);
 				custom.setAfter(after.getCustomCategory());
 				h.add(custom);
 			}
-			
+
 			if( after.getReplaceBy() != null ) {
 				HistoryEntryField replace = new HistoryEntryField();
 				replace.setFieldName(Messages.OMISSION_REPLACE_BY);
@@ -629,7 +628,7 @@ public class ErrorEntryLogic {
 				h.add(replace);
 			}
 		} else {
-		
+
 			if( isDifferentAndNotNull(before.getCategory(), after.getCategory()) ) {
 				HistoryEntryField category = new HistoryEntryField();
 				category.setFieldName(Messages.OMISSION_CATEGORY);
@@ -639,10 +638,10 @@ public class ErrorEntryLogic {
 				if(after != null) {
 					category.setAfter(after.getCategory());
 				}
-				
+
 				h.add(category);
 			}
-			
+
 			if( isDifferentAndNotNull(before.getCustomCategory(), after.getCustomCategory()) ) {
 				HistoryEntryField custom = new HistoryEntryField();
 				custom.setFieldName(Messages.OMISSION_CUSTOM_CATEGORY);
@@ -652,10 +651,10 @@ public class ErrorEntryLogic {
 				if(after != null) {
 					custom.setAfter(after.getCustomCategory());
 				}
-				
+
 				h.add(custom);
 			}
-			
+
 			if( isDifferentAndNotNull(before.getReplaceBy(), after.getReplaceBy()) ) {
 				HistoryEntryField replace = new HistoryEntryField();
 				replace.setFieldName(Messages.OMISSION_REPLACE_BY);
@@ -667,55 +666,55 @@ public class ErrorEntryLogic {
 				}
 				h.add(replace);
 			}
-		
+
 		}
-		
+
 		return h;
 	}
-	
+
 	public List<HistoryEntryField> generateHistory(GrammarCheckerBadIntervention before, GrammarCheckerBadIntervention after) {
 
 		List<HistoryEntryField> h = new ArrayList<HistoryEntryField>();
-		
+
 		if(before == null && after == null) {
 			return h;
 		} else if(before != null && after == null) {
-				
+
 			HistoryEntryField rule = new HistoryEntryField();
 			rule.setFieldName(Messages.BADINT_RULE);
 			rule.setBefore(""+before.getRule());
 			h.add(rule);
-			
+
 			if( before.getClassification() != null ) {
-				
+
 				HistoryEntryField classification = new HistoryEntryField();
 				classification.setFieldName(Messages.BADINT_CLASSIFICATION);
 				classification.setFormatted(true);
-				
+
 				classification.setBefore(""+before.getClassification());
-				
+
 				h.add(classification);
 			}
 		} else if(before == null && after != null) {
-			
+
 			HistoryEntryField rule = new HistoryEntryField();
 			rule.setFieldName(Messages.BADINT_RULE);
 			rule.setAfter(""+after.getRule());
 			h.add(rule);
-			
+
 			if( after.getClassification() != null ) {
-				
+
 				HistoryEntryField classification = new HistoryEntryField();
 				classification.setFieldName(Messages.BADINT_CLASSIFICATION);
 				classification.setFormatted(true);
-				
+
 				classification.setAfter(""+after.getClassification());
-				
+
 				h.add(classification);
 			}
 		} else {
 			if( isDifferentAndNotNull(before.getRule(), after.getRule()) ) {
-				
+
 				HistoryEntryField rule = new HistoryEntryField();
 				rule.setFieldName(Messages.BADINT_RULE);
 				if(before != null) {
@@ -726,64 +725,64 @@ public class ErrorEntryLogic {
 				}
 				h.add(rule);
 			}
-			
+
 			if( isDifferentAndNotNull(before.getClassification(), after.getClassification()) ) {
-				
+
 				HistoryEntryField classification = new HistoryEntryField();
 				classification.setFieldName(Messages.BADINT_CLASSIFICATION);
 				classification.setFormatted(true);
-				
+
 				if(before != null) {
 					classification.setBefore(""+before.getClassification());
 				}
 				if(after != null) {
 					classification.setAfter(""+after.getClassification());
 				}
-				
+
 				h.add(classification);
 			}
 		}
-		
+
 		return h;
 	}
-	
+
 	private boolean isDifferentAndNotNull(Object a, Object b) {
 		if(	a != null && !a.equals(b) || b != null && !b.equals(a)) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	public List<HistoryEntryField> generateHistory(ErrorEntry before, ErrorEntry after) {
 		List<HistoryEntryField> h = new ArrayList<HistoryEntryField>();
-		
+
 		String beforeMarkedText = before.getMarkedText();
 		String afterMarkedText = after.getMarkedText();
 		if(isDifferentAndNotNull(beforeMarkedText, afterMarkedText)) {
-			
+
 			HistoryEntryField markedText = new HistoryEntryField();
 			markedText.setFormatted(false);
-			
+
 			markedText.setFieldName(Messages.ERRORENTRY_SELECTEDTEXT);
-			
+
 			if(beforeMarkedText != null) {
 				markedText.setBefore(beforeMarkedText);
 			}
 			if(afterMarkedText != null) {
 				markedText.setAfter(afterMarkedText);
 			}
-			
+
 			h.add(markedText);
 		}
-		
+
 		h.addAll(generateHistory(before.getBadIntervention(), after.getBadIntervention()));
 		h.addAll(generateHistory(before.getOmission(), after.getOmission()));
-		
+
 		return h;
 	}
-	
+
 	public void updateBadIntervention(ErrorEntry er, ErrorEntry original) {
-		
+
 		if(er.getOmission() != null) {
 			this.omissionDAO.delete(er.getOmission());
 			er.setOmission(null);
@@ -793,18 +792,18 @@ public class ErrorEntryLogic {
 		} else {
 			this.badInterventionDAO.update(er.getBadIntervention());
 		}
-		
+
 		this.updateModified(er);
 		List<HistoryEntryField> h = generateHistory(original, er);
 		HistoryEntry he = this.addHistory(er, h);
 
 		this.errorEntryDAO.update(er);
-		
+
 		notificationForChange(er, he);
 	}
 
 	public void updateOmission(ErrorEntry er, ErrorEntry original) {
-		
+
 		if(er.getBadIntervention() != null) {
 			this.badInterventionDAO.delete(er.getBadIntervention());
 			er.setBadIntervention(null);
@@ -814,14 +813,14 @@ public class ErrorEntryLogic {
 		} else {
 			this.omissionDAO.update(er.getOmission());
 		}
-		
+
 		this.updateModified(er);
 		List<HistoryEntryField> h = generateHistory(original, er);
 		HistoryEntry he = this.addHistory(er, h);
 		this.errorEntryDAO.update(er);
 		notificationForChange(er, he);
 	}
-	
+
 	public Long addCommentToErrorEntry(Long errorEntryID, Long userID, String comment, boolean tweet) {
 		ErrorEntry errorEntry = errorEntryDAO.retrieve(errorEntryID);
 		User user = userDAO.retrieve(userID);
@@ -833,14 +832,14 @@ public class ErrorEntryLogic {
 		notificationForNewComment(errorEntry, c, tweet);
 		return c.getId();
 	}
-	
+
 	public void addAnswerToComment(Long commentID, Long userID, String comment) {
 		Comment c = commentDAO.retrieve(commentID);
 		User user = userDAO.retrieve(userID);
-		
+
 		Comment answer = new Comment(user, new Date(), comment, c, new ArrayList<Comment>());
-		
-		commentDAO.add(answer);	
+
+		commentDAO.add(answer);
 		c.getAnswers().add(answer);
 		commentDAO.update(c);
 		updateModified(c.getErrorEntry());
@@ -849,9 +848,9 @@ public class ErrorEntryLogic {
 	}
 
 	public void removeAnswer(Comment answer, Comment comment) {
-		
+
 		comment.getAnswers().remove(answer);
-		
+
 		commentDAO.delete(answer);
 	}
 
@@ -860,7 +859,7 @@ public class ErrorEntryLogic {
 	}
 
 	public void remove(ErrorEntry errorEntry) {
-		
+
 		LOG.info("Will delete: " + errorEntry);
 		if(errorEntry.getBadIntervention() != null) {
 			badInterventionDAO.delete(errorEntry.getBadIntervention());
@@ -869,9 +868,9 @@ public class ErrorEntryLogic {
 			omissionDAO.delete(errorEntry.getOmission());
 		}
 		errorEntryDAO.delete(errorEntry);
-		appData.decReportedErrors();		
+		appData.decReportedErrors();
 	}
-	
+
 	public void setPriority(ErrorEntry errorEntry, Priority priority) {
 		errorEntry = errorEntryDAO.retrieve(errorEntry.getId());
 		if(priority.equals(errorEntry.getPriority())) {
@@ -882,7 +881,7 @@ public class ErrorEntryLogic {
 		HistoryEntry he = addHistory(errorEntry, Messages.ERROR_ENTRY_FIELD_PRIORITY, before, priority.name(), true);
 		updateModified(errorEntry);
 		errorEntryDAO.update(errorEntry);
-		
+
 		notificationForChange(errorEntry, he);
 	}
 
@@ -896,115 +895,115 @@ public class ErrorEntryLogic {
 		HistoryEntry he = addHistory(errorEntry, Messages.ERROR_ENTRY_FIELD_STATE, before, state.name(), true);
 		updateModified(errorEntry);
 		errorEntryDAO.update(errorEntry);
-		
+
 		notificationForChange(errorEntry, he);
 	}
-	
+
 	public void updateModified(ErrorEntry errorEntry) {
 		errorEntry.setModified(new Date());
 	}
-	
+
 	private HistoryEntry addHistory(ErrorEntry errorEntry, List<HistoryEntryField> hefList) {
-		
+
 		HistoryEntry he = new HistoryEntry(this.user, new Date(), hefList, errorEntry);
-		
+
 		if(hefList.size() == 0) {
 			LOG.info("No history to log.");
 			return null;
 		}
-		
+
 		for (HistoryEntryField historyEntryField : hefList) {
 			historyEntryField.setHistoryEntry(he);
 			this.historyEntryFieldDAO.add(historyEntryField);
 		}
-		
+
 		this.historyEntryDAO.add(he);
-		
+
 		List<HistoryEntry> heList = errorEntry.getHistoryEntries();
 		if(heList == null) {
 			heList = new ArrayList<HistoryEntry>();
 			errorEntry.setHistoryEntries(heList);
 		}
-		
+
 		errorEntry.getHistoryEntries().add(he);
 		this.errorEntryDAO.update(errorEntry);
-		
+
 		if(LOG.isDebugEnabled()) {
 			LOG.debug("Added history entry...");
 			LOG.debug(he);
 		}
-		
+
 		return he;
 	}
-	
+
 	private HistoryEntry addHistory(ErrorEntry errorEntry,
 			List<String> fieldList, List<String> beforeList, List<String> afterList, boolean isFormatted) {
-		
+
 		if(fieldList.size() == 0) {
 			LOG.info("No history to log.");
 			return null;
 		}
-		
+
 		List<HistoryEntryField> hefList = new ArrayList<HistoryEntryField>();
 
-		
+
 		HistoryEntry he = new HistoryEntry(this.user, new Date(), hefList, errorEntry);
-		
+
 		for(int i = 0; i < fieldList.size(); i++) {
 			HistoryEntryField h = new HistoryEntryField(
-					he, 
-					fieldList.get(i), 
-					beforeList.get(i), 
+					he,
+					fieldList.get(i),
+					beforeList.get(i),
 					afterList.get(i),
 					isFormatted);
 			this.historyEntryFieldDAO.add(h);
 			hefList.add(h);
 		}
-		
+
 		this.historyEntryDAO.add(he);
-		
+
 		List<HistoryEntry> heList = errorEntry.getHistoryEntries();
 		if(heList == null) {
 			heList = new ArrayList<HistoryEntry>();
 			errorEntry.setHistoryEntries(heList);
 		}
-		
+
 		errorEntry.getHistoryEntries().add(he);
 		this.errorEntryDAO.update(errorEntry);
-		
+
 		return he;
 	}
-	
+
 	private HistoryEntry addHistory(ErrorEntry errorEntry,
 			String field, String before, String after, boolean isFormatted) {
-		
+
 		List<String> fields = new ArrayList<String>(1);
 		List<String> befores = new ArrayList<String>(1);
 		List<String> afters = new ArrayList<String>(1);
-		
+
 		fields.add(field);
 		befores.add(before);
 		afters.add(after);
-		
+
 		return addHistory(errorEntry, fields, befores, afters, isFormatted);
 	}
-	
+
 	private void appendErrorDetails(StringBuilder body, ErrorEntry errorEntry) {
 		StringTemplate st = this.templateUtil.getTemplate(StringTemplateUtil.ERROR_DETAILS);
-		
+
 		st.setAttribute("problemID", errorEntry.getId());
 		st.setAttribute("submitter", errorEntry.getSubmitter().getName());
 		st.setAttribute("text", errorEntry.getMarkedTextNoCSS());
 		st.setAttribute("root", BuildUtil.BASE_URL);
-		
+
 		if(errorEntry.getBadIntervention() != null) {
 			GrammarCheckerBadIntervention bi = errorEntry.getBadIntervention();
-			
+
 			st.setAttribute("type", "Intervenção indevida");
-			
+
 			st.setAttribute("categoryOrRule", "Regra");
 			st.setAttribute("valueCategoryOrRule", bi.getRule());
-			
+
 			st.setAttribute("errorTypeOrReplaceBy", "Erro");
 			st.setAttribute("valueErrorTypeOrReplaceBy", messages.getString(bi.getClassification().toString()));
 		} else {
@@ -1015,20 +1014,20 @@ public class ErrorEntryLogic {
 			} else {
 				category = o.getCategory();
 			}
-		
+
 			st.setAttribute("type", "Omissão");
-			
+
 			st.setAttribute("categoryOrRule", "Categoria");
 			st.setAttribute("valueCategoryOrRule", category);
 
 			st.setAttribute("errorTypeOrReplaceBy", "Substituir por");
 			st.setAttribute("valueErrorTypeOrReplaceBy", o.getReplaceBy());
-			
+
 		}
 
 		body.append(st.toString());
 	}
-	
+
 	private void notificationForReport(ErrorEntry errorEntry) {
 		// only RSS
 		// generate the body
@@ -1041,28 +1040,28 @@ public class ErrorEntryLogic {
 		if(errorEntry.getComments() != null && errorEntry.getComments().size() > 0) {
 			st.setAttribute("comment", errorEntry.getComments().get(0).getComment());
 		}
-		
-		
+
+
 		body.append(st.toString());
-		
+
 		appendErrorDetails(body, errorEntry);
-		
+
 		//RSS
 		String subject = "Problema Reportado #" + errorEntry.getId() + " - Novo";
 		String url = BuildUtil.BASE_URL + "reports/" + errorEntry.getId();
 		notificator.rssFeed(subject, url, body.toString());
-		
+
 		StringTemplate stTweet = this.templateUtil.getTemplate(StringTemplateUtil.ERROR_NEW_TWEET);
-		
+
 		stTweet.setAttribute("user", errorEntry.getSubmitter().getTwitterRefOrName());
 		stTweet.setAttribute("id", errorEntry.getId());
 		stTweet.setAttribute("type", getEntryType(errorEntry));
 		stTweet.setAttribute("text", errorEntry.getMarkedTextNoHTML());
-		
+
 		notificator.tweet(stTweet.toString(), url);
-		
+
 	}
-	
+
 	private void notificationForNewComment(ErrorEntry errorEntry, Comment comment, boolean tweet) {
 		// get the users
 		Set<User> userList = createToList(errorEntry);
@@ -1070,39 +1069,39 @@ public class ErrorEntryLogic {
 		String subject = "Problema Reportado #" + errorEntry.getId() + " - Novo comentário";
 		// generate the body
 		StringBuilder body = new StringBuilder();
-		
+
 		StringTemplate st = this.templateUtil.getTemplate(StringTemplateUtil.NEW_COMMENT);
 		st.setAttribute("user", comment.getUser().getName());
 		st.setAttribute("comment", comment.getComment());
-		
+
 		body.append(st.toString());
-		
+
 		appendErrorDetails(body, errorEntry);
-		
+
 		// send it!
 		notificator.sendEmail(StringEscapeUtils.unescapeHtml(body.toString()), subject, userList);
-		
+
 		//RSS
 //		String friendlyStart = "Novo comentário de " + comment.getUser().getName() + " no problema " + errorEntry.getId();
 		String url =  BuildUtil.BASE_URL + REPORTS + errorEntry.getId();
 		notificator.rssFeed(subject, url, body.toString());
-		
+
 		if(tweet) {
 		  StringTemplate stTweet = this.templateUtil.getTemplate(StringTemplateUtil.NEW_COMMENT_TWEET);
-		
+
 		  stTweet.setAttribute("user", comment.getUser().getTwitterRefOrName());
 		  stTweet.setAttribute("ori", errorEntry.getSubmitter().getTwitterRefOrName());
 		  stTweet.setAttribute("id", errorEntry.getId());
 		  stTweet.setAttribute("type", getEntryType(errorEntry));
 		  stTweet.setAttribute("comment", comment.getComment());
-		
+
 		  notificator.tweet(stTweet.toString(), url);
 		}
 	}
 
 	private static final ResourceBundle messages =
 	      ResourceBundle.getBundle("messages", new Locale("pt_BR"));
-	
+
 	private String replaceSpan(String span) {
 		if(span == null) {
 			return null;
@@ -1125,17 +1124,17 @@ public class ErrorEntryLogic {
 			c.setBefore(replaceSpan(field.getBefore()));
 			c.setAfter(replaceSpan(field.getAfter()));
 		}
-		
+
 		return c;
 	}
-	
+
 	private String getEntryType(ErrorEntry errorEntry) {
 		if(errorEntry.getBadIntervention() != null) {
 			return "Intervenção indevida";
-		} 
+		}
 		return "Omissão";
 	}
-	
+
 	private void notificationForChange(ErrorEntry errorEntry, HistoryEntry historyEntry) {
 		if(LOG.isDebugEnabled()) {
 			LOG.debug("Sending notification for " + historyEntry);
@@ -1144,7 +1143,7 @@ public class ErrorEntryLogic {
 			// no changes
 			return;
 		}
-		
+
 		// get the users
 		Set<User> userList = createToList(errorEntry);
 		if(LOG.isDebugEnabled()) {
@@ -1157,35 +1156,35 @@ public class ErrorEntryLogic {
 
 		StringTemplate stFeed = this.templateUtil.getTemplate(StringTemplateUtil.ERROR_CHANGED);
 		StringTemplate stTweet = this.templateUtil.getTemplate(StringTemplateUtil.ERROR_CHANGED_TWEET);
-		
+
 		stFeed.setAttribute("user", historyEntry.getUser().getName());
-		
+
 		for (HistoryEntryField f : historyEntry.getHistoryEntryField()) {
 			f = process(f);
 			stFeed.setAttribute("changes", f);
 			stTweet.setAttribute("changes", f);
 		}
-		
+
 		body.append(stFeed.toString());
-		
+
 		appendErrorDetails(body, errorEntry);
-		
+
 		// send it!
 		notificator.sendEmail(StringEscapeUtils.unescapeHtml(body.toString()), subject, userList);
-		
+
 		String url = BuildUtil.BASE_URL + REPORTS + errorEntry.getId();
 
 		//RSS
 		notificator.rssFeed(subject, url, body.toString());
-		
+
 		stTweet.setAttribute("ori", errorEntry.getSubmitter().getTwitterRefOrName());
 		stTweet.setAttribute("user", historyEntry.getUser().getTwitterRefOrName());
 		stTweet.setAttribute("id", errorEntry.getId());
 		stTweet.setAttribute("type", getEntryType(errorEntry));
-		
+
 		notificator.tweet(stTweet.toString(), url);
 	}
-	
+
 	private Set<User> createToList(ErrorEntry errorEntry) {
 		Set<User> userList = new HashSet<User>();
 		if(errorEntry.getSubmitter().getIsReceiveEmail()) {
@@ -1206,7 +1205,7 @@ public class ErrorEntryLogic {
 		}
 		return userList;
 	}
-	
+
 	private void addUserIfIsReceveMail(User user, Set<User> userList){
 		if(user.getIsReceiveEmail() && user.getEmail() != null) {
 			userList.add(user);
@@ -1222,7 +1221,7 @@ public class ErrorEntryLogic {
 		LOG.info("Will add comment: " + comment);
 		LOG.info("Set priority " + priorityEnum);
 		LOG.info("State: " + stateEnum);
-		
+
 		for (ErrorEntry errorEntry : entries) {
 			if(priorityEnum != null) {
 				errorEntry.setPriority(priorityEnum);
@@ -1234,12 +1233,12 @@ public class ErrorEntryLogic {
 				addCommentToErrorEntry(errorEntry.getId(), this.user.getId(), comment, false);
 			}
 		}
-		
+
 	}
-	
+
 	public void refreshReports() {
 	  List<ErrorEntry> list = errorEntryDAO.listAll();
-	  
+
 	  for (ErrorEntry report : list) {
 	    setStatus(report);
 	    errorEntryDAO.update(report);
@@ -1247,30 +1246,30 @@ public class ErrorEntryLogic {
 	}
 
 public void setStatus(ErrorEntry report) {
-   
+
    GrammarCheckerBadIntervention badIntervention = report.getBadIntervention();
    List<ProcessResult> results = cogrooFacade.processText(report.getText());
-   
+
    if (report.getState().equals(State.REJECTED)) {
      report.setStatusFlag(STATUS_INVALID);
    }
    else {
-   
+
      if (badIntervention != null) {
        for (ProcessResult result : results) {
          List<Mistake> mistakes = result.getMistakes();
-         
+
          if (!mistakes.isEmpty()) {
-           
+
            for (Mistake mistake : mistakes) {
              if (badIntervention.getRule().equals(mistake.getRuleIdentifier())) {
                report.setStatusFlag(STATUS_NOT);
                break;
              }
              else {
-               report.setStatusFlag(STATUS_WARN);     
+               report.setStatusFlag(STATUS_WARN);
              }
-             
+
            }
          }
          else {
@@ -1279,28 +1278,28 @@ public void setStatus(ErrorEntry report) {
        }
      }
      else {
-       
+
        GrammarCheckerOmission omission = report.getOmission();
-       
+
        if (omission != null) {
-         
+
          for (ProcessResult result : results) {
            List<Mistake> mistakes = result.getMistakes();
-           
+
            if (!mistakes.isEmpty()) {
-             
+
              boolean status = false;
-             
+
              for (Mistake mistake : mistakes) {
-               
+
                RuleDefinition rule = rulesLogic.getRule(mistake.getRuleIdentifier());
-               
+
                if(rule == null) {
                  LOG.warn("Got null rule for id: " + mistake.getRuleIdentifier());
              } else if ( Objects.equal(rule.getCategory(), omission.getCategory()) ) {
                status = true;
              }
-  
+
            }
            if (status == true) {
              report.setStatusFlag(STATUS_OK);
@@ -1317,10 +1316,10 @@ public void setStatus(ErrorEntry report) {
    }
  }
 }
-  
+
   public ReportStats getStats() {
     ReportStats stats = new ReportStats(errorEntryDAO.listAll());
     return stats;
   }
-  
+
 }

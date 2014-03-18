@@ -10,11 +10,11 @@ import br.com.caelum.vraptor.ioc.SessionScoped;
 public class LoggedUser implements Serializable {
 
 	private static final long serialVersionUID = -2609145744016713400L;
-	
+
 	private User user = null;
 	private final ApplicationData appData;
 	private String lastURLVisited;
-	
+
 	public LoggedUser(ApplicationData appData) {
 		this.appData = appData;
 	}
@@ -27,8 +27,10 @@ public class LoggedUser implements Serializable {
 		appData.addLoggedUser(user);
 		this.user = user;
 	}
-	
-	@Deprecated
+
+	/**
+	 * @deprecated Use {@link #login(User)} instead
+	 */
 	public void setUser(User user) {
 		this.user = user;
 	}
@@ -36,7 +38,7 @@ public class LoggedUser implements Serializable {
 	public User getUser() {
 		return user;
 	}
-	
+
 	public void logout(){
 		appData.removeLoggedUser(user);
 		user = null;

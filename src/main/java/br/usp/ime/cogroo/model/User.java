@@ -24,7 +24,7 @@ public class User {
 
 	@Column
 	private String login;
-	
+
 	@Column
 	private Long lastLogin;
 
@@ -33,19 +33,19 @@ public class User {
 	 */
 	@Column(length = 32)
 	private String password;
-	
+
 	@Column(length = 80)
 	private String email;
 
 	@Column(length = 80)
 	private String name;
-	
+
 	@Column(length = 80)
 	private String provider;
-	
+
 	@Column(length = 80)
 	private String twitter;
-	
+
 	@Transient
 	private Date previousLogin;
 
@@ -54,29 +54,29 @@ public class User {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	private List<WordUser> wordUserList = new ArrayList<WordUser>();
-	
+
 	@Column(length = 10)
 	private String roleName;
-	
+
 	@Column
 	private Date dateRecoverCode;
-	
+
 	@Column(length = 32)
 	private String recoverCode;
-	
+
 	@Column(length = 32)
     private String emailOptOutCode;
 
   @Column //Transactional Mails
 	private Boolean isReceiveEmail;
-	
+
   @Column
   private Boolean isReceiveNewsMail;
-  
+
   public User() {
 	}
-	
-	@Deprecated
+
+    /** User with the default provider */
 	public User(String login) {
 		this.provider = "cogroo";
 		this.login = login;
@@ -86,8 +86,8 @@ public class User {
 		this.provider = service;
 		this.login = login;
 	}
-	
-	@Deprecated
+
+	/** User with the default provider */
 	public User(String login, long id) {
 		this.provider = "cogroo";
 		this.login = login;
@@ -106,14 +106,14 @@ public class User {
 		}
 		return cachedLastLogin;
 	}
-	
+
 	public long getLastLoginAsLong() {
 		if(cachedLastLogin == null) {
 			cachedLastLogin = (lastLogin != null && lastLogin != 0) ? new Date(lastLogin) : null;
 		}
 		return cachedLastLogin != null ? cachedLastLogin.getTime() : 0;
 	}
-	
+
 	public Date getPreviousLogin() {
 		if(previousLogin == null) {
 			previousLogin = (lastLogin != null && lastLogin != 0) ? new Date(lastLogin) : null;
@@ -188,7 +188,7 @@ public class User {
 	public String getRoleName() {
 		return roleName;
 	}
-	
+
 	@Transient
 	public Role getRole() {
 		Role r = RoleProvider.getInstance().getRoleForName(roleName);
@@ -197,7 +197,7 @@ public class User {
 		}
 		return r;
 	}
-	
+
 	@Transient
 	public void setRole(Role role) {
 		this.roleName = role.getRoleName();
@@ -218,7 +218,7 @@ public class User {
 	public String getRecoverCode() {
 		return recoverCode;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		if (name != null)
@@ -260,9 +260,9 @@ public class User {
 	}
 
 	public void setIsReceiveEmail(boolean isReceiveEmail) {
-		this.isReceiveEmail = Boolean.valueOf(isReceiveEmail);		
+		this.isReceiveEmail = Boolean.valueOf(isReceiveEmail);
 	}
-	
+
 	public Boolean getIsReceiveNewsMail() {
 	    return isReceiveNewsMail;
 	  }
@@ -270,7 +270,7 @@ public class User {
 	  public void setIsReceiveNewsMail(Boolean isReceiveNewsMail) {
 	    this.isReceiveNewsMail = isReceiveNewsMail;
 	  }
-	
+
 	public void setService(String provider) {
 		this.provider = provider;
 	}
@@ -288,7 +288,7 @@ public class User {
 	public String getTwitter() {
 		return twitter;
 	}
-	
+
 	public String getTwitterRefOrName() {
 		if(twitter != null && twitter.length() > 0) {
 			return "@" + twitter;
@@ -296,7 +296,7 @@ public class User {
 			return getName();
 		}
 	}
-	
+
 	   public String getEmailOptOutCode() {
 	     return emailOptOutCode;
 	   }
@@ -304,5 +304,5 @@ public class User {
 	   public void setEmailOptOutCode(String emailOptOutCode) {
 	     this.emailOptOutCode = emailOptOutCode;
 	   }
-	   
+
 }

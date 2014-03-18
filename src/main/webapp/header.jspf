@@ -1,4 +1,4 @@
-<%@ page contentType="text/html; charset=UTF-8" %>  
+<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -7,7 +7,7 @@
 <html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb#">
 <head>
 <c:choose>
-	<c:when test="${not empty headerTitle}">	
+	<c:when test="${not empty headerTitle}">
 		<title>${headerTitle} - CoGrOO Comunidade</title>
 	</c:when>
 	<c:otherwise>
@@ -15,7 +15,7 @@
 	</c:otherwise>
 </c:choose>
 <c:choose>
-	<c:when test="${not empty headerDescription}">	
+	<c:when test="${not empty headerDescription}">
 		<meta name="description" content="${headerDescription}"/>
 	</c:when>
 	<c:otherwise>
@@ -27,14 +27,14 @@
   <meta name="language" content="pt-br"/>
   <link rel="alternate" type="application/atom+xml" title="CoGrOO Comunidade RSS Feed" href="<c:url value="/rss.xml"/>" />
   <link rel="shortcut icon" href="<c:url value="/favicon.ico"/>" />
-	
+
 	<link rel="stylesheet" type="text/css" href="<c:url value="/css/header.css"/>" />
 	<link rel="stylesheet" type="text/css" href="<c:url value="/css/footer.css"/>" />
 	<link rel="stylesheet" type="text/css" href="<c:url value='/css/tabela.css' />"  />
 	<link rel="stylesheet" type="text/css" href="<c:url value="/css/reset.css"/>" />
 	<link rel="stylesheet" type="text/css" href="<c:url value="/css/style.css"/>" />
 	<link rel="stylesheet" type="text/css" href="<c:url value="/css/menu.css"/>" />
-	
+
 	<script src="<c:url value='/js/jquery.min.js' />" type="text/javascript" ></script>
 	<script src="<c:url value='/js/jquery.linha.nav.js' />" type="text/javascript" ></script>
 	<script src="<c:url value='/js/onoff.js' />" type="text/javascript" ></script>
@@ -47,17 +47,17 @@
 			anima: false,
 			slide: false
 		});
-		
+
 	});
 	// ]]>
 	</script>
-	
-<!--[if IE]> 
+
+<!--[if IE]>
 	<style>
 	ul#nav {
 		padding-top:17px;
 	}
-	</style> 
+	</style>
 <![endif]-->
 
 <script type="text/javascript">
@@ -109,19 +109,19 @@
 <!--		</div>-->
 
 	<div class="login_roundcorner login">
-	
+
 		<c:if test="${not loggedUser.logged}">
 	      	<div style="display: none;" id="logform">
 	            <form action="<c:url value='/login'/>" method="post">
 	                <p>
-	                    <label><b>login: </b><input type="text" name="login" style="width: 125px; font-size: 12px;" maxlength="20" class="inputtxt" /></label> 
-	                    <label><b>senha: </b><input type="password" name="password"  style="width: 125px; font-size: 12px;" maxlength="20" size="20" class="inputtxt" /></label> 
+	                    <label><b>login: </b><input type="text" name="login" style="width: 125px; font-size: 12px;" maxlength="20" class="inputtxt" /></label>
+	                    <label><b>senha: </b><input type="password" name="password"  style="width: 125px; font-size: 12px;" maxlength="20" size="20" class="inputtxt" /></label>
 	                    <input type="hidden" value="connx" name="cmd"/>
-	                    <input type="submit" style="font-size: 11px;" value=" entrar &raquo; " name="entrar" class="button"/> | 
-	                    <a href="<c:url value="/register"/>"><b>criar um usuário</b></a> | 
-	                    <a href="<c:url value="/recover"/>"><b>esqueci a senha</b></a> | 
+	                    <input type="submit" style="font-size: 11px;" value=" entrar &raquo; " name="entrar" class="button"/> |
+	                    <a href="<c:url value="/register"/>"><b>criar um usuário</b></a> |
+	                    <a href="<c:url value="/recover"/>"><b>esqueci a senha</b></a> |
 	                    <a onclick="off('logform'); on('loginlink'); return false" href="#"><b>voltar</b></a>
-	                    
+
 	                </p>
 	            </form>
 	        </div>
@@ -135,15 +135,15 @@
 <!--	        </div>-->
 	        <div id="loginlink">
 	            <p>
-		            <a onclick="on('logform'); off('loginlink'); return false" href="#"><b>conectar-se</b></a> | 
+		            <a onclick="on('logform'); off('loginlink'); return false" href="#"><b>conectar-se</b></a> |
 		            <a rel="nofollow" href="<c:url value="/login/oauth/facebook"/>"><img style="vertical-align:top" width=16 height=16 title="Facebook" alt="Facebook" src="<c:url value="/images/social/facebook-small.png"/>"/></a>
 <!-- 		            <a rel="nofollow" href="<c:url value="/login/oauth/google"/>"><img style="vertical-align:top" width=16 height=16 title="Google" alt="Google" src="<c:url value="/images/social/google-small.png"/>"/></a> -->
 		            <a rel="nofollow" href="<c:url value="/login/oauth/hotmail"/>"><img style="vertical-align:top" width=16 height=16 title="Hotmail" alt="Hotmail" src="<c:url value="/images/social/hotmail-small.png"/>"/></a>
 		            <a rel="nofollow" href="<c:url value="/login/oauth/linkedin"/>"><img style="vertical-align:top" width=16 height=16 title="LinkedIn" alt="LinkedIn" src="<c:url value="/images/social/linkedin-small.png"/>"/></a>
 		            <a rel="nofollow" href="<c:url value="/login/oauth/twitter"/>"><img style="vertical-align:top" width=16 height=16 title="Twitter" alt="Twitter" src="<c:url value="/images/social/twitter-small.png"/>"/></a>
 					<a rel="nofollow" href="<c:url value="/login/oauth/yahoo"/>"><img style="vertical-align:top" width=16 height=16 title="Yahoo!" alt="Yahoo!" src="<c:url value="/images/social/yahoo-small.png"/>"/></a>
-					
-					
+
+
 	            </p>
 	        </div>
     	</c:if>
@@ -151,24 +151,23 @@
 				<p><span><a href="<c:url value="/users/${loggedUser.user.service}/${loggedUser.user.login}"/>">${loggedUser.user.name}</a></span> | <a href="<c:url value="/logout"/>"><b>logout</b></a></p>
 			</c:if>
     </div>
-	    
+
 	<div id="logoCogroo"><a href="<c:url value="/"/>" title="CoGrOO Comunidade" id="logoCogrooLink"></a></div>
 	<div id="logoBROffice"><a title="Portal LibreOffice" href="http://pt-br.libreoffice.org" target="_blank" onclick="_gaq.push(['_trackPageview', 'http://pt-br.libreoffice.org']);" id="logoBROfficeLink"></a></div>
 	<div id="logoOpenOffice"><a title="Portal Apache OpenOffice.org" href="http://www.openoffice.org/pt-br" target="_blank" onclick="_gaq.push(['_trackPageview', 'http://www.openoffice.org/pt-br'])" id="logoOpenOfficeLink"></a></div>
 	<div id="buttonDownload"><a title="Download da versão mais recente do plugin para o LibreOffice" href="http://www.cogroo.org/" target="_blank" class="cssbutton" onclick="_gaq.push(['_trackPageview', 'http://www.cogroo.org/'])">Baixar Corretor Gramatical</a></div>
 	<div class="clear"></div>
-	
+
 		<ul id="menu" class="menu">
 			<li><a title="Experimente o CoGrOO e explore os resultados: erros gramaticais, análise morfológica e de agrupamentos." href="<c:url value="/grammar"/>">Análise Gramatical</a></li>
 			<li><a title="Veja os problemas reportados pela comunidade e contribua!" href="<c:url value="/reports"/>">Problemas</a></li>
 			<li><a title="Explore as regras implementadas no CoGrOO. No futuro, será possível editar e criar novas regras." href="<c:url value="/rules"/>">Regras</a></li>
-			<li><a title="Explore o léxico do CoGrOO. No futuro, será possível editar e criar novas entradas." href="<c:url value="/dictionary/search"/>">Léxico</a></li>
 			<!--<li><span title="Explore o léxico do CoGrOO. No futuro, será possível editar e criar novas entradas.">Léxico</span>
 				<ul>
 					<li><a title="Faça consultas ao léxico" href="<c:url value="/dictionaryEntrySearch"/>">Consultar palavra</a></li>
 					<c:if test="${loggedUser.logged}">
 						<li><a href="<c:url value="/dictionaryEntry"/>">Inserir Palavra</a></li>
-						<li><a href="<c:url value="/dictionaryEntries"/>">Minhas palavras</a></li>					
+						<li><a href="<c:url value="/dictionaryEntries"/>">Minhas palavras</a></li>
 					</c:if>
 				</ul>
 			</li>-->
@@ -199,17 +198,17 @@
 				</ul>
 			</li>
 		</ul>
-		
+
 		<c:if test="${not empty okMessage}">
 			<div id="message_ok">
 				<p>Mensagem de sucesso</p>
 				<span style="color: white"><i>${okMessage}</i></span><br />
 			</div>
 		</c:if>
-	
+
 <!--	<c:if test="${not empty errors}">-->
 		<div id="message_error">
-			<p>Mensagem de erro</p>			
+			<p>Mensagem de erro</p>
 			<c:forEach var="error" items="${errors}">
 			    <span style="color: white">[<fmt:message  key="${error.category}"/>] <i><fmt:message  key="${error.message}"/></i></span><br />
 			</c:forEach>

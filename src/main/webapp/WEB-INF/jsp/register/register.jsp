@@ -1,11 +1,11 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page contentType="text/html; charset=UTF-8" %>  
+<%@ page contentType="text/html; charset=UTF-8" %>
 
 	<h2>Cadastro no CoGrOO Comunidade</h2>
-	
+
 	<p>É rápido e gratuito! Seus dados nunca serão divulgados, fique tranquilo.</p>
-	
+
 	<form action="<c:url value='/register'/>" method="post">
         <div style="margin-top: 1em">
             <p>
@@ -23,27 +23,27 @@
             <p>
             	<label for="email" class="loginlabel">E-mail:
             	<span class="required">*</span></label>
-            	<input type="text" value="${ email }" maxlength="60" style="width: 300px;" class="inputtxt" name="email" id="email"> 
+            	<input type="text" value="${ email }" maxlength="60" style="width: 300px;" class="inputtxt" name="email" id="email">
             </p>
             <p>
             	<label for="pw" class="loginlabel">Senha:
             	<span class="required">*</span></label>
-            	<input type="password"  id="pw" name="password" class="inputtxt" style="width: 300px;" maxlength="20" /> 
+            	<input type="password"  id="pw" name="password" class="inputtxt" style="width: 300px;" maxlength="20" />
             </p>
             <p>
             	<label for="pw" class="loginlabel">Repita a senha:
             		<span class="required">*</span></label>
-            	<input type="password" id="pw" name="passwordRepeat" class="inputtxt" style="width: 300px;" maxlength="20" /> 
+            	<input type="password" id="pw" name="passwordRepeat" class="inputtxt" style="width: 300px;" maxlength="20" />
             </p>
             <br/>
             <p>Se quiser ser notificado sobre alterações no site, informe seu Twitter:</p>
             <p>
             	<label for="twitter" class="loginlabel">Twitter:</label>
-            	<input type="text" value="${ twitter }" maxlength="60" style="width: 300px;" class="inputtxt" name="twitter" id="twitter"> (opcional) 
+            	<input type="text" value="${ twitter }" maxlength="60" style="width: 300px;" class="inputtxt" name="twitter" id="twitter"> (opcional)
             </p>
-            
+
         </div>
-        
+
         <br />
         <div class="specialframe">
             <h3 style="margin-top: 0px;">Termo de Uso</h3>
@@ -53,7 +53,7 @@
 
             <p style="text-align: right;"><label><img alt="" src="<c:url value='/images/tag_integrated.png' />"><b> Eu aceito! </b><input type="checkbox" ${ iAgree ? "checked" :"" } name="iAgree"></label></p>
         </div>
-        
+
         <br />
         <p style="text-align: right;"><input type="submit" value=" Inscrever-se &raquo; " class="button"></p>
     </form>
