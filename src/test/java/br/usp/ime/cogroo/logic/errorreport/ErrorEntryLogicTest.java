@@ -143,6 +143,36 @@ public class ErrorEntryLogicTest {
 	}
 
 	@Test
+	public void testUserErrorsCommentsCount() throws CommunityException, IOException {
+
+
+	        em.getTransaction().begin();
+	        List<ErrorEntry> list = mErrorEntryLogic.addErrorEntry("cogroo", william.getLogin(), ResourcesUtil.getResourceAsString(getClass(), "/br/usp/ime/cogroo/logic/ErrorReport1.xml"));
+	        list.get(0).setHistoryEntries(new ArrayList<HistoryEntry>());
+	        list.get(0).setComments(new ArrayList<Comment>());
+	        em.getTransaction().commit();
+
+	        Long errorID = list.get(0).getId();
+
+	        em.getTransaction().begin();
+	        Long commentID = mErrorEntryLogic.addCommentToErrorEntry(errorID, wesley.getId(), "a comment", false);// addComment(errorID, newComment);
+	        em.getTransaction().commit();
+
+	        em.getTransaction().begin();
+	        mErrorEntryLogic.addAnswerToComment(commentID, william.getId(), "a answer");// (errorID, wesley.getId().intValue(), "a comment");// addComment(errorID, newComment);
+	        em.getTransaction().commit();
+
+	        ErrorEntryDAO dao = new ErrorEntryDAO(em);
+	        CommentDAO cdao = new CommentDAO(em);
+
+	        assertEquals(4, dao.count(william));
+	        assertEquals(0, dao.count(wesley));
+
+	        assertEquals(5, cdao.count(william));
+	        assertEquals(1, cdao.count(wesley));
+	    }
+
+	@Test
 	public void testDeleteAnswer() throws CommunityException, IOException {
 
 

@@ -1,5 +1,7 @@
 package br.usp.ime.cogroo.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import br.com.caelum.vraptor.Get;
@@ -11,6 +13,8 @@ import br.com.caelum.vraptor.Validator;
 import br.com.caelum.vraptor.validator.ValidationMessage;
 import br.com.caelum.vraptor.view.Results;
 import br.usp.ime.cogroo.dao.UserDAO;
+import br.usp.ime.cogroo.dao.errorreport.CommentDAO;
+import br.usp.ime.cogroo.dao.errorreport.ErrorEntryDAO;
 import br.usp.ime.cogroo.exceptions.ExceptionMessages;
 import br.usp.ime.cogroo.logic.TextSanitizer;
 import br.usp.ime.cogroo.model.LoggedUser;
@@ -26,23 +30,32 @@ public class UserController {
 	private LoggedUser loggedUser;
 	private Validator validator;
 	private TextSanitizer sanitizer;
+    private CommentDAO commentDAO;
+    private ErrorEntryDAO errorEntryDAO;
 
 	public UserController(Result result, UserDAO userDAO,
 			LoggedUser loggedUser, Validator validator,
-			HttpServletRequest request, TextSanitizer sanitizer) {
+			HttpServletRequest request, TextSanitizer sanitizer, ErrorEntryDAO errorEntryDAO, CommentDAO commentDAO) {
 		this.result = result;
 		this.userDAO = userDAO;
 		this.loggedUser = loggedUser;
 		this.validator = validator;
 		this.sanitizer = sanitizer;
+		this.commentDAO = commentDAO;
+		this.errorEntryDAO = errorEntryDAO;
 	}
 
 	@Get
 	@Path("/users")
 	@LoggedIn
 	public void userList() {
-		result.include("userList", userDAO.listAll());
-		
+	    List<User> users = userDAO.listAll();
+	    for (User user : users) {
+          setCounters(user);
+        }
+
+		result.include("userList", users);
+
 		result.include("headerTitle", "Lista de usuários").include(
 				"headerDescription",
 				"Visualize os usuários do CoGrOO Comunidade");
@@ -64,6 +77,8 @@ public class UserController {
 		}
 		user = userDAO.retrieveByLogin(user.getService(), user.getLogin());
 
+		setCounters(user);
+
 		result.include("user", user);
 		result.include("roleList", RoleProvider.getInstance().getRoles());
 
@@ -76,7 +91,14 @@ public class UserController {
 				headerDescription);
 	}
 
-	@Put
+	private void setCounters(User user) {
+	  if(commentDAO != null) {
+	    user.setCommentsCount(commentDAO.count(user));
+	    user.setReportedErrorsCount(errorEntryDAO.count(user));
+	  }
+    }
+
+  @Put
 	@Path("/users/{user.service}/{user.login}/role")
 	@LoggedIn
 	public void userRole(User user, String role) {
@@ -139,7 +161,7 @@ public class UserController {
 
 			validator.onErrorUse(Results.logic()).redirectTo(
 					UserController.class).user(user);
-			
+
 			if(twitter != null) {
 				twitter = twitter.replace("@", "");
 			}

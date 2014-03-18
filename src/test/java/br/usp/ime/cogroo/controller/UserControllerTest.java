@@ -78,14 +78,14 @@ public class UserControllerTest {
 
 
 		TextSanitizer ts = new TextSanitizer();
-		adminController = new UserController(result, userDAO, loggedUser1, validator, null, ts);
+		adminController = new UserController(result, userDAO, loggedUser1, validator, null, ts, null, null);
 
 		LoggedUser loggedUser2 = new LoggedUser(appData);
 		loggedUser2.login(william);
-		userController = new UserController(result, userDAO, loggedUser2, validator, null, ts);
+		userController = new UserController(result, userDAO, loggedUser2, validator, null, ts, null, null);
 
 		unknownLoggedUser = new LoggedUser(appData);
-		unknownController = new UserController(result, userDAO, unknownLoggedUser, validator, null, ts);
+		unknownController = new UserController(result, userDAO, unknownLoggedUser, validator, null, ts, null, null);
 	}
 
 	@Test

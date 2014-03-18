@@ -6,15 +6,15 @@
 <script type="text/javascript" charset="utf-8">
 
 $(document).ready(function() {
-	
+
 	// set viewing
 	viewing();
-	
+
 	$('#edit').click(function(e) {
 		e.preventDefault();
 		editing();
 	 });
-	
+
 	$('#reset').click(function(e) {
 		// let it reset, don't prevent devault
 		viewing();
@@ -31,7 +31,7 @@ function editing() {
 	$('.editing').show();
 };
 
-	
+
 </script>
 
 <h3>Usuário <strong>${user.name}</strong></h3>
@@ -39,7 +39,7 @@ function editing() {
 
 	<c:set var="canEdit" value="${loggedUser.user.id == user.id || loggedUser.user.role.canEditSensitiveUserDetails}"></c:set>
 	<c:set var="canView" value="${loggedUser.user.id == user.id || loggedUser.user.role.canViewSensitiveUserDetails}"></c:set>
-	
+
 	<form id="editUser" action="<c:url value="/users/${user.service}/${user.login}"/>" method="post" >
 	<table class="attributes">
 		<tbody>
@@ -62,9 +62,9 @@ function editing() {
 			    		<td>${user.name}</td>
 			  		</c:otherwise>
 				</c:choose>
-				
+
 			</tr>
-			<c:if test="${canView}"> 
+			<c:if test="${canView}">
 				<tr>
 			    	<th>E-mail:</th>
 				    <c:choose>
@@ -89,10 +89,16 @@ function editing() {
 			    		<td><a target="_blank" href="http://twitter.com/#!/${user.twitter}">${user.twitter}</a></td>
 			  		</c:otherwise>
 				</c:choose>
-				
+
 			</tr>
 			<tr>
 			    <th>Último login:</th><td><fmt:formatDate type="both" dateStyle="long" value="${user.lastLogin}" /></td>
+			</tr>
+			<tr>
+			    <th>Erros reportados:</th><td>${user.reportedErrorsCount}</td>
+			</tr>
+			<tr>
+			    <th>Comentários:</th><td>${user.commentsCount}</td>
 			</tr>
 			<tr>
 			    <th>Papel:</th><td><fmt:message key="${user.role}" /></td>
@@ -108,7 +114,7 @@ function editing() {
 				    		<c:set var="checked" value=""></c:set>
 				  		</c:otherwise>
 					</c:choose>
-				    
+
 				    <td><c:choose>
 						<c:when test="${canEdit}">
 				    		<input class="viewing" type="checkbox" name="isReceiveEmail" value="true" ${checked}  disabled="disabled"/>
@@ -131,14 +137,14 @@ function editing() {
 		</div>
 		<div class="viewing">
 			<input type="submit" value=" Editar &raquo; " id="edit"/>
-		</div> 
+		</div>
 	</c:if>
 	</form>
 </div>
 
 <c:if test="${(loggedUser.user.role.canSetUserRole) || (loggedUser.user.login == 'admin' && loggedUser.user.service == 'cogroo') }">
 	<form id="setUserRole"  action="<c:url value="/users/${user.service}/${user.login}/role"/>" method="post" >
-		Escolha um novo papel para o usuário: 
+		Escolha um novo papel para o usuário:
 		<select name="role">
 			<c:forEach items="${roleList}" var="role">
 				<option value="${role.roleName}"><fmt:message key="${role.roleName}" /></option>

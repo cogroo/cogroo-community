@@ -52,6 +52,12 @@ public class User {
 	@Transient
 	private Date cachedLastLogin = null;
 
+	@Transient
+    private long reportedErrorsCount = -1;
+
+	@Transient
+    private long commentsCount = -1;
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
 	private List<WordUser> wordUserList = new ArrayList<WordUser>();
 
@@ -304,5 +310,22 @@ public class User {
 	   public void setEmailOptOutCode(String emailOptOutCode) {
 	     this.emailOptOutCode = emailOptOutCode;
 	   }
+
+    public long getReportedErrorsCount() {
+      return reportedErrorsCount;
+    }
+
+    public void setReportedErrorsCount(long reportedErrorsCount) {
+      this.reportedErrorsCount = reportedErrorsCount;
+    }
+
+    public long getCommentsCount() {
+      return commentsCount;
+    }
+
+    public void setCommentsCount(long l) {
+      this.commentsCount = l;
+    }
+
 
 }

@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 
 import br.com.caelum.vraptor.ioc.Component;
+import br.usp.ime.cogroo.model.User;
 import br.usp.ime.cogroo.model.errorreport.Comment;
 
 @Component
@@ -40,4 +41,8 @@ public class CommentDAO {
 		}
 		em.remove(comment);
 	}
+
+	  public long count(User submitter) {
+	    return (Long) em.createQuery("SELECT count(*) from " + COMMENT_ENTITY + " c where c.user = " + submitter.getId()).getSingleResult();
+	  }
 }
