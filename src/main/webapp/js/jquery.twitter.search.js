@@ -8,7 +8,7 @@
  * http://www.gnu.org/licenses/gpl.html
  * Requires: jQuery v1.3.2 or later
  */
- 
+
 ;(function($) {
 	$.fn.twitterSearch = function(options) {
 		if (typeof options == 'string')
@@ -18,15 +18,15 @@
 				grabbing = false,
 				$frame = $(this), text, $text, $title, $bird, $cont, height, paused = false,
 				opts = $.extend(true, {}, $.fn.twitterSearch.defaults, options || {}, $.metadata ? $frame.metadata() : {});
-				
-			opts.formatter = opts.formatter || $.fn.twitterSearch.formatter; 
+
+			opts.formatter = opts.formatter || $.fn.twitterSearch.formatter;
 			opts.filter = opts.filter || $.fn.twitterSearch.filter;
-			
+
 			if (!opts.applyStyles) { // throw away all style defs
 				for (var css in opts.css)
 					opts.css[css] = {};
 			}
-			
+
 			if (opts.title === null) // user can set to '' to suppress title
 				opts.title = opts.term;
 
@@ -47,21 +47,21 @@
 				$title.css('background-color',opts.colorExterior);
 			if (opts.colorInterior)
 				$cont.css('background-color',opts.colorInterior);
-			
+
 			$frame.css(opts.css['frame']);
 			if (opts.colorExterior)
 				$frame.css('border-color',opts.colorExterior);
-			
+
 			height = $frame.innerHeight() - $title.outerHeight();
 			$cont.height(height);
-			
+
 			if (opts.pause)
 				$cont.hover(function(){paused = true;},function(){paused = false;});
-			
+
 			$('<div class="twitterSearchLoading">Loading tweets..</div>').css(opts.css['loading']).appendTo($cont);
-			
+
 			grabTweets();
-			
+
 			function grabTweets() {
 				var url = opts.url + opts.term;
 				grabFlag = false;
@@ -85,13 +85,13 @@
 						}
 						$cont.fadeOut('fast',function() {
 							$cont.empty();
-							
-							// iterate twitter results 
+
+							// iterate twitter results
 							$.each(json.results, function(i) {
 								if (!opts.filter.call(opts, this))
 									return; // skip this tweet
 								var $img, $text, w,
-									tweet = opts.formatter(this, opts), 
+									tweet = opts.formatter(this, opts),
 									$tweet = $(tweet);
 								$tweet.css(opts.css['tweet']);
 								$img = $tweet.find('.twitterSearchProfileImg').css(opts.css['img']);
@@ -105,9 +105,9 @@
 									$text.css('paddingLeft', w);
 								}
 							});
-							
+
 							$cont.fadeIn('fast');
-						
+
 							if (json.results.length < 2) {
 								if (opts.refreshSeconds)
 									setTimeout(grabTweets, opts.refreshSeconds * 1000);
@@ -120,16 +120,16 @@
 					}
 				});
 			};
-			
+
 			function regrab() {
 				grabFlag = true;
 			}
-			
+
 			function failWhale(msg) {
 				var $fail = $('<div class="twitterSearchFail">' + msg + '</div>').css(opts.css['fail']);
 				$cont.empty().append($fail);
 			};
-			
+
 			function go() {
 				if (paused || grabbing) {
 					setTimeout(go, 500);
@@ -145,14 +145,14 @@
 						catch(smother) {}
 						@*/
 						$el.css(opts.css['tweet']).show().appendTo($cont);
-						
-						setTimeout(grabFlag ? grabTweets : go, opts.timeout);					
+
+						setTimeout(grabFlag ? grabTweets : go, opts.timeout);
 					});
 				});
 			}
 		});
 	};
-	
+
 	$.fn.twitterSearch.filter = function(tweet) {
 		return true;
 	};
@@ -167,7 +167,7 @@
 		str = '<div class="twitterSearchTweet">';
 		if (opts.avatar)
 			str += '<img class="twitterSearchProfileImg" src="' + json.profile_image_url + '" />';
-		str += '<div><span class="twitterSearchUser"><a href="http://www.twitter.com/'+ json.from_user+'/status/'+ json.id_str +'">' 
+		str += '<div><span class="twitterSearchUser"><a href="http://www.twitter.com/'+ json.from_user+'/status/'+ json.id_str +'">'
 		  + json.from_user + '</a></span>';
 		pretty = prettyDate(json.created_at);
 		if (opts.time && pretty)
@@ -175,7 +175,7 @@
 		 str += '<div class="twitterSearchText">' + text + '</div></div></div>';
 		 return str;
 	};
-	
+
 	$.fn.twitterSearch.defaults = {
 		url: 'http://search.twitter.com/search.json?callback=?&q=',
 		anchors: true,				// true or false (enable embedded links in tweets)
@@ -251,14 +251,14 @@
             if (cbFn)
                 window[cb] = function(){};
         }, s.timeout);
-        
+
         function handleError(s, xhr, msg, e) {
 			s.error && s.error.call(s.context, xhr, msg, e);
 			s.global && $.event.trigger("ajaxError", [xhr, s, e || msg]);
 			s.complete && s.complete.call(s.context, xhr, e || msg);
         }
     };
-	
+
 	/*
 	 * JavaScript Pretty Date
 	 * Copyright (c) 2008 John Resig (jquery.com)
@@ -269,7 +269,7 @@
 		var date = new Date((time || "").replace(/-/g,"/").replace(/TZ/g," ")),
 			diff = (((new Date()).getTime() - date.getTime()) / 1000),
 			day_diff = Math.floor(diff / 86400);
-				
+
 		if ( isNaN(day_diff) || day_diff < 0 || day_diff >= 31 )
 			return;
 		var v = day_diff == 0 && (
